@@ -22,7 +22,8 @@ public class UbicacionDAOImpl implements UbicacionDAO{
     
     private Connection connection = null; 
     private final String SENTENCIA_CREAR_UBICACION = "INSERT INTO TiendaLocal.ubicacion (nombre_ubicacion) VALUES ( ? )";
-    private final String SENTENCIA_OBTENER_UBICACION = "SELECT * FROM TiendaLocal.ubicacion";
+    private final String SENTENCIA_OBTENER_UBICACIONES = "SELECT * FROM TiendaLocal.ubicacion";
+    private final String SENTENCIA_OBTENER_UBICACION = "SELECT * FROM TiendaLocal.ubicacion WHERE id_ubicacion = ?";
     private final String SENTENCIA_ACTUALIZAR_UBICACION = "UPDATE TiendaLocal.ubicacion SET nombre_ubicacion = ? WHERE id_ubicacion = ?";
     private final String SENTENCIA_ELIMINAR_UBICACION = "DELETE FROM TiendaLocal.ubicacion WHERE id_ubicacion = ?";
     
@@ -48,7 +49,7 @@ public class UbicacionDAOImpl implements UbicacionDAO{
         List<Ubicacion> listaUbicaciones = new ArrayList<>();
         
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_UBICACION);
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_UBICACIONES);
             ResultSet ubicacion_Resultado = preparedStatement.executeQuery();
             
             while(ubicacion_Resultado.next()){
@@ -99,5 +100,20 @@ public class UbicacionDAOImpl implements UbicacionDAO{
             System.out.println("Id: " + ubi.getId_ubicacion());
             System.out.println("Nombre: " + ubi.getNombre_ubicacion());
         }
+    }
+
+    @Override
+    public Ubicacion obtenerUbicacion(int id) {
+        ResultSet ubicacion_Resultado = null;
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_UBICACION);
+            preparedStatement.setInt(1, id);
+            ubicacion_Resultado = preparedStatement.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(UbicacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return (Ubicacion) ubicacion_Resultado;
     }
 }

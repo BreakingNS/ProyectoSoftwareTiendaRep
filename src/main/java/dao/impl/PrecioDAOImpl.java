@@ -24,7 +24,8 @@ public class PrecioDAOImpl implements PrecioDAO{
     
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_PRECIO = "DELETE FROM TiendaLocal.precio WHERE id_precio = ?";
-    private final String SENTENCIA_OBTENER_PRECIO = "SELECT * FROM TiendaLocal.precio";
+    private final String SENTENCIA_OBTENER_PRECIOS = "SELECT * FROM TiendaLocal.precio";
+    private final String SENTENCIA_OBTENER_PRECIO = "SELECT * FROM TiendaLocal.precio WHERE id_precio = ?";
     private final String SENTENCIA_CREAR_PRECIO = "INSERT INTO TiendaLocal.precio (fechaPrecio, valor) VALUES ( ? , ? )";
     private final String SENTENCIA_ACTUALIZAR_PRECIO = "UPDATE TiendaLocal.precio SET fechaPrecio = ? , valor = ? WHERE id_precio = ?";
 
@@ -49,7 +50,7 @@ public class PrecioDAOImpl implements PrecioDAO{
         List<Precio> listaPrecios = new ArrayList<>();
         
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_PRECIO);
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_PRECIOS);
             ResultSet precio_Resultado = preparedStatement.executeQuery();
             
             while(precio_Resultado.next()){
@@ -101,5 +102,21 @@ public class PrecioDAOImpl implements PrecioDAO{
             System.out.println("Fecha de Precio: " + pre.getFechaPrecio());
             System.out.println("Valor: " + pre.getValor());
         }
+    }
+
+    @Override
+    public Precio obtenerPrecio(int id) {
+        ResultSet precio_Resultado = null;
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_PRECIO);
+            preparedStatement.setInt(1, id);
+            precio_Resultado = preparedStatement.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(PrecioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return (Precio) precio_Resultado;
+        
     }
 }
