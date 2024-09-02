@@ -22,7 +22,8 @@ public class EstadoDAOImpl implements EstadoDAO{
     
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_ESTADO = "DELETE FROM TiendaLocal.estado WHERE id_estado = ?";
-    private final String SENTENCIA_OBTENER_ESTADO = "SELECT * FROM TiendaLocal.estado";
+    private final String SENTENCIA_OBTENER_ESTADOS = "SELECT * FROM TiendaLocal.estado";
+    private final String SENTENCIA_OBTENER_ESTADO = "SELECT * FROM TiendaLocal.estado WHERE id_estado = ?";
     private final String SENTENCIA_CREAR_ESTADO = "INSERT INTO TiendaLocal.estado (nombre_estado) VALUES ( ? )";
     private final String SENTENCIA_ACTUALIZAR_ESTADO = "UPDATE TiendaLocal.estado SET nombre_estado = ? WHERE id_estado = ?";
 
@@ -42,11 +43,11 @@ public class EstadoDAOImpl implements EstadoDAO{
     }
 
     @Override
-    public List<Estado> obtenerEstado() {
+    public List<Estado> obtenerEstados() {
         List<Estado> listaEstados = new ArrayList<>();
         
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_ESTADO);
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_ESTADOS);
             ResultSet estado_Resultado = preparedStatement.executeQuery();
             
             while (estado_Resultado.next()){
@@ -88,7 +89,7 @@ public class EstadoDAOImpl implements EstadoDAO{
 
     @Override
     public void toStringEstado() {
-        List<Estado> listaEstados = obtenerEstado();
+        List<Estado> listaEstados = obtenerEstados();
         
         for(Estado mar : listaEstados){
             System.out.println("------------------");
@@ -96,4 +97,19 @@ public class EstadoDAOImpl implements EstadoDAO{
             System.out.println("Nombre: " + mar.getNombre_estado());
         }
     }    
+
+    @Override
+    public Estado obtenerEstado(int id) {
+        ResultSet estado_Resultado = null;
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_ESTADO);
+            preparedStatement.setInt(1, id);
+            estado_Resultado = preparedStatement.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(EstadoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return (Estado) estado_Resultado;
+    }
 }

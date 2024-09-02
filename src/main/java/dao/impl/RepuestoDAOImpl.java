@@ -29,8 +29,10 @@ public class RepuestoDAOImpl implements RepuestoDAO{
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_REPUESTO = 
             "DELETE FROM TiendaLocal.repuesto WHERE id_repuesto = ?";
-    private final String SENTENCIA_OBTENER_REPUESTO = 
+    private final String SENTENCIA_OBTENER_REPUESTOS = 
             "SELECT * FROM TiendaLocal.repuesto";
+    private final String SENTENCIA_OBTENER_REPUESTO = 
+            "SELECT * FROM TiendaLocal.repuesto WHERE id_repuesto = ?";
     private final String SENTENCIA_CREAR_REPUESTO = 
             "INSERT INTO TiendaLocal.repuesto (stock, id_nombrerepuesto, id_marca, id_categoria, id_precio, id_ubicacion) VALUES ( ? , ? , ? , ? , ? , ? )";
     private final String SENTENCIA_ACTUALIZAR_REPUESTO = 
@@ -62,7 +64,7 @@ public class RepuestoDAOImpl implements RepuestoDAO{
         List<Repuesto> listaRepuestos = new ArrayList<>();
         
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_REPUESTO);
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_REPUESTOS);
             ResultSet repuesto_Resultado = preparedStatement.executeQuery();
             
             while(repuesto_Resultado.next()){
@@ -142,6 +144,21 @@ public class RepuestoDAOImpl implements RepuestoDAO{
             System.out.println("Precio: " + rep.getPrecio());
             System.out.println("Ubicacion: " + rep.getUbicacion());
         }
+    }
+
+    @Override
+    public Repuesto obtenerRepuesto(int id) {
+        ResultSet repuesto_Resultado = null;
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_REPUESTO);
+            preparedStatement.setInt(1, id);
+            repuesto_Resultado = preparedStatement.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return (Repuesto) repuesto_Resultado;
     }
 
 }

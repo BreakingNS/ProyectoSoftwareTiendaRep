@@ -5,7 +5,8 @@ import model.Estado;
 
 public interface EstadoDAO {
     public void crearEstado(Estado estado);
-    public List<Estado> obtenerEstado();
+    public List<Estado> obtenerEstados();
+    public Estado obtenerEstado(int id);
     public void actualizarEstado(Estado estado, int id);
     public void eliminarEstado(int id);
     public void toStringEstado();
