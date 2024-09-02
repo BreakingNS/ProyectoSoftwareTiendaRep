@@ -9,24 +9,24 @@ public class Reparacion {
     private String detalles;
     private Date fecha_ingreso;
     private Date fecha_devolucion;
-    private int id_categoria;
-    private int id_cliente;
-    private int id_repuesto;
-    private int id_estado;
+    private Categoria categoria;
+    private Cliente cliente;
+    private Repuesto repuesto;
+    private Estado estado;
 
     public Reparacion() {
     }
 
-    public Reparacion(int id_reparacion, BigDecimal costo, String detalles, Date fecha_ingreso, Date fecha_devolucion, int id_categoria, int id_cliente, int id_repuesto, int id_estado) {
+    public Reparacion(int id_reparacion, BigDecimal costo, String detalles, Date fecha_ingreso, Date fecha_devolucion, Categoria categoria, Cliente cliente, Repuesto repuesto, Estado estado) {
         this.id_reparacion = id_reparacion;
         this.costo = costo;
         this.detalles = detalles;
         this.fecha_ingreso = fecha_ingreso;
         this.fecha_devolucion = fecha_devolucion;
-        this.id_categoria = id_categoria;
-        this.id_cliente = id_cliente;
-        this.id_repuesto = id_repuesto;
-        this.id_estado = id_estado;
+        this.categoria = categoria;
+        this.cliente = cliente;
+        this.repuesto = repuesto;
+        this.estado = estado;
     }
 
     public int getId_reparacion() {
@@ -49,20 +49,20 @@ public class Reparacion {
         return fecha_devolucion;
     }
 
-    public int getId_categoria() {
-        return id_categoria;
+    public Categoria getCategoria() {
+        return categoria;
     }
 
-    public int getId_cliente() {
-        return id_cliente;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public int getId_repuesto() {
-        return id_repuesto;
+    public Repuesto getRepuesto() {
+        return repuesto;
     }
 
-    public int getId_estado() {
-        return id_estado;
+    public Estado getEstado() {
+        return estado;
     }
 
     public void setId_reparacion(int id_reparacion) {
@@ -85,21 +85,21 @@ public class Reparacion {
         this.fecha_devolucion = fecha_devolucion;
     }
 
-    public void setId_categoria(int id_categoria) {
-        this.id_categoria = id_categoria;
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
-    public void setId_cliente(int id_cliente) {
-        this.id_cliente = id_cliente;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
-    public void setId_repuesto(int id_repuesto) {
-        this.id_repuesto = id_repuesto;
+    public void setRepuesto(Repuesto repuesto) {
+        this.repuesto = repuesto;
     }
 
-    public void setId_estado(int id_estado) {
-        this.id_estado = id_estado;
+    public void setEstado(Estado estado) {
+        this.estado = estado;
     }
-    
+
     
 }

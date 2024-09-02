@@ -3,23 +3,23 @@ package model;
 public class Repuesto {
     private int id_repuesto;
     private int stock;
-    private int id_nombrerepuesto;
-    private int id_marca;
-    private int id_categoria;
-    private int id_precio;
-    private int id_ubicacion;
+    private NombreRepuesto nombreRepuesto;
+    private Marca marca;
+    private Categoria categoria;
+    private Precio precio;
+    private Ubicacion ubicacion;
 
     public Repuesto() {
     }
 
-    public Repuesto(int id_repuesto, int stock, int id_nombrerepuesto, int id_marca, int id_categoria, int id_precio, int id_ubicacion) {
+    public Repuesto(int id_repuesto, int stock, NombreRepuesto nombreRepuesto, Marca marca, Categoria categoria, Precio precio, Ubicacion ubicacion) {
         this.id_repuesto = id_repuesto;
         this.stock = stock;
-        this.id_nombrerepuesto = id_nombrerepuesto;
-        this.id_marca = id_marca;
-        this.id_categoria = id_categoria;
-        this.id_precio = id_precio;
-        this.id_ubicacion = id_ubicacion;
+        this.nombreRepuesto = nombreRepuesto;
+        this.marca = marca;
+        this.categoria = categoria;
+        this.precio = precio;
+        this.ubicacion = ubicacion;
     }
 
     public int getId_repuesto() {
@@ -30,24 +30,24 @@ public class Repuesto {
         return stock;
     }
 
-    public int getId_nombrerepuesto() {
-        return id_nombrerepuesto;
+    public NombreRepuesto getNombreRepuesto() {
+        return nombreRepuesto;
     }
 
-    public int getId_marca() {
-        return id_marca;
+    public Marca getMarca() {
+        return marca;
     }
 
-    public int getId_categoria() {
-        return id_categoria;
+    public Categoria getCategoria() {
+        return categoria;
     }
 
-    public int getId_precio() {
-        return id_precio;
+    public Precio getPrecio() {
+        return precio;
     }
 
-    public int getId_ubicacion() {
-        return id_ubicacion;
+    public Ubicacion getUbicacion() {
+        return ubicacion;
     }
 
     public void setId_repuesto(int id_repuesto) {
@@ -58,23 +58,25 @@ public class Repuesto {
         this.stock = stock;
     }
 
-    public void setId_nombrerepuesto(int id_nombrerepuesto) {
-        this.id_nombrerepuesto = id_nombrerepuesto;
+    public void setNombreRepuesto(NombreRepuesto nombreRepuesto) {
+        this.nombreRepuesto = nombreRepuesto;
     }
 
-    public void setId_marca(int id_marca) {
-        this.id_marca = id_marca;
+    public void setMarca(Marca marca) {
+        this.marca = marca;
     }
 
-    public void setId_categoria(int id_categoria) {
-        this.id_categoria = id_categoria;
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
-    public void setId_precio(int id_precio) {
-        this.id_precio = id_precio;
+    public void setPrecio(Precio precio) {
+        this.precio = precio;
     }
 
-    public void setId_ubicacion(int id_ubicacion) {
-        this.id_ubicacion = id_ubicacion;
+    public void setUbicacion(Ubicacion ubicacion) {
+        this.ubicacion = ubicacion;
     }
+
+    
 }
