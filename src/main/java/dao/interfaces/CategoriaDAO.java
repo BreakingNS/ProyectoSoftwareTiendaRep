@@ -1,0 +1,12 @@
+package dao.interfaces;
+
+import java.util.List;
+import model.Categoria;
+
+public interface CategoriaDAO {
+    public void crearCategoria(Categoria categoria);
+    public List<Categoria> obtenerCategoria();
+    public void actualizarCategoria(Categoria categoria, int id);
+    public void eliminarCategoria(int id);
+    public void toStringCategoria();
+}

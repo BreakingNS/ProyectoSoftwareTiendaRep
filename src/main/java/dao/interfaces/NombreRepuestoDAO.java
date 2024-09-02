@@ -1,7 +1,6 @@
 package dao.interfaces;
 
 import java.util.List;
-import model.Marca;
 import model.NombreRepuesto;
 
 public interface NombreRepuestoDAO {
