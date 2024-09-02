@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.Venta;
+import model.Cliente;
 import model.Venta;
 
 public class VentaDAOImpl implements VentaDAO{
@@ -37,7 +37,7 @@ public class VentaDAOImpl implements VentaDAO{
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_VENTA);
             preparedStatement.setInt(1, venta.getCantidad());
             preparedStatement.setDate(2, venta.getFecha_venta());
-            preparedStatement.setInt(3, venta.getId_cliente());
+            preparedStatement.setInt(3, venta.getCliente().getId_cliente());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(VentaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -58,7 +58,11 @@ public class VentaDAOImpl implements VentaDAO{
                 int idVenta = venta_Resultado.getInt("id_venta");
                 int idCliente = venta_Resultado.getInt("id_cliente");
                 
-                Venta venta = new Venta(idVenta, cantidadVenta, fechaVenta, idCliente);
+                ClienteDAOImpl clienteDAO = new ClienteDAOImpl(connection);
+                
+                Cliente cliente = clienteDAO.obtenerCliente(idCliente);
+                
+                Venta venta = new Venta(idVenta, cantidadVenta, fechaVenta, cliente);
                 
                 listaVentas.add(venta);
             }
@@ -74,7 +78,7 @@ public class VentaDAOImpl implements VentaDAO{
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_VENTA);
             preparedStatement.setInt(1, venta.getCantidad());
             preparedStatement.setDate(2, venta.getFecha_venta());
-            preparedStatement.setInt(3,venta.getId_cliente());
+            preparedStatement.setInt(3,venta.getCliente().getId_cliente());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(VentaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -101,7 +105,7 @@ public class VentaDAOImpl implements VentaDAO{
             System.out.println("Id: " + ven.getId_venta());
             System.out.println("Cantidad: " + ven.getCantidad());
             System.out.println("Fecha Venta: " + ven.getFecha_venta());
-            System.out.println("Cliente: " + ven.get());
+            System.out.println("Cliente: " + ven.getCliente().getId_cliente());
         }
     }
     

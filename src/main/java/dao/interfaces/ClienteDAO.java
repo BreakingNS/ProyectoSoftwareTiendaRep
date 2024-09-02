@@ -6,6 +6,7 @@ import model.Cliente;
 public interface ClienteDAO {
     public void crearCliente(Cliente cliente);
     public List<Cliente> obtenerClientes();
+    public Cliente obtenerCliente(int id);
     public void actualizarCliente(Cliente cliente, int id);
     public void eliminarCliente(int id);
     public void toStringCliente();

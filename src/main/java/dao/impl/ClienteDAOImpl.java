@@ -22,7 +22,8 @@ public class ClienteDAOImpl implements ClienteDAO{
     
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_CLIENTE = "DELETE FROM TiendaLocal.cliente WHERE id_cliente = ?";
-    private final String SENTENCIA_OBTENER_CLIENTE = "SELECT * FROM TiendaLocal.cliente";
+    private final String SENTENCIA_OBTENER_CLIENTES = "SELECT * FROM TiendaLocal.cliente";
+    private final String SENTENCIA_OBTENER_CLIENTE = "SELECT * FROM TiendaLocal.cliente WHERE id_cliente = ?";
     private final String SENTENCIA_CREAR_CLIENTE = "INSERT INTO TiendaLocal.cliente (nombre, apellido, telefono) VALUES ( ? , ? , ?)";
     private final String SENTENCIA_ACTUALIZAR_CLIENTE = "UPDATE TiendaLocal.cliente SET nombre = ?, apellido = ?, telefono = ? WHERE id_cliente = ?";
 
@@ -48,7 +49,7 @@ public class ClienteDAOImpl implements ClienteDAO{
         List<Cliente> listaClientes = new ArrayList<>();
         
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_CLIENTE);
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_CLIENTES);
             ResultSet cliente_Resultado = preparedStatement.executeQuery();
             
             while(cliente_Resultado.next()){
@@ -102,5 +103,20 @@ public class ClienteDAOImpl implements ClienteDAO{
             System.out.println("Apellido: " + clien.getApellido());
             System.out.println("Telefono: " + clien.getTelefono());
         }
+    }
+
+    @Override
+    public Cliente obtenerCliente(int id) {
+        ResultSet cliente_Resultado = null;
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_CLIENTE);
+            preparedStatement.setInt(1, id);
+            cliente_Resultado = preparedStatement.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return (Cliente) cliente_Resultado;
     }
 }
