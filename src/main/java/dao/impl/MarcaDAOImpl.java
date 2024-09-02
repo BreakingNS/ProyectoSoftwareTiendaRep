@@ -1,0 +1,106 @@
+package dao.impl;
+
+import dao.interfaces.MarcaDAO;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Marca;
+
+public class MarcaDAOImpl implements MarcaDAO{
+    
+    /*
+    Columnas/Campos de la Tabla Marca
+    
+    id_marca
+    nombre_marca
+    */
+    
+    private Connection connection = null; 
+    private String SENTENCIA_ELIMINAR_MARCA = "DELETE FROM TiendaLocal.marca WHERE id_marca = ?";
+    private String SENTENCIA_OBTENER_MARCA = "SELECT * FROM TiendaLocal.marca";
+    private String SENTENCIA_CREAR_MARCA = "INSERT INTO TiendaLocal.marca (nombre_marca) VALUES ( ? )";
+    private String SENTENCIA_ACTUALIZAR_MARCA = "UPDATE TiendaLocal.marca SET nombre_marca = ? WHERE id_marca = ?";
+
+    public MarcaDAOImpl(Connection connection) {
+        this.connection = connection;
+    }
+    
+    
+    
+    @Override
+    public void crearMarca(Marca marca) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_MARCA);
+            preparedStatement.setString(1, marca.getNombre_marca());
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(MarcaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public List<Marca> obtenerMarcas() {
+        List<Marca> listaMarcas = new ArrayList<>();
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_MARCA);
+            ResultSet marca_Resultado = preparedStatement.executeQuery();
+            
+            while (marca_Resultado.next()){
+                String nombreCategoria = marca_Resultado.getString("nombre_marca");
+                int idCategoria = marca_Resultado.getInt("id_marca");
+                
+                Marca marca = new Marca(idCategoria, nombreCategoria);
+                
+                listaMarcas.add(marca);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(MarcaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        return listaMarcas;
+    }
+
+    @Override
+    public void actualizarMarca(Marca marca, int id) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_MARCA);
+            preparedStatement.setString(1, marca.getNombre_marca());
+            preparedStatement.setInt(2, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(MarcaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void eliminarMarca(int id) {
+        PreparedStatement preparedStatement;
+        try{
+            preparedStatement = connection.prepareStatement(SENTENCIA_ELIMINAR_MARCA);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(MarcaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void toStringMarcas() {
+        List<Marca> listaMarcas = obtenerMarcas();
+        
+        for(Marca mar : listaMarcas){
+            System.out.println("------------------");
+            System.out.println("Id: " + mar.getId_marca());
+            System.out.println("Nombre: " + mar.getNombre_marca());
+        }
+    }
+    
+}

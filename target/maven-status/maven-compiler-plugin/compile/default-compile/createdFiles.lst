@@ -1,2 +1,5 @@
+model\Marca.class
 app\ProyectoSoftwareTiendaRep.class
+dao\impl\MarcaDAOImpl.class
 config\ConexionDataBase.class
+dao\interfaces\MarcaDAO.class
