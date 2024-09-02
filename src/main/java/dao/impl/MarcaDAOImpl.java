@@ -21,17 +21,15 @@ public class MarcaDAOImpl implements MarcaDAO{
     */
     
     private Connection connection = null; 
-    private String SENTENCIA_ELIMINAR_MARCA = "DELETE FROM TiendaLocal.marca WHERE id_marca = ?";
-    private String SENTENCIA_OBTENER_MARCA = "SELECT * FROM TiendaLocal.marca";
-    private String SENTENCIA_CREAR_MARCA = "INSERT INTO TiendaLocal.marca (nombre_marca) VALUES ( ? )";
-    private String SENTENCIA_ACTUALIZAR_MARCA = "UPDATE TiendaLocal.marca SET nombre_marca = ? WHERE id_marca = ?";
+    private final String SENTENCIA_ELIMINAR_MARCA = "DELETE FROM TiendaLocal.marca WHERE id_marca = ?";
+    private final String SENTENCIA_OBTENER_MARCA = "SELECT * FROM TiendaLocal.marca";
+    private final String SENTENCIA_CREAR_MARCA = "INSERT INTO TiendaLocal.marca (nombre_marca) VALUES ( ? )";
+    private final String SENTENCIA_ACTUALIZAR_MARCA = "UPDATE TiendaLocal.marca SET nombre_marca = ? WHERE id_marca = ?";
 
     public MarcaDAOImpl(Connection connection) {
         this.connection = connection;
     }
-    
-    
-    
+
     @Override
     public void crearMarca(Marca marca) {
         try {
@@ -82,9 +80,8 @@ public class MarcaDAOImpl implements MarcaDAO{
 
     @Override
     public void eliminarMarca(int id) {
-        PreparedStatement preparedStatement;
         try{
-            preparedStatement = connection.prepareStatement(SENTENCIA_ELIMINAR_MARCA);
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ELIMINAR_MARCA);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {

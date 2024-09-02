@@ -5,7 +5,7 @@ import model.Precio;
 
 public interface PrecioDAO {
     public void crearPrecio(Precio precio);
-    public List<Precio> obtenerPrecio();
+    public List<Precio> obtenerPrecios();
     public void actualizarPrecio(Precio precio, int id);
     public void eliminarPrecio(int id);
     public void toStringPrecio();

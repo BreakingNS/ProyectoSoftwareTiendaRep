@@ -1,6 +1,5 @@
 package dao.impl;
 
-
 import dao.interfaces.NombreRepuestoDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.Marca;
 import model.NombreRepuesto;
 
 public class NombreRepuestoDAOImpl implements NombreRepuestoDAO{
@@ -23,10 +21,10 @@ public class NombreRepuestoDAOImpl implements NombreRepuestoDAO{
     */
     
     private Connection connection = null; 
-    private String SENTENCIA_CREAR_NOMBREREP = "INSERT INTO TiendaLocal.nombrerepuesto (nombre_repuesto) VALUES ( ? )";
-    private String SENTENCIA_OBTENER_NOMBREREP = "SELECT * FROM TiendaLocal.nombrerepuesto";
-    private String SENTENCIA_ACTUALIZAR_NOMBREREP = "UPDATE TiendaLocal.nombrerepuesto SET nombre_respuesto = ? WHERE id_nombrerepuesto = ?";
-    private String SENTENCIA_ELIMINAR_NOMBREREP = "DELETE FROM TiendaLocal.nombrerepuesto WHERE id_nombrerepuesto = ?";
+    private final String SENTENCIA_CREAR_NOMBREREP = "INSERT INTO TiendaLocal.nombrerepuesto (nombre_repuesto) VALUES ( ? )";
+    private final String SENTENCIA_OBTENER_NOMBREREP = "SELECT * FROM TiendaLocal.nombrerepuesto";
+    private final String SENTENCIA_ACTUALIZAR_NOMBREREP = "UPDATE TiendaLocal.nombrerepuesto SET nombre_respuesto = ? WHERE id_nombrerepuesto = ?";
+    private final String SENTENCIA_ELIMINAR_NOMBREREP = "DELETE FROM TiendaLocal.nombrerepuesto WHERE id_nombrerepuesto = ?";
 
     public NombreRepuestoDAOImpl(Connection connection) {
         this.connection = connection;
