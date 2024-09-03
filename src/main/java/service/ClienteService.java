@@ -44,4 +44,30 @@ public class ClienteService {
             System.out.println("Telefono: " + clien.getTelefono());
         }
     }
+    
+    public Boolean existeCliente(Cliente cliente){
+        List<Cliente> listaClientes = listarClientes();
+        boolean existeCliente = false;
+        
+        for(Cliente cli : listaClientes){
+            if(cli.getApellido().equals(cliente.getApellido()) && (cli.getNombre().equals(cliente.getNombre()))){
+                existeCliente = true;
+                break;
+            }
+        }
+        return existeCliente;
+    }
+    
+    public Boolean existeTelefonoCliente(Cliente cliente){
+        List<Cliente> listaClientes = listarClientes();
+        boolean existeTelefono = false;
+        
+        for(Cliente cli : listaClientes){
+            if(cli.getTelefono().equals(cliente.getTelefono())){
+                existeTelefono = true;
+                break;
+            }
+        }
+        return existeTelefono;
+    }
 }
