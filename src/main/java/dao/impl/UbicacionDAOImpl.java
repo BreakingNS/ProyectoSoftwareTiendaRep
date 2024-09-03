@@ -68,11 +68,11 @@ public class UbicacionDAOImpl implements UbicacionDAO{
     }
 
     @Override
-    public void actualizarUbicacion(Ubicacion ubicacion, int id) {
+    public void actualizarUbicacion(Ubicacion ubicacion) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_UBICACION);
             preparedStatement.setString(1, ubicacion.getNombre_ubicacion());
-            preparedStatement.setInt(2, id);
+            preparedStatement.setInt(2, ubicacion.getId_ubicacion());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UbicacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);

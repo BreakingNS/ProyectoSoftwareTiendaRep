@@ -65,11 +65,11 @@ public class EstadoDAOImpl implements EstadoDAO{
     }
 
     @Override
-    public void actualizarEstado(Estado estado, int id) {
+    public void actualizarEstado(Estado estado) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_ESTADO);
             preparedStatement.setString(1, estado.getNombre_estado());
-            preparedStatement.setInt(2, id);
+            preparedStatement.setInt(2, estado.getId_estado());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(EstadoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);

@@ -65,11 +65,11 @@ public class CategoriaDAOImpl implements CategoriaDAO{
     }
 
     @Override
-    public void actualizarCategoria(Categoria categoria, int id) {
+    public void actualizarCategoria(Categoria categoria) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_CATEGORIA);
             preparedStatement.setString(1, categoria.getNombre_categoria());
-            preparedStatement.setInt(2, id);
+            preparedStatement.setInt(2, categoria.getId_categoria());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(CategoriaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);

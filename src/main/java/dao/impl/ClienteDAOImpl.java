@@ -69,13 +69,13 @@ public class ClienteDAOImpl implements ClienteDAO{
     }
 
     @Override
-    public void actualizarCliente(Cliente cliente, int id) {
+    public void actualizarCliente(Cliente cliente) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_CLIENTE);
             preparedStatement.setString(1, cliente.getNombre());
             preparedStatement.setString(2, cliente.getApellido());
             preparedStatement.setString(3, cliente.getTelefono());
-            preparedStatement.setInt(4, id);
+            preparedStatement.setInt(4, cliente.getId_cliente());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ClienteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);

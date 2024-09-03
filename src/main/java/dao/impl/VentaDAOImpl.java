@@ -73,12 +73,12 @@ public class VentaDAOImpl implements VentaDAO{
     }
 
     @Override
-    public void actualizarVenta(Venta venta, int id) {
+    public void actualizarVenta(Venta venta) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_VENTA);
             preparedStatement.setInt(1, venta.getCantidad());
             preparedStatement.setDate(2, venta.getFecha_venta());
-            preparedStatement.setInt(3,venta.getCliente().getId_cliente());
+            preparedStatement.setInt(3,venta.getId_venta());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(VentaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);

@@ -68,11 +68,11 @@ public class MarcaDAOImpl implements MarcaDAO{
     }
 
     @Override
-    public void actualizarMarca(Marca marca, int id) {
+    public void actualizarMarca(Marca marca) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_MARCA);
             preparedStatement.setString(1, marca.getNombre_marca());
-            preparedStatement.setInt(2, id);
+            preparedStatement.setInt(2, marca.getId_marca());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(MarcaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);

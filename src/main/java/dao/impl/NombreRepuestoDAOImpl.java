@@ -66,11 +66,11 @@ public class NombreRepuestoDAOImpl implements NombreRepuestoDAO{
     }
 
     @Override
-    public void actualizarNombreRepuesto(NombreRepuesto nombreRepuesto, int id) {
+    public void actualizarNombreRepuesto(NombreRepuesto nombreRepuesto) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_NOMBREREP);
             preparedStatement.setString(1, nombreRepuesto.getNombre_repuesto());
-            preparedStatement.setInt(2, id);
+            preparedStatement.setInt(2, nombreRepuesto.getId_nombrerepuesto());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(NombreRepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);

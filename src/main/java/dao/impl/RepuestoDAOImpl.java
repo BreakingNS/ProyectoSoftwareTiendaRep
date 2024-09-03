@@ -101,7 +101,7 @@ public class RepuestoDAOImpl implements RepuestoDAO{
     }
 
     @Override
-    public void actualizarRepuesto(Repuesto repuesto, int id) {
+    public void actualizarRepuesto(Repuesto repuesto) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_REPUESTO);
             preparedStatement.setInt(1, repuesto.getId_repuesto());
@@ -111,7 +111,7 @@ public class RepuestoDAOImpl implements RepuestoDAO{
             preparedStatement.setInt(5, repuesto.getCategoria().getId_categoria());
             preparedStatement.setInt(6, repuesto.getPrecio().getId_precio());
             preparedStatement.setInt(7, repuesto.getUbicacion().getId_ubicacion());
-            preparedStatement.setInt(8, id);
+            preparedStatement.setInt(8, repuesto.getId_repuesto());
             preparedStatement.executeUpdate();
             
         } catch (SQLException ex) {

@@ -69,12 +69,12 @@ public class PrecioDAOImpl implements PrecioDAO{
     }
 
     @Override
-    public void actualizarPrecio(Precio precio, int id) {
+    public void actualizarPrecio(Precio precio) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_PRECIO);
             preparedStatement.setDate(1, precio.getFechaPrecio());
             preparedStatement.setBigDecimal(2, precio.getValor());
-            preparedStatement.setInt(3, id);
+            preparedStatement.setInt(3, precio.getId_precio());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(PrecioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);

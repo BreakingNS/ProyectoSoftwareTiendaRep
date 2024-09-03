@@ -25,8 +25,8 @@ public class CategoriaService {
         return categoriaDAO.obtenerCategoria(id);
     }
     
-    public void editarCategoriaPorId(int id){
-        categoriaDAO.actualizarCategoria(categoria, id);
+    public void editarCategoriaPorId(Categoria categoria){
+        categoriaDAO.actualizarCategoria(categoria);
     }
     
     public void eliminarCategoriaPorId(int id){

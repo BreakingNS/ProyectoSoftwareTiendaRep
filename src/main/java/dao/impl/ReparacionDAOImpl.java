@@ -98,7 +98,7 @@ public class ReparacionDAOImpl implements ReparacionDAO{
     }
 
     @Override
-    public void actualizarReparacion(Reparacion reparacion, int id) {
+    public void actualizarReparacion(Reparacion reparacion) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_REPARACIONES);
             preparedStatement.setBigDecimal(1, reparacion.getCosto());
@@ -109,7 +109,7 @@ public class ReparacionDAOImpl implements ReparacionDAO{
             preparedStatement.setInt(6, reparacion.getCliente().getId_cliente());
             preparedStatement.setInt(7, reparacion.getRepuesto().getId_repuesto());
             preparedStatement.setInt(8, reparacion.getEstado().getId_estado());
-            preparedStatement.setInt(9, id);
+            preparedStatement.setInt(9, reparacion.getId_reparacion());
         } catch (SQLException ex) {
             Logger.getLogger(ReparacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
