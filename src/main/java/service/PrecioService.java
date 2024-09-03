@@ -24,6 +24,11 @@ public class PrecioService {
         return precioDAO.obtenerPrecio(id);
     }
     
+    public List<Precio> obtenerPrecioPorIdProducto(int id) {
+        // Lógica adicional si es necesario
+        return precioDAO.obtenerPreciosPorIdRepuesto(id);
+    }
+    
     public void editarPrecioPorId(Precio precio){
         precioDAO.actualizarPrecio(precio);
     }
@@ -41,6 +46,7 @@ public class PrecioService {
             System.out.println("Id: " + pre.getId_precio());
             System.out.println("Fecha de Precio: " + pre.getFechaPrecio());
             System.out.println("Valor: " + pre.getValor());
+            System.out.println("Repuesto: " + pre.getRepuesto().getNombreRepuesto());
         }
     }
 }

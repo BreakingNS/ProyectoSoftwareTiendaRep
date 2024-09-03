@@ -32,9 +32,9 @@ public class RepuestoDAOImpl implements RepuestoDAO{
     private final String SENTENCIA_OBTENER_REPUESTO = 
             "SELECT * FROM TiendaLocal.repuesto WHERE id_repuesto = ?";
     private final String SENTENCIA_CREAR_REPUESTO = 
-            "INSERT INTO TiendaLocal.repuesto (stock, id_nombrerepuesto, id_marca, id_categoria, id_precio, id_ubicacion) VALUES ( ? , ? , ? , ? , ? , ? )";
+            "INSERT INTO TiendaLocal.repuesto (stock, id_nombrerepuesto, id_marca, id_categoria, id_ubicacion) VALUES ( ? , ? , ? , ? , ? )";
     private final String SENTENCIA_ACTUALIZAR_REPUESTO = 
-            "UPDATE TiendaLocal.repuesto SET stock = ?, id_nombrerepuesto = ?, id_marca = ?, id_categoria = ?, id_precio = ?, id_ubicacion = ? WHERE id_repuesto = ?";
+            "UPDATE TiendaLocal.repuesto SET stock = ?, id_nombrerepuesto = ?, id_marca = ?, id_categoria = ?, id_ubicacion = ? WHERE id_repuesto = ?";
 
     public RepuestoDAOImpl(Connection connection) {
         this.connection = connection;
@@ -48,8 +48,7 @@ public class RepuestoDAOImpl implements RepuestoDAO{
             preparedStatement.setInt(2, repuesto.getNombreRepuesto().getId_nombrerepuesto());
             preparedStatement.setInt(3, repuesto.getMarca().getId_marca());
             preparedStatement.setInt(4, repuesto.getCategoria().getId_categoria());
-            preparedStatement.setInt(5, repuesto.getPrecio().getId_precio());
-            preparedStatement.setInt(6, repuesto.getUbicacion().getId_ubicacion());
+            preparedStatement.setInt(5, repuesto.getUbicacion().getId_ubicacion());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -71,7 +70,6 @@ public class RepuestoDAOImpl implements RepuestoDAO{
                 int id_nombrepuesto = repuesto_Resultado.getInt("id_nombrepuesto");
                 int id_marca = repuesto_Resultado.getInt("id_marca");
                 int id_categoria = repuesto_Resultado.getInt("id_categoria");
-                int id_precio = repuesto_Resultado.getInt("id_precio");
                 int id_ubicacion = repuesto_Resultado.getInt("id_ubicacion");
                 
                 //RepuestoDAOImpl repuestoDAO = new RepuestoDAOImpl(connection);
@@ -84,10 +82,10 @@ public class RepuestoDAOImpl implements RepuestoDAO{
                 NombreRepuesto nombreRepuesto = nombreRepuestoDAO.obtenerNombreRepuesto(id_repuesto);
                 Marca marca = marcaDAO.obtenerMarca(id_marca);
                 Categoria categoria = categoriaDAO.obtenerCategoria(id_categoria);
-                Precio precio = precioDAO.obtenerPrecio(id_precio);
+                List<Precio> listaPrecios = precioDAO.obtenerPreciosPorIdRepuesto(id_repuesto);
                 Ubicacion ubicacion = ubicacionDAO.obtenerUbicacion(id_ubicacion);
                 
-                Repuesto repuesto = new Repuesto(id_repuesto, stock, nombreRepuesto, marca, categoria, precio, ubicacion);
+                Repuesto repuesto = new Repuesto(id_repuesto, stock, nombreRepuesto, marca, categoria, listaPrecios, ubicacion);
                 
                 listaRepuestos.add(repuesto);
             }
@@ -107,11 +105,10 @@ public class RepuestoDAOImpl implements RepuestoDAO{
             preparedStatement.setInt(3, repuesto.getNombreRepuesto().getId_nombrerepuesto());
             preparedStatement.setInt(4, repuesto.getMarca().getId_marca());
             preparedStatement.setInt(5, repuesto.getCategoria().getId_categoria());
-            preparedStatement.setInt(6, repuesto.getPrecio().getId_precio());
+            preparedStatement.setInt(6, repuesto.getListaPrecios().get(repuesto.getListaPrecios().size() - 1).getId_precio());
             preparedStatement.setInt(7, repuesto.getUbicacion().getId_ubicacion());
             preparedStatement.setInt(8, repuesto.getId_repuesto());
             preparedStatement.executeUpdate();
-            
         } catch (SQLException ex) {
             Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }

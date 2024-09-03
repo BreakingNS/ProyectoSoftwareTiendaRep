@@ -43,7 +43,7 @@ public class RepuestoService {
             System.out.println("Nombre Repuesto: " + rep.getNombreRepuesto());
             System.out.println("Marca: " + rep.getMarca());
             System.out.println("Categoria: " + rep.getCategoria());
-            System.out.println("Precio: " + rep.getPrecio());
+            System.out.println("Precio: " + rep.getListaPrecios().get(rep.getListaPrecios().size() - 1).getValor());
             System.out.println("Ubicacion: " + rep.getUbicacion());
         }
     }

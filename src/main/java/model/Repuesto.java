@@ -1,24 +1,26 @@
 package model;
 
+import java.util.List;
+
 public class Repuesto {
     private int id_repuesto;
     private int stock;
     private NombreRepuesto nombreRepuesto;
     private Marca marca;
     private Categoria categoria;
-    private Precio precio;
+    private List<Precio> listaPrecios;
     private Ubicacion ubicacion;
 
     public Repuesto() {
     }
 
-    public Repuesto(int id_repuesto, int stock, NombreRepuesto nombreRepuesto, Marca marca, Categoria categoria, Precio precio, Ubicacion ubicacion) {
+    public Repuesto(int id_repuesto, int stock, NombreRepuesto nombreRepuesto, Marca marca, Categoria categoria, List<Precio> listaPrecios, Ubicacion ubicacion) {
         this.id_repuesto = id_repuesto;
         this.stock = stock;
         this.nombreRepuesto = nombreRepuesto;
         this.marca = marca;
         this.categoria = categoria;
-        this.precio = precio;
+        this.listaPrecios = listaPrecios;
         this.ubicacion = ubicacion;
     }
 
@@ -42,8 +44,8 @@ public class Repuesto {
         return categoria;
     }
 
-    public Precio getPrecio() {
-        return precio;
+    public List<Precio> getListaPrecios() {
+        return listaPrecios;
     }
 
     public Ubicacion getUbicacion() {
@@ -70,13 +72,11 @@ public class Repuesto {
         this.categoria = categoria;
     }
 
-    public void setPrecio(Precio precio) {
-        this.precio = precio;
+    public void setListaPrecios(List<Precio> precio) {
+        this.listaPrecios = precio;
     }
 
     public void setUbicacion(Ubicacion ubicacion) {
         this.ubicacion = ubicacion;
     }
-
-    
 }
