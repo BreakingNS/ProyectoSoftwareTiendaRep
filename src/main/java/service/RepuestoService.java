@@ -47,4 +47,12 @@ public class RepuestoService {
             System.out.println("Ubicacion: " + rep.getUbicacion());
         }
     }
+    
+    public void actualizarStock(Repuesto repuesto, int nuevoStock){
+        int stock = repuesto.getStock();
+        stock = stock + nuevoStock;
+        repuesto.setStock(stock);
+        repuestoDAO.actualizarRepuesto(repuesto);
+    }
+    
 }

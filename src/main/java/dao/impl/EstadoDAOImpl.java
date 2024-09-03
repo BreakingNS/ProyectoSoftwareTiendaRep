@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Estado;
+import model.Reparacion;
 
 public class EstadoDAOImpl implements EstadoDAO{
     /*
@@ -53,7 +54,10 @@ public class EstadoDAOImpl implements EstadoDAO{
                 String nombreEstado = estado_Resultado.getString("nombre_estado");
                 int idCategoria = estado_Resultado.getInt("id_estado");
                 
-                Estado estado = new Estado();
+                ReparacionDAOImpl reparacionDao = new ReparacionDAOImpl(connection);
+                List<Reparacion> listaReparaciones = reparacionDao.obtenerReparaciones();
+
+                Estado estado = new Estado(idCategoria, nombreEstado, listaReparaciones);
                 
                 listaEstados.add(estado);
             }

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Categoria;
+import model.Reparacion;
 
 public class CategoriaDAOImpl implements CategoriaDAO{
     /*
@@ -53,7 +54,10 @@ public class CategoriaDAOImpl implements CategoriaDAO{
                 String nombreCategoria = categoria_Categoria.getString("nombre_categoria");
                 int idCategoria = categoria_Categoria.getInt("id_categoria");
                 
-                Categoria categoria = new Categoria(idCategoria, nombreCategoria);
+                ReparacionDAOImpl reparacionDAO = ReparacionDAOImpl(connection);
+                List<Reparacion> listaReparaciones = reparacionDAO.obtenerReparacionesPorIdCategoria(idCategoria);
+                
+                Categoria categoria = new Categoria(idCategoria, nombreCategoria, listaReparaciones);
                 
                 listaCategorias.add(categoria);
             }
@@ -100,6 +104,10 @@ public class CategoriaDAOImpl implements CategoriaDAO{
         }
         
         return (Categoria) categoria_Resultado;
+    }
+
+    private ReparacionDAOImpl ReparacionDAOImpl(Connection connection) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     

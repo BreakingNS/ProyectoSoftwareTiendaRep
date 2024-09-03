@@ -1,6 +1,7 @@
 package dao.impl;
 
 import dao.interfaces.ClienteDAO;
+import dao.interfaces.VentaDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +11,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Cliente;
-import model.Cliente;
+import model.Reparacion;
+import model.Venta;
 
 public class ClienteDAOImpl implements ClienteDAO{
     /*
@@ -58,7 +60,13 @@ public class ClienteDAOImpl implements ClienteDAO{
                 String telefonoCliente = cliente_Resultado.getString("telefono");
                 int idCliente = cliente_Resultado.getInt("id_cliente");
                 
-                Cliente cliente = new Cliente(idCliente, nombreCliente, apellidoCliente, telefonoCliente);
+                VentaDAOImpl ventaDAO = new VentaDAOImpl(connection);
+                ReparacionDAOImpl reparacionDAO = new ReparacionDAOImpl(connection);
+                
+                List<Venta> listaVentas = ventaDAO.obtenerVentasPorIdCliente(idCliente);
+                List<Reparacion> listaReparaciones = reparacionDAO.obtenerReparacionesPorIdCliente(idCliente);
+                
+                Cliente cliente = new Cliente(idCliente, nombreCliente, apellidoCliente, telefonoCliente, listaVentas, listaReparaciones);
                 
                 listaClientes.add(cliente);
             }

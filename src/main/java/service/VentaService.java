@@ -1,14 +1,25 @@
 package service;
 
+import dao.impl.RepuestoDAOImpl;
+import dao.impl.VentaDAOImpl;
+import dao.interfaces.RepuestoDAO;
 import dao.interfaces.VentaDAO;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
+import model.Repuesto;
 import model.Venta;
 
 public class VentaService {
-    private final VentaDAO ventaDAO;
+    
+    private final Connection connection;
+    private final VentaDAOImpl ventaDAO;
+    private final RepuestoDAOImpl repuestoDAO;
 
-    public VentaService(VentaDAO ventaDAO) {
+    public VentaService(VentaDAOImpl ventaDAO, RepuestoDAOImpl repuestoDAO, Connection connection) {
         this.ventaDAO = ventaDAO;
+        this.repuestoDAO = repuestoDAO;
+        this.connection = connection;
     }
     
     public void agregarVenta(Venta venta){
@@ -24,7 +35,7 @@ public class VentaService {
         return ventaDAO.obtenerVenta(id);
     }
     
-    public void editarVentaPorId(Venta venta){
+    public void editarVenta(Venta venta){
         ventaDAO.actualizarVenta(venta);
     }
     
@@ -44,4 +55,45 @@ public class VentaService {
             System.out.println("Cliente: " + ven.getCliente().getId_cliente());
         }
     }
+    
+    public void nuevaVenta(Venta venta, Repuesto repuesto) throws SQLException {
+        boolean autoCommitState = connection.getAutoCommit(); // Guardar el estado original
+        connection.setAutoCommit(false); // Desactivar auto-commit
+
+        try {
+            // Realizar operaciones de la transacción
+            ventaDAO.crearVenta(venta); // Usar la conexión proporcionada
+            int stockVenta = venta.getCantidad();
+            int stockActual = repuesto.getStock() - stockVenta;
+            repuesto.setStock(stockActual);
+
+            repuestoDAO.actualizarRepuesto(repuesto); // Usar la conexión proporcionada
+
+            connection.commit(); // Confirmar la transacción
+
+        } catch (SQLException e) {
+            try {
+                connection.rollback(); // Revertir en caso de error
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+        } finally {
+            connection.setAutoCommit(autoCommitState); // Restablecer auto-commit al estado original
+        }
+    }
+
+
+    
+    public void nuevaVenta1(Venta venta, Repuesto repuesto){
+        ventaDAO.crearVenta(venta);
+        
+        int stockVenta = venta.getCantidad();
+        int stockActual = repuesto.getStock() - stockVenta;
+        repuesto.setStock(stockVenta);
+        
+        repuestoDAO.actualizarRepuesto(repuesto);
+    }
+    
+    //Reportes Ventas
 }

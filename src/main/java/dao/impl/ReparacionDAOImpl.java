@@ -30,8 +30,12 @@ public class ReparacionDAOImpl implements ReparacionDAO{
             "DELETE FROM TiendaLocal.reparacion WHERE id_reparacion = ?";
     private final String SENTENCIA_OBTENER_REPARACIONES = 
             "SELECT * FROM TiendaLocal.reparacion";
+    private final String SENTENCIA_OBTENER_REPARACIONES_POR_ID_CLIENTE = 
+            "SELECT * FROM TiendaLocal.reparacion WHILE id_cliente = ?";
+    private final String SENTENCIA_OBTENER_REPARACIONES_POR_ID_CATEGORIA = 
+            "SELECT * FROM TiendaLocal.reparacion WHILE id_categoria = ?";
     private final String SENTENCIA_OBTENER_REPARACION = 
-            "SELECT * FROM TiendaLocal.reparacion WHILE = ?";
+            "SELECT * FROM TiendaLocal.reparacion WHILE id_reparacion = ?";
     private final String SENTENCIA_CREAR_REPARACION = 
             "INSERT INTO TiendaLocal.reparacion (costo, detalles, fecha_ingreso, fecha_devolucion, id_categoria, id_cliente, id_repuesto, id_estado) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? )";
     private final String SENTENCIA_ACTUALIZAR_REPARACION = 
@@ -141,6 +145,36 @@ public class ReparacionDAOImpl implements ReparacionDAO{
         }
         
         return (Reparacion) precio_Resultado;
+    }
+
+    @Override
+    public List<Reparacion> obtenerReparacionesPorIdCliente(int id) {
+        ResultSet precio_Resultado = null;
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_REPARACIONES_POR_ID_CLIENTE);
+            preparedStatement.setInt(1, id);
+            precio_Resultado = preparedStatement.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(ReparacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return (List<Reparacion>) precio_Resultado;
+    }
+
+    @Override
+    public List<Reparacion> obtenerReparacionesPorIdCategoria(int id) {
+        ResultSet precio_Resultado = null;
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_REPARACIONES_POR_ID_CATEGORIA);
+            preparedStatement.setInt(1, id);
+            precio_Resultado = preparedStatement.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(ReparacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return (List<Reparacion>) precio_Resultado;
     }
     
     

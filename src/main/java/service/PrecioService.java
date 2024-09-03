@@ -1,8 +1,12 @@
 package service;
 
 import dao.interfaces.PrecioDAO;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import model.Precio;
+import model.Repuesto;
 
 public class PrecioService {
     private final PrecioDAO precioDAO;
@@ -49,4 +53,18 @@ public class PrecioService {
             System.out.println("Repuesto: " + pre.getRepuesto().getNombreRepuesto());
         }
     }
+    
+    public void actualizarPrecioRepuesto(Repuesto repuesto, BigDecimal nuevoValor){
+        LocalDateTime ahora = LocalDateTime.now();
+        Date sqlDate = Date.valueOf(ahora.toLocalDate());
+        
+        Precio precioNuevo = new Precio();
+        precioNuevo.setRepuesto(repuesto);
+        precioNuevo.setFechaPrecio(sqlDate);
+        precioNuevo.setValor(nuevoValor);
+        
+        precioDAO.crearPrecio(precioNuevo);
+    }
+    
+    //Reportes Precios
 }

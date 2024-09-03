@@ -24,7 +24,7 @@ public class ReparacionService {
         return reparacionDAO.obtenerReparacion(id);
     }
     
-    public void editarReparacionPorId(Reparacion reparacion){
+    public void editarReparacion(Reparacion reparacion){
         reparacionDAO.actualizarReparacion(reparacion);
     }
     
@@ -49,4 +49,6 @@ public class ReparacionService {
             System.out.println("Estado: " + repa.getEstado());
         }
     }
+    
+    //Reportes Reparacion
 }

@@ -1,5 +1,6 @@
 package model;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 public class Venta {
@@ -7,15 +8,17 @@ public class Venta {
     private Integer cantidad;
     private Date fecha_venta;
     private Cliente cliente;
+    private BigDecimal precioFinal;
 
     public Venta() {
     }
-
-    public Venta(int id_venta, Integer cantidad, Date fecha_venta, Cliente cliente) {
+    
+    public Venta(int id_venta, Integer cantidad, Date fecha_venta, Cliente cliente, BigDecimal precioFinal) {
         this.id_venta = id_venta;
         this.cantidad = cantidad;
         this.fecha_venta = fecha_venta;
         this.cliente = cliente;
+        this.precioFinal = precioFinal;
     }
 
     public int getId_venta() {
@@ -34,6 +37,10 @@ public class Venta {
         return cliente;
     }
 
+    public BigDecimal getPrecioFinal() {
+        return precioFinal;
+    }
+
     public void setId_venta(int id_venta) {
         this.id_venta = id_venta;
     }
@@ -50,5 +57,7 @@ public class Venta {
         this.cliente = cliente;
     }
 
-    
+    public void setPrecioFinal(BigDecimal precioFinal) {
+        this.precioFinal = precioFinal;
+    }
 }

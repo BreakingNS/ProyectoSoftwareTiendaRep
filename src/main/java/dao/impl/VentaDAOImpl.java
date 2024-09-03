@@ -1,6 +1,7 @@
 package dao.impl;
 
 import dao.interfaces.VentaDAO;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -25,8 +26,9 @@ public class VentaDAOImpl implements VentaDAO{
     private final String SENTENCIA_ELIMINAR_VENTA = "DELETE FROM TiendaLocal.venta WHERE id_venta = ?";
     private final String SENTENCIA_OBTENER_VENTAS = "SELECT * FROM TiendaLocal.venta";
     private final String SENTENCIA_OBTENER_VENTA = "SELECT * FROM TiendaLocal.venta WHILE id_venta = ?";
-    private final String SENTENCIA_CREAR_VENTA = "INSERT INTO TiendaLocal.venta (cantidad, fecha-venta, id_cliente) VALUES ( ? , ? , ? )";
-    private final String SENTENCIA_ACTUALIZAR_VENTA = "UPDATE TiendaLocal.venta SET cantidad = ?, fecha-venta = ?, id_cliente = ? WHERE id_venta = ?";
+    private final String SENTENCIA_OBTENER_VENTA_POR_ID_CLIENTE = "SELECT * FROM TiendaLocal.venta WHILE id_cliente = ?";
+    private final String SENTENCIA_CREAR_VENTA = "INSERT INTO TiendaLocal.venta (cantidad, fecha-venta, id_cliente, precioFinal) VALUES ( ? , ? , ? , ? )";
+    private final String SENTENCIA_ACTUALIZAR_VENTA = "UPDATE TiendaLocal.venta SET cantidad = ?, fecha-venta = ?, id_cliente = ? , precioFinal = ? WHERE id_venta = ?";
 
     public VentaDAOImpl(Connection connection) {
         this.connection = connection;
@@ -39,6 +41,7 @@ public class VentaDAOImpl implements VentaDAO{
             preparedStatement.setInt(1, venta.getCantidad());
             preparedStatement.setDate(2, venta.getFecha_venta());
             preparedStatement.setInt(3, venta.getCliente().getId_cliente());
+            preparedStatement.setBigDecimal(4, venta.getPrecioFinal());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(VentaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -58,12 +61,13 @@ public class VentaDAOImpl implements VentaDAO{
                 Date fechaVenta = venta_Resultado.getDate("fecha_venta");
                 int idVenta = venta_Resultado.getInt("id_venta");
                 int idCliente = venta_Resultado.getInt("id_cliente");
+                BigDecimal precioFinal = venta_Resultado.getBigDecimal("precioFinal");
                 
                 ClienteDAOImpl clienteDAO = new ClienteDAOImpl(connection);
                 
                 Cliente cliente = clienteDAO.obtenerCliente(idCliente);
                 
-                Venta venta = new Venta(idVenta, cantidadVenta, fechaVenta, cliente);
+                Venta venta = new Venta(idVenta, cantidadVenta, fechaVenta, cliente, precioFinal);
                 
                 listaVentas.add(venta);
             }
@@ -80,6 +84,7 @@ public class VentaDAOImpl implements VentaDAO{
             preparedStatement.setInt(1, venta.getCantidad());
             preparedStatement.setDate(2, venta.getFecha_venta());
             preparedStatement.setInt(3,venta.getId_venta());
+            preparedStatement.setBigDecimal(4, venta.getPrecioFinal());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(VentaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -110,5 +115,20 @@ public class VentaDAOImpl implements VentaDAO{
         }
         
         return (Venta) venta_Resultado;
+    }
+
+    @Override
+    public List<Venta> obtenerVentasPorIdCliente(int id) {
+        ResultSet venta_Resultado = null;
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_VENTA_POR_ID_CLIENTE);
+            preparedStatement.setInt(1, id);
+            venta_Resultado = preparedStatement.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(VentaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return (List<Venta>) venta_Resultado;
     }
 }
