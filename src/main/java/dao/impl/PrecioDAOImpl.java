@@ -93,18 +93,6 @@ public class PrecioDAOImpl implements PrecioDAO{
     }
 
     @Override
-    public void toStringPrecio() {
-        List<Precio> listaPrecios = obtenerPrecios();
-        
-        for(Precio pre : listaPrecios){
-            System.out.println("------------------");
-            System.out.println("Id: " + pre.getId_precio());
-            System.out.println("Fecha de Precio: " + pre.getFechaPrecio());
-            System.out.println("Valor: " + pre.getValor());
-        }
-    }
-
-    @Override
     public Precio obtenerPrecio(int id) {
         ResultSet precio_Resultado = null;
         

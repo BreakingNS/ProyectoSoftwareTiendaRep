@@ -10,13 +10,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Categoria;
-import model.Cliente;
 import model.Marca;
 import model.NombreRepuesto;
 import model.Precio;
 import model.Repuesto;
 import model.Ubicacion;
-import model.Venta;
 
 public class RepuestoDAOImpl implements RepuestoDAO{
     /*
@@ -129,23 +127,7 @@ public class RepuestoDAOImpl implements RepuestoDAO{
             Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    @Override
-    public void toStringRepuesto() {
-        List<Repuesto> listaRepuestos = obtenerRepuestos();
-        
-        for(Repuesto rep : listaRepuestos){
-            System.out.println("------------------");
-            System.out.println("Id: " + rep.getId_repuesto());
-            System.out.println("Stock: " + rep.getStock());
-            System.out.println("Nombre Repuesto: " + rep.getNombreRepuesto());
-            System.out.println("Marca: " + rep.getMarca());
-            System.out.println("Categoria: " + rep.getCategoria());
-            System.out.println("Precio: " + rep.getPrecio());
-            System.out.println("Ubicacion: " + rep.getUbicacion());
-        }
-    }
-
+    
     @Override
     public Repuesto obtenerRepuesto(int id) {
         ResultSet repuesto_Resultado = null;

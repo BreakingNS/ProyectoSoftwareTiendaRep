@@ -30,6 +30,8 @@ public class ReparacionDAOImpl implements ReparacionDAO{
             "DELETE FROM TiendaLocal.reparacion WHERE id_reparacion = ?";
     private final String SENTENCIA_OBTENER_REPARACIONES = 
             "SELECT * FROM TiendaLocal.reparacion";
+    private final String SENTENCIA_OBTENER_REPARACION = 
+            "SELECT * FROM TiendaLocal.reparacion WHILE = ?";
     private final String SENTENCIA_CREAR_REPARACION = 
             "INSERT INTO TiendaLocal.reparacion (costo, detalles, fecha_ingreso, fecha_devolucion, id_categoria, id_cliente, id_repuesto, id_estado) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? )";
     private final String SENTENCIA_ACTUALIZAR_REPARACION = 
@@ -127,21 +129,18 @@ public class ReparacionDAOImpl implements ReparacionDAO{
     }
 
     @Override
-    public void toStringReparacion() {
-        List<Reparacion> listaReparaciones = obtenerReparaciones();
+    public Reparacion obtenerReparacion(int id) {
+        ResultSet precio_Resultado = null;
         
-        for(Reparacion repa : listaReparaciones){
-            System.out.println("------------------");
-            System.out.println("Id: " + repa.getId_reparacion());
-            System.out.println("Costo: " + repa.getCosto());
-            System.out.println("Detalles: " + repa.getDetalles());
-            System.out.println("Fecha Ingreso: " + repa.getFecha_ingreso());
-            System.out.println("Fecha Devolucion: " + repa.getFecha_devolucion());
-            System.out.println("Categoria: " + repa.getCategoria());
-            System.out.println("Cliente: " + repa.getCliente());
-            System.out.println("Repuesto: " + repa.getRepuesto());
-            System.out.println("Estado: " + repa.getEstado());
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_REPARACION);
+            preparedStatement.setInt(1, id);
+            precio_Resultado = preparedStatement.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(ReparacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        return (Reparacion) precio_Resultado;
     }
     
     

@@ -94,19 +94,6 @@ public class ClienteDAOImpl implements ClienteDAO{
     }
 
     @Override
-    public void toStringCliente() {
-        List<Cliente> listaClientes = obtenerClientes();
-        
-        for(Cliente clien : listaClientes){
-            System.out.println("------------------");
-            System.out.println("Id: " + clien.getId_cliente());
-            System.out.println("Nombre: " + clien.getNombre());
-            System.out.println("Apellido: " + clien.getApellido());
-            System.out.println("Telefono: " + clien.getTelefono());
-        }
-    }
-
-    @Override
     public Cliente obtenerCliente(int id) {
         ResultSet cliente_Resultado = null;
         

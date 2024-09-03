@@ -43,7 +43,7 @@ public class NombreRepuestoDAOImpl implements NombreRepuestoDAO{
     }
 
     @Override
-    public List<NombreRepuesto> obtenerNombresRepuestos() {
+    public List<NombreRepuesto> obtenerNombreRepuestos() {
         List<NombreRepuesto> listaNombresRespuestos = new ArrayList<>();
         
         try {
@@ -87,17 +87,6 @@ public class NombreRepuestoDAOImpl implements NombreRepuestoDAO{
             Logger.getLogger(NombreRepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-    }
-
-    @Override
-    public void toStringNombreRepuestos() {
-        List<NombreRepuesto> listaNombresRepuestos = obtenerNombresRepuestos();
-        
-        for(NombreRepuesto nombrep : listaNombresRepuestos){
-            System.out.println("------------------");
-            System.out.println("Id: " + nombrep.getId_nombrerepuesto());
-            System.out.println("Nombre: " + nombrep.getNombre_repuesto());
-        }
     }
 
     @Override

@@ -9,5 +9,4 @@ public interface ClienteDAO {
     public Cliente obtenerCliente(int id);
     public void actualizarCliente(Cliente cliente);
     public void eliminarCliente(int id);
-    public void toStringCliente();
 }

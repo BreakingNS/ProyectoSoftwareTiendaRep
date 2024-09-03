@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Estado;
-import model.Estado;
 
 public class EstadoDAOImpl implements EstadoDAO{
     /*
@@ -86,17 +85,6 @@ public class EstadoDAOImpl implements EstadoDAO{
             Logger.getLogger(EstadoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    @Override
-    public void toStringEstado() {
-        List<Estado> listaEstados = obtenerEstados();
-        
-        for(Estado mar : listaEstados){
-            System.out.println("------------------");
-            System.out.println("Id: " + mar.getId_estado());
-            System.out.println("Nombre: " + mar.getNombre_estado());
-        }
-    }    
 
     @Override
     public Estado obtenerEstado(int id) {

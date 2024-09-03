@@ -23,7 +23,8 @@ public class VentaDAOImpl implements VentaDAO{
     
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_VENTA = "DELETE FROM TiendaLocal.venta WHERE id_venta = ?";
-    private final String SENTENCIA_OBTENER_VENTA = "SELECT * FROM TiendaLocal.venta";
+    private final String SENTENCIA_OBTENER_VENTAS = "SELECT * FROM TiendaLocal.venta";
+    private final String SENTENCIA_OBTENER_VENTA = "SELECT * FROM TiendaLocal.venta WHILE id_venta = ?";
     private final String SENTENCIA_CREAR_VENTA = "INSERT INTO TiendaLocal.venta (cantidad, fecha-venta, id_cliente) VALUES ( ? , ? , ? )";
     private final String SENTENCIA_ACTUALIZAR_VENTA = "UPDATE TiendaLocal.venta SET cantidad = ?, fecha-venta = ?, id_cliente = ? WHERE id_venta = ?";
 
@@ -49,7 +50,7 @@ public class VentaDAOImpl implements VentaDAO{
         List<Venta> listaVentas = new ArrayList<>();
         
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_VENTA);
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_VENTAS);
             ResultSet venta_Resultado = preparedStatement.executeQuery();
             
             while(venta_Resultado.next()){
@@ -97,17 +98,17 @@ public class VentaDAOImpl implements VentaDAO{
     }
 
     @Override
-    public void toStringVenta() {
-        List<Venta> listaVentas = obtenerVentas();
+    public Venta obtenerVenta(int id) {
+        ResultSet venta_Resultado = null;
         
-        for(Venta ven : listaVentas){
-            System.out.println("------------------");
-            System.out.println("Id: " + ven.getId_venta());
-            System.out.println("Cantidad: " + ven.getCantidad());
-            System.out.println("Fecha Venta: " + ven.getFecha_venta());
-            System.out.println("Cliente: " + ven.getCliente().getId_cliente());
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_VENTA);
+            preparedStatement.setInt(1, id);
+            venta_Resultado = preparedStatement.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(VentaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        return (Venta) venta_Resultado;
     }
-    
-    
 }

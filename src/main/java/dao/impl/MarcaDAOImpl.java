@@ -91,17 +91,6 @@ public class MarcaDAOImpl implements MarcaDAO{
     }
 
     @Override
-    public void toStringMarcas() {
-        List<Marca> listaMarcas = obtenerMarcas();
-        
-        for(Marca mar : listaMarcas){
-            System.out.println("------------------");
-            System.out.println("Id: " + mar.getId_marca());
-            System.out.println("Nombre: " + mar.getNombre_marca());
-        }
-    }
-
-    @Override
     public Marca obtenerMarca(int id) {
         ResultSet marca_Resultado = null;
         

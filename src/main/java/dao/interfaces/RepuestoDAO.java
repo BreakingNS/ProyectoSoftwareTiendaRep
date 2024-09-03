@@ -9,5 +9,4 @@ public interface RepuestoDAO {
     public Repuesto obtenerRepuesto(int id);
     public void actualizarRepuesto(Repuesto repuesto);
     public void eliminarRepuesto(int id);
-    public void toStringRepuesto();
 }

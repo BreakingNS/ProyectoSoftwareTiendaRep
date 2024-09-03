@@ -9,5 +9,4 @@ public interface EstadoDAO {
     public Estado obtenerEstado(int id);
     public void actualizarEstado(Estado estado);
     public void eliminarEstado(int id);
-    public void toStringEstado();
 }

@@ -9,5 +9,4 @@ public interface PrecioDAO {
     public Precio obtenerPrecio(int id);
     public void actualizarPrecio(Precio precio);
     public void eliminarPrecio(int id);
-    public void toStringPrecio();
 }

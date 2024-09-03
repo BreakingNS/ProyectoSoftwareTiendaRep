@@ -92,17 +92,6 @@ public class UbicacionDAOImpl implements UbicacionDAO{
     }
 
     @Override
-    public void toStringUbicacion() {
-        List<Ubicacion> listaUbicaciones = obtenerUbicaciones();
-        
-        for(Ubicacion ubi : listaUbicaciones){
-            System.out.println("------------------");
-            System.out.println("Id: " + ubi.getId_ubicacion());
-            System.out.println("Nombre: " + ubi.getNombre_ubicacion());
-        }
-    }
-
-    @Override
     public Ubicacion obtenerUbicacion(int id) {
         ResultSet ubicacion_Resultado = null;
         
