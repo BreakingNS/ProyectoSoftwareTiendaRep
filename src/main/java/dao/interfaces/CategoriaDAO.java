@@ -9,5 +9,4 @@ public interface CategoriaDAO {
     public Categoria obtenerCategoria(int id);
     public void actualizarCategoria(Categoria categoria, int id);
     public void eliminarCategoria(int id);
-    public void toStringCategoria();
 }

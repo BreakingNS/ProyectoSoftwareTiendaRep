@@ -88,17 +88,6 @@ public class CategoriaDAOImpl implements CategoriaDAO{
     }
 
     @Override
-    public void toStringCategoria() {
-        List<Categoria> listaCategorias = obtenerCategorias();
-        
-        for(Categoria cate : listaCategorias){
-            System.out.println("------------------");
-            System.out.println("Id: " + cate.getId_categoria());
-            System.out.println("Nombre: " + cate.getNombre_categoria());
-        }
-    }
-
-    @Override
     public Categoria obtenerCategoria(int id) {
         ResultSet categoria_Resultado = null;
         
