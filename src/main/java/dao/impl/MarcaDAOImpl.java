@@ -22,7 +22,7 @@ public class MarcaDAOImpl implements MarcaDAO{
     
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_MARCA = "DELETE FROM TiendaLocal.marca WHERE id_marca = ?";
-    private final String SENTENCIA_OBTENER_MARCAS = "SELECT * FROM TiendaLocal.marca";
+    private final String SENTENCIA_OBTENER_MARCAS = "SELECT * FROM TiendaLocal.marca ORDER BY id_marca ASC";
     private final String SENTENCIA_OBTENER_MARCA = "SELECT * FROM TiendaLocal.marca WHERE id_marca = ?";
     private final String SENTENCIA_CREAR_MARCA = "INSERT INTO TiendaLocal.marca (nombre_marca) VALUES ( ? )";
     private final String SENTENCIA_ACTUALIZAR_MARCA = "UPDATE TiendaLocal.marca SET nombre_marca = ? WHERE id_marca = ?";
@@ -92,17 +92,26 @@ public class MarcaDAOImpl implements MarcaDAO{
 
     @Override
     public Marca obtenerMarca(int id) {
+        Marca marca = null;
         ResultSet marca_Resultado = null;
         
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_MARCA);
             preparedStatement.setInt(1, id);
             marca_Resultado = preparedStatement.executeQuery();
+            
+            if(marca_Resultado.next()){
+                int idMarca = marca_Resultado.getInt("id_marca");
+                String nombreMarca = marca_Resultado.getString("nombre_marca");
+                
+                marca = new Marca(idMarca, nombreMarca);
+            }
+            
         } catch (SQLException ex) {
             Logger.getLogger(MarcaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return (Marca) marca_Resultado;
+        return marca;
     }
     
 }

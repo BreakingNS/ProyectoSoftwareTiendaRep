@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.NombreRepuesto;
+import model.Repuesto;
 
 public class NombreRepuestoDAOImpl implements NombreRepuestoDAO{
 
@@ -22,9 +23,9 @@ public class NombreRepuestoDAOImpl implements NombreRepuestoDAO{
     
     private Connection connection = null; 
     private final String SENTENCIA_CREAR_NOMBREREP = "INSERT INTO TiendaLocal.nombrerepuesto (nombre_repuesto) VALUES ( ? )";
-    private final String SENTENCIA_OBTENER_NOMBRESREP = "SELECT * FROM TiendaLocal.nombrerepuesto";
+    private final String SENTENCIA_OBTENER_NOMBRESREP = "SELECT * FROM TiendaLocal.nombrerepuesto ORDER BY id_nombrerepuesto ASC";
     private final String SENTENCIA_OBTENER_NOMBREREP = "SELECT * FROM TiendaLocal.nombrerepuesto WHERE id_nombrerepuesto = ?";
-    private final String SENTENCIA_ACTUALIZAR_NOMBREREP = "UPDATE TiendaLocal.nombrerepuesto SET nombre_respuesto = ? WHERE id_nombrerepuesto = ?";
+    private final String SENTENCIA_ACTUALIZAR_NOMBREREP = "UPDATE TiendaLocal.nombrerepuesto SET nombre_repuesto = ? WHERE id_nombrerepuesto = ?";
     private final String SENTENCIA_ELIMINAR_NOMBREREP = "DELETE FROM TiendaLocal.nombrerepuesto WHERE id_nombrerepuesto = ?";
 
     public NombreRepuestoDAOImpl(Connection connection) {
@@ -91,17 +92,25 @@ public class NombreRepuestoDAOImpl implements NombreRepuestoDAO{
 
     @Override
     public NombreRepuesto obtenerNombreRepuesto(int id) {
+        NombreRepuesto nombreRepuesto = null;
         ResultSet nombreRepuesto_Resultado = null;
         
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_NOMBRESREP);
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_NOMBREREP);
             preparedStatement.setInt(1, id);
             nombreRepuesto_Resultado = preparedStatement.executeQuery();
+            
+            if(nombreRepuesto_Resultado.next()){
+                int idNombreRep = nombreRepuesto_Resultado.getInt("id_nombrerepuesto");
+                String nombrerepuesto = nombreRepuesto_Resultado.getString("nombre_repuesto");
+                
+                nombreRepuesto = new NombreRepuesto(idNombreRep, nombrerepuesto);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(NombreRepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return (NombreRepuesto) nombreRepuesto_Resultado;
+        return nombreRepuesto;
     }
     
 }

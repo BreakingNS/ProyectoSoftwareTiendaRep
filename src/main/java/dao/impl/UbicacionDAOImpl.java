@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.Marca;
 import model.Ubicacion;
 
 public class UbicacionDAOImpl implements UbicacionDAO{
@@ -22,7 +21,7 @@ public class UbicacionDAOImpl implements UbicacionDAO{
     
     private Connection connection = null; 
     private final String SENTENCIA_CREAR_UBICACION = "INSERT INTO TiendaLocal.ubicacion (nombre_ubicacion) VALUES ( ? )";
-    private final String SENTENCIA_OBTENER_UBICACIONES = "SELECT * FROM TiendaLocal.ubicacion";
+    private final String SENTENCIA_OBTENER_UBICACIONES = "SELECT * FROM TiendaLocal.ubicacion ORDER BY id_ubicacion ASC";
     private final String SENTENCIA_OBTENER_UBICACION = "SELECT * FROM TiendaLocal.ubicacion WHERE id_ubicacion = ?";
     private final String SENTENCIA_ACTUALIZAR_UBICACION = "UPDATE TiendaLocal.ubicacion SET nombre_ubicacion = ? WHERE id_ubicacion = ?";
     private final String SENTENCIA_ELIMINAR_UBICACION = "DELETE FROM TiendaLocal.ubicacion WHERE id_ubicacion = ?";
@@ -54,7 +53,7 @@ public class UbicacionDAOImpl implements UbicacionDAO{
             
             while(ubicacion_Resultado.next()){
                 String nombreUbicacion = ubicacion_Resultado.getString("nombre_ubicacion");
-                int idUbicacion = ubicacion_Resultado.getInt("id_marca");
+                int idUbicacion = ubicacion_Resultado.getInt("id_ubicacion");
                 
                 Ubicacion ubicacion = new Ubicacion(idUbicacion, nombreUbicacion);
                 
@@ -93,16 +92,24 @@ public class UbicacionDAOImpl implements UbicacionDAO{
 
     @Override
     public Ubicacion obtenerUbicacion(int id) {
+        Ubicacion ubicacion = null;
         ResultSet ubicacion_Resultado = null;
         
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_UBICACION);
             preparedStatement.setInt(1, id);
             ubicacion_Resultado = preparedStatement.executeQuery();
+            
+            if(ubicacion_Resultado.next()){
+                int idUbicacion = ubicacion_Resultado.getInt("id_ubicacion");
+                String nombreUbicacion = ubicacion_Resultado.getString("nombre_ubicacion");
+                
+                ubicacion = new Ubicacion(idUbicacion, nombreUbicacion);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(UbicacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return (Ubicacion) ubicacion_Resultado;
+        return ubicacion;
     }
 }

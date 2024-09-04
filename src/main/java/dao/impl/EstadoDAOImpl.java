@@ -22,7 +22,7 @@ public class EstadoDAOImpl implements EstadoDAO{
     
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_ESTADO = "DELETE FROM TiendaLocal.estado WHERE id_estado = ?";
-    private final String SENTENCIA_OBTENER_ESTADOS = "SELECT * FROM TiendaLocal.estado";
+    private final String SENTENCIA_OBTENER_ESTADOS = "SELECT * FROM TiendaLocal.estado ORDER BY id_estado ASC";
     private final String SENTENCIA_OBTENER_ESTADO = "SELECT * FROM TiendaLocal.estado WHERE id_estado = ?";
     private final String SENTENCIA_CREAR_ESTADO = "INSERT INTO TiendaLocal.estado (nombre_estado) VALUES ( ? )";
     private final String SENTENCIA_ACTUALIZAR_ESTADO = "UPDATE TiendaLocal.estado SET nombre_estado = ? WHERE id_estado = ?";
@@ -54,8 +54,8 @@ public class EstadoDAOImpl implements EstadoDAO{
                 String nombreEstado = estado_Resultado.getString("nombre_estado");
                 int idCategoria = estado_Resultado.getInt("id_estado");
                 
-                ReparacionDAOImpl reparacionDao = new ReparacionDAOImpl(connection);
-                List<Reparacion> listaReparaciones = reparacionDao.obtenerReparaciones();
+                ReparacionDAOImpl reparacionDAO = new ReparacionDAOImpl(connection);
+                List<Reparacion> listaReparaciones = reparacionDAO.obtenerReparaciones();
 
                 Estado estado = new Estado(idCategoria, nombreEstado, listaReparaciones);
                 
@@ -92,16 +92,27 @@ public class EstadoDAOImpl implements EstadoDAO{
 
     @Override
     public Estado obtenerEstado(int id) {
+        Estado estado = null;
         ResultSet estado_Resultado = null;
         
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_ESTADO);
             preparedStatement.setInt(1, id);
             estado_Resultado = preparedStatement.executeQuery();
+            
+            if(estado_Resultado.next()){
+                int idEstado = estado_Resultado.getInt("id_estado");
+                String nombreEstado = estado_Resultado.getString("nombre_estado");
+                
+                ReparacionDAOImpl reparacionDAO = new ReparacionDAOImpl(connection);
+                List<Reparacion> listaReparaciones = reparacionDAO.obtenerReparaciones();
+                
+                estado = new Estado(idEstado, nombreEstado, listaReparaciones);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(EstadoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return (Estado) estado_Resultado;
+        return estado;
     }
 }
