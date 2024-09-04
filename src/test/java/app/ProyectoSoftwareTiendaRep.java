@@ -27,11 +27,9 @@ public class ProyectoSoftwareTiendaRep {
     @AfterEach
     public void tearDown() {
     }
-    
-    @Test
-    public void testExample() {
-        // Tu lógica de prueba
-        assertEquals(1, 1); // Ejemplo de aserción
-    }
 
+    @Test
+    public void prueba(){
+        assertEquals(1, 1);
+    }
 }

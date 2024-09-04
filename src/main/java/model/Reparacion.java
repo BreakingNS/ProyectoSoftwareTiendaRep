@@ -1,7 +1,7 @@
 package model;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 
 public class Reparacion {
     private int id_reparacion;

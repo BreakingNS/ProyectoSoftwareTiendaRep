@@ -40,7 +40,7 @@ public class PrecioDAOImpl implements PrecioDAO{
     public void crearPrecio(Precio precio) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_PRECIO);
-            preparedStatement.setDate(1, precio.getFechaPrecio());
+            preparedStatement.setDate(1, new java.sql.Date(precio.getFechaPrecio().getTime()));
             preparedStatement.setBigDecimal(2, precio.getValor());
             preparedStatement.setInt(3, precio.getRepuesto().getId_repuesto());
             preparedStatement.executeUpdate();
@@ -81,7 +81,7 @@ public class PrecioDAOImpl implements PrecioDAO{
     public void actualizarPrecio(Precio precio) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_PRECIO);
-            preparedStatement.setDate(1, precio.getFechaPrecio());
+            preparedStatement.setDate(1, new java.sql.Date(precio.getFechaPrecio().getTime()));
             preparedStatement.setBigDecimal(2, precio.getValor());
             preparedStatement.setInt(3, precio.getId_precio());
             preparedStatement.executeUpdate();

@@ -39,7 +39,7 @@ public class VentaDAOImpl implements VentaDAO{
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_VENTA);
             preparedStatement.setInt(1, venta.getCantidad());
-            preparedStatement.setDate(2, venta.getFecha_venta());
+            preparedStatement.setDate(2, new java.sql.Date(venta.getFecha_venta().getTime()));
             preparedStatement.setInt(3, venta.getCliente().getId_cliente());
             preparedStatement.setBigDecimal(4, venta.getPrecioFinal());
             preparedStatement.executeUpdate();
@@ -82,7 +82,7 @@ public class VentaDAOImpl implements VentaDAO{
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_VENTA);
             preparedStatement.setInt(1, venta.getCantidad());
-            preparedStatement.setDate(2, venta.getFecha_venta());
+            preparedStatement.setDate(2, new java.sql.Date(venta.getFecha_venta().getTime()));
             preparedStatement.setInt(3,venta.getId_venta());
             preparedStatement.setBigDecimal(4, venta.getPrecioFinal());
             preparedStatement.executeUpdate();
