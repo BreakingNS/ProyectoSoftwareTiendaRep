@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
-Test set: model.EstadoTest
+Test set: dao.impl.VentaTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.03 s - in model.EstadoTest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.69 s - in dao.impl.VentaTest

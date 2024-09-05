@@ -1,7 +1,6 @@
 package dao.impl;
 
 import dao.interfaces.ClienteDAO;
-import dao.interfaces.VentaDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +23,7 @@ public class ClienteDAOImpl implements ClienteDAO{
     
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_CLIENTE = "DELETE FROM TiendaLocal.cliente WHERE id_cliente = ?";
-    private final String SENTENCIA_OBTENER_CLIENTES = "SELECT * FROM TiendaLocal.cliente";
+    private final String SENTENCIA_OBTENER_CLIENTES = "SELECT * FROM TiendaLocal.cliente ORDER BY id_cliente ASC";
     private final String SENTENCIA_OBTENER_CLIENTE = "SELECT * FROM TiendaLocal.cliente WHERE id_cliente = ?";
     private final String SENTENCIA_CREAR_CLIENTE = "INSERT INTO TiendaLocal.cliente (nombre, apellido, telefono) VALUES ( ? , ? , ?)";
     private final String SENTENCIA_ACTUALIZAR_CLIENTE = "UPDATE TiendaLocal.cliente SET nombre = ?, apellido = ?, telefono = ? WHERE id_cliente = ?";
@@ -103,16 +102,32 @@ public class ClienteDAOImpl implements ClienteDAO{
 
     @Override
     public Cliente obtenerCliente(int id) {
+        Cliente cliente = null;
         ResultSet cliente_Resultado = null;
         
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_CLIENTE);
             preparedStatement.setInt(1, id);
             cliente_Resultado = preparedStatement.executeQuery();
+            
+            if(cliente_Resultado.next()){
+                int idCliente = cliente_Resultado.getInt("id_cliente");
+                String nombreCliente = cliente_Resultado.getString("nombre");
+                String apellidoCliente = cliente_Resultado.getString("apellido");
+                String telefonoCliente = cliente_Resultado.getString("telefono");
+                
+                VentaDAOImpl ventaDAO = new VentaDAOImpl(connection);
+                ReparacionDAOImpl reparacionDAO = new ReparacionDAOImpl(connection);
+                
+                List<Venta> listaVentas = ventaDAO.obtenerVentasPorIdCliente(idCliente);
+                List<Reparacion> listaReparaciones = reparacionDAO.obtenerReparacionesPorIdCliente(idCliente);
+                
+                cliente = new Cliente(idCliente, nombreCliente, apellidoCliente, telefonoCliente, listaVentas, listaReparaciones);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(ClienteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return (Cliente) cliente_Resultado;
+        return cliente;
     }
 }

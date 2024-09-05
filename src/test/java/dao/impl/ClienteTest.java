@@ -5,6 +5,8 @@ import config.ConfiguracionDataBase;
 import java.sql.Connection;
 import java.util.List;
 import model.Cliente;
+import model.Reparacion;
+import model.Venta;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,9 +50,13 @@ public class ClienteTest {
     @Test
     public void pruebaCrearCliente(){
         Cliente cliente = new Cliente();
-        cliente.setNombre_cliente("Fiat");
+        cliente.setNombre("Carlos");
+        cliente.setApellido("Perez");
+        cliente.setTelefono("3834123456");
         Cliente cliente1 = new Cliente();
-        cliente1.setNombre_cliente("Renault");
+        cliente1.setNombre("Maria");
+        cliente1.setApellido("Carrizo");
+        cliente1.setTelefono("3834654321");
         clienteDAO.crearCliente(cliente);
         clienteDAO.crearCliente(cliente1);
     }
@@ -61,32 +67,44 @@ public class ClienteTest {
         List<Cliente> listaClientes = clienteDAO.obtenerClientes();
         
         assertEquals(1, listaClientes.get(0).getId_cliente());
-        assertEquals("Fiat", listaClientes.get(0).getNombre_cliente());
+        assertEquals("Carlos", listaClientes.get(0).getNombre());
+        assertEquals("Perez", listaClientes.get(0).getApellido());
+        assertEquals("3834123456", listaClientes.get(0).getTelefono());
         assertEquals(2, listaClientes.get(1).getId_cliente());
-        assertEquals("Renault", listaClientes.get(1).getNombre_cliente());
+        assertEquals("Maria", listaClientes.get(1).getNombre());
+        assertEquals("Carrizo", listaClientes.get(1).getApellido());
+        assertEquals("3834654321", listaClientes.get(1).getTelefono());
     }
     
     @Test
     public void pruebaObtenerCliente(){
         pruebaCrearCliente();
-        Cliente cliente = clienteDAO.obtenerCliente(1);
-        assertEquals(1, cliente.getId_cliente());
-        assertEquals("Fiat", cliente.getNombre_cliente());
+        Cliente cliente = clienteDAO.obtenerCliente(2);
+        assertEquals(2, cliente.getId_cliente());
+        assertEquals("Maria", cliente.getNombre());
+        assertEquals("Carrizo", cliente.getApellido());
+        assertEquals("3834654321", cliente.getTelefono());
     }
     
     @Test
     public void pruebaModificarClientes(){
         pruebaCrearCliente();
-        Cliente cliente1 = new Cliente(1, "Peugeot");
-        Cliente cliente2 = new Cliente(2, "Citroen");
+        List<Venta> listaVentas = null;
+        List<Reparacion> listaReparaciones = null;
+        Cliente cliente1 = new Cliente(1, "Mauro", "Ayosa", "3834654987", listaVentas, listaReparaciones);
+        Cliente cliente2 = new Cliente(2, "Cristian", "Quiroga", "3834987654", listaVentas, listaReparaciones);
         clienteDAO.actualizarCliente(cliente1);
         clienteDAO.actualizarCliente(cliente2);
         List<Cliente> listaClientes = clienteDAO.obtenerClientes();
         
         assertEquals(1, listaClientes.get(0).getId_cliente());
-        assertEquals("Peugeot", listaClientes.get(0).getNombre_cliente());
+        assertEquals("Mauro", listaClientes.get(0).getNombre());
+        assertEquals("Ayosa", listaClientes.get(0).getApellido());
+        assertEquals("3834654987", listaClientes.get(0).getTelefono());
         assertEquals(2, listaClientes.get(1).getId_cliente());
-        assertEquals("Citroen", listaClientes.get(1).getNombre_cliente());
+        assertEquals("Cristian", listaClientes.get(1).getNombre());
+        assertEquals("Quiroga", listaClientes.get(1).getApellido());
+        assertEquals("3834987654", listaClientes.get(1).getTelefono());
     }
     
     @Test

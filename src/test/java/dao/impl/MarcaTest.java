@@ -19,6 +19,7 @@ public class MarcaTest {
     private static Connection connection;
     private static MarcaDAOImpl marcaDAO;
     
+    
     public MarcaTest() {
     }
     
@@ -43,6 +44,11 @@ public class MarcaTest {
     @AfterEach
     public void tearDown() {
         configuracion.eliminarTablaMarca();
+    }
+    
+    @Test
+    public void pruebaCrearTablas(){
+        
     }
 
     @Test

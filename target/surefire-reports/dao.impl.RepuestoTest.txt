@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: dao.impl.RepuestoTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.668 s <<< FAILURE! - in dao.impl.RepuestoTest
+pruebaModificarRepuestos  Time elapsed: 0.085 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "java.util.List.size()" because the return value of "model.Repuesto.getListaPrecios()" is null
+	at dao.impl.RepuestoTest.pruebaModificarRepuestos(RepuestoTest.java:132)
+

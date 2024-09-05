@@ -3,6 +3,7 @@ service\ClienteService.class
 dao\impl\NombreRepuestoDAOImpl.class
 model\Repuesto.class
 service\MarcaService.class
+config\ConfiguracionDataBase.class
 dao\interfaces\RepuestoDAO.class
 dao\interfaces\MarcaDAO.class
 model\Venta.class

@@ -45,6 +45,11 @@ public class EstadoTest {
     public void tearDown() {
         configuracion.eliminarTablaEstado();
     }
+    
+    @Test
+    public void pruebaCrearTablas(){
+        
+    }
 
     @Test
     public void pruebaCrearEstado(){
