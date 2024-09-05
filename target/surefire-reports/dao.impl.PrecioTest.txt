@@ -1,0 +1,16 @@
+-------------------------------------------------------------------------------
+Test set: dao.impl.PrecioTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 1, Errors: 2, Skipped: 0, Time elapsed: 0.688 s <<< FAILURE! - in dao.impl.PrecioTest
+pruebaModificarPrecios  Time elapsed: 0.125 s  <<< ERROR!
+java.lang.IndexOutOfBoundsException: Index -1 out of bounds for length 0
+	at dao.impl.PrecioTest.pruebaModificarPrecios(PrecioTest.java:167)
+
+pruebaObtenerPrecio  Time elapsed: 0.035 s  <<< ERROR!
+java.lang.ClassCastException: class org.h2.jdbc.JdbcResultSet cannot be cast to class model.Precio (org.h2.jdbc.JdbcResultSet and model.Precio are in unnamed module of loader 'app')
+	at dao.impl.PrecioTest.pruebaObtenerPrecio(PrecioTest.java:146)
+
+pruebaEliminarPrecios  Time elapsed: 0.055 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <1> but was: <3>
+	at dao.impl.PrecioTest.pruebaEliminarPrecios(PrecioTest.java:187)
+

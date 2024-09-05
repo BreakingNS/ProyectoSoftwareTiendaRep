@@ -1,0 +1,11 @@
+dao\impl\NombreRepuestoTest.class
+model\ReparacionTest.class
+model\UbicacionTest.class
+model\MarcaTest.class
+model\NombreRepuestoTest.class
+dao\impl\PrecioTest.class
+dao\impl\ClienteTest.class
+dao\impl\VentaTest.class
+model\CategoriaTest.class
+model\PrecioTest.class
+dao\impl\EstadoTest.class

@@ -1,4 +1,16 @@
 -------------------------------------------------------------------------------
 Test set: dao.impl.VentaTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.69 s - in dao.impl.VentaTest
+Tests run: 6, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.493 s <<< FAILURE! - in dao.impl.VentaTest
+pruebaObtenerVentas  Time elapsed: 0.115 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <2024-09-04> but was: <2024-09-05>
+	at dao.impl.VentaTest.pruebaObtenerVentas(VentaTest.java:94)
+
+pruebaObtenerVenta  Time elapsed: 0.024 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <2024-09-04> but was: <2024-09-05>
+	at dao.impl.VentaTest.pruebaObtenerVenta(VentaTest.java:112)
+
+pruebaModificarVentas  Time elapsed: 0.045 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <2024-09-04> but was: <2024-09-05>
+	at dao.impl.VentaTest.pruebaModificarVentas(VentaTest.java:136)
+

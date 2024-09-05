@@ -75,13 +75,12 @@ public class RepuestoDAOImpl implements RepuestoDAO{
                 NombreRepuestoDAOImpl nombreRepuestoDAO = new NombreRepuestoDAOImpl(connection);
                 MarcaDAOImpl marcaDAO = new MarcaDAOImpl(connection);
                 CategoriaDAOImpl categoriaDAO = new CategoriaDAOImpl(connection);
-                PrecioDAOImpl precioDAO = new PrecioDAOImpl(connection);
                 UbicacionDAOImpl ubicacionDAO = new UbicacionDAOImpl(connection);
                 
                 NombreRepuesto nombreRepuesto = nombreRepuestoDAO.obtenerNombreRepuesto(idNombreRepuesto);
                 Marca marca = marcaDAO.obtenerMarca(idMarca);
                 Categoria categoria = categoriaDAO.obtenerCategoria(idCategoria);
-                List<Precio> listaPrecios = precioDAO.obtenerPreciosPorIdRepuesto(idRepuesto);
+                List<Precio> listaPrecios = new ArrayList<>();
                 Ubicacion ubicacion = ubicacionDAO.obtenerUbicacion(idUbicacion);
                 
                 Repuesto repuesto = new Repuesto(idRepuesto, stock, nombreRepuesto, marca, categoria, listaPrecios, ubicacion);
@@ -145,13 +144,12 @@ public class RepuestoDAOImpl implements RepuestoDAO{
                 NombreRepuestoDAOImpl nombreRepuestoDAO = new NombreRepuestoDAOImpl(connection);
                 MarcaDAOImpl marcaDAO = new MarcaDAOImpl(connection);
                 CategoriaDAOImpl categoriaDAO = new CategoriaDAOImpl(connection);
-                PrecioDAOImpl precioDAO = new PrecioDAOImpl(connection);
                 UbicacionDAOImpl ubicacionDAO = new UbicacionDAOImpl(connection);
                 
                 NombreRepuesto nombreRepuesto = nombreRepuestoDAO.obtenerNombreRepuesto(idNombreRepuesto);
                 Marca marca = marcaDAO.obtenerMarca(idMarca);
                 Categoria categoria = categoriaDAO.obtenerCategoria(idCategoria);
-                List<Precio> listaPrecios = precioDAO.obtenerPreciosPorIdRepuesto(idRepuesto);
+                List<Precio> listaPrecios = new ArrayList<>();
                 Ubicacion ubicacion = ubicacionDAO.obtenerUbicacion(idUbicacion);
                 
                 repuesto = new Repuesto(idRepuesto, stock, nombreRepuesto, marca, categoria, listaPrecios, ubicacion);

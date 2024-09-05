@@ -11,7 +11,7 @@ public class ProyectoSoftwareTiendaRep {
         ConexionDataBase conexionDataBase = new ConexionDataBase();
         
         //Funcionamiento Tabla Marca
-        //MarcaDAOImpl marcasDAO = new MarcaDAOImpl(conexionDataBase.getConexionDBH2());
+        MarcaDAOImpl marcasDAO = new MarcaDAOImpl(conexionDataBase.getConexionDBH2());
         
     }
 }

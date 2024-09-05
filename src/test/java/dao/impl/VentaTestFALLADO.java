@@ -139,5 +139,5 @@ public class VentaTestFALLADO {
         assertEquals(1, listaVentas.size());
         assertEquals(2, listaVentas.get(0).getId_venta());
     }
-    */
+    
 }

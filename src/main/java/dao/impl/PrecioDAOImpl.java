@@ -24,9 +24,10 @@ public class PrecioDAOImpl implements PrecioDAO{
     nombre_precio
     */
     
-    private Connection connection = null; 
+    private Connection connection = null;
+    private RepuestoDAOImpl repuestoDAO;
     private final String SENTENCIA_ELIMINAR_PRECIO = "DELETE FROM TiendaLocal.precio WHERE id_precio = ?";
-    private final String SENTENCIA_OBTENER_PRECIOS = "SELECT * FROM TiendaLocal.precio";
+    private final String SENTENCIA_OBTENER_PRECIOS = "SELECT * FROM TiendaLocal.precio ORDER BY id_precio ASC";
     private final String SENTENCIA_OBTENER_PRECIO = "SELECT * FROM TiendaLocal.precio WHERE id_precio = ?";
     private final String SENTENCIA_OBTENER_PRECIO_POR_ID_REPUESTO = "SELECT * FROM TiendaLocal.precio WHERE id_repuesto = ?";
     private final String SENTENCIA_CREAR_PRECIO = "INSERT INTO TiendaLocal.precio (fechaPrecio, valor, id_repuesto) VALUES ( ? , ? , ? )";
@@ -34,6 +35,7 @@ public class PrecioDAOImpl implements PrecioDAO{
 
     public PrecioDAOImpl(Connection connection) {
         this.connection = connection;
+        this.repuestoDAO = new RepuestoDAOImpl(connection);
     }
 
     @Override
@@ -119,16 +121,32 @@ public class PrecioDAOImpl implements PrecioDAO{
 
     @Override
     public List<Precio> obtenerPreciosPorIdRepuesto(int id) {
+        Precio precio = null;
+        List<Precio> listaPrecios = new ArrayList<>();
         ResultSet precio_Resultado = null;
         
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_PRECIO_POR_ID_REPUESTO);
             preparedStatement.setInt(1, id);
             precio_Resultado = preparedStatement.executeQuery();
+            
+            while(precio_Resultado.next()){
+                Date fechaPrecio = precio_Resultado.getDate("fechaPrecio");
+                BigDecimal valor = precio_Resultado.getBigDecimal("valor");
+                int idPrecio = precio_Resultado.getInt("id_precio");
+                int idRepuesto = precio_Resultado.getInt("id_repuesto");
+                
+                Repuesto repuesto = repuestoDAO.obtenerRepuesto(idRepuesto);
+
+                precio = new Precio(idPrecio, repuesto, fechaPrecio, valor);
+                
+                listaPrecios.add(precio);
+            }
+            
         } catch (SQLException ex) {
             Logger.getLogger(PrecioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return (List<Precio>) precio_Resultado;
+        return listaPrecios;
     }
 }
