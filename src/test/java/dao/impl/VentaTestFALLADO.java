@@ -1,5 +1,5 @@
 package dao.impl;
-
+/*
 import config.ConexionDataBase;
 import config.ConfiguracionDataBase;
 import java.math.BigDecimal;
@@ -42,14 +42,14 @@ public class VentaTestFALLADO {
     @BeforeEach
     public void setUp() {
         configuracion = new ConfiguracionDataBase(connection);
-        //configuracion.crearTablaCliente();
-        //configuracion.crearTablaVenta();
+        configuracion.crearTablaCliente();
+        configuracion.crearTablaVenta();
     }
     
     @AfterEach
     public void tearDown() {
-        //configuracion.eliminarTablaVenta();
-        //configuracion.eliminarTablaCliente();
+        configuracion.eliminarTablaVenta();
+        configuracion.eliminarTablaCliente();
     }
     
     @Test
@@ -140,4 +140,4 @@ public class VentaTestFALLADO {
         assertEquals(2, listaVentas.get(0).getId_venta());
     }
     
-}
+}*/

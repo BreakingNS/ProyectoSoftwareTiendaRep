@@ -113,9 +113,9 @@ public class PrecioTest {
         //Crear Precio
         
         Precio precio1 = new Precio(1, repuesto, new Date(), new BigDecimal("3000"));
-        Precio precio2 = new Precio(1, repuesto, new Date(), new BigDecimal("4000"));
-        Precio precio3 = new Precio(2, repuesto1, new Date(), new BigDecimal("7000"));
-        Precio precio4 = new Precio(2, repuesto1, new Date(), new BigDecimal("8000"));
+        Precio precio2 = new Precio(2, repuesto, new Date(), new BigDecimal("4000"));
+        Precio precio3 = new Precio(3, repuesto1, new Date(), new BigDecimal("7000"));
+        Precio precio4 = new Precio(4, repuesto1, new Date(), new BigDecimal("8000"));
         precioDAO.crearPrecio(precio1);
         precioDAO.crearPrecio(precio2);
         precioDAO.crearPrecio(precio3);
@@ -128,15 +128,15 @@ public class PrecioTest {
         List<Precio> listaPrecios = precioDAO.obtenerPrecios();
         
         System.out.println("Tamaño de la lista: " + listaPrecios.size());
-        /*
+        
         assertEquals(1, listaPrecios.get(0).getId_precio());
         assertEquals("3000.00", listaPrecios.get(0).getValor().toString());
-        assertEquals("Philips" , listaPrecios.get(0).getRepuesto().getMarca());
+        assertEquals("Philips" , listaPrecios.get(0).getRepuesto().getMarca().getNombre_marca());
         
-        assertEquals(2, listaPrecios.get(1).getId_precio());
-        assertEquals("7000.00", listaPrecios.get(1).getValor().toString());
-        assertEquals("Generico" , listaPrecios.get(1).getRepuesto().getMarca());
-        */
+        assertEquals(3, listaPrecios.get(2).getId_precio());
+        assertEquals("7000.00", listaPrecios.get(2).getValor().toString());
+        assertEquals("Generico" , listaPrecios.get(2).getRepuesto().getMarca().getNombre_marca());
+        
         
     }
     
@@ -147,7 +147,7 @@ public class PrecioTest {
         
         assertEquals(1, precio.getId_precio());
         assertEquals("3000.00", precio.getValor().toString());
-        assertEquals("Philips" , precio.getRepuesto().getMarca());
+        assertEquals("Philips" , precio.getRepuesto().getMarca().getNombre_marca());
     }
     
     @Test
@@ -156,25 +156,25 @@ public class PrecioTest {
         NombreRepuesto nombreRepuesto = new NombreRepuesto(1, "Lampara");
         nombreRepuestoDAO.crearNombreRepuesto(nombreRepuesto);
         Marca marca = new Marca(1, "Bosch");
-        marcaDAO.crearMarca(marca);
+        marcaDAO.actualizarMarca(marca);
         List<Reparacion> listaReparaciones = null;
         Categoria categoria = new Categoria(1, "Linea Blanca", listaReparaciones);
-        categoriaDAO.crearCategoria(categoria);
+        categoriaDAO.actualizarCategoria(categoria);
         Ubicacion ubicacion = new Ubicacion(1, "Local 2");
-        ubicacionDAO.crearUbicacion(ubicacion);
-        List<Precio> listaPrecios = new ArrayList<Precio>();
+        ubicacionDAO.actualizarUbicacion(ubicacion);
+        List<Precio> listaPrecios = new ArrayList<>();
         Repuesto repuesto = new Repuesto(1, 40, nombreRepuesto, marca, categoria, listaPrecios, ubicacion);
         repuestoDAO.actualizarRepuesto(repuesto);
         
         Precio precio = new Precio(1, repuesto, new Date(), new BigDecimal("18000"));
-        precioDAO.crearPrecio(precio);
+        precioDAO.actualizarPrecio(precio);
         
         listaPrecios = precioDAO.obtenerPrecios();
         
         assertEquals(1, listaPrecios.get(0).getId_precio());
         assertEquals(40, listaPrecios.get(0).getRepuesto().getStock());
         assertEquals("18000.00", listaPrecios.get(0).getValor().toString());
-        assertEquals("Bosch" , listaPrecios.get(0).getRepuesto().getMarca());
+        assertEquals("Bosch" , listaPrecios.get(0).getRepuesto().getMarca().getNombre_marca());
     }
     
     @Test
@@ -184,7 +184,7 @@ public class PrecioTest {
         
         List<Precio> listaPrecios = precioDAO.obtenerPrecios();
         
-        assertEquals(1, listaPrecios.size());
+        assertEquals(3, listaPrecios.size());
         assertEquals(2, listaPrecios.get(0).getId_precio());
     }
     

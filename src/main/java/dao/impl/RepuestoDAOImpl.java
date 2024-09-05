@@ -98,14 +98,12 @@ public class RepuestoDAOImpl implements RepuestoDAO{
     public void actualizarRepuesto(Repuesto repuesto) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_REPUESTO);
-            preparedStatement.setInt(1, repuesto.getId_repuesto());
-            preparedStatement.setInt(2, repuesto.getStock());
-            preparedStatement.setInt(3, repuesto.getNombreRepuesto().getId_nombrerepuesto());
-            preparedStatement.setInt(4, repuesto.getMarca().getId_marca());
-            preparedStatement.setInt(5, repuesto.getCategoria().getId_categoria());
-            preparedStatement.setInt(6, repuesto.getListaPrecios().get(repuesto.getListaPrecios().size() - 1).getId_precio());
-            preparedStatement.setInt(7, repuesto.getUbicacion().getId_ubicacion());
-            preparedStatement.setInt(8, repuesto.getId_repuesto());
+            preparedStatement.setInt(1, repuesto.getStock());
+            preparedStatement.setInt(2, repuesto.getNombreRepuesto().getId_nombrerepuesto());
+            preparedStatement.setInt(3, repuesto.getMarca().getId_marca());
+            preparedStatement.setInt(4, repuesto.getCategoria().getId_categoria());
+            preparedStatement.setInt(5, repuesto.getUbicacion().getId_ubicacion());
+            preparedStatement.setInt(6, repuesto.getId_repuesto());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);

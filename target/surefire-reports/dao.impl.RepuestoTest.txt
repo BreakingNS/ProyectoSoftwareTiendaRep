@@ -1,12 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: dao.impl.RepuestoTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 1, Errors: 1, Skipped: 0, Time elapsed: 0.819 s <<< FAILURE! - in dao.impl.RepuestoTest
-pruebaModificarRepuestos  Time elapsed: 0.301 s  <<< ERROR!
+Tests run: 6, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.671 s <<< FAILURE! - in dao.impl.RepuestoTest
+pruebaModificarRepuestos  Time elapsed: 0.087 s  <<< ERROR!
 java.lang.IndexOutOfBoundsException: Index -1 out of bounds for length 0
 	at dao.impl.RepuestoTest.pruebaModificarRepuestos(RepuestoTest.java:132)
-
-pruebaEliminarRepuestos  Time elapsed: 0.095 s  <<< FAILURE!
-org.opentest4j.AssertionFailedError: expected: <1> but was: <14>
-	at dao.impl.RepuestoTest.pruebaEliminarRepuestos(RepuestoTest.java:147)
 
