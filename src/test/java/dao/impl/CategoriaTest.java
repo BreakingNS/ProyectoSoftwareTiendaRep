@@ -3,6 +3,7 @@ package dao.impl;
 import config.ConexionDataBase;
 import config.ConfiguracionDataBase;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import model.Categoria;
 import model.Reparacion;
@@ -48,10 +49,8 @@ public class CategoriaTest {
 
     @Test
     public void pruebaCrearCategoria(){
-        Categoria categoria = new Categoria();
-        categoria.setNombre_categoria("Lavarropa");
-        Categoria categoria1 = new Categoria();
-        categoria1.setNombre_categoria("Aire Acondicionado");
+        Categoria categoria = new Categoria(1, "Lavarropa", new ArrayList<>(), new ArrayList<>());
+        Categoria categoria1 = new Categoria(1, "Aire Acondicionado", new ArrayList<>(), new ArrayList<>());
         categoriaDAO.crearCategoria(categoria);
         categoriaDAO.crearCategoria(categoria1);
     }
@@ -78,9 +77,8 @@ public class CategoriaTest {
     @Test
     public void pruebaModificarCategorias(){
         pruebaCrearCategoria();
-        List<Reparacion> listaReparacion = null;
-        Categoria categoria1 = new Categoria(1, "Heladera", listaReparacion);
-        Categoria categoria2 = new Categoria(2, "Linea Blanca", listaReparacion);
+        Categoria categoria1 = new Categoria(1, "Heladera", new ArrayList<>(), new ArrayList<>());
+        Categoria categoria2 = new Categoria(2, "Linea Blanca", new ArrayList<>(), new ArrayList<>());
         categoriaDAO.actualizarCategoria(categoria1);
         categoriaDAO.actualizarCategoria(categoria2);
         List<Categoria> listaCategorias = categoriaDAO.obtenerCategorias();

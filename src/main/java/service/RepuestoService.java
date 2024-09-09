@@ -1,14 +1,18 @@
 package service;
 
+import dao.interfaces.PrecioDAO;
 import dao.interfaces.RepuestoDAO;
 import java.util.List;
+import model.Precio;
 import model.Repuesto;
 
 public class RepuestoService {
     private final RepuestoDAO repuestoDAO;
+    private final PrecioDAO precioDAO;
 
-    public RepuestoService(RepuestoDAO repuestoDAO) {
+    public RepuestoService(RepuestoDAO repuestoDAO, PrecioDAO precioDAO) {
         this.repuestoDAO = repuestoDAO;
+        this.precioDAO = precioDAO;
     }
     
     public void agregarRepuesto(Repuesto repuesto){
@@ -16,12 +20,29 @@ public class RepuestoService {
     }
     
     public List<Repuesto> listarRepuestos() {
-        return repuestoDAO.obtenerRepuestos();
+        List<Precio> listaPreciosAuxiliar = precioDAO.obtenerPrecios();
+        List<Repuesto> listaRepuesto = repuestoDAO.obtenerRepuestos();
+        for(Repuesto rep : listaRepuesto){
+            for(Precio pre : listaPreciosAuxiliar){
+                if((pre.getRepuesto().getId_repuesto()) == rep.getId_repuesto()){
+                    rep.getListaPrecios().add(pre);
+                }
+            }
+        }
+        
+        return listaRepuesto;
     }
     
     public Repuesto obtenerRepuestoPorId(int id) {
-        // Lógica adicional si es necesario
-        return repuestoDAO.obtenerRepuesto(id);
+        List<Precio> listaPreciosAuxiliar = precioDAO.obtenerPrecios();
+        Repuesto repuesto = repuestoDAO.obtenerRepuesto(id);
+        for(Precio pre : listaPreciosAuxiliar){
+            if((pre.getRepuesto().getId_repuesto()) == repuesto.getId_repuesto()){
+                repuesto.getListaPrecios().add(pre);
+            }
+        }
+        
+        return repuesto;
     }
     
     public void editarRepuestoPorId(Repuesto repuesto){
@@ -30,22 +51,6 @@ public class RepuestoService {
     
     public void eliminarRepuestoPorId(int id){
         repuestoDAO.eliminarRepuesto(id);
-    }
-    
-    // Método para imprimir las categorías (si esto es parte de la lógica de negocio)
-    public void imprimirRepuestos() {
-        List<Repuesto> listaRepuestos = listarRepuestos();
-        
-        for(Repuesto rep : listaRepuestos){
-            System.out.println("------------------");
-            System.out.println("Id: " + rep.getId_repuesto());
-            System.out.println("Stock: " + rep.getStock());
-            System.out.println("Nombre Repuesto: " + rep.getNombreRepuesto());
-            System.out.println("Marca: " + rep.getMarca());
-            System.out.println("Categoria: " + rep.getCategoria());
-            System.out.println("Precio: " + rep.getListaPrecios().get(rep.getListaPrecios().size() - 1).getValor());
-            System.out.println("Ubicacion: " + rep.getUbicacion());
-        }
     }
     
     public void actualizarStock(Repuesto repuesto, int nuevoStock){

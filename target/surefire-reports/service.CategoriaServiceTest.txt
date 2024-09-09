@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: service.CategoriaServiceTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 1.013 s <<< FAILURE! - in service.CategoriaServiceTest
+eliminarCategoriaPorId  Time elapsed: 0.052 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <1> but was: <2>
+	at service.CategoriaServiceTest.eliminarCategoriaPorId(CategoriaServiceTest.java:230)
+

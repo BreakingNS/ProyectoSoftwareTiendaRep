@@ -20,7 +20,6 @@ public class NombreRepuestoService {
     }
     
     public NombreRepuesto obtenerNombreRepuestoPorId(int id) {
-        // Lógica adicional si es necesario
         return nombreRepuestoDAO.obtenerNombreRepuesto(id);
     }
     

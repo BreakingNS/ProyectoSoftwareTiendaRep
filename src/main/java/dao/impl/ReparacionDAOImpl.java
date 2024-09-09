@@ -15,15 +15,8 @@ import model.Categoria;
 import model.Cliente;
 import model.Estado;
 import model.Reparacion;
-import model.Repuesto;
 
 public class ReparacionDAOImpl implements ReparacionDAO{
-    /*
-    Columnas/Campos de la Tabla Reparacion
-    
-    id_reparacion
-    nombre_reparacion
-    */
     
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_REPARACION = 
@@ -37,9 +30,9 @@ public class ReparacionDAOImpl implements ReparacionDAO{
     private final String SENTENCIA_OBTENER_REPARACION = 
             "SELECT * FROM TiendaLocal.reparacion WHERE id_reparacion = ?";
     private final String SENTENCIA_CREAR_REPARACION = 
-            "INSERT INTO TiendaLocal.reparacion (costo, detalles, fecha_ingreso, fecha_devolucion, id_categoria, id_cliente, id_repuesto, id_estado) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? )";
+            "INSERT INTO TiendaLocal.reparacion (costo, detalles, fecha_ingreso, fecha_devolucion, id_categoria, id_cliente, id_estado) VALUES ( ? , ? , ? , ? , ? , ? , ? )";
     private final String SENTENCIA_ACTUALIZAR_REPARACION = 
-            "UPDATE TiendaLocal.reparacion SET costo = ?, detalles = ?, fecha_ingreso = ?, fecha_devolucion = ?, id_categoria = ?, id_cliente = ?, id_repuesto = ?, id_estado = ? WHERE id_reparacion = ?";
+            "UPDATE TiendaLocal.reparacion SET costo = ?, detalles = ?, fecha_ingreso = ?, fecha_devolucion = ?, id_categoria = ?, id_cliente = ?, id_estado = ? WHERE id_reparacion = ?";
 
     public ReparacionDAOImpl(Connection connection) {
         this.connection = connection;
@@ -55,8 +48,7 @@ public class ReparacionDAOImpl implements ReparacionDAO{
             preparedStatement.setDate(4, new java.sql.Date(reparacion.getFecha_devolucion().getTime()));
             preparedStatement.setInt(5, reparacion.getCategoria().getId_categoria());
             preparedStatement.setInt(6, reparacion.getCliente().getId_cliente());
-            preparedStatement.setInt(7, reparacion.getRepuesto().getId_repuesto());
-            preparedStatement.setInt(8, reparacion.getEstado().getId_estado());
+            preparedStatement.setInt(7, reparacion.getEstado().getId_estado());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ReparacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -79,20 +71,17 @@ public class ReparacionDAOImpl implements ReparacionDAO{
                 int id_reparacion = reparacion_Resultado.getInt("id_reparacion");
                 int id_categoria = reparacion_Resultado.getInt("id_categoria");
                 int id_cliente = reparacion_Resultado.getInt("id_cliente");
-                int id_repuesto = reparacion_Resultado.getInt("id_repuesto");
                 int id_estado = reparacion_Resultado.getInt("id_estado");
                 
                 CategoriaDAOImpl categoriaDAO = new CategoriaDAOImpl(connection);
                 ClienteDAOImpl clienteDAO = new ClienteDAOImpl(connection);
-                RepuestoDAOImpl repuestoDAO = new RepuestoDAOImpl(connection);
                 EstadoDAOImpl estadoDAO = new EstadoDAOImpl(connection);
                 
                 Categoria categoria = categoriaDAO.obtenerCategoria(id_estado);
                 Cliente cliente = clienteDAO.obtenerCliente(id_cliente);
-                Repuesto repuesto = repuestoDAO.obtenerRepuesto(id_repuesto);
                 Estado estado = estadoDAO.obtenerEstado(id_estado);
                 
-                Reparacion reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, categoria, cliente, repuesto, estado);
+                Reparacion reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, categoria, cliente, estado);
                 
                 listaReparaciones.add(reparacion);
             }
@@ -113,9 +102,8 @@ public class ReparacionDAOImpl implements ReparacionDAO{
             preparedStatement.setDate(4, new java.sql.Date(reparacion.getFecha_devolucion().getTime()));
             preparedStatement.setInt(5, reparacion.getCategoria().getId_categoria());
             preparedStatement.setInt(6, reparacion.getCliente().getId_cliente());
-            preparedStatement.setInt(7, reparacion.getRepuesto().getId_repuesto());
-            preparedStatement.setInt(8, reparacion.getEstado().getId_estado());
-            preparedStatement.setInt(9, reparacion.getId_reparacion());
+            preparedStatement.setInt(7, reparacion.getEstado().getId_estado());
+            preparedStatement.setInt(8, reparacion.getId_reparacion());
         } catch (SQLException ex) {
             Logger.getLogger(ReparacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -151,20 +139,17 @@ public class ReparacionDAOImpl implements ReparacionDAO{
                 int id_reparacion = reparacion_Resultado.getInt("id_reparacion");
                 int id_categoria = reparacion_Resultado.getInt("id_categoria");
                 int id_cliente = reparacion_Resultado.getInt("id_cliente");
-                int id_repuesto = reparacion_Resultado.getInt("id_repuesto");
                 int id_estado = reparacion_Resultado.getInt("id_estado");
                 
                 CategoriaDAOImpl categoriaDAO = new CategoriaDAOImpl(connection);
                 ClienteDAOImpl clienteDAO = new ClienteDAOImpl(connection);
-                RepuestoDAOImpl repuestoDAO = new RepuestoDAOImpl(connection);
                 EstadoDAOImpl EstadoDAO = new EstadoDAOImpl(connection);
                 
                 Categoria categoria = categoriaDAO.obtenerCategoria(id_categoria);
                 Cliente cliente = clienteDAO.obtenerCliente(id_cliente);
-                Repuesto repuesto = repuestoDAO.obtenerRepuesto(id_repuesto);
                 Estado estado = EstadoDAO.obtenerEstado(id_estado);
                 
-                reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, categoria, cliente, repuesto, estado);
+                reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, categoria, cliente, estado);
             }
         } catch (SQLException ex) {
             Logger.getLogger(ReparacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -191,20 +176,17 @@ public class ReparacionDAOImpl implements ReparacionDAO{
                 int id_reparacion = reparacion_Resultado.getInt("id_reparacion");
                 int id_categoria = reparacion_Resultado.getInt("id_categoria");
                 int id_cliente = reparacion_Resultado.getInt("id_cliente");
-                int id_repuesto = reparacion_Resultado.getInt("id_repuesto");
                 int id_estado = reparacion_Resultado.getInt("id_estado");
                 
                 CategoriaDAOImpl categoriaDAO = new CategoriaDAOImpl(connection);
                 ClienteDAOImpl clienteDAO = new ClienteDAOImpl(connection);
-                RepuestoDAOImpl repuestoDAO = new RepuestoDAOImpl(connection);
                 EstadoDAOImpl estadoDAO = new EstadoDAOImpl(connection);
                 
                 Categoria categoria = categoriaDAO.obtenerCategoria(id_estado);
                 Cliente cliente = clienteDAO.obtenerCliente(id_cliente);
-                Repuesto repuesto = repuestoDAO.obtenerRepuesto(id_repuesto);
                 Estado estado = estadoDAO.obtenerEstado(id_estado);
                 
-                Reparacion reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, categoria, cliente, repuesto, estado);
+                Reparacion reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, categoria, cliente, estado);
                 
                 listaReparaciones.add(reparacion);
             }
@@ -233,20 +215,17 @@ public class ReparacionDAOImpl implements ReparacionDAO{
                 int id_reparacion = reparacion_Resultado.getInt("id_reparacion");
                 int id_categoria = reparacion_Resultado.getInt("id_categoria");
                 int id_cliente = reparacion_Resultado.getInt("id_cliente");
-                int id_repuesto = reparacion_Resultado.getInt("id_repuesto");
                 int id_estado = reparacion_Resultado.getInt("id_estado");
                 
                 CategoriaDAOImpl categoriaDAO = new CategoriaDAOImpl(connection);
                 ClienteDAOImpl clienteDAO = new ClienteDAOImpl(connection);
-                RepuestoDAOImpl repuestoDAO = new RepuestoDAOImpl(connection);
                 EstadoDAOImpl estadoDAO = new EstadoDAOImpl(connection);
                 
                 Categoria categoria = categoriaDAO.obtenerCategoria(id_estado);
                 Cliente cliente = clienteDAO.obtenerCliente(id_cliente);
-                Repuesto repuesto = repuestoDAO.obtenerRepuesto(id_repuesto);
                 Estado estado = estadoDAO.obtenerEstado(id_estado);
                 
-                Reparacion reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, categoria, cliente, repuesto, estado);
+                Reparacion reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, categoria, cliente, estado);
                 
                 listaReparaciones.add(reparacion);
             }

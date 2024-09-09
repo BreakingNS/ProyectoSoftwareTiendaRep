@@ -17,12 +17,6 @@ import model.Repuesto;
 import model.Ubicacion;
 
 public class RepuestoDAOImpl implements RepuestoDAO{
-    /*
-    Columnas/Campos de la Tabla Repuesto
-    
-    id_repuesto
-    nombre_repuesto
-    */
     
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_REPUESTO = 

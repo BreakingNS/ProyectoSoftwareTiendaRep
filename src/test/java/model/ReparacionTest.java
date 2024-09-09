@@ -18,9 +18,8 @@ public class ReparacionTest {
         System.out.println(fecha_devolucion);
         Categoria categoria = null;
         Cliente cliente = null;
-        Repuesto repuesto = null;
         Estado estado = null;
-        Reparacion rep = new Reparacion(10, costo, detalles, fecha_ingreso, fecha_devolucion, categoria, cliente, repuesto, estado);
+        Reparacion rep = new Reparacion(10, costo, detalles, fecha_ingreso, fecha_devolucion, categoria, cliente, estado);
         assertEquals(10, rep.getId_reparacion());
         assertEquals(costo, rep.getCosto());
         assertEquals(detalles, rep.getDetalles());
@@ -28,7 +27,6 @@ public class ReparacionTest {
         assertEquals(fecha_devolucion, rep.getFecha_devolucion());
         assertEquals(categoria, rep.getCategoria());
         assertEquals(null, rep.getCliente());
-        assertEquals(repuesto, rep.getRepuesto());
     }
     
 }

@@ -10,15 +10,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Marca;
+import model.Repuesto;
 
 public class MarcaDAOImpl implements MarcaDAO{
-    
-    /*
-    Columnas/Campos de la Tabla Marca
-    
-    id_marca
-    nombre_marca
-    */
     
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_MARCA = "DELETE FROM TiendaLocal.marca WHERE id_marca = ?";
@@ -51,10 +45,12 @@ public class MarcaDAOImpl implements MarcaDAO{
             ResultSet marca_Resultado = preparedStatement.executeQuery();
             
             while (marca_Resultado.next()){
-                String nombreCategoria = marca_Resultado.getString("nombre_marca");
-                int idCategoria = marca_Resultado.getInt("id_marca");
+                String nombreMarca = marca_Resultado.getString("nombre_marca");
+                int idMarca = marca_Resultado.getInt("id_marca");
                 
-                Marca marca = new Marca(idCategoria, nombreCategoria);
+                List<Repuesto> listaRepuestos = new ArrayList<>();
+                
+                Marca marca = new Marca(idMarca, nombreMarca, listaRepuestos);
                 
                 listaMarcas.add(marca);
             }
@@ -101,10 +97,13 @@ public class MarcaDAOImpl implements MarcaDAO{
             marca_Resultado = preparedStatement.executeQuery();
             
             if(marca_Resultado.next()){
-                int idMarca = marca_Resultado.getInt("id_marca");
                 String nombreMarca = marca_Resultado.getString("nombre_marca");
+                int idMarca = marca_Resultado.getInt("id_marca");
                 
-                marca = new Marca(idMarca, nombreMarca);
+                List<Repuesto> listaRepuestos = new ArrayList<>();
+                
+                marca = new Marca(idMarca, nombreMarca, listaRepuestos);
+                
             }
             
         } catch (SQLException ex) {

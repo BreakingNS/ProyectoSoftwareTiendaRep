@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: service.UbicacionServiceTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.608 s <<< FAILURE! - in service.UbicacionServiceTest
+eliminarUbicacionPorIdTest  Time elapsed: 0.082 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <1> but was: <2>
+	at service.UbicacionServiceTest.eliminarUbicacionPorIdTest(UbicacionServiceTest.java:154)
+

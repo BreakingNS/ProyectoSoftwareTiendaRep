@@ -3,6 +3,7 @@ package dao.impl;
 import config.ConexionDataBase;
 import config.ConfiguracionDataBase;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import model.Ubicacion;
 import org.junit.jupiter.api.AfterEach;
@@ -47,8 +48,8 @@ public class UbicacionTest {
 
     @Test
     public void pruebaCrearUbicacion(){
-        Ubicacion ubicacion = new Ubicacion(1, "Deposito");
-        Ubicacion ubicacion1 = new Ubicacion(2, "Piso 1");
+        Ubicacion ubicacion = new Ubicacion(1, "Deposito", new ArrayList<>());
+        Ubicacion ubicacion1 = new Ubicacion(2, "Piso 1", new ArrayList<>());
         ubicacionDAO.crearUbicacion(ubicacion);
         ubicacionDAO.crearUbicacion(ubicacion1);
     }
@@ -75,8 +76,8 @@ public class UbicacionTest {
     @Test
     public void pruebaModificarUbicaciones(){
         pruebaCrearUbicacion();
-        Ubicacion ubicacion1 = new Ubicacion(1, "Mostrador");
-        Ubicacion ubicacion2 = new Ubicacion(2, "Vitrina");
+        Ubicacion ubicacion1 = new Ubicacion(1, "Mostrador", new ArrayList<>());
+        Ubicacion ubicacion2 = new Ubicacion(2, "Vitrina", new ArrayList<>());
         ubicacionDAO.actualizarUbicacion(ubicacion1);
         ubicacionDAO.actualizarUbicacion(ubicacion2);
         List<Ubicacion> listaUbicaciones = ubicacionDAO.obtenerUbicaciones();

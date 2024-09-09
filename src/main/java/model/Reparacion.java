@@ -11,13 +11,12 @@ public class Reparacion {
     private Date fecha_devolucion;
     private Categoria categoria;
     private Cliente cliente;
-    private Repuesto repuesto;
     private Estado estado;
 
     public Reparacion() {
     }
 
-    public Reparacion(int id_reparacion, BigDecimal costo, String detalles, Date fecha_ingreso, Date fecha_devolucion, Categoria categoria, Cliente cliente, Repuesto repuesto, Estado estado) {
+    public Reparacion(int id_reparacion, BigDecimal costo, String detalles, Date fecha_ingreso, Date fecha_devolucion, Categoria categoria, Cliente cliente, Estado estado) {
         this.id_reparacion = id_reparacion;
         this.costo = costo;
         this.detalles = detalles;
@@ -25,7 +24,6 @@ public class Reparacion {
         this.fecha_devolucion = fecha_devolucion;
         this.categoria = categoria;
         this.cliente = cliente;
-        this.repuesto = repuesto;
         this.estado = estado;
     }
 
@@ -55,10 +53,6 @@ public class Reparacion {
 
     public Cliente getCliente() {
         return cliente;
-    }
-
-    public Repuesto getRepuesto() {
-        return repuesto;
     }
 
     public Estado getEstado() {
@@ -91,10 +85,6 @@ public class Reparacion {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
-    }
-
-    public void setRepuesto(Repuesto repuesto) {
-        this.repuesto = repuesto;
     }
 
     public void setEstado(Estado estado) {

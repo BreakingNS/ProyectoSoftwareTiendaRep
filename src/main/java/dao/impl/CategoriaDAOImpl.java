@@ -13,12 +13,6 @@ import model.Categoria;
 import model.Reparacion;
 
 public class CategoriaDAOImpl implements CategoriaDAO{
-    /*
-    Columnas/Campos de la Tabla Categoria
-    
-    id_categoria
-    nombre_categoria
-    */
     
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_CATEGORIA = "DELETE FROM TiendaLocal.categoria WHERE id_categoria = ?";
@@ -53,10 +47,8 @@ public class CategoriaDAOImpl implements CategoriaDAO{
             while (categoria_Categoria.next()){
                 String nombreCategoria = categoria_Categoria.getString("nombre_categoria");
                 int idCategoria = categoria_Categoria.getInt("id_categoria");
-                
-                List<Reparacion> listaReparaciones = new ArrayList<>();
-                
-                Categoria categoria = new Categoria(idCategoria, nombreCategoria, listaReparaciones);
+
+                Categoria categoria = new Categoria(idCategoria, nombreCategoria, new ArrayList<>(), new ArrayList<>());
                 
                 listaCategorias.add(categoria);
             }
@@ -104,9 +96,7 @@ public class CategoriaDAOImpl implements CategoriaDAO{
                 int idCategoria = categoria_Resultado.getInt("id_categoria");
                 String nombreCategoria = categoria_Resultado.getString("nombre_categoria");
                 
-                List<Reparacion> listaReparaciones = new ArrayList<>();
-                
-                categoria = new Categoria(idCategoria, nombreCategoria, listaReparaciones);
+                categoria = new Categoria(idCategoria, nombreCategoria, new ArrayList<>(), new ArrayList<>());
             }
         } catch (SQLException ex) {
             Logger.getLogger(CategoriaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);

@@ -3,6 +3,7 @@ package dao.impl;
 import config.ConexionDataBase;
 import config.ConfiguracionDataBase;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import model.Categoria;
 import model.Marca;
@@ -38,6 +39,7 @@ public class RepuestoTest {
     public static void setUpClass() throws ClassNotFoundException {
         conexionDataBase = new ConexionDataBase();
         connection = conexionDataBase.getConexionDBH2();
+        
         repuestoDAO = new RepuestoDAOImpl(connection);
         nombreRepuestoDAO = new NombreRepuestoDAOImpl(connection);
         marcaDAO = new MarcaDAOImpl(connection);
@@ -62,13 +64,13 @@ public class RepuestoTest {
     
     @AfterEach
     public void tearDown() {
-        
+        /*
         configuracion.eliminarTablaRepuesto();
         configuracion.eliminarTablaCategoria();
         configuracion.eliminarTablaUbicacion();
         configuracion.eliminarTablaNombreRepuesto();
         configuracion.eliminarTablaMarca();
-        
+        */
     }
     
     @Test
@@ -82,24 +84,21 @@ public class RepuestoTest {
         NombreRepuesto nombreRepuesto1 = new NombreRepuesto(2, "Termostato");
         nombreRepuestoDAO.crearNombreRepuesto(nombreRepuesto);
         nombreRepuestoDAO.crearNombreRepuesto(nombreRepuesto1);
-        Marca marca = new Marca(1, "Philips");
-        Marca marca1 = new Marca(2, "Generico");
+        Marca marca = new Marca(1, "Philips", new ArrayList<>());
+        Marca marca1 = new Marca(2, "Generico", new ArrayList<>());
         marcaDAO.crearMarca(marca);
         marcaDAO.crearMarca(marca1);
-        List<Reparacion> listaReparaciones = null;
-        Categoria categoria = new Categoria(1, "Lavarropas", listaReparaciones);
-        Categoria categoria1 = new Categoria(2, "Heladera", listaReparaciones);
+        Categoria categoria = new Categoria(1, "Lavarropas", new ArrayList<>(), new ArrayList<>());
+        Categoria categoria1 = new Categoria(2, "Heladera", new ArrayList<>(), new ArrayList<>());
         categoriaDAO.crearCategoria(categoria);
         categoriaDAO.crearCategoria(categoria1);
-        Ubicacion ubicacion = new Ubicacion(1, "Deposito");
-        Ubicacion ubicacion1 = new Ubicacion(2, "Mostrador");
+        Ubicacion ubicacion = new Ubicacion(1, "Deposito", new ArrayList<>());
+        Ubicacion ubicacion1 = new Ubicacion(2, "Mostrador", new ArrayList<>());
         ubicacionDAO.crearUbicacion(ubicacion);
         ubicacionDAO.crearUbicacion(ubicacion1);
         
-        List<Precio> listaPrecios = null;
-        
-        Repuesto repuesto = new Repuesto(1, 10, nombreRepuesto, marca, categoria, listaPrecios, ubicacion);
-        Repuesto repuesto1 = new Repuesto(2, 20, nombreRepuesto1, marca1, categoria1, listaPrecios, ubicacion1);
+        Repuesto repuesto = new Repuesto(1, 10, nombreRepuesto, marca, categoria, new ArrayList<>(), ubicacion);
+        Repuesto repuesto1 = new Repuesto(2, 20, nombreRepuesto1, marca1, categoria1, new ArrayList<>(), ubicacion1);
         repuestoDAO.crearRepuesto(repuesto);
         repuestoDAO.crearRepuesto(repuesto1);
     }

@@ -89,24 +89,20 @@ public class PrecioTest {
         NombreRepuesto nombreRepuesto1 = new NombreRepuesto(2, "Termostato");
         nombreRepuestoDAO.crearNombreRepuesto(nombreRepuesto);
         nombreRepuestoDAO.crearNombreRepuesto(nombreRepuesto1);
-        Marca marca = new Marca(1, "Philips");
-        Marca marca1 = new Marca(2, "Generico");
+        Marca marca = new Marca(1, "Philips", new ArrayList<>());
+        Marca marca1 = new Marca(2, "Generico", new ArrayList<>());
         marcaDAO.crearMarca(marca);
         marcaDAO.crearMarca(marca1);
-        List<Reparacion> listaReparaciones = null;
-        Categoria categoria = new Categoria(1, "Lavarropas", listaReparaciones);
-        Categoria categoria1 = new Categoria(2, "Heladera", listaReparaciones);
+        Categoria categoria = new Categoria(1, "Lavarropas", new ArrayList<>(), new ArrayList<>());
+        Categoria categoria1 = new Categoria(2, "Heladera", new ArrayList<>(), new ArrayList<>());
         categoriaDAO.crearCategoria(categoria);
         categoriaDAO.crearCategoria(categoria1);
-        Ubicacion ubicacion = new Ubicacion(1, "Deposito");
-        Ubicacion ubicacion1 = new Ubicacion(2, "Mostrador");
+        Ubicacion ubicacion = new Ubicacion(1, "Deposito", new ArrayList<>());
+        Ubicacion ubicacion1 = new Ubicacion(2, "Mostrador", new ArrayList<>());
         ubicacionDAO.crearUbicacion(ubicacion);
-        ubicacionDAO.crearUbicacion(ubicacion1);
-        
-        List<Precio> listaPrecios = new ArrayList<Precio>();
-        
-        Repuesto repuesto = new Repuesto(1, 10, nombreRepuesto, marca, categoria, listaPrecios, ubicacion);
-        Repuesto repuesto1 = new Repuesto(2, 20, nombreRepuesto1, marca1, categoria1, listaPrecios, ubicacion1);
+        ubicacionDAO.crearUbicacion(ubicacion1);        
+        Repuesto repuesto = new Repuesto(1, 10, nombreRepuesto, marca, categoria, new ArrayList<>(), ubicacion);
+        Repuesto repuesto1 = new Repuesto(2, 20, nombreRepuesto1, marca1, categoria1, new ArrayList<>(), ubicacion1);
         repuestoDAO.crearRepuesto(repuesto);
         repuestoDAO.crearRepuesto(repuesto1);
         
@@ -153,12 +149,12 @@ public class PrecioTest {
         pruebaCrearPrecio();
         NombreRepuesto nombreRepuesto = new NombreRepuesto(1, "Lampara");
         nombreRepuestoDAO.crearNombreRepuesto(nombreRepuesto);
-        Marca marca = new Marca(1, "Bosch");
+        Marca marca = new Marca(1, "Bosch", new ArrayList<>());
         marcaDAO.actualizarMarca(marca);
         List<Reparacion> listaReparaciones = null;
-        Categoria categoria = new Categoria(1, "Linea Blanca", listaReparaciones);
+        Categoria categoria = new Categoria(1, "Linea Blanca", new ArrayList<>(), new ArrayList<>());
         categoriaDAO.actualizarCategoria(categoria);
-        Ubicacion ubicacion = new Ubicacion(1, "Local 2");
+        Ubicacion ubicacion = new Ubicacion(1, "Local 2", new ArrayList<>());
         ubicacionDAO.actualizarUbicacion(ubicacion);
         List<Precio> listaPrecios = new ArrayList<>();
         Repuesto repuesto = new Repuesto(1, 40, nombreRepuesto, marca, categoria, listaPrecios, ubicacion);

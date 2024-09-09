@@ -3,6 +3,7 @@ package dao.impl;
 import config.ConexionDataBase;
 import config.ConfiguracionDataBase;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import model.Marca;
 import org.junit.jupiter.api.AfterAll;
@@ -52,8 +53,8 @@ public class MarcaTest {
 
     @Test
     public void pruebaCrearMarca(){
-        Marca marca = new Marca(1, "Fiat");
-        Marca marca1 = new Marca(2, "Renault");
+        Marca marca = new Marca(1, "Fiat", new ArrayList<>());
+        Marca marca1 = new Marca(2, "Renault", new ArrayList<>());
         marcaDAO.crearMarca(marca);
         marcaDAO.crearMarca(marca1);
     }
@@ -80,8 +81,8 @@ public class MarcaTest {
     @Test
     public void pruebaModificarMarcas(){
         pruebaCrearMarca();
-        Marca marca1 = new Marca(1, "Peugeot");
-        Marca marca2 = new Marca(2, "Citroen");
+        Marca marca1 = new Marca(1, "Peugeot", new ArrayList<>());
+        Marca marca2 = new Marca(2, "Citroen", new ArrayList<>());
         marcaDAO.actualizarMarca(marca1);
         marcaDAO.actualizarMarca(marca2);
         List<Marca> listaMarcas = marcaDAO.obtenerMarcas();
