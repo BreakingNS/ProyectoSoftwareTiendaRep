@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: dao.impl.PrecioTest
 -------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.717 s - in dao.impl.PrecioTest
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.687 s - in dao.impl.PrecioTest

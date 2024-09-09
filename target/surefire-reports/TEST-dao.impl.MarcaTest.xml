@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="dao.impl.MarcaTest" time="0.52" tests="6" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="dao.impl.MarcaTest" time="0.549" tests="6" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -14,8 +14,8 @@
     <property name="java.vm.specification.version" value="17"/>
     <property name="user.country" value="AR"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
-    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-17\bin"/>
-    <property name="sun.java.command" value="C:\Users\BREAKI~1\AppData\Local\Temp\surefire1193321224678876068\surefirebooter12622215208073115284.jar C:\Users\BreakingNS\AppData\Local\Temp\surefire1193321224678876068 2024-09-05T10-54-29_082-jvmRun1 surefire3514208925254491189tmp surefire_09955308692974763428tmp"/>
+    <property name="sun.boot.library.path" value="D:\Program Files\Java\jdk-17\bin"/>
+    <property name="sun.java.command" value="C:\Users\BREAKI~1\AppData\Local\Temp\surefire99954081113991122\surefirebooter724525680604229590.jar C:\Users\BreakingNS\AppData\Local\Temp\surefire99954081113991122 2024-09-06T11-07-42_366-jvmRun1 surefire9293199505111091244tmp surefire_0407254651867034868tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="test" value="dao.impl.MarcaTest"/>
     <property name="surefire.test.class.path" value="C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\target\test-classes;C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\target\classes;C:\Users\BreakingNS\.m2\repository\com\h2database\h2\2.2.220\h2-2.2.220.jar;C:\Users\BreakingNS\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.9.3\junit-jupiter-api-5.9.3.jar;C:\Users\BreakingNS\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\BreakingNS\.m2\repository\org\junit\platform\junit-platform-commons\1.9.3\junit-platform-commons-1.9.3.jar;C:\Users\BreakingNS\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\BreakingNS\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.9.3\junit-jupiter-engine-5.9.3.jar;C:\Users\BreakingNS\.m2\repository\org\junit\platform\junit-platform-engine\1.9.3\junit-platform-engine-1.9.3.jar;"/>
@@ -23,45 +23,45 @@
     <property name="user.home" value="C:\Users\BreakingNS"/>
     <property name="user.language" value="es"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
-    <property name="java.version.date" value="2024-01-16"/>
-    <property name="java.home" value="C:\Program Files\Java\jdk-17"/>
+    <property name="java.version.date" value="2024-04-16"/>
+    <property name="java.home" value="D:\Program Files\Java\jdk-17"/>
     <property name="file.separator" value="\"/>
     <property name="basedir" value="C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep"/>
-    <property name="java.vm.compressedOopsMode" value="32-bit"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\BREAKI~1\AppData\Local\Temp\surefire1193321224678876068\surefirebooter12622215208073115284.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\BREAKI~1\AppData\Local\Temp\surefire99954081113991122\surefirebooter724525680604229590.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
-    <property name="java.runtime.version" value="17.0.10+11-LTS-240"/>
+    <property name="java.runtime.version" value="17.0.11+7-LTS-207"/>
     <property name="user.name" value="BreakingNS"/>
     <property name="path.separator" value=";"/>
     <property name="os.version" value="10.0"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="file.encoding" value="UTF-8"/>
     <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
-    <property name="maven.ext.class.path" value="C:\Program Files\NetBeans-17\netbeans\java\maven-nblib\netbeans-eventspy.jar"/>
+    <property name="maven.ext.class.path" value="D:\Program Files\NetBeans-17\netbeans\java\maven-nblib\netbeans-eventspy.jar"/>
     <property name="localRepository" value="C:\Users\BreakingNS\.m2\repository"/>
     <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
     <property name="java.io.tmpdir" value="C:\Users\BREAKI~1\AppData\Local\Temp\"/>
-    <property name="java.version" value="17.0.10"/>
+    <property name="java.version" value="17.0.11"/>
     <property name="user.dir" value="C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep"/>
     <property name="os.arch" value="amd64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="sun.os.patch.level" value=""/>
     <property name="native.encoding" value="Cp1252"/>
-    <property name="java.library.path" value="C:\Program Files\Java\jdk-17\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\dotnet\;C:\gradle-8.7\bin;C:\Users\BreakingNS\AppData\Local\Microsoft\WindowsApps;C:\Users\BreakingNS\AppData\Local\Programs\Microsoft VS Code\bin;."/>
+    <property name="java.library.path" value="D:\Program Files\Java\jdk-17\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;D:\Program Files\Git\cmd;C:\gradle-8.7\bin;D:\Program Files\Java\jdk-17\bin;C:\Users\BreakingNS\AppData\Local\Microsoft\WindowsApps;D:\Users\BreakingNS\AppData\Local\Programs\Microsoft VS Code\bin;D:\Program Files\Java\jdk-17\bin;;."/>
     <property name="java.vm.info" value="mixed mode, sharing"/>
     <property name="java.vendor" value="Oracle Corporation"/>
-    <property name="java.vm.version" value="17.0.10+11-LTS-240"/>
+    <property name="java.vm.version" value="17.0.11+7-LTS-207"/>
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="pruebaObtenerMarcas" classname="dao.impl.MarcaTest" time="0.049"/>
-  <testcase name="pruebaCrearTablas" classname="dao.impl.MarcaTest" time="0.003"/>
-  <testcase name="pruebaObtenerMarca" classname="dao.impl.MarcaTest" time="0.007"/>
-  <testcase name="pruebaModificarMarcas" classname="dao.impl.MarcaTest" time="0.008"/>
-  <testcase name="pruebaCrearMarca" classname="dao.impl.MarcaTest" time="0"/>
-  <testcase name="pruebaEliminarMarcas" classname="dao.impl.MarcaTest" time="0.008"/>
+  <testcase name="pruebaObtenerMarcas" classname="dao.impl.MarcaTest" time="0.043"/>
+  <testcase name="pruebaCrearTablas" classname="dao.impl.MarcaTest" time="0.002"/>
+  <testcase name="pruebaObtenerMarca" classname="dao.impl.MarcaTest" time="0.005"/>
+  <testcase name="pruebaModificarMarcas" classname="dao.impl.MarcaTest" time="0.007"/>
+  <testcase name="pruebaCrearMarca" classname="dao.impl.MarcaTest" time="0.003"/>
+  <testcase name="pruebaEliminarMarcas" classname="dao.impl.MarcaTest" time="0.004"/>
 </testsuite>

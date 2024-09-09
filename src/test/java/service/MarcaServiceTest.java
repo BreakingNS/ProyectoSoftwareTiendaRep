@@ -1,25 +1,28 @@
-package dao.impl;
+package service;
 
 import config.ConexionDataBase;
 import config.ConfiguracionDataBase;
+import dao.impl.MarcaDAOImpl;
 import java.sql.Connection;
 import java.util.List;
 import model.Marca;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.BeforeEach;
 
-public class MarcaTest {
+public class MarcaServiceTest {
     
     private static ConexionDataBase conexionDataBase;
     private static ConfiguracionDataBase configuracion;
     private static Connection connection;
     private static MarcaDAOImpl marcaDAO;
+    private static MarcaService marcaService;
     
-    public MarcaTest() {
+    public MarcaServiceTest() {
+        
     }
     
     @BeforeAll
@@ -27,6 +30,7 @@ public class MarcaTest {
         conexionDataBase = new ConexionDataBase();
         connection = conexionDataBase.getConexionDBH2();
         marcaDAO = new MarcaDAOImpl(connection);
+        marcaService = new MarcaService(marcaDAO);
     }
     
     @AfterAll
@@ -46,22 +50,17 @@ public class MarcaTest {
     }
     
     @Test
-    public void pruebaCrearTablas(){
-        
-    }
-
-    @Test
-    public void pruebaCrearMarca(){
+    public void agregarMarcaTest(){
         Marca marca = new Marca(1, "Fiat");
         Marca marca1 = new Marca(2, "Renault");
-        marcaDAO.crearMarca(marca);
-        marcaDAO.crearMarca(marca1);
+        marcaService.agregarMarca(marca);
+        marcaService.agregarMarca(marca1);
     }
     
     @Test
-    public void pruebaObtenerMarcas(){
-        pruebaCrearMarca();
-        List<Marca> listaMarcas = marcaDAO.obtenerMarcas();
+    public void listarMarcasTest(){
+        agregarMarcaTest();
+        List<Marca> listaMarcas = marcaService.listarMarcas();
         
         assertEquals(1, listaMarcas.get(0).getId_marca());
         assertEquals("Fiat", listaMarcas.get(0).getNombre_marca());
@@ -70,35 +69,41 @@ public class MarcaTest {
     }
     
     @Test
-    public void pruebaObtenerMarca(){
-        pruebaCrearMarca();
-        Marca marca = marcaDAO.obtenerMarca(1);
+    public void obtenerMarcaPorIdTest(){
+        agregarMarcaTest();
+        Marca marca = marcaService.obtenerMarcaPorId(1);
         assertEquals(1, marca.getId_marca());
         assertEquals("Fiat", marca.getNombre_marca());
     }
     
     @Test
-    public void pruebaModificarMarcas(){
-        pruebaCrearMarca();
-        Marca marca1 = new Marca(1, "Peugeot");
-        Marca marca2 = new Marca(2, "Citroen");
-        marcaDAO.actualizarMarca(marca1);
-        marcaDAO.actualizarMarca(marca2);
-        List<Marca> listaMarcas = marcaDAO.obtenerMarcas();
+    public void editarMarcaPorIdTest(){
+        agregarMarcaTest();
+        Marca marca = new Marca(1, "Volkswagen");
+        Marca marca1 = new Marca(2, "BMW");
+        marcaService.editarMarcaPorId(marca);
+        marcaService.editarMarcaPorId(marca1);
+        List<Marca> listaMarcas =marcaService.listarMarcas();
         
         assertEquals(1, listaMarcas.get(0).getId_marca());
-        assertEquals("Peugeot", listaMarcas.get(0).getNombre_marca());
+        assertEquals("Volkswagen", listaMarcas.get(0).getNombre_marca());
         assertEquals(2, listaMarcas.get(1).getId_marca());
-        assertEquals("Citroen", listaMarcas.get(1).getNombre_marca());
+        assertEquals("BMW", listaMarcas.get(1).getNombre_marca());
+        
     }
     
     @Test
-    public void pruebaEliminarMarcas(){
-        pruebaCrearMarca();
-        marcaDAO.eliminarMarca(1);
-        List<Marca> listaMarcas = marcaDAO.obtenerMarcas();
+    public void eliminarMarcaPorIdTest(){
+        agregarMarcaTest();
+        marcaService.eliminarMarcaPorId(1);
+        List<Marca> listaMarcas = marcaService.listarMarcas();
         assertEquals(1, listaMarcas.size());
         assertEquals(2, listaMarcas.get(0).getId_marca());
+    }
+        
+    @Test
+    public void imprimirMarcasTest(){
+        //assertEquals(1, 2);
     }
     
 }

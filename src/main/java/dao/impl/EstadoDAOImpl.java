@@ -104,8 +104,7 @@ public class EstadoDAOImpl implements EstadoDAO{
                 int idEstado = estado_Resultado.getInt("id_estado");
                 String nombreEstado = estado_Resultado.getString("nombre_estado");
                 
-                ReparacionDAOImpl reparacionDAO = new ReparacionDAOImpl(connection);
-                List<Reparacion> listaReparaciones = reparacionDAO.obtenerReparaciones();
+                List<Reparacion> listaReparaciones = new ArrayList<>();
                 
                 estado = new Estado(idEstado, nombreEstado, listaReparaciones);
             }

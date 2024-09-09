@@ -121,6 +121,10 @@ public class RepuestoTest {
         Repuesto repuesto = repuestoDAO.obtenerRepuesto(1);
         
         assertEquals("Philips", repuesto.getMarca().getNombre_marca());
+        assertEquals(1, repuesto.getCategoria().getId_categoria());
+        assertEquals(1, repuesto.getMarca().getId_marca());
+        assertEquals(1, repuesto.getNombreRepuesto().getId_nombrerepuesto());
+        assertEquals(1, repuesto.getUbicacion().getId_ubicacion());
     }
     
     @Test

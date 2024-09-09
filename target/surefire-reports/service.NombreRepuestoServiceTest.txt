@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
-Test set: dao.impl.RepuestoTest
+Test set: service.NombreRepuestoServiceTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.636 s - in dao.impl.RepuestoTest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.827 s - in service.NombreRepuestoServiceTest

@@ -105,6 +105,26 @@ public class VentaTest {
     }
     
     @Test
+    public void pruebaObtenerVentasPorIdCliente(){
+        pruebaCrearVenta();
+        List<Venta> listaVentas = ventaDAO.obtenerVentasPorIdCliente(1);
+        
+        String ahora = new java.sql.Date(new Date().getTime()).toString();
+        
+        assertEquals(1, listaVentas.get(0).getId_venta());
+        assertEquals(5, listaVentas.get(0).getCantidad());
+        assertEquals(ahora, listaVentas.get(0).getFecha_venta().toString());
+        assertEquals("9000.00", listaVentas.get(0).getPrecioFinal().toString());
+        assertEquals(1, listaVentas.get(0).getCliente().getId_cliente());
+        
+        assertEquals(2, listaVentas.get(1).getId_venta());
+        assertEquals(10, listaVentas.get(1).getCantidad());
+        assertEquals(ahora, listaVentas.get(1).getFecha_venta().toString());
+        assertEquals("3000.00", listaVentas.get(1).getPrecioFinal().toString());
+        assertEquals(1, listaVentas.get(1).getCliente().getId_cliente());
+    }
+    
+    @Test
     public void pruebaObtenerVenta(){
         pruebaCrearVenta();
         Venta venta = ventaDAO.obtenerVenta(1);

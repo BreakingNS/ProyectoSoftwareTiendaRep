@@ -24,7 +24,7 @@ public class NombreRepuestoService {
         return nombreRepuestoDAO.obtenerNombreRepuesto(id);
     }
     
-    public void editarNombreRepuestoPorId(NombreRepuesto nombreRepuesto){
+    public void editarNombreRepuestoPorId(NombreRepuesto nombreRepuesto){        
         nombreRepuestoDAO.actualizarNombreRepuesto(nombreRepuesto);
     }
     

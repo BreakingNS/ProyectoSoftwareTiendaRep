@@ -136,8 +136,6 @@ public class PrecioTest {
         assertEquals(3, listaPrecios.get(2).getId_precio());
         assertEquals("7000.00", listaPrecios.get(2).getValor().toString());
         assertEquals("Generico" , listaPrecios.get(2).getRepuesto().getMarca().getNombre_marca());
-        
-        
     }
     
     @Test

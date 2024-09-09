@@ -1,7 +1,8 @@
-package dao.impl;
+package service;
 
 import config.ConexionDataBase;
 import config.ConfiguracionDataBase;
+import dao.impl.NombreRepuestoDAOImpl;
 import java.sql.Connection;
 import java.util.List;
 import model.NombreRepuesto;
@@ -12,14 +13,16 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class NombreRepuestoTest {
+public class NombreRepuestoServiceTest {
     
     private static ConexionDataBase conexionDataBase;
     private static ConfiguracionDataBase configuracion;
     private static Connection connection;
     private static NombreRepuestoDAOImpl nombreRepuestoDAO;
+    private static NombreRepuestoService nombreRepuestoService;
     
-    public NombreRepuestoTest() {
+    public NombreRepuestoServiceTest() {
+        
     }
     
     @BeforeAll
@@ -27,6 +30,7 @@ public class NombreRepuestoTest {
         conexionDataBase = new ConexionDataBase();
         connection = conexionDataBase.getConexionDBH2();
         nombreRepuestoDAO = new NombreRepuestoDAOImpl(connection);
+        nombreRepuestoService = new NombreRepuestoService(nombreRepuestoDAO);
     }
     
     @AfterAll
@@ -44,20 +48,20 @@ public class NombreRepuestoTest {
     public void tearDown() {
         configuracion.eliminarTablaNombreRepuesto();
     }
-
+    
     @Test
-    public void pruebaCrearNombreRepuesto(){
+    public void agregarNombreRepuestoTest(){
         NombreRepuesto nombreRepuesto = new NombreRepuesto(1, "Bobina");
         NombreRepuesto nombreRepuesto1 = new NombreRepuesto(2, "Fuente");
-        nombreRepuestoDAO.crearNombreRepuesto(nombreRepuesto);
-        nombreRepuestoDAO.crearNombreRepuesto(nombreRepuesto1);
+        nombreRepuestoService.agregarNombreRepuesto(nombreRepuesto);
+        nombreRepuestoService.agregarNombreRepuesto(nombreRepuesto1);
     }
     
     @Test
-    public void pruebaObtenerNombreRepuestos(){
-        pruebaCrearNombreRepuesto();
-        List<NombreRepuesto> listaNombreRepuestos = nombreRepuestoDAO.obtenerNombreRepuestos();
-        
+    public void listarNombreRepuestosTest(){
+        agregarNombreRepuestoTest();
+        List<NombreRepuesto> listaNombreRepuestos = nombreRepuestoService.listarNombreRepuestos();
+    
         assertEquals(1, listaNombreRepuestos.get(0).getId_nombrerepuesto());
         assertEquals("Bobina", listaNombreRepuestos.get(0).getNombre_repuesto());
         assertEquals(2, listaNombreRepuestos.get(1).getId_nombrerepuesto());
@@ -65,21 +69,21 @@ public class NombreRepuestoTest {
     }
     
     @Test
-    public void pruebaObtenerNombreRepuesto(){
-        pruebaCrearNombreRepuesto();
-        NombreRepuesto nombreRepuesto = nombreRepuestoDAO.obtenerNombreRepuesto(1);
+    public void obtenerNombreRepuestoPorIdTest(){
+        agregarNombreRepuestoTest();
+        NombreRepuesto nombreRepuesto = nombreRepuestoService.obtenerNombreRepuestoPorId(1);
         assertEquals(1, nombreRepuesto.getId_nombrerepuesto());
         assertEquals("Bobina", nombreRepuesto.getNombre_repuesto());
     }
     
     @Test
-    public void pruebaModificarNombreRepuestos(){
-        pruebaCrearNombreRepuesto();
+    public void editarNombreRepuestoPorIdTest(){
+        agregarNombreRepuestoTest();
         NombreRepuesto nombreRepuesto1 = new NombreRepuesto(1, "Sensor");
         NombreRepuesto nombreRepuesto2 = new NombreRepuesto(2, "Termostato");
-        nombreRepuestoDAO.actualizarNombreRepuesto(nombreRepuesto1);
-        nombreRepuestoDAO.actualizarNombreRepuesto(nombreRepuesto2);
-        List<NombreRepuesto> listaNombreRepuestos = nombreRepuestoDAO.obtenerNombreRepuestos();
+        nombreRepuestoService.editarNombreRepuestoPorId(nombreRepuesto1);
+        nombreRepuestoService.editarNombreRepuestoPorId(nombreRepuesto2);
+        List<NombreRepuesto> listaNombreRepuestos = nombreRepuestoService.listarNombreRepuestos();
         assertEquals(1, listaNombreRepuestos.get(0).getId_nombrerepuesto());
         assertEquals("Sensor", listaNombreRepuestos.get(0).getNombre_repuesto());
         assertEquals(2, listaNombreRepuestos.get(1).getId_nombrerepuesto());
@@ -87,11 +91,18 @@ public class NombreRepuestoTest {
     }
     
     @Test
-    public void pruebaEliminarNombreRepuestos(){
-        pruebaCrearNombreRepuesto();
-        nombreRepuestoDAO.eliminarNombreRepuesto(1);
-        List<NombreRepuesto> listaNombreRepuestos = nombreRepuestoDAO.obtenerNombreRepuestos();
+    public void eliminarNombreRepuestoPorIdTest(){
+        agregarNombreRepuestoTest();
+        nombreRepuestoService.eliminarNombreRepuestoPorId(1);
+        List<NombreRepuesto> listaNombreRepuestos = nombreRepuestoService.listarNombreRepuestos();
         assertEquals(1, listaNombreRepuestos.size());
         assertEquals(2, listaNombreRepuestos.get(0).getId_nombrerepuesto());
     }
+    
+    @Test
+    public void imprimirNombreRepuestosTest(){
+        
+    }
+    
+    
 }

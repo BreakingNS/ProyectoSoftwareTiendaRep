@@ -54,8 +54,7 @@ public class CategoriaDAOImpl implements CategoriaDAO{
                 String nombreCategoria = categoria_Categoria.getString("nombre_categoria");
                 int idCategoria = categoria_Categoria.getInt("id_categoria");
                 
-                ReparacionDAOImpl reparacionDAO = new ReparacionDAOImpl(connection);
-                List<Reparacion> listaReparaciones = reparacionDAO.obtenerReparacionesPorIdCategoria(idCategoria);
+                List<Reparacion> listaReparaciones = new ArrayList<>();
                 
                 Categoria categoria = new Categoria(idCategoria, nombreCategoria, listaReparaciones);
                 
@@ -105,8 +104,7 @@ public class CategoriaDAOImpl implements CategoriaDAO{
                 int idCategoria = categoria_Resultado.getInt("id_categoria");
                 String nombreCategoria = categoria_Resultado.getString("nombre_categoria");
                 
-                ReparacionDAOImpl reparacionDAO = new ReparacionDAOImpl(connection);
-                List<Reparacion> listaReparaciones = reparacionDAO.obtenerReparacionesPorIdCategoria(idCategoria);
+                List<Reparacion> listaReparaciones = new ArrayList<>();
                 
                 categoria = new Categoria(idCategoria, nombreCategoria, listaReparaciones);
             }

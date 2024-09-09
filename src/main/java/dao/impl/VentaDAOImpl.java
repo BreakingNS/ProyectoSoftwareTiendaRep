@@ -26,7 +26,7 @@ public class VentaDAOImpl implements VentaDAO{
     private final String SENTENCIA_ELIMINAR_VENTA = "DELETE FROM TiendaLocal.venta WHERE id_venta = ?";
     private final String SENTENCIA_OBTENER_VENTAS = "SELECT * FROM TiendaLocal.venta ORDER BY id_venta ASC";
     private final String SENTENCIA_OBTENER_VENTA = "SELECT * FROM TiendaLocal.venta WHERE id_venta = ?";
-    private final String SENTENCIA_OBTENER_VENTA_POR_ID_CLIENTE = "SELECT * FROM TiendaLocal.venta WHILE id_cliente = ?";
+    private final String SENTENCIA_OBTENER_VENTA_POR_ID_CLIENTE = "SELECT * FROM TiendaLocal.venta WHERE id_cliente = ?";
     private final String SENTENCIA_CREAR_VENTA = "INSERT INTO TiendaLocal.venta (cantidad, fecha_venta, id_cliente, precioFinal) VALUES ( ? , ? , ? , ? )";
     private final String SENTENCIA_ACTUALIZAR_VENTA = "UPDATE TiendaLocal.venta SET cantidad = ?, fecha_venta = ?, id_cliente = ? , precioFinal = ? WHERE id_venta = ?";
 

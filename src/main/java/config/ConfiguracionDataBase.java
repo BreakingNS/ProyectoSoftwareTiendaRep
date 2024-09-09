@@ -98,6 +98,24 @@ public class ConfiguracionDataBase {
             + "FOREIGN KEY (id_estado ) REFERENCES TiendaLocal.estado(id_estado)"
             + ")";
     
+    private final String SENTENCIA_CREAR_TABLA_VENTA_REPUESTO = 
+            "CREATE TABLE IF NOT EXISTS TiendaLocal.Venta_Repuesto("
+            + "id_venta INT,"
+            + "id_repuesto INT,"
+            + "PRIMARY KEY (id_venta, id_repuesto),"
+            + "FOREIGN KEY (id_venta) REFERENCES TiendaLocal.venta(id_venta),"
+            + "FOREIGN KEY (id_repuesto) REFERENCES TiendaLocal.repuesto (id_repuesto)"
+            + ")";
+    
+    private final String SENTENCIA_CREAR_TABLA_VENTA_REPARACION= 
+            "CREATE TABLE IF NOT EXISTS TiendaLocal.Venta_Reparacion("
+            + "id_venta INT,"
+            + "id_reparacion  INT,"
+            + "PRIMARY KEY (id_venta, id_reparacion ),"
+            + "FOREIGN KEY (id_venta) REFERENCES TiendaLocal.venta(id_venta),"
+            + "FOREIGN KEY (id_reparacion) REFERENCES TiendaLocal.reparacion(id_reparacion )"
+            + ")";
+    
     //------------- SENTENCIAS ELIMINAR TABLAS
     private final String SENTENCIA_ELIMINAR_TABLA_MARCA =
             "DROP TABLE TiendaLocal.marca";
@@ -128,6 +146,12 @@ public class ConfiguracionDataBase {
     
     private final String SENTENCIA_ELIMINAR_TABLA_REPARACION = 
             "DROP TABLE TiendaLocal.reparacion";
+    
+    private final String SENTENCIA_ELIMINAR_TABLA_VENTA_REPUESTO = 
+            "DROP TABLE TiendaLocal.Venta_Repuesto";
+    
+    private final String SENTENCIA_ELIMINAR_TABLA_VENTA_REPARACION = 
+            "DROP TABLE TiendaLocal.Venta_Reparacion";
     
     //------------- CONSTRUCTOR
 
@@ -227,6 +251,24 @@ public class ConfiguracionDataBase {
         }
     }
     
+    public void crearTablaVentaRepuesto(){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ELIMINAR_TABLA_VENTA_REPUESTO);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConfiguracionDataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void crearTablaVentaReparacion(){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ELIMINAR_TABLA_VENTA_REPARACION);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConfiguracionDataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     //------------- METODOS ELIMINAR TABLAS
     
     public void eliminarTablaMarca(){
@@ -313,6 +355,24 @@ public class ConfiguracionDataBase {
     public void eliminarTablaReparacion(){
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ELIMINAR_TABLA_REPARACION);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConfiguracionDataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void eliminarTablaVentaRepuesto(){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ELIMINAR_TABLA_VENTA_REPUESTO);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConfiguracionDataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void eliminarTablaVentaReparacion(){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ELIMINAR_TABLA_VENTA_REPARACION);
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ConfiguracionDataBase.class.getName()).log(Level.SEVERE, null, ex);

@@ -47,10 +47,8 @@ public class UbicacionTest {
 
     @Test
     public void pruebaCrearUbicacion(){
-        Ubicacion ubicacion = new Ubicacion();
-        ubicacion.setNombre_ubicacion("Deposito");
-        Ubicacion ubicacion1 = new Ubicacion();
-        ubicacion1.setNombre_ubicacion("Piso 1");
+        Ubicacion ubicacion = new Ubicacion(1, "Deposito");
+        Ubicacion ubicacion1 = new Ubicacion(2, "Piso 1");
         ubicacionDAO.crearUbicacion(ubicacion);
         ubicacionDAO.crearUbicacion(ubicacion1);
     }

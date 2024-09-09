@@ -59,11 +59,8 @@ public class ClienteDAOImpl implements ClienteDAO{
                 String telefonoCliente = cliente_Resultado.getString("telefono");
                 int idCliente = cliente_Resultado.getInt("id_cliente");
                 
-                VentaDAOImpl ventaDAO = new VentaDAOImpl(connection);
-                ReparacionDAOImpl reparacionDAO = new ReparacionDAOImpl(connection);
-                
-                List<Venta> listaVentas = ventaDAO.obtenerVentasPorIdCliente(idCliente);
-                List<Reparacion> listaReparaciones = reparacionDAO.obtenerReparacionesPorIdCliente(idCliente);
+                List<Venta> listaVentas = new ArrayList<>();
+                List<Reparacion> listaReparaciones = new ArrayList<>();
                 
                 Cliente cliente = new Cliente(idCliente, nombreCliente, apellidoCliente, telefonoCliente, listaVentas, listaReparaciones);
                 
@@ -116,11 +113,8 @@ public class ClienteDAOImpl implements ClienteDAO{
                 String apellidoCliente = cliente_Resultado.getString("apellido");
                 String telefonoCliente = cliente_Resultado.getString("telefono");
                 
-                VentaDAOImpl ventaDAO = new VentaDAOImpl(connection);
-                ReparacionDAOImpl reparacionDAO = new ReparacionDAOImpl(connection);
-                
-                List<Venta> listaVentas = ventaDAO.obtenerVentasPorIdCliente(idCliente);
-                List<Reparacion> listaReparaciones = reparacionDAO.obtenerReparacionesPorIdCliente(idCliente);
+                List<Venta> listaVentas = new ArrayList<>();
+                List<Reparacion> listaReparaciones = new ArrayList<>();
                 
                 cliente = new Cliente(idCliente, nombreCliente, apellidoCliente, telefonoCliente, listaVentas, listaReparaciones);
             }
