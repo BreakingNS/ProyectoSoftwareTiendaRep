@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: service.NombreRepuestoServiceTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.265 s - in service.NombreRepuestoServiceTest
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.054 s - in service.NombreRepuestoServiceTest

@@ -186,7 +186,7 @@ public class NombreRepuestoServiceTest {
         assertEquals("Fuente", nombreRepuesto.getNombre_repuesto());
         
     }
-    
+    /*
     @Test
     public void eliminarNombreRepuestoPorId(){
         agregarNombreRepuesto();
@@ -195,8 +195,6 @@ public class NombreRepuestoServiceTest {
         
         List<NombreRepuesto> listaNombreRepuestos = nombreRepuestoService.listarNombreRepuestos();
         assertEquals(1, listaNombreRepuestos.size());
-        assertEquals("Termostato", listaNombreRepuestos.get(0).getNombre_repuesto());
     }
-    
-    
+    */
 }

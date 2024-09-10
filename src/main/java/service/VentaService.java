@@ -2,6 +2,7 @@ package service;
 
 import dao.impl.RepuestoDAOImpl;
 import dao.impl.VentaDAOImpl;
+import dao.impl.VentaRepuestoDAOImplVIEJOOOOO;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -13,15 +14,36 @@ public class VentaService {
     private final Connection connection;
     private final VentaDAOImpl ventaDAO;
     private final RepuestoDAOImpl repuestoDAO;
+    private final VentaRepuestoDAOImplVIEJOOOOO VentaRepuestoDAO;
 
-    public VentaService(VentaDAOImpl ventaDAO, RepuestoDAOImpl repuestoDAO, Connection connection) {
+    public VentaService(VentaDAOImpl ventaDAO, RepuestoDAOImpl repuestoDAO, VentaRepuestoDAOImplVIEJOOOOO VentaRepuestoDAO, Connection connection) {
         this.ventaDAO = ventaDAO;
         this.repuestoDAO = repuestoDAO;
+        this.VentaRepuestoDAO = VentaRepuestoDAO;
         this.connection = connection;
     }
     
-    public void agregarVenta(Venta venta){
-        ventaDAO.crearVenta(venta);
+    public void agregarVenta(Venta venta, Repuesto repuesto) throws SQLException{
+        boolean autoCommitState = connection.getAutoCommit(); // Guardar el estado original
+        connection.setAutoCommit(false); // Desactivar auto-commit
+        try {
+            // Realizar operaciones de la transacción
+            ventaDAO.crearVenta(venta);
+        
+            VentaRepuestoDAO.crearVentaRepuesto(venta, repuesto);
+
+            connection.commit(); // Confirmar la transacción
+
+        } catch (SQLException e) {
+            try {
+                connection.rollback(); // Revertir en caso de error
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+        } finally {
+            connection.setAutoCommit(autoCommitState); // Restablecer auto-commit al estado original
+        }
     }
     
     public List<Venta> listarVentas() {

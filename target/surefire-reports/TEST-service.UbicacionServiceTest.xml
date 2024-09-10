@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="service.UbicacionServiceTest" time="0.233" tests="4" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="service.UbicacionServiceTest" time="0.226" tests="4" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="user.country" value="AR"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="D:\Program Files\Java\jdk-17\bin"/>
-    <property name="sun.java.command" value="C:\Users\BREAKI~1\AppData\Local\Temp\surefire14681976172421889706\surefirebooter9067699816721756119.jar C:\Users\BreakingNS\AppData\Local\Temp\surefire14681976172421889706 2024-09-10T09-34-34_051-jvmRun1 surefire1922678609066795151tmp surefire_010427516554081016224tmp"/>
+    <property name="sun.java.command" value="C:\Users\BREAKI~1\AppData\Local\Temp\surefire14228123444411144276\surefirebooter7964643797144378723.jar C:\Users\BreakingNS\AppData\Local\Temp\surefire14228123444411144276 2024-09-10T09-42-06_861-jvmRun1 surefire2219281696827649792tmp surefire_017149624526585177425tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="test" value="service.**.*Test"/>
     <property name="surefire.test.class.path" value="C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\target\test-classes;C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\target\classes;C:\Users\BreakingNS\.m2\repository\com\h2database\h2\2.2.220\h2-2.2.220.jar;C:\Users\BreakingNS\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.9.3\junit-jupiter-api-5.9.3.jar;C:\Users\BreakingNS\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\BreakingNS\.m2\repository\org\junit\platform\junit-platform-commons\1.9.3\junit-platform-commons-1.9.3.jar;C:\Users\BreakingNS\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\BreakingNS\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.9.3\junit-jupiter-engine-5.9.3.jar;C:\Users\BreakingNS\.m2\repository\org\junit\platform\junit-platform-engine\1.9.3\junit-platform-engine-1.9.3.jar;"/>
@@ -31,7 +31,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\BREAKI~1\AppData\Local\Temp\surefire14681976172421889706\surefirebooter9067699816721756119.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\BREAKI~1\AppData\Local\Temp\surefire14228123444411144276\surefirebooter7964643797144378723.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.11+7-LTS-207"/>
@@ -58,8 +58,8 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="agregarMarcaTest" classname="service.UbicacionServiceTest" time="0.003"/>
-  <testcase name="editarUbicacionPorIdTest" classname="service.UbicacionServiceTest" time="0.003"/>
+  <testcase name="agregarMarcaTest" classname="service.UbicacionServiceTest" time="0.004"/>
+  <testcase name="editarUbicacionPorIdTest" classname="service.UbicacionServiceTest" time="0.005"/>
   <testcase name="listarUbicacionesTest" classname="service.UbicacionServiceTest" time="0.003"/>
   <testcase name="obtenerUbicacionPorIdTest" classname="service.UbicacionServiceTest" time="0.004"/>
 </testsuite>

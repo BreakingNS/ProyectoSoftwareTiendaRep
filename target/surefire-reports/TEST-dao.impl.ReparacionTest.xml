@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="dao.impl.ReparacionTest" time="0.31" tests="8" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="dao.impl.ReparacionTest" time="0.538" tests="8" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="user.country" value="AR"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="D:\Program Files\Java\jdk-17\bin"/>
-    <property name="sun.java.command" value="C:\Users\BREAKI~1\AppData\Local\Temp\surefire17165656550662287536\surefirebooter5454611796602786552.jar C:\Users\BreakingNS\AppData\Local\Temp\surefire17165656550662287536 2024-09-10T09-05-11_050-jvmRun1 surefire17328188281147196484tmp surefire_05115430885217176221tmp"/>
+    <property name="sun.java.command" value="C:\Users\BREAKI~1\AppData\Local\Temp\surefire4715180235629674283\surefirebooter6902297093083293817.jar C:\Users\BreakingNS\AppData\Local\Temp\surefire4715180235629674283 2024-09-10T09-41-52_931-jvmRun1 surefire2628127058033411396tmp surefire_06235043354546454231tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="test" value="dao.impl.**.*Test"/>
     <property name="surefire.test.class.path" value="C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\target\test-classes;C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\target\classes;C:\Users\BreakingNS\.m2\repository\com\h2database\h2\2.2.220\h2-2.2.220.jar;C:\Users\BreakingNS\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.9.3\junit-jupiter-api-5.9.3.jar;C:\Users\BreakingNS\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\BreakingNS\.m2\repository\org\junit\platform\junit-platform-commons\1.9.3\junit-platform-commons-1.9.3.jar;C:\Users\BreakingNS\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\BreakingNS\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.9.3\junit-jupiter-engine-5.9.3.jar;C:\Users\BreakingNS\.m2\repository\org\junit\platform\junit-platform-engine\1.9.3\junit-platform-engine-1.9.3.jar;"/>
@@ -31,7 +31,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\BREAKI~1\AppData\Local\Temp\surefire17165656550662287536\surefirebooter5454611796602786552.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\BREAKI~1\AppData\Local\Temp\surefire4715180235629674283\surefirebooter6902297093083293817.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.11+7-LTS-207"/>
@@ -58,12 +58,12 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="pruebaObtenerReparacionesPorIdCliente" classname="dao.impl.ReparacionTest" time="0.014"/>
+  <testcase name="pruebaObtenerReparacionesPorIdCliente" classname="dao.impl.ReparacionTest" time="0.011"/>
   <testcase name="pruebaActualizarReparacion" classname="dao.impl.ReparacionTest" time="0.009"/>
-  <testcase name="pruebaObtenerReparacion" classname="dao.impl.ReparacionTest" time="0.009"/>
-  <testcase name="eliminarTablas" classname="dao.impl.ReparacionTest" time="0.038"/>
+  <testcase name="pruebaObtenerReparacion" classname="dao.impl.ReparacionTest" time="0.008"/>
+  <testcase name="eliminarTablas" classname="dao.impl.ReparacionTest" time="0.499"/>
   <testcase name="pruebaObtenerReparacionesPorIdCategoria" classname="dao.impl.ReparacionTest" time="0"/>
-  <testcase name="pruebaCrearReparacion" classname="dao.impl.ReparacionTest" time="0.001"/>
-  <testcase name="pruebaObtenerReparaciones" classname="dao.impl.ReparacionTest" time="0.008"/>
-  <testcase name="pruebaEliminarReparacion" classname="dao.impl.ReparacionTest" time="0.007"/>
+  <testcase name="pruebaCrearReparacion" classname="dao.impl.ReparacionTest" time="0"/>
+  <testcase name="pruebaObtenerReparaciones" classname="dao.impl.ReparacionTest" time="0"/>
+  <testcase name="pruebaEliminarReparacion" classname="dao.impl.ReparacionTest" time="0"/>
 </testsuite>
