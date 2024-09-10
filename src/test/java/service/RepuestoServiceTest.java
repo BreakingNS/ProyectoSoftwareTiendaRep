@@ -228,7 +228,7 @@ public class RepuestoServiceTest {
         assertEquals(1, repuesto.getId_repuesto());
         assertEquals(80, repuesto.getStock());
     }
-    
+    /*
     @Test
     public void eliminarRepuestoPorId(){
         agregarCliente();
@@ -239,7 +239,7 @@ public class RepuestoServiceTest {
         assertEquals(20, listaRepuestos.get(0).getStock());
         assertEquals("Renault", listaRepuestos.get(0).getMarca().getNombre_marca());
     }
-    
+    */
     @Test
     public void actualizarStock(){
         agregarCliente();

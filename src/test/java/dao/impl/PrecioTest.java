@@ -26,12 +26,17 @@ public class PrecioTest {
     private static ConexionDataBase conexionDataBase;
     private static ConfiguracionDataBase configuracion;
     private static Connection connection;
-    private static PrecioDAOImpl precioDAO;
-    private static RepuestoDAOImpl repuestoDAO;
-    private static NombreRepuestoDAOImpl nombreRepuestoDAO;
+    
     private static MarcaDAOImpl marcaDAO;
-    private static CategoriaDAOImpl categoriaDAO;
+    private static NombreRepuestoDAOImpl nombreRepuestoDAO;
     private static UbicacionDAOImpl ubicacionDAO;
+    private static CategoriaDAOImpl categoriaDAO;
+    private static EstadoDAOImpl estadoDAO;
+    private static ClienteDAOImpl clienteDAO;
+    private static RepuestoDAOImpl repuestoDAO;
+    private static PrecioDAOImpl precioDAO;
+    private static ReparacionDAOImpl reparacionDAO;
+    private static VentaDAOImpl ventaDAO;
     
     public PrecioTest() {
     }
@@ -40,12 +45,18 @@ public class PrecioTest {
     public static void setUpClass() throws ClassNotFoundException {
         conexionDataBase = new ConexionDataBase();
         connection = conexionDataBase.getConexionDBH2();
-        precioDAO = new PrecioDAOImpl(connection);
-        repuestoDAO = new RepuestoDAOImpl(connection);
-        nombreRepuestoDAO = new NombreRepuestoDAOImpl(connection);
+        
         marcaDAO = new MarcaDAOImpl(connection);
-        categoriaDAO = new CategoriaDAOImpl(connection);
+        nombreRepuestoDAO = new NombreRepuestoDAOImpl(connection);
         ubicacionDAO = new UbicacionDAOImpl(connection);
+        categoriaDAO = new CategoriaDAOImpl(connection);
+        estadoDAO = new EstadoDAOImpl(connection);
+        clienteDAO = new ClienteDAOImpl(connection);
+        repuestoDAO = new RepuestoDAOImpl(connection);
+        precioDAO = new PrecioDAOImpl(connection);
+        reparacionDAO = new ReparacionDAOImpl(connection);
+        ventaDAO = new VentaDAOImpl(connection);
+        
     }
     
     @AfterAll
@@ -56,29 +67,54 @@ public class PrecioTest {
     @BeforeEach
     public void setUp() {
         configuracion = new ConfiguracionDataBase(connection);
+        
         configuracion.crearTablaMarca();
         configuracion.crearTablaNombreRepuesto();
         configuracion.crearTablaUbicacion();
         configuracion.crearTablaCategoria();
+        configuracion.crearTablaEstado();
+        configuracion.crearTablaCliente();
+        configuracion.crearTablaVenta();
         configuracion.crearTablaRepuesto();
         configuracion.crearTablaPrecio();
+        configuracion.crearTablaReparacion();
+        configuracion.crearTablaVentaRepuesto();
+        configuracion.crearTablaReparacionRepuesto();
+        
     }
     
     @AfterEach
     public void tearDown() {
         
+        configuracion.eliminarTablaReparacionRepuesto();
+        configuracion.eliminarTablaVentaRepuesto();
+        configuracion.eliminarTablaReparacion();
         configuracion.eliminarTablaPrecio();
         configuracion.eliminarTablaRepuesto();
+        configuracion.eliminarTablaVenta();
+        configuracion.eliminarTablaCliente();
+        configuracion.eliminarTablaEstado();
         configuracion.eliminarTablaCategoria();
         configuracion.eliminarTablaUbicacion();
         configuracion.eliminarTablaNombreRepuesto();
         configuracion.eliminarTablaMarca();
         
     }
-    
+
     @Test
-    public void pruebaCrearTablas(){
-        
+    public void eliminarTablas(){
+        configuracion.eliminarTablaReparacionRepuesto();
+        configuracion.eliminarTablaVentaRepuesto();
+        configuracion.eliminarTablaReparacion();
+        configuracion.eliminarTablaPrecio();
+        configuracion.eliminarTablaRepuesto();
+        configuracion.eliminarTablaVenta();
+        configuracion.eliminarTablaCliente();
+        configuracion.eliminarTablaEstado();
+        configuracion.eliminarTablaCategoria();
+        configuracion.eliminarTablaUbicacion();
+        configuracion.eliminarTablaNombreRepuesto();
+        configuracion.eliminarTablaMarca();
     }
     
     @Test
