@@ -13,12 +13,6 @@ import model.Estado;
 import model.Reparacion;
 
 public class EstadoDAOImpl implements EstadoDAO{
-    /*
-    Columnas/Campos de la Tabla Estado
-    
-    id_estado
-    nombre_estado
-    */
     
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_ESTADO = "DELETE FROM TiendaLocal.estado WHERE id_estado = ?";

@@ -30,15 +30,4 @@ public class NombreRepuestoService {
     public void eliminarNombreRepuestoPorId(int id){
         nombreRepuestoDAO.eliminarNombreRepuesto(id);
     }
-    
-    // Método para imprimir las categorías (si esto es parte de la lógica de negocio)
-    public void imprimirNombreRepuestos() {
-        List<NombreRepuesto> listaNombresRepuestos = listarNombreRepuestos();
-        
-        for(NombreRepuesto nombrep : listaNombresRepuestos){
-            System.out.println("------------------");
-            System.out.println("Id: " + nombrep.getId_nombrerepuesto());
-            System.out.println("Nombre: " + nombrep.getNombre_repuesto());
-        }
-    }
 }

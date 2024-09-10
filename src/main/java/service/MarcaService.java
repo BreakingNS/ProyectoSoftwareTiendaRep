@@ -53,15 +53,4 @@ public class MarcaService {
     public void eliminarMarcaPorId(int id){
         marcaDAO.eliminarMarca(id);
     }
-    
-    // Método para imprimir las categorías (si esto es parte de la lógica de negocio)
-    public void imprimirMarcas() {
-        List<Marca> listaMarcas = listarMarcas();
-        
-        for(Marca mar : listaMarcas){
-            System.out.println("------------------");
-            System.out.println("Id: " + mar.getId_marca());
-            System.out.println("Nombre: " + mar.getNombre_marca());
-        }
-    }
 }

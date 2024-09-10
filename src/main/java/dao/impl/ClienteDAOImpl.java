@@ -14,12 +14,6 @@ import model.Reparacion;
 import model.Venta;
 
 public class ClienteDAOImpl implements ClienteDAO{
-    /*
-    Columnas/Campos de la Tabla Cliente
-    
-    id_cliente
-    nombre_cliente
-    */
     
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_CLIENTE = "DELETE FROM TiendaLocal.cliente WHERE id_cliente = ?";

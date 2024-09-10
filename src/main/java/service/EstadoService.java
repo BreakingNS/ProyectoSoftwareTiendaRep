@@ -1,14 +1,18 @@
 package service;
 
 import dao.interfaces.EstadoDAO;
+import dao.interfaces.ReparacionDAO;
 import java.util.List;
 import model.Estado;
+import model.Reparacion;
 
 public class EstadoService {
     private final EstadoDAO estadoDAO;
+    private final ReparacionDAO reparacionDAO;
 
-    public EstadoService(EstadoDAO estadoDAO) {
+    public EstadoService(EstadoDAO estadoDAO, ReparacionDAO reparacionDAO) {
         this.estadoDAO = estadoDAO;
+        this.reparacionDAO = reparacionDAO;
     }
     
     public void agregarEstado(Estado estado){
@@ -16,12 +20,29 @@ public class EstadoService {
     }
     
     public List<Estado> listarEstados() {
-        return estadoDAO.obtenerEstados();
+        List<Reparacion> listaReparacionesAuxiliar = reparacionDAO.obtenerReparaciones();
+        List<Estado> listaEstados = estadoDAO.obtenerEstados();
+        for(Estado est : listaEstados){
+            for(Reparacion rep : listaReparacionesAuxiliar){
+                if(rep.getEstado().getId_estado() == (est.getId_estado())){
+                    est.getListaReparaciones().add(rep);
+                }
+            }
+        }
+        
+        return listaEstados;
     }
     
     public Estado obtenerEstadoPorId(int id) {
-        // Lógica adicional si es necesario
-        return estadoDAO.obtenerEstado(id);
+        List<Reparacion> listaReparacionesAuxiliar = reparacionDAO.obtenerReparaciones();
+        Estado estado = estadoDAO.obtenerEstado(id);
+        for(Reparacion rep : listaReparacionesAuxiliar){
+            if(rep.getEstado().getId_estado() == (estado.getId_estado())){
+                estado.getListaReparaciones().add(rep);
+            }
+        }
+
+        return estado;
     }
     
     public void editarEstadoPorId(Estado estado){
@@ -30,16 +51,5 @@ public class EstadoService {
     
     public void eliminarEstadoPorId(int id){
         estadoDAO.eliminarEstado(id);
-    }
-    
-    // Método para imprimir las categorías (si esto es parte de la lógica de negocio)
-    public void imprimirEstados() {
-        List<Estado> listaEstados = listarEstados();
-        
-        for(Estado est : listaEstados){
-            System.out.println("------------------");
-            System.out.println("Id: " + est.getId_estado());
-            System.out.println("Nombre Estado: " + est.getNombre_estado());
-        }
     }
 }

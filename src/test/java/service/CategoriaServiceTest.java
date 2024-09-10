@@ -96,15 +96,15 @@ public class CategoriaServiceTest {
         configuracion.crearTablaPrecio();
         configuracion.crearTablaReparacion();
         configuracion.crearTablaVentaRepuesto();
-        configuracion.crearTablaVentaReparacion();
+        configuracion.crearTablaReparacionRepuesto();
         
     }
     
     @AfterEach
     public void tearDown() {
         
-        configuracion.crearTablaVentaReparacion();
-        configuracion.crearTablaVentaRepuesto();
+        configuracion.eliminarTablaReparacionRepuesto();
+        configuracion.eliminarTablaVentaRepuesto();
         configuracion.eliminarTablaReparacion();
         configuracion.eliminarTablaPrecio();
         configuracion.eliminarTablaRepuesto();
@@ -120,8 +120,8 @@ public class CategoriaServiceTest {
 
     @Test
     public void eliminarTablas(){
-        configuracion.crearTablaVentaReparacion();
-        configuracion.crearTablaVentaRepuesto();
+        configuracion.eliminarTablaReparacionRepuesto();
+        configuracion.eliminarTablaVentaRepuesto();
         configuracion.eliminarTablaReparacion();
         configuracion.eliminarTablaPrecio();
         configuracion.eliminarTablaRepuesto();

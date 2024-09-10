@@ -1,7 +1,17 @@
-package dao.impl;
+package service;
 
 import config.ConexionDataBase;
 import config.ConfiguracionDataBase;
+import dao.impl.CategoriaDAOImpl;
+import dao.impl.ClienteDAOImpl;
+import dao.impl.EstadoDAOImpl;
+import dao.impl.MarcaDAOImpl;
+import dao.impl.NombreRepuestoDAOImpl;
+import dao.impl.PrecioDAOImpl;
+import dao.impl.ReparacionDAOImpl;
+import dao.impl.RepuestoDAOImpl;
+import dao.impl.UbicacionDAOImpl;
+import dao.impl.VentaDAOImpl;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -19,12 +29,12 @@ import model.Ubicacion;
 import model.Venta;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class ReparacionTest {
+public class PrecioServiceTest {
     
     private static ConexionDataBase conexionDataBase;
     private static ConfiguracionDataBase configuracion;
@@ -41,7 +51,9 @@ public class ReparacionTest {
     private static ReparacionDAOImpl reparacionDAO;
     private static VentaDAOImpl ventaDAO;
     
-    public ReparacionTest() {
+    private static PrecioService precioService;
+    
+    public PrecioServiceTest() {
     }
     
     @BeforeAll
@@ -59,6 +71,8 @@ public class ReparacionTest {
         precioDAO = new PrecioDAOImpl(connection);
         reparacionDAO = new ReparacionDAOImpl(connection);
         ventaDAO = new VentaDAOImpl(connection);
+        
+        precioService = new PrecioService(precioDAO);
         
     }
     
@@ -121,7 +135,7 @@ public class ReparacionTest {
     }
     
     @Test
-    public void pruebaCrearReparacion(){
+    public void agregarCliente(){
         //Marca
         Marca marca = new Marca(1, "Fiat", new ArrayList<>());
         Marca marca1 = new Marca(2, "Renault", new ArrayList<>());
@@ -162,10 +176,10 @@ public class ReparacionTest {
         Precio precio2 = new Precio(2, repuesto, new Date(), new BigDecimal("4000"));
         Precio precio3 = new Precio(3, repuesto1, new Date(), new BigDecimal("7000"));
         Precio precio4 = new Precio(4, repuesto1, new Date(), new BigDecimal("8000"));
-        precioDAO.crearPrecio(precio1);
-        precioDAO.crearPrecio(precio2);
-        precioDAO.crearPrecio(precio3);
-        precioDAO.crearPrecio(precio4);
+        precioService.agregarPrecio(precio1);
+        precioService.agregarPrecio(precio2);
+        precioService.agregarPrecio(precio3);
+        precioService.agregarPrecio(precio4);
         //Reparacion
         Reparacion reparacion = new Reparacion(1, new BigDecimal("3000"), "Rota la tapa", new Date(), new Date(), categoria, cliente, estado);
         Reparacion reparacion1 = new Reparacion(2, new BigDecimal("9000"), "Color plateado", new Date(), new Date(), categoria1, cliente1, estado1);
@@ -179,69 +193,71 @@ public class ReparacionTest {
     }
     
     @Test
-    public void pruebaObtenerReparaciones(){
-        pruebaCrearReparacion();
-        List<Reparacion> listaReparaciones = reparacionDAO.obtenerReparaciones();
+    public void listarPrecios(){
+        agregarCliente();
+        List<Precio> listaPrecios = precioService.listarPrecios();
         
-        assertEquals(1, listaReparaciones.get(0).getId_reparacion());
-        assertEquals("Rota la tapa", listaReparaciones.get(0).getDetalles());
-        assertEquals("Perez", listaReparaciones.get(0).getCliente().getApellido());
-        
-        assertEquals(2, listaReparaciones.get(1).getId_reparacion());
-        assertEquals("Color plateado", listaReparaciones.get(1).getDetalles());
-        assertEquals("Carrizo", listaReparaciones.get(1).getCliente().getApellido());
+        assertEquals(1, listaPrecios.get(0).getId_precio());
+        assertEquals("3000.00", listaPrecios.get(0).getValor().toString());
+        assertEquals(10, listaPrecios.get(0).getRepuesto().getStock());
+    
+        assertEquals(2, listaPrecios.get(1).getId_precio());
+        assertEquals("4000.00", listaPrecios.get(1).getValor().toString());
+        assertEquals(10, listaPrecios.get(1).getRepuesto().getStock());
     }
     
     @Test
-    public void pruebaObtenerReparacion(){
-        pruebaCrearReparacion();
-        Reparacion reparacion = reparacionDAO.obtenerReparacion(2);
+    public void obtenerPrecioPorId(){
+        agregarCliente();
+        Precio precio = precioService.obtenerPrecioPorId(2);
         
-        assertEquals(2, reparacion.getId_reparacion());
-        assertEquals("Color plateado", reparacion.getDetalles());
-        assertEquals("Presupuesto", reparacion.getEstado().getNombre_estado());
+        assertEquals(2, precio.getId_precio());
+        assertEquals("4000.00", precio.getValor().toString());
+        assertEquals(10, precio.getRepuesto().getStock());
     }
     
     @Test
-    public void pruebaActualizarReparacion(){
-        pruebaCrearReparacion();
-        Reparacion reparacion = reparacionDAO.obtenerReparacion(1);
-        reparacion.setDetalles("Sin tapa");
-        System.out.println(reparacion.getDetalles());
-        reparacionDAO.actualizarReparacion(reparacion);
-        reparacion = new Reparacion();
-        reparacion = reparacionDAO.obtenerReparacion(1);
-        System.out.println(reparacion.getDetalles());
+    public void obtenerPrecioPorIdRepuesto(){
+        agregarCliente();
+        List<Precio> listaPrecios = precioService.obtenerPrecioPorIdRepuesto(2);
         
-        assertEquals(1, reparacion.getId_reparacion());
-        assertEquals("Sin tapa", reparacion.getDetalles());
+        assertEquals(3, listaPrecios.get(0).getId_precio());
+        assertEquals("7000.00", listaPrecios.get(0).getValor().toString());
+        assertEquals(20, listaPrecios.get(0).getRepuesto().getStock());
     }
     
     @Test
-    public void pruebaEliminarReparacion(){
-        pruebaCrearReparacion();
-        reparacionDAO.eliminarReparacion(1);
-        List<Reparacion> listaReparaciones = reparacionDAO.obtenerReparaciones();
+    public void editarPrecioPorId(){
+        agregarCliente();
+        Repuesto repuesto = repuestoDAO.obtenerRepuesto(1);
+        Precio precio = new Precio(2, repuesto, new Date(), new BigDecimal("8000"));
+        precioService.editarPrecioPorId(precio);
+        precio = precioService.obtenerPrecioPorId(1);
         
-        assertEquals(1, listaReparaciones.size());
-        assertEquals("Color plateado", listaReparaciones.get(0).getDetalles());
+        assertEquals(1, precio.getId_precio());
+        assertEquals("3000.00", precio.getValor().toString());
+        assertEquals(10, precio.getRepuesto().getStock());
+        
     }
     
     @Test
-    public void pruebaObtenerReparacionesPorIdCliente(){
-        pruebaCrearReparacion();
-        List<Reparacion> listaReparaciones = reparacionDAO.obtenerReparacionesPorIdCliente(1);
+    public void eliminarPrecioPorId(){
+        agregarCliente();
+        precioService.eliminarPrecioPorId(1);
+        List<Precio> listaPrecios = precioService.listarPrecios();
         
-        assertEquals(1, listaReparaciones.get(0).getCliente().getId_cliente());
-        assertEquals("Rota la tapa", listaReparaciones.get(0).getDetalles());
+        assertEquals(2, listaPrecios.get(0).getId_precio());
+        assertEquals("4000.00", listaPrecios.get(0).getValor().toString());
+        assertEquals(10, listaPrecios.get(0).getRepuesto().getStock());
     }
     
     @Test
-    public void pruebaObtenerReparacionesPorIdCategoria(){
-        pruebaCrearReparacion();
-        List<Reparacion> listaReparaciones = reparacionDAO.obtenerReparacionesPorIdCategoria(2);
-        
-        assertEquals(2, listaReparaciones.get(0).getCliente().getId_cliente());
-        assertEquals("Color plateado", listaReparaciones.get(0).getDetalles());
+    public void actualizarPrecioRepuesto(){
+        agregarCliente();
+        Repuesto repuesto = repuestoDAO.obtenerRepuesto(2);
+        precioService.actualizarPrecioRepuesto(repuesto, new BigDecimal("15000"));
+        Precio precio = precioService.obtenerPrecioPorId(5);
+    
+        assertEquals("15000.00" , precio.getValor().toString());
     }
 }

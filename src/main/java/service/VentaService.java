@@ -2,8 +2,6 @@ package service;
 
 import dao.impl.RepuestoDAOImpl;
 import dao.impl.VentaDAOImpl;
-import dao.interfaces.RepuestoDAO;
-import dao.interfaces.VentaDAO;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -31,7 +29,6 @@ public class VentaService {
     }
     
     public Venta obtenerVentaPorId(int id) {
-        // Lógica adicional si es necesario
         return ventaDAO.obtenerVenta(id);
     }
     
@@ -41,19 +38,6 @@ public class VentaService {
     
     public void eliminarVentaPorId(int id){
         ventaDAO.eliminarVenta(id);
-    }
-    
-    // Método para imprimir las categorías (si esto es parte de la lógica de negocio)
-    public void imprimirVentas() {
-        List<Venta> listaVentas = listarVentas();
-        
-        for(Venta ven : listaVentas){
-            System.out.println("------------------");
-            System.out.println("Id: " + ven.getId_venta());
-            System.out.println("Cantidad: " + ven.getCantidad());
-            System.out.println("Fecha Venta: " + ven.getFecha_venta());
-            System.out.println("Cliente: " + ven.getCliente().getId_cliente());
-        }
     }
     
     public void nuevaVenta(Venta venta, Repuesto repuesto) throws SQLException {
@@ -82,18 +66,4 @@ public class VentaService {
             connection.setAutoCommit(autoCommitState); // Restablecer auto-commit al estado original
         }
     }
-
-
-    
-    public void nuevaVenta1(Venta venta, Repuesto repuesto){
-        ventaDAO.crearVenta(venta);
-        
-        int stockVenta = venta.getCantidad();
-        int stockActual = repuesto.getStock() - stockVenta;
-        repuesto.setStock(stockVenta);
-        
-        repuestoDAO.actualizarRepuesto(repuesto);
-    }
-    
-    //Reportes Ventas
 }

@@ -74,16 +74,5 @@ public class CategoriaService {
     public void eliminarCategoriaPorId(int id){
         categoriaDAO.eliminarCategoria(id);
     }
-    
-    // Método para imprimir las categorías (si esto es parte de la lógica de negocio)
-    public void imprimirCategorias() {
-        List<Categoria> listaCategorias = listarCategorias(); // Usando el método para obtener categorías
-        
-        for(Categoria cate : listaCategorias){
-            System.out.println("------------------");
-            System.out.println("Id: " + cate.getId_categoria());
-            System.out.println("Nombre: " + cate.getNombre_categoria());
-        }
-    }
 }
 

@@ -1,7 +1,17 @@
-package dao.impl;
+package service;
 
 import config.ConexionDataBase;
 import config.ConfiguracionDataBase;
+import dao.impl.CategoriaDAOImpl;
+import dao.impl.ClienteDAOImpl;
+import dao.impl.EstadoDAOImpl;
+import dao.impl.MarcaDAOImpl;
+import dao.impl.NombreRepuestoDAOImpl;
+import dao.impl.PrecioDAOImpl;
+import dao.impl.ReparacionDAOImpl;
+import dao.impl.RepuestoDAOImpl;
+import dao.impl.UbicacionDAOImpl;
+import dao.impl.VentaDAOImpl;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -19,12 +29,12 @@ import model.Ubicacion;
 import model.Venta;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class ReparacionTest {
+public class ClienteServiceTest {
     
     private static ConexionDataBase conexionDataBase;
     private static ConfiguracionDataBase configuracion;
@@ -41,7 +51,9 @@ public class ReparacionTest {
     private static ReparacionDAOImpl reparacionDAO;
     private static VentaDAOImpl ventaDAO;
     
-    public ReparacionTest() {
+    private static ClienteService clienteService;
+    
+    public ClienteServiceTest() {
     }
     
     @BeforeAll
@@ -59,6 +71,8 @@ public class ReparacionTest {
         precioDAO = new PrecioDAOImpl(connection);
         reparacionDAO = new ReparacionDAOImpl(connection);
         ventaDAO = new VentaDAOImpl(connection);
+        
+        clienteService = new ClienteService(clienteDAO, ventaDAO, reparacionDAO);
         
     }
     
@@ -121,7 +135,7 @@ public class ReparacionTest {
     }
     
     @Test
-    public void pruebaCrearReparacion(){
+    public void agregarCliente(){
         //Marca
         Marca marca = new Marca(1, "Fiat", new ArrayList<>());
         Marca marca1 = new Marca(2, "Renault", new ArrayList<>());
@@ -150,8 +164,8 @@ public class ReparacionTest {
         //Cliente
         Cliente cliente = new Cliente(1, "Carlos", "Perez", "3834123456", new ArrayList<>(), new ArrayList<>());
         Cliente cliente1 = new Cliente(2, "Maria", "Carrizo", "3834654321", new ArrayList<>(), new ArrayList<>());
-        clienteDAO.crearCliente(cliente);
-        clienteDAO.crearCliente(cliente1);
+        clienteService.agregarCliente(cliente);
+        clienteService.agregarCliente(cliente1);
         //Repuesto +
         Repuesto repuesto = new Repuesto(1, 10, nombreRepuesto, marca, categoria, new ArrayList<>(), ubicacion);
         Repuesto repuesto1 = new Repuesto(2, 20, nombreRepuesto1, marca1, categoria1, new ArrayList<>(), ubicacion1);
@@ -179,69 +193,68 @@ public class ReparacionTest {
     }
     
     @Test
-    public void pruebaObtenerReparaciones(){
-        pruebaCrearReparacion();
-        List<Reparacion> listaReparaciones = reparacionDAO.obtenerReparaciones();
+    public void listarClientes(){
+        agregarCliente();
+        List<Cliente> listaClientes = clienteService.listarClientes();
         
-        assertEquals(1, listaReparaciones.get(0).getId_reparacion());
-        assertEquals("Rota la tapa", listaReparaciones.get(0).getDetalles());
-        assertEquals("Perez", listaReparaciones.get(0).getCliente().getApellido());
+        assertEquals(1, listaClientes.get(0).getId_cliente());
+        assertEquals("Carlos", listaClientes.get(0).getNombre());
+        assertEquals("Recibido", listaClientes.get(0).getListaReparaciones().get(0).getEstado().getNombre_estado());
         
-        assertEquals(2, listaReparaciones.get(1).getId_reparacion());
-        assertEquals("Color plateado", listaReparaciones.get(1).getDetalles());
-        assertEquals("Carrizo", listaReparaciones.get(1).getCliente().getApellido());
+        assertEquals(2, listaClientes.get(1).getId_cliente());
+        assertEquals("Maria", listaClientes.get(1).getNombre());
+        assertEquals("Presupuesto", listaClientes.get(1).getListaReparaciones().get(0).getEstado().getNombre_estado());
     }
     
     @Test
-    public void pruebaObtenerReparacion(){
-        pruebaCrearReparacion();
-        Reparacion reparacion = reparacionDAO.obtenerReparacion(2);
+    public void obtenerClientePorId(){
+        agregarCliente();
+        Cliente cliente = clienteService.obtenerClientePorId(2);
         
-        assertEquals(2, reparacion.getId_reparacion());
-        assertEquals("Color plateado", reparacion.getDetalles());
-        assertEquals("Presupuesto", reparacion.getEstado().getNombre_estado());
+        assertEquals(2, cliente.getId_cliente());
+        assertEquals("Maria", cliente.getNombre());
+        assertEquals("Presupuesto", cliente.getListaReparaciones().get(0).getEstado().getNombre_estado());
     }
     
     @Test
-    public void pruebaActualizarReparacion(){
-        pruebaCrearReparacion();
-        Reparacion reparacion = reparacionDAO.obtenerReparacion(1);
-        reparacion.setDetalles("Sin tapa");
-        System.out.println(reparacion.getDetalles());
-        reparacionDAO.actualizarReparacion(reparacion);
-        reparacion = new Reparacion();
-        reparacion = reparacionDAO.obtenerReparacion(1);
-        System.out.println(reparacion.getDetalles());
+    public void editarClientePorId(){
+        agregarCliente();
+        Cliente cliente = new Cliente(1, "Carlos", "Carrizo", "3834000000", new ArrayList<>(), new ArrayList<>());
+        clienteService.editarClientePorId(cliente);
+        cliente = clienteService.obtenerClientePorId(1);
         
-        assertEquals(1, reparacion.getId_reparacion());
-        assertEquals("Sin tapa", reparacion.getDetalles());
+        assertEquals(1, cliente.getId_cliente());
+        assertEquals("Carrizo", cliente.getApellido());
+        assertEquals("3834000000", cliente.getTelefono());
+    }
+    
+    //A revision, pareciera necesitar la query metodo cascada
+    
+    @Test
+    public void eliminarClientePorId(){
+        agregarCliente();
+        clienteService.eliminarClientePorId(1);
+        
+        List<Cliente> listaClientes = clienteService.listarClientes();
+        
+        assertEquals(2, listaClientes.get(0).getId_cliente());
+        assertEquals("Maria", listaClientes.get(0).getNombre());
+        assertEquals("Presupuesto", listaClientes.get(0).getListaReparaciones().get(0).getEstado());
     }
     
     @Test
-    public void pruebaEliminarReparacion(){
-        pruebaCrearReparacion();
-        reparacionDAO.eliminarReparacion(1);
-        List<Reparacion> listaReparaciones = reparacionDAO.obtenerReparaciones();
+    public void existeCliente(){
+        agregarCliente();
+        Cliente cliente = clienteService.obtenerClientePorId(2);
         
-        assertEquals(1, listaReparaciones.size());
-        assertEquals("Color plateado", listaReparaciones.get(0).getDetalles());
+        assertEquals(true, clienteService.existeCliente(cliente));
     }
     
     @Test
-    public void pruebaObtenerReparacionesPorIdCliente(){
-        pruebaCrearReparacion();
-        List<Reparacion> listaReparaciones = reparacionDAO.obtenerReparacionesPorIdCliente(1);
+    public void existeTelefonoCliente(){
+        agregarCliente();
+        Cliente cliente = clienteService.obtenerClientePorId(1);
         
-        assertEquals(1, listaReparaciones.get(0).getCliente().getId_cliente());
-        assertEquals("Rota la tapa", listaReparaciones.get(0).getDetalles());
-    }
-    
-    @Test
-    public void pruebaObtenerReparacionesPorIdCategoria(){
-        pruebaCrearReparacion();
-        List<Reparacion> listaReparaciones = reparacionDAO.obtenerReparacionesPorIdCategoria(2);
-        
-        assertEquals(2, listaReparaciones.get(0).getCliente().getId_cliente());
-        assertEquals("Color plateado", listaReparaciones.get(0).getDetalles());
+        assertEquals(true, clienteService.existeTelefonoCliente(cliente));
     }
 }

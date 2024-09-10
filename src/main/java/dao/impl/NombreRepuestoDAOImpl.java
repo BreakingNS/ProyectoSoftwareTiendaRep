@@ -10,16 +10,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.NombreRepuesto;
-import model.Repuesto;
 
 public class NombreRepuestoDAOImpl implements NombreRepuestoDAO{
-
-    /*
-    Columnas/Campos de la Tabla NombreRepuesto
-    
-    id_nombrerepuesto
-    nombre_respuesto
-    */
     
     private Connection connection = null; 
     private final String SENTENCIA_CREAR_NOMBREREP = "INSERT INTO TiendaLocal.nombrerepuesto (nombre_repuesto) VALUES ( ? )";

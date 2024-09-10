@@ -24,12 +24,10 @@ public class PrecioService {
     }
     
     public Precio obtenerPrecioPorId(int id) {
-        // Lógica adicional si es necesario
         return precioDAO.obtenerPrecio(id);
     }
     
-    public List<Precio> obtenerPrecioPorIdProducto(int id) {
-        // Lógica adicional si es necesario
+    public List<Precio> obtenerPrecioPorIdRepuesto(int id) {
         return precioDAO.obtenerPreciosPorIdRepuesto(id);
     }
     
@@ -39,19 +37,6 @@ public class PrecioService {
     
     public void eliminarPrecioPorId(int id){
         precioDAO.eliminarPrecio(id);
-    }
-    
-    // Método para imprimir las categorías (si esto es parte de la lógica de negocio)
-    public void imprimirPrecios() {
-        List<Precio> listaPrecios = listarPrecios();
-        
-        for(Precio pre : listaPrecios){
-            System.out.println("------------------");
-            System.out.println("Id: " + pre.getId_precio());
-            System.out.println("Fecha de Precio: " + pre.getFechaPrecio());
-            System.out.println("Valor: " + pre.getValor());
-            System.out.println("Repuesto: " + pre.getRepuesto().getNombreRepuesto());
-        }
     }
     
     public void actualizarPrecioRepuesto(Repuesto repuesto, BigDecimal nuevoValor){
@@ -65,6 +50,4 @@ public class PrecioService {
         
         precioDAO.crearPrecio(precioNuevo);
     }
-    
-    //Reportes Precios
 }

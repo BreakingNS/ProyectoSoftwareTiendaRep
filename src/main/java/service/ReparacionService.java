@@ -20,7 +20,6 @@ public class ReparacionService {
     }
     
     public Reparacion obtenerReparacionPorId(int id) {
-        // Lógica adicional si es necesario
         return reparacionDAO.obtenerReparacion(id);
     }
     

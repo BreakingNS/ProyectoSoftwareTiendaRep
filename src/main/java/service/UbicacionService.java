@@ -52,15 +52,4 @@ public class UbicacionService {
     public void eliminarUbicacionPorId(int id){
         ubicacionDAO.eliminarUbicacion(id);
     }
-    
-    // Método para imprimir las categorías (si esto es parte de la lógica de negocio)
-    public void imprimirUbicaciones() {
-        List<Ubicacion> listaUbicaciones = listarUbicaciones();
-        
-        for(Ubicacion ubi : listaUbicaciones){
-            System.out.println("------------------");
-            System.out.println("Id: " + ubi.getId_ubicacion());
-            System.out.println("Nombre: " + ubi.getNombre_ubicacion());
-        }
-    }
 }

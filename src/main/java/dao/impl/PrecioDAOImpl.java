@@ -1,7 +1,6 @@
 package dao.impl;
 
 import dao.interfaces.PrecioDAO;
-import dao.interfaces.RepuestoDAO;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
@@ -14,18 +13,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Precio;
 import model.Repuesto;
-import service.RepuestoService;
 
 public class PrecioDAOImpl implements PrecioDAO{
-    /*
-    Columnas/Campos de la Tabla Precio
-    
-    id_precio
-    nombre_precio
-    */
     
     private Connection connection = null;
-    private RepuestoDAOImpl repuestoDAO;
+    private final RepuestoDAOImpl repuestoDAO;
     private final String SENTENCIA_ELIMINAR_PRECIO = "DELETE FROM TiendaLocal.precio WHERE id_precio = ?";
     private final String SENTENCIA_OBTENER_PRECIOS = "SELECT * FROM TiendaLocal.precio ORDER BY id_precio ASC";
     private final String SENTENCIA_OBTENER_PRECIO = "SELECT * FROM TiendaLocal.precio WHERE id_precio = ?";

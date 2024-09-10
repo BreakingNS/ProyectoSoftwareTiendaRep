@@ -95,7 +95,7 @@ public class ReparacionDAOImpl implements ReparacionDAO{
     @Override
     public void actualizarReparacion(Reparacion reparacion) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_REPARACIONES);
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_REPARACION);
             preparedStatement.setBigDecimal(1, reparacion.getCosto());
             preparedStatement.setString(2, reparacion.getDetalles());
             preparedStatement.setDate(3, new java.sql.Date(reparacion.getFecha_ingreso().getTime()));
@@ -104,6 +104,7 @@ public class ReparacionDAOImpl implements ReparacionDAO{
             preparedStatement.setInt(6, reparacion.getCliente().getId_cliente());
             preparedStatement.setInt(7, reparacion.getEstado().getId_estado());
             preparedStatement.setInt(8, reparacion.getId_reparacion());
+            preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ReparacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }

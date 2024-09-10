@@ -15,12 +15,6 @@ import model.Cliente;
 import model.Venta;
 
 public class VentaDAOImpl implements VentaDAO{
-    /*
-    Columnas/Campos de la Tabla Venta
-    
-    id_venta
-    nombre_venta
-    */
     
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_VENTA = "DELETE FROM TiendaLocal.venta WHERE id_venta = ?";
