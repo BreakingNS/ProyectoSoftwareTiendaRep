@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: service.VentaServiceTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.548 s - in service.VentaServiceTest
+Tests run: 6, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.869 s <<< FAILURE! - in service.VentaServiceTest
+nuevaVenta  Time elapsed: 0.06 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <29> but was: <19>
+	at service.VentaServiceTest.nuevaVenta(VentaServiceTest.java:308)
+

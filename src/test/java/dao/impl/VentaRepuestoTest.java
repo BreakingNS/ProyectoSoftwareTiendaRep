@@ -1,21 +1,9 @@
-package service;
+package dao.impl;
 
 import config.ConexionDataBase;
 import config.ConfiguracionDataBase;
-import dao.impl.CategoriaDAOImpl;
-import dao.impl.ClienteDAOImpl;
-import dao.impl.EstadoDAOImpl;
-import dao.impl.MarcaDAOImpl;
-import dao.impl.NombreRepuestoDAOImpl;
-import dao.impl.PrecioDAOImpl;
-import dao.impl.ReparacionDAOImpl;
-import dao.impl.RepuestoDAOImpl;
-import dao.impl.UbicacionDAOImpl;
-import dao.impl.VentaDAOImpl;
-import dao.impl.VentaRepuestoDAOImpl;
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +17,7 @@ import model.Reparacion;
 import model.Repuesto;
 import model.Ubicacion;
 import model.Venta;
+import model.VentaRepuesto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +25,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class VentaServiceTest {
+public class VentaRepuestoTest {
     
     private static ConexionDataBase conexionDataBase;
     private static ConfiguracionDataBase configuracion;
@@ -54,9 +43,7 @@ public class VentaServiceTest {
     private static VentaDAOImpl ventaDAO;
     private static VentaRepuestoDAOImpl ventaRepuestoDAO;
     
-    private static VentaService ventaService;
-    
-    public VentaServiceTest() {
+    public VentaRepuestoTest() {
     }
     
     @BeforeAll
@@ -76,7 +63,6 @@ public class VentaServiceTest {
         ventaDAO = new VentaDAOImpl(connection);
         ventaRepuestoDAO = new VentaRepuestoDAOImpl(connection);
         
-        ventaService = new VentaService(ventaDAO, repuestoDAO, ventaRepuestoDAO, connection);
     }
     
     @AfterAll
@@ -138,7 +124,7 @@ public class VentaServiceTest {
     }
     
     @Test
-    public void agregarVenta(){
+    public void crearVentaRepuesto(){
         //Marca
         Marca marca = new Marca(1, "Fiat", new ArrayList<>());
         Marca marca1 = new Marca(2, "Renault", new ArrayList<>());
@@ -236,76 +222,119 @@ public class VentaServiceTest {
     }
     
     @Test
-    public void listarVentas(){
-        agregarVenta();
-        List<Venta> listaVentas = ventaService.listarVentas();
+    public void obtenerVentaRepuestos(){
+        crearVentaRepuesto();
+        List<VentaRepuesto> listaVentaRepuestos = ventaRepuestoDAO.obtenerVentaRepuestos();
         
-        assertEquals(1, listaVentas.get(0).getId_venta());
-        assertEquals(20, listaVentas.get(0).getCantidad());
-        assertEquals("Perez", listaVentas.get(0).getCliente().getApellido());
+        assertEquals(1, listaVentaRepuestos.get(0).getId_venta());
+        assertEquals(1, listaVentaRepuestos.get(0).getId_repuesto());
+        assertEquals(2, listaVentaRepuestos.get(0).getCantidad_repuestos());
         
-        assertEquals(2, listaVentas.get(1).getId_venta());
-        assertEquals(50, listaVentas.get(1).getCantidad());
-        assertEquals("Perez", listaVentas.get(1).getCliente().getApellido());
+        assertEquals(2, listaVentaRepuestos.get(2).getId_venta());
+        assertEquals(3, listaVentaRepuestos.get(2).getId_repuesto());
+        assertEquals(1, listaVentaRepuestos.get(2).getCantidad_repuestos());
     }
     
     @Test
-    public void obtenerVentaPorId(){
-        agregarVenta();
-        Venta venta = ventaService.obtenerVentaPorId(2);
+    public void obtenerVentaRepuestoPorVenta(){
+        crearVentaRepuesto();
+        List<VentaRepuesto> listaVentaRepuestos = ventaRepuestoDAO.obtenerVentaRepuestoPorVenta(2);
         
-        assertEquals(2, venta.getId_venta());
-        assertEquals(50, venta.getCantidad());
-        assertEquals("Perez", venta.getCliente().getApellido());
+        assertEquals(2, listaVentaRepuestos.get(0).getId_venta());
+        assertEquals(3, listaVentaRepuestos.get(0).getId_repuesto());
+        assertEquals(1, listaVentaRepuestos.get(0).getCantidad_repuestos());
+        
+        assertEquals(2, listaVentaRepuestos.get(1).getId_venta());
+        assertEquals(4, listaVentaRepuestos.get(1).getId_repuesto());
+        assertEquals(1, listaVentaRepuestos.get(1).getCantidad_repuestos());
     }
     
     @Test
-    public void editarVenta(){
-        agregarVenta();
-        Cliente cliente = clienteDAO.obtenerCliente(1);
-        Venta venta = new Venta(1, 5, new Date(), cliente, new BigDecimal("3500"));
+    public void obtenerVentaRepuestoPorRepuesto(){
+        crearVentaRepuesto();
+        List<VentaRepuesto> listaVentaRepuestos = ventaRepuestoDAO.obtenerVentaRepuestoPorVenta(2);
         
-        ventaService.editarVenta(venta);
-        venta = ventaService.obtenerVentaPorId(1);
+        assertEquals(2, listaVentaRepuestos.get(0).getId_venta());
+        assertEquals(3, listaVentaRepuestos.get(0).getId_repuesto());
+        assertEquals(1, listaVentaRepuestos.get(0).getCantidad_repuestos());
         
-        assertEquals(1, venta.getId_venta());
-        assertEquals(5, venta.getCantidad());
+        assertEquals(2, listaVentaRepuestos.get(1).getId_venta());
+        assertEquals(4, listaVentaRepuestos.get(1).getId_repuesto());
+        assertEquals(1, listaVentaRepuestos.get(1).getCantidad_repuestos());
     }
-    /*
+    
     @Test
-    public void eliminarVentaPorId(){
-        agregarVenta();
-        ventaService.eliminarVentaPorId(2);
+    public void actualizarAgregarVentaRepuestoPorVenta(){
+        crearVentaRepuesto();
         
-        List<Venta> listaVentas = ventaService.listarVentas();
-        
-        assertEquals(2, listaVentas.get(0).getId_venta());
-        assertEquals(50, listaVentas.get(0).getCantidad());
-        assertEquals("Carrizo", listaVentas.get(0).getCliente().getApellido());
-    }
-    */
-    @Test
-    public void nuevaVenta() throws SQLException{
-        agregarVenta();
-        Cliente cliente = clienteDAO.obtenerCliente(1);
-        Venta venta1 = new Venta(1, 4, new Date(), cliente, new BigDecimal("15000"));
-        ventaDAO.crearVenta(venta1);
-        venta1 = ventaDAO.obtenerVenta(5);
-        
-        assertEquals(5, venta1.getId_venta());
-        assertEquals(4, venta1.getCantidad());
-        
-        Repuesto repuesto1 = repuestoDAO.obtenerRepuesto(1);
-        Repuesto repuesto2 = repuestoDAO.obtenerRepuesto(2);
+        Repuesto repuesto = repuestoDAO.obtenerRepuesto(4);
         List<Repuesto> listaRepuestos = new ArrayList<>();
-        listaRepuestos.add(repuesto1);
-        listaRepuestos.add(repuesto2);
-        ventaService.nuevaVenta(venta1, listaRepuestos);
-        repuesto1 = repuestoDAO.obtenerRepuesto(1);
-        repuesto2 = repuestoDAO.obtenerRepuesto(2);
+        listaRepuestos.add(repuesto);
+        listaRepuestos.add(repuesto);
         
-        assertEquals(9, repuesto1.getStock());
-        assertEquals(19, repuesto2.getStock());
+        ventaRepuestoDAO.actualizarAgregarVentaRepuestoPorVenta(1, listaRepuestos);
+        List<VentaRepuesto> listaVentaRepuestos = ventaRepuestoDAO.obtenerVentaRepuestoPorVenta(1);
+        
+        assertEquals(3, listaVentaRepuestos.size());
+        
+        assertEquals(1, listaVentaRepuestos.get(0).getId_venta());
+        assertEquals(1, listaVentaRepuestos.get(0).getId_repuesto());
+        assertEquals(2, listaVentaRepuestos.get(0).getCantidad_repuestos());
+        
+        assertEquals(1, listaVentaRepuestos.get(2).getId_venta());
+        assertEquals(4, listaVentaRepuestos.get(2).getId_repuesto());
+        assertEquals(2, listaVentaRepuestos.get(2).getCantidad_repuestos());
+        
+    }
+    
+    @Test
+    public void actualizarEliminarVentaRepuestoPorRepuesto(){
+        crearVentaRepuesto();
+        
+        Repuesto repuesto = repuestoDAO.obtenerRepuesto(1);
+        List<Repuesto> listaRepuestos = new ArrayList<>();
+        listaRepuestos.add(repuesto);
+        
+        ventaRepuestoDAO.actualizarEliminarVentaRepuestoPorRepuesto(1, listaRepuestos);
+        List<VentaRepuesto> listaVentaRepuestos = ventaRepuestoDAO.obtenerVentaRepuestoPorVenta(1);
+        
+        assertEquals(2, listaVentaRepuestos.size());
+        
+        assertEquals(1, listaVentaRepuestos.get(0).getId_venta());
+        assertEquals(1, listaVentaRepuestos.get(0).getId_repuesto());
+        assertEquals(1, listaVentaRepuestos.get(0).getCantidad_repuestos());
+        
+        assertEquals(1, listaVentaRepuestos.get(1).getId_venta());
+        assertEquals(2, listaVentaRepuestos.get(1).getId_repuesto());
+        assertEquals(1, listaVentaRepuestos.get(1).getCantidad_repuestos());
+    }
+    
+    @Test
+    public void eliminarVentaRepuesto(){
+        crearVentaRepuesto();
+        ventaRepuestoDAO.eliminarVentaRepuesto(1, 1);
+        
+        List<VentaRepuesto> listaVentaRepuestos = ventaRepuestoDAO.obtenerVentaRepuestoPorVenta(1);
+        
+        assertEquals(1, listaVentaRepuestos.size());
+        
+        assertEquals(1, listaVentaRepuestos.get(0).getId_venta());
+        assertEquals(2, listaVentaRepuestos.get(0).getId_repuesto());
+        assertEquals(1, listaVentaRepuestos.get(0).getCantidad_repuestos());
+    } 
+    
+    @Test
+    public void eliminarVentaRepuestoPorVenta(){
+        crearVentaRepuesto();
+        ventaRepuestoDAO.eliminarVentaRepuestoPorVenta(1);
+        
+        List<VentaRepuesto> listaVentaRepuestos = ventaRepuestoDAO.obtenerVentaRepuestos();
+        
+        assertEquals(3, listaVentaRepuestos.size());
+        
+        assertEquals(2, listaVentaRepuestos.get(0).getId_venta());
+        assertEquals(3, listaVentaRepuestos.get(0).getId_repuesto());
+        assertEquals(1, listaVentaRepuestos.get(0).getCantidad_repuestos());
     }
     
 }
