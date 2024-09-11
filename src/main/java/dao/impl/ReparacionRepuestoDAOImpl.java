@@ -6,7 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Repuesto;
@@ -15,28 +17,29 @@ import model.ReparacionRepuesto;
 
 public class ReparacionRepuestoDAOImpl implements ReparacionRepuestoDAO{
     
-    private Connection connection = null;
+    private final Connection connection;
     private final String SENTENCIA_CREAR_REPARACION_REPUESTO = 
-            "INSERT INTO TiendaLocal.Reparacion_Repuesto (id_reparacion, id_repuesto) VALUES ( ? , ? )";
+            "INSERT INTO TiendaLocal.Reparacion_Repuesto (id_reparacion, id_repuesto, cantidad_repuestos) VALUES ( ? , ? , ?)";
     private final String SENTENCIA_OBTENER_REPARACION_REPUESTOS = 
-            "SELECT * FROM TiendaLocal.Reparacion_Repuesto ORDER BY id_repuesto ASC";
+            "SELECT * FROM TiendaLocal.Reparacion_Repuesto ORDER BY id_reparacion ASC, id_repuesto ASC";
     private final String SENTENCIA_OBTENER_REPARACION_REPUESTOS_POR_REPARACION = 
-            "SELECT * FROM TiendaLocal.Reparacion_Repuesto WHERE id_reparacion = ?";
+            "SELECT * FROM TiendaLocal.Reparacion_Repuesto WHERE id_reparacion = ? ORDER BY id_reparacion ASC, id_repuesto ASC";
     private final String SENTENCIA_OBTENER_REPARACION_REPUESTOS_POR_REPUESTO = 
-            "SELECT * FROM TiendaLocal.Reparacion_Repuesto WHERE id_repuesto = ?";
+            "SELECT * FROM TiendaLocal.Reparacion_Repuesto WHERE id_repuesto = ? ORDER BY id_reparacion ASC, id_repuesto ASC";
     private final String SENTENCIA_ACTUALIZAR_AGREGAR_REPARACION_REPUESTO_POR_REPARACION = 
-            "UPDATE TiendaLocal.Reparacion_Repuesto SET id_repuesto = ? WHERE id_reparacion = ?";
+            "UPDATE TiendaLocal.Reparacion_Repuesto SET cantidad_repuestos = ? WHERE id_reparacion = ? AND id_repuesto = ?";
     private final String SENTENCIA_ACTUALIZAR_ELIMINAR_REPARACION_REPUESTO_POR_REPUESTO = 
-            "UPDATE TiendaLocal.Reparacion_Repuesto SET id_reparacion = ? WHERE id_repuesto = ?";
+            "UPDATE TiendaLocal.Reparacion_Repuesto SET cantidad_repuestos = ? WHERE id_reparacion = ? AND id_repuesto = ?";
     private final String SENTENCIA_ELIMINAR_REPARACION_REPUESTO = 
             "DELETE FROM TiendaLocal.Reparacion_Repuesto WHERE id_reparacion = ? AND id_repuesto = ?";
     private final String SENTENCIA_ELIMINAR_REPARACION_REPUESTO_POR_REPARACION = 
             "DELETE FROM TiendaLocal.Reparacion_Repuesto WHERE id_reparacion = ?";
     
+    
     public ReparacionRepuestoDAOImpl(Connection connection) {
         this.connection = connection;
     }
-
+    
     @Override
     public void crearReparacionRepuesto(Reparacion reparacion, List<Repuesto> listaRepuestos) {
         for(Repuesto repuesto : listaRepuestos){
@@ -44,11 +47,12 @@ public class ReparacionRepuestoDAOImpl implements ReparacionRepuestoDAO{
                 PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_REPARACION_REPUESTO);
                 preparedStatement.setInt(1, reparacion.getId_reparacion());
                 preparedStatement.setInt(2, repuesto.getId_repuesto());
+                preparedStatement.setInt(3, obtenerCantidadRepuestos(listaRepuestos, repuesto.getId_repuesto()));
                 preparedStatement.executeUpdate();
             } catch (SQLException ex) {
                 Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } 
+        }
     }
 
     @Override
@@ -62,8 +66,9 @@ public class ReparacionRepuestoDAOImpl implements ReparacionRepuestoDAO{
             while(repuesto_ReparacionResultado.next()){
                 int idReparacion = repuesto_ReparacionResultado.getInt("id_reparacion");
                 int idRepuesto = repuesto_ReparacionResultado.getInt("id_repuesto");
+                int cantidadRep = repuesto_ReparacionResultado.getInt("cantidad_repuestos");
                 
-                ReparacionRepuesto reparacionRepuesto = new ReparacionRepuesto(idReparacion, idRepuesto);
+                ReparacionRepuesto reparacionRepuesto = new ReparacionRepuesto(idReparacion, idRepuesto,cantidadRep);
                 
                 listaReparacionRepuestos.add(reparacionRepuesto);
             }
@@ -86,8 +91,9 @@ public class ReparacionRepuestoDAOImpl implements ReparacionRepuestoDAO{
             while(repuesto_ReparacionResultado.next()){
                 int idReparacion = repuesto_ReparacionResultado.getInt("id_reparacion");
                 int idRepuesto = repuesto_ReparacionResultado.getInt("id_repuesto");
+                int cantidadRep = repuesto_ReparacionResultado.getInt("cantidad_repuestos");
                 
-                ReparacionRepuesto reparacionRepuesto = new ReparacionRepuesto(idReparacion, idRepuesto);
+                ReparacionRepuesto reparacionRepuesto = new ReparacionRepuesto(idReparacion, idRepuesto,cantidadRep);
                 
                 listaReparacionRepuestos.add(reparacionRepuesto);
             }
@@ -110,8 +116,9 @@ public class ReparacionRepuestoDAOImpl implements ReparacionRepuestoDAO{
             while(repuesto_ReparacionResultado.next()){
                 int idReparacion = repuesto_ReparacionResultado.getInt("id_reparacion");
                 int idRepuesto = repuesto_ReparacionResultado.getInt("id_repuesto");
-
-                ReparacionRepuesto reparacionRepuesto = new ReparacionRepuesto(idReparacion, idRepuesto);
+                int cantidadRep = repuesto_ReparacionResultado.getInt("cantidad_repuestos");
+                
+                ReparacionRepuesto reparacionRepuesto = new ReparacionRepuesto(idReparacion, idRepuesto,cantidadRep);
 
                 listaReparacionRepuestos.add(reparacionRepuesto);
             }
@@ -121,34 +128,142 @@ public class ReparacionRepuestoDAOImpl implements ReparacionRepuestoDAO{
 
         return listaReparacionRepuestos;
     }
-
+    
     @Override
-    public void actualizarAgregarReparacionRepuestoPorReparacion(int id_reparacion, List<Repuesto> listaRepuesto) {
-        for(Repuesto repuesto : listaRepuesto){
-            try {
-                PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_AGREGAR_REPARACION_REPUESTO_POR_REPARACION);
-                preparedStatement.setInt(1, repuesto.getId_repuesto());
-                preparedStatement.setInt(2, id_reparacion);
-                preparedStatement.executeUpdate();
-            } catch (SQLException ex) {
-                Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+    public void actualizarAgregarReparacionRepuestoPorReparacion(int id_reparacion, List<Repuesto> listaRepuestosNuevos) {
+        ReparacionRepuestoDAOImpl reparacionRepuestoDAO = new ReparacionRepuestoDAOImpl(connection);
+        
+        List<ReparacionRepuesto> listaRepuestosActualizar = reparacionRepuestoDAO.obtenerReparacionRepuestoPorReparacion(id_reparacion);
+        List<ReparacionRepuesto> listaRepuestosNueva = reparacionRepuestoDAO.crearReparacionRepuestoAuxiliar(listaRepuestosNuevos);
+        
+        for (ReparacionRepuesto reparacionRep : listaRepuestosNueva) {
+            boolean existe = false;
+            for (ReparacionRepuesto reparacionRepuesto : listaRepuestosActualizar) {
+                if (reparacionRepuesto.getId_repuesto() == reparacionRep.getId_repuesto()) {
+                    reparacionRepuesto.setCantidad_repuestos(reparacionRepuesto.getCantidad_repuestos() + reparacionRep.getCantidad_repuestos());
+                    existe = true;
+
+                    try {
+                        PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_AGREGAR_REPARACION_REPUESTO_POR_REPARACION);
+                        preparedStatement.setInt(1, reparacionRepuesto.getCantidad_repuestos());
+                        preparedStatement.setInt(2, id_reparacion);
+                        preparedStatement.setInt(3, reparacionRepuesto.getId_repuesto());
+                        preparedStatement.executeUpdate();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    break;
+                }
+            }
+            if (!existe) {
+                ReparacionDAOImpl reparacionDAO = new ReparacionDAOImpl(connection);
+                Reparacion reparacion = reparacionDAO.obtenerReparacion(id_reparacion);
+                crearReparacionRepuesto(reparacion, listaRepuestosNuevos);
             }
         }
     }
-
+/*
+    
     @Override
-    public void actualizarEliminarReparacionRepuestoPorRepuesto(int id_reparacion, List<Repuesto> listaRepuesto) {
-        for(Repuesto repuesto : listaRepuesto){
-            try {
-                PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_ELIMINAR_REPARACION_REPUESTO_POR_REPUESTO);
-                preparedStatement.setInt(1, id_reparacion);
-                preparedStatement.setInt(2, repuesto.getId_repuesto());
-                preparedStatement.executeUpdate();
-            } catch (SQLException ex) {
-                Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+    public void actualizarAgregarReparacionRepuestoPorReparacion(int id_reparacion, List<Repuesto> listaRepuestosNuevos) {
+        ReparacionRepuestoDAOImpl reparacionRepuestoDAO = new ReparacionRepuestoDAOImpl(connection);
+        
+        List<ReparacionRepuesto> listaRepuestosActualizar = reparacionRepuestoDAO.obtenerReparacionRepuestoPorReparacion(id_reparacion);
+        List<ReparacionRepuesto> listaRepuestosNueva = reparacionRepuestoDAO.crearReparacionRepuestoAuxiliar(listaRepuestosNuevos);
+        
+        for(ReparacionRepuesto reparacionRepuesto : listaRepuestosActualizar){   
+            for(ReparacionRepuesto reparacionRep : listaRepuestosNueva){
+                if(reparacionRepuesto.getId_repuesto() == reparacionRep.getId_repuesto()){
+                    reparacionRepuesto.setCantidad_repuestos(reparacionRepuesto.getCantidad_repuestos() + reparacionRep.getCantidad_repuestos());
+                
+                    try {
+                        PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_AGREGAR_REPARACION_REPUESTO_POR_REPARACION);
+                        preparedStatement.setInt(1, reparacionRepuesto.getId_repuesto());
+                        preparedStatement.setInt(2, reparacionRepuesto.getCantidad_repuestos());
+                        preparedStatement.setInt(3, id_reparacion);
+                        preparedStatement.executeUpdate();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
         }
     }
+*/
+    
+    @Override
+    public void actualizarEliminarReparacionRepuestoPorRepuesto(int id_reparacion, List<Repuesto> listaRepuestosEliminar) {
+        ReparacionRepuestoDAOImpl reparacionRepuestoDAO = new ReparacionRepuestoDAOImpl(connection);
+
+        List<ReparacionRepuesto> listaRepuestosActualizar = reparacionRepuestoDAO.obtenerReparacionRepuestoPorReparacion(id_reparacion);
+        List<ReparacionRepuesto> listaRepuestosNueva = reparacionRepuestoDAO.crearReparacionRepuestoAuxiliar(listaRepuestosEliminar);
+
+        for (ReparacionRepuesto reparacionRep : listaRepuestosNueva) {
+            boolean existe = false;
+            for (ReparacionRepuesto reparacionRepuesto : listaRepuestosActualizar) {
+                if (reparacionRepuesto.getId_repuesto() == reparacionRep.getId_repuesto()) {
+                    // Restar las cantidades
+                    int nuevaCantidad = reparacionRepuesto.getCantidad_repuestos() - reparacionRep.getCantidad_repuestos();
+                    existe = true;
+
+                    try {
+                        if (nuevaCantidad > 0) {
+                            // Actualizar la cantidad si es mayor a 0
+                            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_ELIMINAR_REPARACION_REPUESTO_POR_REPUESTO);
+                            preparedStatement.setInt(1, reparacionRepuesto.getId_repuesto());
+                            preparedStatement.setInt(2, nuevaCantidad);
+                            preparedStatement.setInt(3, id_reparacion);
+                            preparedStatement.executeUpdate();
+                        } else {
+                            // Eliminar la relación si la cantidad es 0 o menor
+                            PreparedStatement deleteStatement = connection.prepareStatement(SENTENCIA_ELIMINAR_REPARACION_REPUESTO);
+                            deleteStatement.setInt(1, id_reparacion);
+                            deleteStatement.setInt(2, reparacionRepuesto.getId_repuesto());
+                            deleteStatement.executeUpdate();
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    break;
+                }
+            }
+
+            if (!existe) {
+                // No se hace nada si el repuesto no existe en la lista actual
+                // Si se requiere lógica adicional, puede añadirse aquí
+            }
+        }
+
+    }
+    
+    /*
+    @Override
+    public void actualizarEliminarReparacionRepuestoPorRepuesto(int id_reparacion, List<Repuesto> listaRepuestosEliminar) {
+        ReparacionRepuestoDAOImpl reparacionRepuestoDAO = new ReparacionRepuestoDAOImpl(connection);
+        
+        List<ReparacionRepuesto> listaRepuestosActualizar = reparacionRepuestoDAO.obtenerReparacionRepuestoPorReparacion(id_reparacion);
+        List<ReparacionRepuesto> listaRepuestosNueva = reparacionRepuestoDAO.crearReparacionRepuestoAuxiliar(listaRepuestosEliminar);
+        
+        for(ReparacionRepuesto reparacionRepuesto : listaRepuestosActualizar){   
+            for(ReparacionRepuesto reparacionRep : listaRepuestosNueva){
+                if(reparacionRepuesto.getId_repuesto() == reparacionRep.getId_repuesto()){
+                    reparacionRepuesto.setCantidad_repuestos(reparacionRepuesto.getCantidad_repuestos() - reparacionRep.getCantidad_repuestos());
+                
+                    try {
+                        PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_ELIMINAR_REPARACION_REPUESTO_POR_REPUESTO);
+                        preparedStatement.setInt(1, reparacionRepuesto.getCantidad_repuestos());
+                        preparedStatement.setInt(2, id_reparacion);
+                        preparedStatement.setInt(3, reparacionRepuesto.getId_repuesto());
+                        preparedStatement.executeUpdate();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        }
+    }
+    */
+    
 
     @Override
     public void eliminarReparacionRepuesto(int id_reparacion, int id_repuesto) {
@@ -171,5 +286,37 @@ public class ReparacionRepuestoDAOImpl implements ReparacionRepuestoDAO{
         } catch (SQLException ex) {
             Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }    
+    }
+
+    private int obtenerCantidadRepuestos(List<Repuesto> listaRepuestos, int id_repuesto) {
+        int cantidad = 0;
+        for(Repuesto repuesto : listaRepuestos){
+            if(repuesto.getId_repuesto() == id_repuesto){
+                cantidad = cantidad + 1;
+            }
+        }
+        
+        return cantidad;
+    }
+    
+    private List<ReparacionRepuesto> crearReparacionRepuestoAuxiliar(List<Repuesto> listaRepuestos) {
+        List<ReparacionRepuesto> listaReparacionRepuesto = new ArrayList<>();
+        Map<Integer, Integer> contadorRepuestos = new HashMap<>();
+
+        // Cuenta la cantidad de cada repuesto
+        for (Repuesto repuesto : listaRepuestos) {
+            contadorRepuestos.put(repuesto.getId_repuesto(), 
+                    contadorRepuestos.getOrDefault(repuesto.getId_repuesto(), 0) + 1);
+        }
+
+        // Crea objetos ReparacionRepuesto con las cantidades correctas
+        for (Map.Entry<Integer, Integer> entry : contadorRepuestos.entrySet()) {
+            int idRepuesto = entry.getKey();
+            int cantidad = entry.getValue();
+            ReparacionRepuesto reparacionRep = new ReparacionRepuesto(1, idRepuesto, cantidad);
+            listaReparacionRepuesto.add(reparacionRep);
+        }
+
+        return listaReparacionRepuesto;
+    }
 }

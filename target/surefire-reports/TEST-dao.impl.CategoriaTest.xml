@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="dao.impl.VentaRepuestoTest" time="0.56" tests="9" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="dao.impl.CategoriaTest" time="0.745" tests="6" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -58,13 +58,10 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="actualizarEliminarVentaRepuestoPorRepuesto" classname="dao.impl.VentaRepuestoTest" time="0.493"/>
-  <testcase name="eliminarTablas" classname="dao.impl.VentaRepuestoTest" time="0.041"/>
-  <testcase name="actualizarAgregarVentaRepuestoPorVenta" classname="dao.impl.VentaRepuestoTest" time="0.004"/>
-  <testcase name="eliminarVentaRepuestoPorVenta" classname="dao.impl.VentaRepuestoTest" time="0.003"/>
-  <testcase name="obtenerVentaRepuestoPorRepuesto" classname="dao.impl.VentaRepuestoTest" time="0.002"/>
-  <testcase name="obtenerVentaRepuestoPorVenta" classname="dao.impl.VentaRepuestoTest" time="0.002"/>
-  <testcase name="obtenerVentaRepuestos" classname="dao.impl.VentaRepuestoTest" time="0.003"/>
-  <testcase name="eliminarVentaRepuesto" classname="dao.impl.VentaRepuestoTest" time="0.004"/>
-  <testcase name="crearVentaRepuesto" classname="dao.impl.VentaRepuestoTest" time="0.001"/>
+  <testcase name="eliminarTablas" classname="dao.impl.CategoriaTest" time="0.132"/>
+  <testcase name="pruebaEliminarCategorias" classname="dao.impl.CategoriaTest" time="0.024"/>
+  <testcase name="pruebaCrearCategoria" classname="dao.impl.CategoriaTest" time="0.028"/>
+  <testcase name="pruebaObtenerCategorias" classname="dao.impl.CategoriaTest" time="0.029"/>
+  <testcase name="pruebaObtenerCategoria" classname="dao.impl.CategoriaTest" time="0.025"/>
+  <testcase name="pruebaModificarCategorias" classname="dao.impl.CategoriaTest" time="0.028"/>
 </testsuite>
