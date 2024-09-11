@@ -24,27 +24,31 @@ public class ReparacionRepuestoDAOImpl implements ReparacionRepuestoDAO{
             "SELECT * FROM TiendaLocal.Reparacion_Repuesto WHERE id_reparacion = ?";
     private final String SENTENCIA_OBTENER_REPARACION_REPUESTOS_POR_REPUESTO = 
             "SELECT * FROM TiendaLocal.Reparacion_Repuesto WHERE id_repuesto = ?";
-    private final String SENTENCIA_ACTUALIZAR_REPARACION_REPUESTO_POR_REPARACION = 
+    private final String SENTENCIA_ACTUALIZAR_AGREGAR_REPARACION_REPUESTO_POR_REPARACION = 
             "UPDATE TiendaLocal.Reparacion_Repuesto SET id_repuesto = ? WHERE id_reparacion = ?";
-    private final String SENTENCIA_ACTUALIZAR_REPARACION_REPUESTO_POR_REPUESTO = 
+    private final String SENTENCIA_ACTUALIZAR_ELIMINAR_REPARACION_REPUESTO_POR_REPUESTO = 
             "UPDATE TiendaLocal.Reparacion_Repuesto SET id_reparacion = ? WHERE id_repuesto = ?";
-    private final String SENTENCIA_ELIMINAR_REPARACION_REPUESTO_POR_REPARACION = 
+    private final String SENTENCIA_ELIMINAR_REPARACION_REPUESTO = 
             "DELETE FROM TiendaLocal.Reparacion_Repuesto WHERE id_reparacion = ? AND id_repuesto = ?";
+    private final String SENTENCIA_ELIMINAR_REPARACION_REPUESTO_POR_REPARACION = 
+            "DELETE FROM TiendaLocal.Reparacion_Repuesto WHERE id_reparacion = ?";
     
     public ReparacionRepuestoDAOImpl(Connection connection) {
         this.connection = connection;
     }
 
     @Override
-    public void crearReparacionRepuesto(Reparacion reparacion, Repuesto repuesto) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_REPARACION_REPUESTO);
-            preparedStatement.setInt(1, reparacion.getId_reparacion());
-            preparedStatement.setInt(2, repuesto.getId_repuesto());
-            preparedStatement.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void crearReparacionRepuesto(Reparacion reparacion, List<Repuesto> listaRepuestos) {
+        for(Repuesto repuesto : listaRepuestos){
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_REPARACION_REPUESTO);
+                preparedStatement.setInt(1, reparacion.getId_reparacion());
+                preparedStatement.setInt(2, repuesto.getId_repuesto());
+                preparedStatement.executeUpdate();
+            } catch (SQLException ex) {
+                Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } 
     }
 
     @Override
@@ -69,7 +73,7 @@ public class ReparacionRepuestoDAOImpl implements ReparacionRepuestoDAO{
         
         return listaReparacionRepuestos;
     }
-        
+
     @Override
     public List<ReparacionRepuesto> obtenerReparacionRepuestoPorReparacion(int id_reparacion) {
         List<ReparacionRepuesto> listaReparacionRepuestos = new ArrayList<>();
@@ -119,21 +123,37 @@ public class ReparacionRepuestoDAOImpl implements ReparacionRepuestoDAO{
     }
 
     @Override
-    public void actualizarReparacionRepuestoPorReparacion(int id_reparacion, int id_repuesto) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_REPARACION_REPUESTO_POR_REPARACION);
-            preparedStatement.setInt(1, id_repuesto);
-            preparedStatement.setInt(2, id_reparacion);
-            preparedStatement.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+    public void actualizarAgregarReparacionRepuestoPorReparacion(int id_reparacion, List<Repuesto> listaRepuesto) {
+        for(Repuesto repuesto : listaRepuesto){
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_AGREGAR_REPARACION_REPUESTO_POR_REPARACION);
+                preparedStatement.setInt(1, repuesto.getId_repuesto());
+                preparedStatement.setInt(2, id_reparacion);
+                preparedStatement.executeUpdate();
+            } catch (SQLException ex) {
+                Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
-    
+
     @Override
-    public void actualizarReparacionRepuestoPorRepuesto(int id_reparacion, int id_repuesto) {
+    public void actualizarEliminarReparacionRepuestoPorRepuesto(int id_reparacion, List<Repuesto> listaRepuesto) {
+        for(Repuesto repuesto : listaRepuesto){
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_ELIMINAR_REPARACION_REPUESTO_POR_REPUESTO);
+                preparedStatement.setInt(1, id_reparacion);
+                preparedStatement.setInt(2, repuesto.getId_repuesto());
+                preparedStatement.executeUpdate();
+            } catch (SQLException ex) {
+                Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    @Override
+    public void eliminarReparacionRepuesto(int id_reparacion, int id_repuesto) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_REPARACION_REPUESTO_POR_REPUESTO);
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ELIMINAR_REPARACION_REPUESTO);
             preparedStatement.setInt(1, id_reparacion);
             preparedStatement.setInt(2, id_repuesto);
             preparedStatement.executeUpdate();
@@ -143,14 +163,13 @@ public class ReparacionRepuestoDAOImpl implements ReparacionRepuestoDAO{
     }
 
     @Override
-    public void eliminarReparacionRepuesto(int id_reparacion, int id_repuesto) {
+    public void eliminarReparacionRepuestoPorReparacion(int id_reparacion) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ELIMINAR_REPARACION_REPUESTO_POR_REPARACION);
             preparedStatement.setInt(1, id_reparacion);
-            preparedStatement.setInt(2, id_repuesto);
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    }    
 }

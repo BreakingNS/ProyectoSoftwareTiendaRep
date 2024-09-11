@@ -2,7 +2,7 @@ package service;
 
 import dao.impl.RepuestoDAOImpl;
 import dao.impl.VentaDAOImpl;
-import dao.impl.VentaRepuestoDAOImplVIEJOOOOO;
+import dao.impl.VentaRepuestoDAOImpl;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -14,23 +14,25 @@ public class VentaService {
     private final Connection connection;
     private final VentaDAOImpl ventaDAO;
     private final RepuestoDAOImpl repuestoDAO;
-    private final VentaRepuestoDAOImplVIEJOOOOO VentaRepuestoDAO;
+    private final VentaRepuestoDAOImpl VentaRepuestoDAO;
 
-    public VentaService(VentaDAOImpl ventaDAO, RepuestoDAOImpl repuestoDAO, VentaRepuestoDAOImplVIEJOOOOO VentaRepuestoDAO, Connection connection) {
+    public VentaService(VentaDAOImpl ventaDAO, RepuestoDAOImpl repuestoDAO, VentaRepuestoDAOImpl VentaRepuestoDAO, Connection connection) {
         this.ventaDAO = ventaDAO;
         this.repuestoDAO = repuestoDAO;
         this.VentaRepuestoDAO = VentaRepuestoDAO;
         this.connection = connection;
     }
     
-    public void agregarVenta(Venta venta, Repuesto repuesto) throws SQLException{
+    public void agregarVenta(Venta venta, List<Repuesto> listaRepuestos) throws SQLException{
         boolean autoCommitState = connection.getAutoCommit(); // Guardar el estado original
         connection.setAutoCommit(false); // Desactivar auto-commit
         try {
             // Realizar operaciones de la transacción
             ventaDAO.crearVenta(venta);
         
-            VentaRepuestoDAO.crearVentaRepuesto(venta, repuesto);
+            VentaRepuestoDAO.crearVentaRepuesto(venta, listaRepuestos);
+            
+            descontarStockPorLista(listaRepuestos);
 
             connection.commit(); // Confirmar la transacción
 
@@ -58,34 +60,65 @@ public class VentaService {
         ventaDAO.actualizarVenta(venta);
     }
     
-    public void eliminarVentaPorId(int id){
-        ventaDAO.eliminarVenta(id);
-    }
-    
-    public void nuevaVenta(Venta venta, Repuesto repuesto) throws SQLException {
-        boolean autoCommitState = connection.getAutoCommit(); // Guardar el estado original
-        connection.setAutoCommit(false); // Desactivar auto-commit
-
+    public void eliminarVentaPorId(int id) throws SQLException{
+        
+        boolean autoCommitState = connection.getAutoCommit(); 
+        connection.setAutoCommit(false); 
         try {
-            // Realizar operaciones de la transacción
-            ventaDAO.crearVenta(venta); // Usar la conexión proporcionada
-            int stockVenta = venta.getCantidad();
-            int stockActual = repuesto.getStock() - stockVenta;
-            repuesto.setStock(stockActual);
+            ventaDAO.eliminarVenta(id);
+        
+            VentaRepuestoDAO.eliminarVentaRepuestoPorVenta(id);
 
-            repuestoDAO.actualizarRepuesto(repuesto); // Usar la conexión proporcionada
-
-            connection.commit(); // Confirmar la transacción
+            connection.commit();
 
         } catch (SQLException e) {
             try {
-                connection.rollback(); // Revertir en caso de error
+                connection.rollback();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
             e.printStackTrace();
         } finally {
-            connection.setAutoCommit(autoCommitState); // Restablecer auto-commit al estado original
+            connection.setAutoCommit(autoCommitState);
+        }
+    }
+    
+    public void nuevaVenta(Venta venta, List<Repuesto> listaRepuestos) throws SQLException {
+        boolean autoCommitState = connection.getAutoCommit();
+        connection.setAutoCommit(false);
+
+        try {
+            ventaDAO.crearVenta(venta); 
+            
+            VentaRepuestoDAO.crearVentaRepuesto(venta, listaRepuestos);
+            
+            descontarStockPorLista(listaRepuestos);
+
+            connection.commit();
+
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+        } finally {
+            connection.setAutoCommit(autoCommitState);
+        }
+    }
+    
+    public void descontarStockPorIdRepuesto(Repuesto repuesto){
+        Repuesto repAux = repuestoDAO.obtenerRepuesto(repuesto.getId_repuesto());
+        repAux.setStock(repAux.getStock() - 1);
+        repuestoDAO.actualizarRepuesto(repAux);
+    }
+    
+    public void descontarStockPorLista(List<Repuesto> listaRepuestos){
+        for(Repuesto rep : listaRepuestos){
+            Repuesto repAux = repuestoDAO.obtenerRepuesto(rep.getId_repuesto());
+            repAux.setStock(repAux.getStock() - 1);
+            repuestoDAO.actualizarRepuesto(repAux);
         }
     }
 }
