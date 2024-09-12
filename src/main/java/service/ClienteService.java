@@ -66,6 +66,11 @@ public class ClienteService {
         return cliente;
     }
     
+    public List<Cliente> busquedaDeCliente(Cliente cliente){
+        List<Cliente> listaCliente = clienteDAO.buscarCliente(cliente);
+        return listaCliente;
+    }
+    
     public void editarClientePorId(Cliente cliente){
         clienteDAO.actualizarCliente(cliente);
     }

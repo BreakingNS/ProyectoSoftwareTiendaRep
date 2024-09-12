@@ -19,6 +19,12 @@ public class ClienteDAOImpl implements ClienteDAO{
     private final String SENTENCIA_ELIMINAR_CLIENTE = "DELETE FROM TiendaLocal.cliente WHERE id_cliente = ?";
     private final String SENTENCIA_OBTENER_CLIENTES = "SELECT * FROM TiendaLocal.cliente ORDER BY id_cliente ASC";
     private final String SENTENCIA_OBTENER_CLIENTE = "SELECT * FROM TiendaLocal.cliente WHERE id_cliente = ?";
+    private final String SENTENCIA_BUSQUEDA_DE_CLIENTE = 
+            "SELECT * " + 
+            "FROM TiendaLocal.cliente " +
+            "WHERE UPPER(nombre) LIKE ? " +
+            "AND UPPER(apellido) LIKE ? " +
+            "AND UPPER(telefono) LIKE ? ";
     private final String SENTENCIA_CREAR_CLIENTE = "INSERT INTO TiendaLocal.cliente (nombre, apellido, telefono) VALUES ( ? , ? , ?)";
     private final String SENTENCIA_ACTUALIZAR_CLIENTE = "UPDATE TiendaLocal.cliente SET nombre = ?, apellido = ?, telefono = ? WHERE id_cliente = ?";
 
@@ -66,6 +72,41 @@ public class ClienteDAOImpl implements ClienteDAO{
         return listaClientes;
     }
 
+    @Override
+    public List<Cliente> buscarCliente(Cliente cliente) {
+        List<Cliente> listaClientes = new ArrayList<>();
+        ResultSet cliente_Resultado = null;
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_BUSQUEDA_DE_CLIENTE);
+        
+            // Usa '%' para envolver los parámetros de búsqueda
+            preparedStatement.setString(1, "%" + cliente.getNombre().toUpperCase() + "%");
+            preparedStatement.setString(2, "%" + cliente.getApellido().toUpperCase() + "%");
+            preparedStatement.setString(3, "%" + cliente.getTelefono().toUpperCase() + "%");
+
+            cliente_Resultado = preparedStatement.executeQuery();
+            
+            while(cliente_Resultado.next()){
+                int idCliente = cliente_Resultado.getInt("id_cliente");
+                String nombreCliente = cliente_Resultado.getString("nombre");
+                String apellidoCliente = cliente_Resultado.getString("apellido");
+                String telefonoCliente = cliente_Resultado.getString("telefono");
+                
+                List<Venta> listaVentas = new ArrayList<>();
+                List<Reparacion> listaReparaciones = new ArrayList<>();
+                
+                cliente = new Cliente(idCliente, nombreCliente, apellidoCliente, telefonoCliente, listaVentas, listaReparaciones);
+            
+                listaClientes.add(cliente);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return listaClientes;
+    }
+    
     @Override
     public void actualizarCliente(Cliente cliente) {
         try {

@@ -3,6 +3,7 @@ package dao.impl;
 import config.ConexionDataBase;
 import config.ConfiguracionDataBase;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import model.Cliente;
 import model.Reparacion;
@@ -147,6 +148,17 @@ public class ClienteTest {
         assertEquals("Maria", cliente.getNombre());
         assertEquals("Carrizo", cliente.getApellido());
         assertEquals("3834654321", cliente.getTelefono());
+    }
+    
+    @Test
+    public void buscarCliente(){
+        pruebaCrearCliente();
+        Cliente cliente = new Cliente(0, "", "", "456", new ArrayList<>(), new ArrayList<>());
+        List<Cliente> listaClientes = clienteDAO.buscarCliente(cliente);
+        
+        assertEquals(1, listaClientes.size());
+        assertEquals("Carlos", listaClientes.get(0).getNombre());
+        
     }
     
     @Test

@@ -217,6 +217,16 @@ public class ClienteServiceTest {
     }
     
     @Test
+    public void busquedaDeCliente(){
+        agregarCliente();
+        Cliente cliente = new Cliente(0, "", "", "456", new ArrayList<>(), new ArrayList<>());
+        List<Cliente> listaClientes = clienteService.busquedaDeCliente(cliente);
+        
+        assertEquals(1, listaClientes.size());
+        assertEquals("Carlos", listaClientes.get(0).getNombre());
+    }
+
+    @Test
     public void editarClientePorId(){
         agregarCliente();
         Cliente cliente = new Cliente(1, "Carlos", "Carrizo", "3834000000", new ArrayList<>(), new ArrayList<>());
