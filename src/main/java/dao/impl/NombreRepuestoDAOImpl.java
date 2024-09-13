@@ -19,7 +19,8 @@ public class NombreRepuestoDAOImpl implements NombreRepuestoDAO{
     private final String SENTENCIA_OBTENER_NOMBREREP = "SELECT * FROM TiendaLocal.nombrerepuesto WHERE id_nombrerepuesto = ?";
     private final String SENTENCIA_ACTUALIZAR_NOMBREREP = "UPDATE TiendaLocal.nombrerepuesto SET nombre_repuesto = ? WHERE id_nombrerepuesto = ?";
     private final String SENTENCIA_ELIMINAR_NOMBREREP = "DELETE FROM TiendaLocal.nombrerepuesto WHERE id_nombrerepuesto = ?";
-
+    private final String SENTENCIA_EXISTE_NOMBREREP = "SELECT nombre_repuesto FROM TiendaLocal.nombrerepuesto WHERE nombre_repuesto = ?";
+    
     public NombreRepuestoDAOImpl(Connection connection) {
         this.connection = connection;
     }
@@ -103,6 +104,35 @@ public class NombreRepuestoDAOImpl implements NombreRepuestoDAO{
         }
         
         return nombreRepuesto;
+    }
+
+    @Override
+    public boolean existeNombreRepuesto(String nombreNombreRep) {
+        ResultSet mombreRepuesto_Resultado = null;
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_EXISTE_NOMBREREP);
+            preparedStatement.setString(1, nombreNombreRep);
+            mombreRepuesto_Resultado = preparedStatement.executeQuery();
+
+            if (mombreRepuesto_Resultado.next()) {
+                return true;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(NombreRepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }   finally {
+            // Asegúrate de cerrar los recursos para evitar fugas de memoria
+            if (mombreRepuesto_Resultado != null) {
+                try {
+                    mombreRepuesto_Resultado.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(NombreRepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        
+        return false;
     }
     
 }

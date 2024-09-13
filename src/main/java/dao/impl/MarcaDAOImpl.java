@@ -20,7 +20,8 @@ public class MarcaDAOImpl implements MarcaDAO{
     private final String SENTENCIA_OBTENER_MARCA = "SELECT * FROM TiendaLocal.marca WHERE id_marca = ?";
     private final String SENTENCIA_CREAR_MARCA = "INSERT INTO TiendaLocal.marca (nombre_marca) VALUES ( ? )";
     private final String SENTENCIA_ACTUALIZAR_MARCA = "UPDATE TiendaLocal.marca SET nombre_marca = ? WHERE id_marca = ?";
-
+    private final String SENTENCIA_EXISTE_MARCA = "SELECT nombre_marca FROM TiendaLocal.marca WHERE nombre_marca = ?";
+    
     public MarcaDAOImpl(Connection connection) {
         this.connection = connection;
     }
@@ -112,5 +113,33 @@ public class MarcaDAOImpl implements MarcaDAO{
         
         return marca;
     }
-    
+
+    @Override
+    public boolean existeMarca(String nombreMarca) {
+        ResultSet marca_Resultado = null;
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_EXISTE_MARCA);
+            preparedStatement.setString(1, nombreMarca);
+            marca_Resultado = preparedStatement.executeQuery();
+
+            if (marca_Resultado.next()) {
+                return true;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(MarcaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }   finally {
+            // Asegúrate de cerrar los recursos para evitar fugas de memoria
+            if (marca_Resultado != null) {
+                try {
+                    marca_Resultado.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(MarcaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        
+        return false;
+    }
 }

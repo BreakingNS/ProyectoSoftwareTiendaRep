@@ -19,6 +19,7 @@ public class UbicacionDAOImpl implements UbicacionDAO{
     private final String SENTENCIA_OBTENER_UBICACION = "SELECT * FROM TiendaLocal.ubicacion WHERE id_ubicacion = ?";
     private final String SENTENCIA_ACTUALIZAR_UBICACION = "UPDATE TiendaLocal.ubicacion SET nombre_ubicacion = ? WHERE id_ubicacion = ?";
     private final String SENTENCIA_ELIMINAR_UBICACION = "DELETE FROM TiendaLocal.ubicacion WHERE id_ubicacion = ?";
+    private final String SENTENCIA_EXISTE_UBICACION = "SELECT nombre_ubicacion FROM TiendaLocal.ubicacion WHERE nombre_ubicacion = ?";
     
     public UbicacionDAOImpl(Connection connection) {
         this.connection = connection;
@@ -104,5 +105,34 @@ public class UbicacionDAOImpl implements UbicacionDAO{
         }
         
         return ubicacion;
+    }
+
+    @Override
+    public boolean existeUbicacion(String nombreUbicacion) {
+        ResultSet ubicacion_Resultado = null;
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_EXISTE_UBICACION);
+            preparedStatement.setString(1, nombreUbicacion);
+            ubicacion_Resultado = preparedStatement.executeQuery();
+
+            if (ubicacion_Resultado.next()) {
+                return true;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(UbicacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }   finally {
+            // Asegúrate de cerrar los recursos para evitar fugas de memoria
+            if (ubicacion_Resultado != null) {
+                try {
+                    ubicacion_Resultado.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(UbicacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        
+        return false;
     }
 }

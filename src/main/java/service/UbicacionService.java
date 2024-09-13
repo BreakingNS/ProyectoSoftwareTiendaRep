@@ -52,4 +52,8 @@ public class UbicacionService {
     public void eliminarUbicacionPorId(int id){
         ubicacionDAO.eliminarUbicacion(id);
     }
+    
+    public boolean existeUbicacion(String nombre) {   
+        return ubicacionDAO.existeUbicacion(nombre);
+    }
 }

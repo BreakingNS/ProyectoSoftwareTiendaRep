@@ -45,6 +45,11 @@ public class RepuestoService {
         return repuesto;
     }
     
+    public List<Repuesto> busquedaDeRepuesto(String nombreRepuesto, String marca, String categoria, String ubicacion, String stock, String precio){
+        List<Repuesto> listaRepuestos = repuestoDAO.buscarRepuesto(nombreRepuesto, marca, categoria, ubicacion, stock, precio);
+        return listaRepuestos;
+    }
+    
     public void editarRepuestoPorId(Repuesto repuesto){
         repuestoDAO.actualizarRepuesto(repuesto);
     }

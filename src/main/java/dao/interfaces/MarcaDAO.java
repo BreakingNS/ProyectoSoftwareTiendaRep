@@ -9,4 +9,5 @@ public interface MarcaDAO {
     public Marca obtenerMarca(int id);
     public void actualizarMarca(Marca marca);
     public void eliminarMarca(int id);
+    public boolean existeMarca(String marca);
 }

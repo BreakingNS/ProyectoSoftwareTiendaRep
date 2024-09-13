@@ -19,6 +19,7 @@ public class CategoriaDAOImpl implements CategoriaDAO{
     private final String SENTENCIA_OBTENER_CATEGORIA = "SELECT * FROM TiendaLocal.categoria WHERE id_categoria = ? ";
     private final String SENTENCIA_CREAR_CATEGORIA = "INSERT INTO TiendaLocal.categoria (nombre_categoria) VALUES ( ? )";
     private final String SENTENCIA_ACTUALIZAR_CATEGORIA = "UPDATE TiendaLocal.categoria SET nombre_categoria = ? WHERE id_categoria = ?";
+    private final String SENTENCIA_EXISTE_CATEGORIA = "SELECT nombre_categoria FROM TiendaLocal.categoria WHERE nombre_categoria = ? ";
     
     public CategoriaDAOImpl(Connection connection) {
         this.connection = connection;
@@ -102,6 +103,35 @@ public class CategoriaDAOImpl implements CategoriaDAO{
         }
         
         return categoria;
+    }
+
+    @Override
+    public boolean existeCategoria(String nombreCategoria) {
+        ResultSet categoria_Resultado = null;
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_EXISTE_CATEGORIA);
+            preparedStatement.setString(1, nombreCategoria);
+            categoria_Resultado = preparedStatement.executeQuery();
+
+            if (categoria_Resultado.next()) {
+                return true;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoriaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }   finally {
+            // Asegúrate de cerrar los recursos para evitar fugas de memoria
+            if (categoria_Resultado != null) {
+                try {
+                    categoria_Resultado.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(CategoriaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        
+        return false;
     }
     
 }

@@ -74,5 +74,9 @@ public class CategoriaService {
     public void eliminarCategoriaPorId(int id){
         categoriaDAO.eliminarCategoria(id);
     }
+    
+    public boolean existeCategoria(String nombre) {   
+        return categoriaDAO.existeCategoria(nombre);
+    }
 }
 

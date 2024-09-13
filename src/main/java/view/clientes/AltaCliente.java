@@ -12,14 +12,11 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 public class AltaCliente extends javax.swing.JFrame {
-
-    private Connection connection;
     
     private ClienteController clienteController;
     
-    public AltaCliente(ClienteController clienteController, Connection connection) {
+    public AltaCliente(ClienteController clienteController) {
         this.clienteController = clienteController;
-        this.connection = connection;
         initComponents();
         configurarEventos();
     }

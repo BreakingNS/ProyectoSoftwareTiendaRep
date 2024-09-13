@@ -14,18 +14,12 @@ import javax.swing.event.DocumentListener;
 import model.Cliente;
 
 public class EditarCliente extends javax.swing.JFrame {
-
-    private Connection connection;
     
-    private ClienteController clienteController;
+    private final ClienteController clienteController;
+    private final int id;
     
-    private int id;
-    
-    public EditarCliente(int id, ClienteController clienteController, Connection connection) {
-        
-        
+    public EditarCliente(int id, ClienteController clienteController) {
         this.clienteController = clienteController;
-        this.connection = connection;
         this.id = id;
         initComponents();
         cargarDatosCliente(id);

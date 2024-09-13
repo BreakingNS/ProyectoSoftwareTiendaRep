@@ -9,4 +9,5 @@ public interface CategoriaDAO {
     public Categoria obtenerCategoria(int id);
     public void actualizarCategoria(Categoria categoria);
     public void eliminarCategoria(int id);
+    public boolean existeCategoria(String nombre);
 }

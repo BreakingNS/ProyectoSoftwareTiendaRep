@@ -53,4 +53,8 @@ public class MarcaService {
     public void eliminarMarcaPorId(int id){
         marcaDAO.eliminarMarca(id);
     }
+    
+    public boolean existeMarca(String nombre){
+        return marcaDAO.existeMarca(nombre);
+    }
 }

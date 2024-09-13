@@ -52,4 +52,8 @@ public class EstadoService {
     public void eliminarEstadoPorId(int id){
         estadoDAO.eliminarEstado(id);
     }
+    
+    public boolean existeEstado(String nombre) {   
+        return estadoDAO.existeEstado(nombre);
+    }
 }

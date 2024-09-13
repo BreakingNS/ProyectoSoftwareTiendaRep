@@ -30,4 +30,8 @@ public class NombreRepuestoService {
     public void eliminarNombreRepuestoPorId(int id){
         nombreRepuestoDAO.eliminarNombreRepuesto(id);
     }
+    
+    public boolean existeNombreRepuesto(String nombre){
+        return nombreRepuestoDAO.existeNombreRepuesto(nombre);
+    }
 }

@@ -20,6 +20,7 @@ public class EstadoDAOImpl implements EstadoDAO{
     private final String SENTENCIA_OBTENER_ESTADO = "SELECT * FROM TiendaLocal.estado WHERE id_estado = ?";
     private final String SENTENCIA_CREAR_ESTADO = "INSERT INTO TiendaLocal.estado (nombre_estado) VALUES ( ? )";
     private final String SENTENCIA_ACTUALIZAR_ESTADO = "UPDATE TiendaLocal.estado SET nombre_estado = ? WHERE id_estado = ?";
+    private final String SENTENCIA_EXISTE_ESTADO = "SELECT nombre_estado FROM TiendaLocal.estado WHERE nombre_estado = ?";
 
     public EstadoDAOImpl(Connection connection) {
         this.connection = connection;
@@ -107,5 +108,34 @@ public class EstadoDAOImpl implements EstadoDAO{
         }
         
         return estado;
+    }
+
+    @Override
+    public boolean existeEstado(String nombreEstado) {
+        ResultSet estado_Resultado = null;
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_EXISTE_ESTADO);
+            preparedStatement.setString(1, nombreEstado);
+            estado_Resultado = preparedStatement.executeQuery();
+
+            if (estado_Resultado.next()) {
+                return true;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(EstadoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }   finally {
+            // Asegúrate de cerrar los recursos para evitar fugas de memoria
+            if (estado_Resultado != null) {
+                try {
+                    estado_Resultado.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(EstadoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        
+        return false;
     }
 }

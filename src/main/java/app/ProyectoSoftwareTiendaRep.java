@@ -2,7 +2,13 @@ package app;
 
 import config.ConexionDataBase;
 import config.ConfiguracionDataBase;
+import controller.CategoriaController;
 import controller.ClienteController;
+import controller.EstadoController;
+import controller.MarcaController;
+import controller.NombreRepuestoController;
+import controller.RepuestoController;
+import controller.UbicacionController;
 import dao.impl.CategoriaDAOImpl;
 import dao.impl.ClienteDAOImpl;
 import dao.impl.EstadoDAOImpl;
@@ -17,9 +23,14 @@ import dao.impl.VentaDAOImpl;
 import dao.impl.VentaRepuestoDAOImpl;
 import java.sql.Connection;
 import javax.swing.JFrame;
+import service.CategoriaService;
 import service.ClienteService;
+import service.EstadoService;
+import service.MarcaService;
+import service.NombreRepuestoService;
 import service.ReparacionService;
 import service.RepuestoService;
+import service.UbicacionService;
 import service.VentaService;
 import view.App;
 
@@ -48,6 +59,7 @@ public class ProyectoSoftwareTiendaRep {
     private static VentaService ventaService;
     
     private static ClienteController clienteController;
+    private static RepuestoController repuestoController;
     
     public static void main(String[] args) throws ClassNotFoundException {  
         ConexionDataBase conexionDataBase = new ConexionDataBase();
@@ -66,13 +78,33 @@ public class ProyectoSoftwareTiendaRep {
         reparacionRepuestoDAO = new ReparacionRepuestoDAOImpl(connection);
         ventaRepuestoDAO = new VentaRepuestoDAOImpl(connection);
         
-        reparacionService = new ReparacionService(reparacionDAO, repuestoDAO, reparacionRepuestoDAO, connection);
+        //reparacionService = new ReparacionService(reparacionDAO, repuestoDAO, reparacionRepuestoDAO, connection);
         
         ClienteService clienteService = new ClienteService(clienteDAO, ventaDAO, reparacionDAO);
+        RepuestoService repuestoService = new RepuestoService(repuestoDAO, precioDAO);
+        MarcaService marcaService = new MarcaService(marcaDAO, repuestoDAO);
+        NombreRepuestoService nombreRepuestoService = new NombreRepuestoService(nombreRepuestoDAO);
+        UbicacionService ubicacionService = new UbicacionService(ubicacionDAO, repuestoDAO);
+        CategoriaService categoriaService = new CategoriaService(categoriaDAO, repuestoDAO, reparacionDAO);
+        EstadoService estadoService = new EstadoService(estadoDAO, reparacionDAO);
         
         ClienteController clienteController = new ClienteController(clienteService);
+        RepuestoController repuestoController = new RepuestoController(repuestoService);
+        MarcaController marcaController = new MarcaController(marcaService);
+        NombreRepuestoController nombreRepuestoController = new NombreRepuestoController(nombreRepuestoService);
+        UbicacionController ubicacionController = new UbicacionController(ubicacionService);
+        CategoriaController categoriaController = new CategoriaController(categoriaService);
+        EstadoController estadoController = new EstadoController(estadoService);
         
-        App app = new App(connection, conexionDataBase, clienteController);
+        App app = new App(connection, 
+                conexionDataBase, 
+                clienteController, 
+                repuestoController, 
+                marcaController, 
+                nombreRepuestoController, 
+                ubicacionController, 
+                categoriaController,
+                estadoController);
         //app.setSize(1280, 720);
         app.setResizable(false);
         app.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

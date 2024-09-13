@@ -17,12 +17,9 @@ import model.Cliente;
 
 public class VistaCliente extends javax.swing.JFrame {
     
-    private final Connection connection;
-    
     private final ClienteController clienteController;
     
     public VistaCliente(ClienteController clienteController, Connection connection) {
-        this.connection = connection;
         this.clienteController = clienteController;
         initComponents();
         configurarEventos();
@@ -209,10 +206,11 @@ public class VistaCliente extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addComponent(jLabel1)
                 .addGap(4, 4, 4)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel4))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(jLabel4)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -278,7 +276,7 @@ public class VistaCliente extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
 
-        AltaCliente alta = new AltaCliente(clienteController, connection);
+        AltaCliente alta = new AltaCliente(clienteController);
         //alta.setSize(600, 400);
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -309,7 +307,7 @@ public class VistaCliente extends javax.swing.JFrame {
             if(tablaClientes.getSelectedRow()!=-1){
                 idCliente = Integer.parseInt(String.valueOf(tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0)));
             
-                EditarCliente alta = new EditarCliente(idCliente, clienteController, connection);
+                EditarCliente alta = new EditarCliente(idCliente, clienteController);
                 //alta.setSize(600, 400);
                 alta.setResizable(false);
                 alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -373,6 +371,7 @@ public class VistaCliente extends javax.swing.JFrame {
 
     private void cargarTabla(){
         //Hacemos que la tabla no sea editable
+        
         DefaultTableModel modeloTabla = new DefaultTableModel(){
             @Override
             public boolean isCellEditable(int row, int column){
@@ -448,7 +447,6 @@ public class VistaCliente extends javax.swing.JFrame {
                 btnAtras.doClick(); // Simula un clic en btnAtras
             }
         });
-
     }
     
     // Método para realizar la búsqueda y actualizar la tabla
