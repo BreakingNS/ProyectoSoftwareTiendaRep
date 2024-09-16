@@ -78,5 +78,9 @@ public class CategoriaService {
     public boolean existeCategoria(String nombre) {   
         return categoriaDAO.existeCategoria(nombre);
     }
+    
+    public Categoria obtenerCategoriaPorNombre(String nombre){
+        return categoriaDAO.obtenerCategoriaPorNombre(nombre);
+    }
 }
 

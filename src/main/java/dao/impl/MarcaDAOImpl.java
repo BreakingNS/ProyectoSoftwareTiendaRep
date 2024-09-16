@@ -16,8 +16,9 @@ public class MarcaDAOImpl implements MarcaDAO{
     
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_MARCA = "DELETE FROM TiendaLocal.marca WHERE id_marca = ?";
-    private final String SENTENCIA_OBTENER_MARCAS = "SELECT * FROM TiendaLocal.marca ORDER BY id_marca ASC";
+    private final String SENTENCIA_OBTENER_MARCAS = "SELECT * FROM TiendaLocal.marca ORDER BY nombre_marca ASC";
     private final String SENTENCIA_OBTENER_MARCA = "SELECT * FROM TiendaLocal.marca WHERE id_marca = ?";
+    private final String SENTENCIA_OBTENER_MARCA_POR_NOMBRE = "SELECT * FROM TiendaLocal.marca WHERE nombre_marca = ?";
     private final String SENTENCIA_CREAR_MARCA = "INSERT INTO TiendaLocal.marca (nombre_marca) VALUES ( ? )";
     private final String SENTENCIA_ACTUALIZAR_MARCA = "UPDATE TiendaLocal.marca SET nombre_marca = ? WHERE id_marca = ?";
     private final String SENTENCIA_EXISTE_MARCA = "SELECT nombre_marca FROM TiendaLocal.marca WHERE nombre_marca = ?";
@@ -141,5 +142,40 @@ public class MarcaDAOImpl implements MarcaDAO{
         }
         
         return false;
+    }
+    //SENTENCIA_OBTENER_MARCA_POR_NOMBRE
+    @Override
+    public Marca obtenerMarcaPorNombre(String nombreMarcaBuscar) {
+        Marca marca = null;
+        ResultSet marca_Resultado = null;
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_MARCA_POR_NOMBRE);
+            preparedStatement.setString(1, nombreMarcaBuscar);
+            marca_Resultado = preparedStatement.executeQuery();
+
+            if (marca_Resultado.next()) {
+                String nombreMarca = marca_Resultado.getString("nombre_marca");
+                int idMarca = marca_Resultado.getInt("id_marca");
+                
+                List<Repuesto> listaRepuestos = new ArrayList<>();
+                
+                marca = new Marca(idMarca, nombreMarca, listaRepuestos);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(MarcaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }   finally {
+            // Asegúrate de cerrar los recursos para evitar fugas de memoria
+            if (marca_Resultado != null) {
+                try {
+                    marca_Resultado.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(MarcaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        
+        return marca;
     }
 }

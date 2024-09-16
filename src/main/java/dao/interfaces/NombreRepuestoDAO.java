@@ -10,4 +10,5 @@ public interface NombreRepuestoDAO {
     public void actualizarNombreRepuesto(NombreRepuesto nombreRepuesto);
     public void eliminarNombreRepuesto(int id);
     public boolean existeNombreRepuesto(String nombre);
+    public NombreRepuesto obtenerNombreRepuestoPorNombre(String nombreRepuesto);
 }

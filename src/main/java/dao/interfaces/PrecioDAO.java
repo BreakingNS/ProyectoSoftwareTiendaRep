@@ -10,4 +10,5 @@ public interface PrecioDAO {
     public void actualizarPrecio(Precio precio);
     public void eliminarPrecio(int id);
     public List<Precio> obtenerPreciosPorIdRepuesto(int id);
+    public void eliminarPreciosPorIdRepuesto(int id);
 }

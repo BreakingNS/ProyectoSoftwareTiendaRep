@@ -10,4 +10,5 @@ public interface CategoriaDAO {
     public void actualizarCategoria(Categoria categoria);
     public void eliminarCategoria(int id);
     public boolean existeCategoria(String nombre);
+    public Categoria obtenerCategoriaPorNombre(String nombre);
 }

@@ -9,6 +9,7 @@ import controller.MarcaController;
 import controller.NombreRepuestoController;
 import controller.RepuestoController;
 import controller.UbicacionController;
+import controller.VentaController;
 import dao.impl.CategoriaDAOImpl;
 import dao.impl.ClienteDAOImpl;
 import dao.impl.EstadoDAOImpl;
@@ -28,6 +29,7 @@ import service.ClienteService;
 import service.EstadoService;
 import service.MarcaService;
 import service.NombreRepuestoService;
+import service.PrecioService;
 import service.ReparacionService;
 import service.RepuestoService;
 import service.UbicacionService;
@@ -87,14 +89,26 @@ public class ProyectoSoftwareTiendaRep {
         UbicacionService ubicacionService = new UbicacionService(ubicacionDAO, repuestoDAO);
         CategoriaService categoriaService = new CategoriaService(categoriaDAO, repuestoDAO, reparacionDAO);
         EstadoService estadoService = new EstadoService(estadoDAO, reparacionDAO);
+        PrecioService precioService = new PrecioService(precioDAO);
+        VentaService ventaService = new VentaService(ventaDAO, repuestoDAO, ventaRepuestoDAO, connection);
         
-        ClienteController clienteController = new ClienteController(clienteService);
-        RepuestoController repuestoController = new RepuestoController(repuestoService);
         MarcaController marcaController = new MarcaController(marcaService);
         NombreRepuestoController nombreRepuestoController = new NombreRepuestoController(nombreRepuestoService);
         UbicacionController ubicacionController = new UbicacionController(ubicacionService);
         CategoriaController categoriaController = new CategoriaController(categoriaService);
         EstadoController estadoController = new EstadoController(estadoService);
+        
+        ClienteController clienteController = new ClienteController(clienteService);
+        RepuestoController repuestoController = new RepuestoController(nombreRepuestoService, repuestoService, marcaService, categoriaService, ubicacionService, precioService);
+        VentaController ventaController = new VentaController(ventaService, clienteService);
+        
+        /*
+            id_venta 
+            cantidad 
+            fecha_venta
+            precioFinal
+            id_cliente
+        */
         
         App app = new App(connection, 
                 conexionDataBase, 
@@ -104,7 +118,8 @@ public class ProyectoSoftwareTiendaRep {
                 nombreRepuestoController, 
                 ubicacionController, 
                 categoriaController,
-                estadoController);
+                estadoController,
+                ventaController);
         //app.setSize(1280, 720);
         app.setResizable(false);
         app.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

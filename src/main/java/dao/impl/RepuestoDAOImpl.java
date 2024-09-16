@@ -29,24 +29,32 @@ public class RepuestoDAOImpl implements RepuestoDAO{
             "SELECT * FROM TiendaLocal.repuesto ORDER BY id_repuesto ASC";
     private final String SENTENCIA_OBTENER_REPUESTO = 
             "SELECT * FROM TiendaLocal.repuesto WHERE id_repuesto = ?";
-    
+    private final String SENTENCIA_OBTENER_ULTIMO_ID = 
+            "SELECT MAX(id_repuesto) AS max_id FROM TiendaLocal.repuesto";
     
     private final String SENTENCIA_BUSQUEDA_DE_REPUESTO = 
-            "SELECT r.* " +
-            "FROM TiendaLocal.repuesto r " +
-            "JOIN TiendaLocal.nombre_repuesto nr ON r.id_nombre_repuesto = nr.id " +
-            "JOIN TiendaLocal.marca m ON r.id_marca = m.id " +
-            "JOIN TiendaLocal.categoria c ON r.id_categoria = c.id " +
-            "JOIN TiendaLocal.ubicacion u ON r.id_ubicacion = u.id " +
-            "WHERE UPPER(nr.nombre) LIKE ? " +
-            "AND UPPER(m.marca) LIKE ? " +
-            "AND UPPER(c.categoria) LIKE ? " +
-            "AND UPPER(u.ubicacion) LIKE ? " +
-            "AND CAST(r.stock AS VARCHAR) LIKE ? " +
-            "AND CAST(r.precio AS VARCHAR) LIKE ? ";
+            "SELECT r.id_repuesto,"
+                + "r.stock, "
+                + "r.id_nombrerepuesto, "
+                + "r.id_marca, "
+                + "r.id_categoria, "
+                + "r.id_ubicacion, "
+                + "MIN(p.valor) AS valor "
+            + "FROM TiendaLocal.repuesto r "
+            + "INNER JOIN TiendaLocal.precio p "
+            + "ON r.id_repuesto = p.id_repuesto "
+            + "WHERE (r.id_nombrerepuesto = ? OR ? = 0) "
+            + "AND (r.id_marca = ? OR ? = 0) "
+            + "AND (r.id_categoria = ? OR ? = 0) "
+            + "AND (r.id_ubicacion = ? OR ? = 0) "
+            + "AND (r.stock = ? OR ? = 0) "
+            + "GROUP BY r.id_repuesto, "
+                + "r.stock, "
+                + "r.id_nombrerepuesto, "
+                + "r.id_marca, "
+                + "r.id_categoria,"
+                + "r.id_ubicacion;";
 
-    
-    
     private final String SENTENCIA_CREAR_REPUESTO = 
             "INSERT INTO TiendaLocal.repuesto (stock, id_nombrerepuesto, id_marca, id_categoria, id_ubicacion) VALUES ( ? , ? , ? , ? , ? )";
     private final String SENTENCIA_ACTUALIZAR_REPUESTO = 
@@ -111,49 +119,64 @@ public class RepuestoDAOImpl implements RepuestoDAO{
     }
     
     @Override
-    public List<Repuesto> buscarRepuesto(String nombreRepuesto, String marca, String categoria, String ubicacion, String stock, String precio) {
+    public List<Repuesto> buscarRepuesto(Repuesto repuesto) {
         List<Repuesto> listaRepuesto = new ArrayList<>();
         ResultSet repuesto_Resultado = null;
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_BUSQUEDA_DE_REPUESTO);
 
-            // Usa '%' para envolver los parámetros de búsqueda
-            preparedStatement.setString(1, "%" + nombreRepuesto.toUpperCase() + "%");
-            preparedStatement.setString(2, "%" + marca.toUpperCase() + "%");
-            preparedStatement.setString(3, "%" + categoria.toUpperCase() + "%");
-            preparedStatement.setString(4, "%" + ubicacion.toUpperCase() + "%");
-            preparedStatement.setString(5, "%" + stock + "%");
-            preparedStatement.setString(6, "%" + precio + "%");
+            preparedStatement.setInt(1, repuesto.getNombreRepuesto().getId_nombrerepuesto());
+            preparedStatement.setInt(2, repuesto.getNombreRepuesto().getId_nombrerepuesto());
+            //System.out.println("idNombreRepuesto: " + repuesto.getNombreRepuesto().getId_nombrerepuesto());
+            
+            preparedStatement.setInt(3, repuesto.getMarca().getId_marca());
+            preparedStatement.setInt(4, repuesto.getMarca().getId_marca());
+            //System.out.println("idMarca: " + repuesto.getMarca().getId_marca());
+            
+            preparedStatement.setInt(5, repuesto.getCategoria().getId_categoria());
+            preparedStatement.setInt(6, repuesto.getCategoria().getId_categoria());
+            //System.out.println("idCategoria: " + repuesto.getCategoria().getNombre_categoria());
+            
+            preparedStatement.setInt(7, repuesto.getUbicacion().getId_ubicacion());
+            preparedStatement.setInt(8, repuesto.getUbicacion().getId_ubicacion());
+            //System.out.println("idUbicacion: " + repuesto.getUbicacion().getNombre_ubicacion());
+            
+            int stockBuscar = (repuesto.getStock() == 0) ? repuesto.getStock() : 0;
+            preparedStatement.setInt(9, stockBuscar);
+            preparedStatement.setInt(10, stockBuscar);
 
             repuesto_Resultado = preparedStatement.executeQuery();
 
             while (repuesto_Resultado.next()) {
-                // Extraer datos de cada columna necesaria y crear objetos relacionados
-                int idRepuesto = repuesto_Resultado.getInt("id_repuesto");
-                int stockRepuesto = repuesto_Resultado.getInt("stock");
-                // Aquí extrae las relaciones con las otras tablas según sea necesario
-
-                // Crear objetos asociados (NombreRepuesto, Marca, etc.) con los datos obtenidos
-                // y armar el objeto Repuesto con ellos
-                NombreRepuesto nombreRepuestoAux = new NombreRepuesto(idRepuesto, nombreRepuesto);
-                Marca marcaAux = new Marca(idRepuesto, marca, new ArrayList<>());
-                Categoria categoriaAux = new Categoria(idRepuesto, categoria, new ArrayList<>(), new ArrayList<>());
-                Ubicacion ubicacionAux = new Ubicacion(idRepuesto, ubicacion, new ArrayList<>());
-
-                // Agrega los objetos adicionales necesarios
+                int idRepuestoRet = repuesto_Resultado.getInt("id_repuesto");
+                int stockRet = repuesto_Resultado.getInt("stock");
+                int idNombreRepuestoRet = repuesto_Resultado.getInt("id_nombrerepuesto");
+                int idMarcaRet = repuesto_Resultado.getInt("id_marca");
+                int idCategoriaRet = repuesto_Resultado.getInt("id_categoria");
+                int idUbicacionRet = repuesto_Resultado.getInt("id_ubicacion");
+                
+                NombreRepuestoDAOImpl nombreRepuestoDAO = new NombreRepuestoDAOImpl(connection);
+                MarcaDAOImpl marcaDAO = new MarcaDAOImpl(connection);
+                CategoriaDAOImpl categoriaDAO = new CategoriaDAOImpl(connection);
+                UbicacionDAOImpl ubicacionDAO = new UbicacionDAOImpl(connection);
+                
+                NombreRepuesto nombreRepuesto = nombreRepuestoDAO.obtenerNombreRepuesto(idNombreRepuestoRet);
+                Marca marca = marcaDAO.obtenerMarca(idMarcaRet);
+                Categoria categoria = categoriaDAO.obtenerCategoria(idCategoriaRet);
                 List<Precio> listaPrecios = new ArrayList<>();
-                Precio precioAux = new Precio(idRepuesto, null, null, new BigDecimal(precio));
-                listaPrecios.add(precioAux);
-
-                Repuesto repuesto = new Repuesto(idRepuesto, stockRepuesto, nombreRepuestoAux, marcaAux, categoriaAux, listaPrecios, ubicacionAux);
-
-                listaRepuesto.add(repuesto);
+                Ubicacion ubicacion = ubicacionDAO.obtenerUbicacion(idUbicacionRet);
+                
+                Repuesto repuestoBusqueda = new Repuesto(idRepuestoRet, stockRet, nombreRepuesto, marca, categoria, listaPrecios, ubicacion);
+                
+                listaRepuesto.add(repuestoBusqueda);
             }
         } catch (SQLException ex) {
             Logger.getLogger(ClienteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
+        //System.out.println("tamaño de lista de busqueda DAOIMPL: " + listaRepuesto.size());
+        
         return listaRepuesto;
     }
 
@@ -221,6 +244,25 @@ public class RepuestoDAOImpl implements RepuestoDAO{
         }
         
         return repuesto;
+    }
+
+    @Override
+    public int obtenerUltimoIdRepuesto() {
+        int idRepuestoUltimo = 0;
+        ResultSet repuesto_Resultado = null;
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_ULTIMO_ID);
+            repuesto_Resultado = preparedStatement.executeQuery();
+            
+            if(repuesto_Resultado.next()){
+                idRepuestoUltimo = repuesto_Resultado.getInt("max_id");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return idRepuestoUltimo;
     }
 
 }

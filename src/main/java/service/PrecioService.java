@@ -50,4 +50,8 @@ public class PrecioService {
         
         precioDAO.crearPrecio(precioNuevo);
     }
+
+    public void eliminarPreciosPorIdRepuesto(int id) {
+        precioDAO.eliminarPreciosPorIdRepuesto(id);
+    }
 }

@@ -15,8 +15,9 @@ public class UbicacionDAOImpl implements UbicacionDAO{
 
     private Connection connection = null; 
     private final String SENTENCIA_CREAR_UBICACION = "INSERT INTO TiendaLocal.ubicacion (nombre_ubicacion) VALUES ( ? )";
-    private final String SENTENCIA_OBTENER_UBICACIONES = "SELECT * FROM TiendaLocal.ubicacion ORDER BY id_ubicacion ASC";
+    private final String SENTENCIA_OBTENER_UBICACIONES = "SELECT * FROM TiendaLocal.ubicacion ORDER BY nombre_ubicacion ASC";
     private final String SENTENCIA_OBTENER_UBICACION = "SELECT * FROM TiendaLocal.ubicacion WHERE id_ubicacion = ?";
+    private final String SENTENCIA_OBTENER_UBICACION_POR_NOMBRE = "SELECT * FROM TiendaLocal.ubicacion WHERE nombre_ubicacion = ?";
     private final String SENTENCIA_ACTUALIZAR_UBICACION = "UPDATE TiendaLocal.ubicacion SET nombre_ubicacion = ? WHERE id_ubicacion = ?";
     private final String SENTENCIA_ELIMINAR_UBICACION = "DELETE FROM TiendaLocal.ubicacion WHERE id_ubicacion = ?";
     private final String SENTENCIA_EXISTE_UBICACION = "SELECT nombre_ubicacion FROM TiendaLocal.ubicacion WHERE nombre_ubicacion = ?";
@@ -134,5 +135,28 @@ public class UbicacionDAOImpl implements UbicacionDAO{
         }
         
         return false;
+    }
+
+    @Override
+    public Ubicacion obtenerUbicacionPorNombre(String nombreUbicacionBuscar) {
+        Ubicacion ubicacion = null;
+        ResultSet ubicacion_Resultado = null;
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_UBICACION_POR_NOMBRE);
+            preparedStatement.setString(1, nombreUbicacionBuscar);
+            ubicacion_Resultado = preparedStatement.executeQuery();
+            
+            if(ubicacion_Resultado.next()){
+                int idUbicacion = ubicacion_Resultado.getInt("id_ubicacion");
+                String nombreUbicacion = ubicacion_Resultado.getString("nombre_ubicacion");
+                
+                ubicacion = new Ubicacion(idUbicacion, nombreUbicacion, new ArrayList<>());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UbicacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return ubicacion;
     }
 }

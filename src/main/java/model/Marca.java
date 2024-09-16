@@ -39,4 +39,9 @@ public class Marca {
     public void setListaRepuesto(List<Repuesto> listaRepuesto) {
         this.listaRepuestos = listaRepuesto;
     }
+    
+    @Override
+    public String toString() {
+        return this.nombre_marca;
+    }
 }

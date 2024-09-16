@@ -39,4 +39,9 @@ public class Ubicacion {
     public void setListaRepuestos(List<Repuesto> listaRepuestos) {
         this.listaRepuestos = listaRepuestos;
     }
+    
+    @Override
+    public String toString() {
+        return this.nombre_ubicacion;
+    }
 }

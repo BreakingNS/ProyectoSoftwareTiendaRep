@@ -57,4 +57,8 @@ public class MarcaService {
     public boolean existeMarca(String nombre){
         return marcaDAO.existeMarca(nombre);
     }
+    
+    public Marca obtenerMarcaPorNombre(String nombre){
+        return marcaDAO.obtenerMarcaPorNombre(nombre);
+    }
 }

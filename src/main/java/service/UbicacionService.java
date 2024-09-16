@@ -56,4 +56,8 @@ public class UbicacionService {
     public boolean existeUbicacion(String nombre) {   
         return ubicacionDAO.existeUbicacion(nombre);
     }
+    
+    public Ubicacion obtenerUbicacionPorNombre(String nombre){
+        return ubicacionDAO.obtenerUbicacionPorNombre(nombre);
+    }
 }

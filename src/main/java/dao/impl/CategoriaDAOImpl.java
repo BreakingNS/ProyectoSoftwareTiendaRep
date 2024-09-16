@@ -15,8 +15,9 @@ public class CategoriaDAOImpl implements CategoriaDAO{
     
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_CATEGORIA = "DELETE FROM TiendaLocal.categoria WHERE id_categoria = ?";
-    private final String SENTENCIA_OBTENER_CATEGORIAS = "SELECT * FROM TiendaLocal.categoria ORDER BY id_categoria ASC";
+    private final String SENTENCIA_OBTENER_CATEGORIAS = "SELECT * FROM TiendaLocal.categoria ORDER BY nombre_categoria ASC";
     private final String SENTENCIA_OBTENER_CATEGORIA = "SELECT * FROM TiendaLocal.categoria WHERE id_categoria = ? ";
+    private final String SENTENCIA_OBTENER_CATEGORIA_POR_NOMBRE = "SELECT * FROM TiendaLocal.categoria WHERE nombre_categoria = ? ";
     private final String SENTENCIA_CREAR_CATEGORIA = "INSERT INTO TiendaLocal.categoria (nombre_categoria) VALUES ( ? )";
     private final String SENTENCIA_ACTUALIZAR_CATEGORIA = "UPDATE TiendaLocal.categoria SET nombre_categoria = ? WHERE id_categoria = ?";
     private final String SENTENCIA_EXISTE_CATEGORIA = "SELECT nombre_categoria FROM TiendaLocal.categoria WHERE nombre_categoria = ? ";
@@ -132,6 +133,29 @@ public class CategoriaDAOImpl implements CategoriaDAO{
         }
         
         return false;
+    }
+
+    @Override
+    public Categoria obtenerCategoriaPorNombre(String nombreCategoriaBuscar) {
+        Categoria categoria = null;
+        ResultSet categoria_Resultado = null;
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_CATEGORIA_POR_NOMBRE);
+            preparedStatement.setString(1, nombreCategoriaBuscar);
+            categoria_Resultado = preparedStatement.executeQuery();
+            
+            if(categoria_Resultado.next()){
+                int idCategoria = categoria_Resultado.getInt("id_categoria");
+                String nombreCategoria = categoria_Resultado.getString("nombre_categoria");
+                
+                categoria = new Categoria(idCategoria, nombreCategoria, new ArrayList<>(), new ArrayList<>());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoriaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return categoria;
     }
     
 }

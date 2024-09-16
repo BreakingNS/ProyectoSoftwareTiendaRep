@@ -8,6 +8,7 @@ import controller.MarcaController;
 import controller.NombreRepuestoController;
 import controller.RepuestoController;
 import controller.UbicacionController;
+import controller.VentaController;
 import dao.impl.MarcaDAOImpl;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -25,19 +26,22 @@ import view.marca.VistaMarcas;
 import view.nombreRepuesto.VistaNombreRepuesto;
 import view.repuestos.VistaRepuestos;
 import view.ubicacion.VistaUbicacion;
+import view.ventas.VistaVentas;
 
 public class App extends javax.swing.JFrame {
     
     private Connection connection;
     private ConexionDataBase conexionDataBase;
 
-    private ClienteController clienteController;
-    private RepuestoController repuestoController;
     private MarcaController marcaController;
     private NombreRepuestoController nombreRepuestoController;
     private UbicacionController ubicacionController;
     private CategoriaController categoriaController;
     private EstadoController estadoController;
+    
+    private ClienteController clienteController;
+    private RepuestoController repuestoController;
+    private VentaController ventaController;
     
     public App(Connection connection, 
             ConexionDataBase conexionDataBase, 
@@ -47,16 +51,19 @@ public class App extends javax.swing.JFrame {
             NombreRepuestoController nombreRepuestoController,
             UbicacionController ubicacionController,
             CategoriaController categoriaController,
-            EstadoController estadoController) {
+            EstadoController estadoController,
+            VentaController ventaController) {
         this.connection = connection;
         this.conexionDataBase = conexionDataBase;
-        this.clienteController = clienteController;
-        this.repuestoController = repuestoController;
         this.marcaController = marcaController;
         this.nombreRepuestoController = nombreRepuestoController;
         this.ubicacionController = ubicacionController;
         this.categoriaController = categoriaController;
         this.estadoController = estadoController;
+        
+        this.clienteController = clienteController;
+        this.repuestoController = repuestoController;
+        this.ventaController = ventaController;
         initComponents();
         configurarEventos();
     }
@@ -273,7 +280,20 @@ public class App extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRepuestosActionPerformed
 
     private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
-        // TODO add your handling code here:
+        this.setVisible(false); // Oculta la ventana actual
+        VistaVentas alta = new VistaVentas(ventaController);
+        //alta.setSize(1280, 720);
+        alta.setResizable(false);
+        alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        alta.setVisible(true);
+        alta.setLocationRelativeTo(null);
+
+        alta.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                setVisible(true); // Muestra la ventana anterior cuando la nueva se cierra
+            }
+        });
     }//GEN-LAST:event_btnVentasActionPerformed
 
     private void btnReparacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReparacionesActionPerformed
@@ -293,6 +313,8 @@ public class App extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    
+    
     private void menuMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMarcaActionPerformed
         this.setVisible(false); // Oculta la ventana actual
         VistaMarcas alta = new VistaMarcas(marcaController);

@@ -34,4 +34,8 @@ public class NombreRepuestoService {
     public boolean existeNombreRepuesto(String nombre){
         return nombreRepuestoDAO.existeNombreRepuesto(nombre);
     }
+
+    public NombreRepuesto obtenerNombreRepuestoPorNombre(String nombreRepuesto) {
+        return nombreRepuestoDAO.obtenerNombreRepuestoPorNombre(nombreRepuesto);
+    }
 }

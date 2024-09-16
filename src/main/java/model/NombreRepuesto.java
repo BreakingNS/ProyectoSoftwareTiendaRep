@@ -27,4 +27,9 @@ public class NombreRepuesto {
     public void setNombre_repuesto(String nombre_repuesto) {
         this.nombre_repuesto = nombre_repuesto;
     }
+    
+    @Override
+    public String toString() {
+        return this.nombre_repuesto;
+    }
 }

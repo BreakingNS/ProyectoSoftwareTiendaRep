@@ -19,6 +19,7 @@ public class PrecioDAOImpl implements PrecioDAO{
     private Connection connection = null;
     private final RepuestoDAOImpl repuestoDAO;
     private final String SENTENCIA_ELIMINAR_PRECIO = "DELETE FROM TiendaLocal.precio WHERE id_precio = ?";
+    private final String SENTENCIA_ELIMINAR_PRECIO_POR_ID_REPUESTO = "DELETE FROM TiendaLocal.precio WHERE id_repuesto = ?";
     private final String SENTENCIA_OBTENER_PRECIOS = "SELECT * FROM TiendaLocal.precio ORDER BY id_precio ASC";
     private final String SENTENCIA_OBTENER_PRECIO = "SELECT * FROM TiendaLocal.precio WHERE id_precio = ?";
     private final String SENTENCIA_OBTENER_PRECIO_POR_ID_REPUESTO = "SELECT * FROM TiendaLocal.precio WHERE id_repuesto = ?";
@@ -151,5 +152,16 @@ public class PrecioDAOImpl implements PrecioDAO{
         }
         
         return listaPrecios;
+    }
+
+    @Override
+    public void eliminarPreciosPorIdRepuesto(int id) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ELIMINAR_PRECIO_POR_ID_REPUESTO);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(PrecioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

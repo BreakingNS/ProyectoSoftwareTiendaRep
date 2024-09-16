@@ -322,8 +322,6 @@ public class VistaCliente extends javax.swing.JFrame {
                 });
             }
         }
-        
-        
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void txtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoActionPerformed

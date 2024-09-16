@@ -2,6 +2,7 @@ package service;
 
 import dao.interfaces.PrecioDAO;
 import dao.interfaces.RepuestoDAO;
+import java.math.BigDecimal;
 import java.util.List;
 import model.Precio;
 import model.Repuesto;
@@ -45,8 +46,8 @@ public class RepuestoService {
         return repuesto;
     }
     
-    public List<Repuesto> busquedaDeRepuesto(String nombreRepuesto, String marca, String categoria, String ubicacion, String stock, String precio){
-        List<Repuesto> listaRepuestos = repuestoDAO.buscarRepuesto(nombreRepuesto, marca, categoria, ubicacion, stock, precio);
+    public List<Repuesto> busquedaDeRepuesto(Repuesto repuesto){
+        List<Repuesto> listaRepuestos = repuestoDAO.buscarRepuesto(repuesto);
         return listaRepuestos;
     }
     
@@ -63,6 +64,10 @@ public class RepuestoService {
         stock = stock + nuevoStock;
         repuesto.setStock(stock);
         repuestoDAO.actualizarRepuesto(repuesto);
+    }
+
+    public int obtenerUltimoIdRepuesto() {
+        return repuestoDAO.obtenerUltimoIdRepuesto();
     }
     
 }
