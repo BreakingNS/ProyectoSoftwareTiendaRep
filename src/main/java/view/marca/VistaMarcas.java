@@ -17,6 +17,7 @@ public class VistaMarcas extends javax.swing.JFrame {
     private final MarcaController marcaController;
     
     public VistaMarcas(MarcaController marcaController) {
+        
         this.marcaController = marcaController;
         initComponents();
         configurarEventos();
