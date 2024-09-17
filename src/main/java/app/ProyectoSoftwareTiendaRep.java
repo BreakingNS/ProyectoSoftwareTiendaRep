@@ -100,7 +100,7 @@ public class ProyectoSoftwareTiendaRep {
         
         ClienteController clienteController = new ClienteController(clienteService);
         RepuestoController repuestoController = new RepuestoController(nombreRepuestoService, repuestoService, marcaService, categoriaService, ubicacionService, precioService);
-        VentaController ventaController = new VentaController(ventaService, clienteService);
+        VentaController ventaController = new VentaController(ventaService, clienteService, repuestoController);
         
         /*
             id_venta 

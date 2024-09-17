@@ -1,6 +1,8 @@
 package view.ventas;
 
+import controller.ClienteController;
 import controller.RepuestoController;
+import controller.VentaController;
 import controller.VentaController;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,25 +11,29 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import model.Categoria;
 import model.Marca;
-import model.NombreRepuesto;
 import model.Precio;
-import model.Repuesto;
+import model.Venta;
 import model.Ubicacion;
 
 public class VistaVentas extends javax.swing.JFrame {
 
     private final VentaController ventaController;
+    private final RepuestoController repuestoController;
+    private final ClienteController clienteController; 
     
-    public VistaVentas(VentaController ventaController) {
+    public VistaVentas(VentaController ventaController, RepuestoController repuestoController, ClienteController clienteController) {
         this.ventaController = ventaController;
+        this.repuestoController = repuestoController;
+        this.clienteController = clienteController;
         initComponents();
-        cargarComboBoxes();
+        //cargarComboBoxes();
         configurarEventos();
         configurarListeners();
     }
@@ -44,7 +50,6 @@ public class VistaVentas extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         btnAgregar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
@@ -52,8 +57,24 @@ public class VistaVentas extends javax.swing.JFrame {
         btnAtras = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaVentas = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaDetalleVenta = new javax.swing.JTable();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 48)); // NOI18N
         jLabel1.setText("MODELO VISTA VENTAS");
@@ -61,17 +82,15 @@ public class VistaVentas extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabel2.setText("Buscar:");
 
-        jLabel3.setText("Nombre Repuesto");
+        jLabel3.setText("Cantidad max");
 
-        jLabel4.setText("Marca");
+        jLabel4.setText("Fecha Venta");
 
-        jLabel5.setText("Categoria");
+        jLabel5.setText("cantidad");
 
-        jLabel6.setText("Ubicacion");
+        jLabel6.setText("Cliente");
 
-        jLabel7.setText("Stock");
-
-        jLabel8.setText("Precio");
+        jLabel7.setText("Precio Final max");
 
         btnAgregar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         btnAgregar.setText("AGREGAR");
@@ -124,6 +143,44 @@ public class VistaVentas extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tablaVentas);
 
+        tablaDetalleVenta.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        tablaDetalleVenta.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane2.setViewportView(tablaDetalleVenta);
+
+        jLabel8.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jLabel8.setText("Detalle de Venta:");
+
+        jLabel9.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jLabel9.setText("Telefono:");
+
+        jLabel10.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jLabel10.setText("N° de Repuestos:");
+
+        jLabel11.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jLabel11.setText("Id Venta:");
+
+        jLabel12.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jLabel12.setText("Apellido:");
+
+        jLabel13.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jLabel13.setText("Id Cliente:");
+
+        jLabel14.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jLabel14.setText("Nombre:");
+
+        jLabel15.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jLabel15.setText("Precio Final:");
+
+        jLabel16.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jLabel16.setText("Fecha Venta:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -135,10 +192,9 @@ public class VistaVentas extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel1)
-                        .addGap(306, 306, 306))
+                        .addGap(339, 339, 339))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(56, 56, 56)
@@ -149,16 +205,33 @@ public class VistaVentas extends javax.swing.JFrame {
                                 .addComponent(jLabel6)
                                 .addGap(103, 103, 103)
                                 .addComponent(jLabel7)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel8)))
-                        .addGap(28, 28, 28)
+                                .addGap(262, 262, 262))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel11)
+                                            .addComponent(jLabel8)
+                                            .addComponent(jLabel10)
+                                            .addComponent(jLabel16)
+                                            .addComponent(jLabel15))
+                                        .addGap(131, 131, 131)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel9)
+                                            .addComponent(jLabel12)
+                                            .addComponent(jLabel14)
+                                            .addComponent(jLabel13))
+                                        .addGap(138, 138, 138)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(33, 33, 33))
+                            .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(33, 33, 33))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -173,8 +246,7 @@ public class VistaVentas extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(jLabel3)
                     .addComponent(jLabel6)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8))
+                    .addComponent(jLabel7))
                 .addGap(52, 52, 52)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -184,10 +256,34 @@ public class VistaVentas extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41)
-                        .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(41, 41, 41)
+                                .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(48, 48, 48)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addGap(56, 56, 56)
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel10)
+                                .addGap(9, 9, 9)
+                                .addComponent(jLabel16)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel15))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addGap(46, 46, 46)
+                                .addComponent(jLabel14)
+                                .addGap(9, 9, 9)
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel9)))))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
 
@@ -206,8 +302,8 @@ public class VistaVentas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        /*
-        AltaRepuesto alta = new AltaRepuesto(repuestoController);
+        
+        AltaVenta alta = new AltaVenta(ventaController, repuestoController, clienteController);
         //alta.setSize(600, 400);
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -217,10 +313,10 @@ public class VistaVentas extends javax.swing.JFrame {
         alta.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
-                cargarTabla(); // Actualiza la tabla después de cerrar AltaRepuesto.
+                cargarTabla(); // Actualiza la tabla después de cerrar AltaVenta.
             }
         });
-        */
+        
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
@@ -228,7 +324,7 @@ public class VistaVentas extends javax.swing.JFrame {
         if(tablaVentas.getRowCount() > 0){
             if(tablaVentas.getSelectedRow()!=-1){
 
-                int idRepuesto = Integer.parseInt(String.valueOf(tablaVentas.getValueAt(tablaVentas.getSelectedRow(), 0)));
+                int idVenta = Integer.parseInt(String.valueOf(tablaVentas.getValueAt(tablaVentas.getSelectedRow(), 0)));
                 String comboNombreRep = String.valueOf(tablaVentas.getValueAt(tablaVentas.getSelectedRow(), 1));
                 String comboMarca = String.valueOf(tablaVentas.getValueAt(tablaVentas.getSelectedRow(), 2));
                 String comboCategoria = String.valueOf(tablaVentas.getValueAt(tablaVentas.getSelectedRow(), 3));
@@ -236,14 +332,14 @@ public class VistaVentas extends javax.swing.JFrame {
                 int stock = Integer.parseInt(String.valueOf(tablaVentas.getValueAt(tablaVentas.getSelectedRow(), 5)));
                 BigDecimal precio = new BigDecimal(tablaVentas.getValueAt(tablaVentas.getSelectedRow(), 6).toString());
 
-                EditarRepuesto alta = new EditarRepuesto(idRepuesto,
+                EditarVenta alta = new EditarVenta(idVenta,
                     comboNombreRep,
                     comboMarca,
                     comboCategoria,
                     comboUbicacion,
                     stock,
                     precio,
-                    repuestoController);
+                    ventaController);
                 //alta.setSize(600, 400);
                 alta.setResizable(false);
                 alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -253,7 +349,7 @@ public class VistaVentas extends javax.swing.JFrame {
                 alta.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosed(java.awt.event.WindowEvent e) {
-                        cargarTabla(); // Actualiza la tabla después de cerrar AltaRepuesto.
+                        cargarTabla(); // Actualiza la tabla después de cerrar AltaVenta.
                     }
                 });
 
@@ -275,15 +371,15 @@ public class VistaVentas extends javax.swing.JFrame {
             JOptionPane.QUESTION_MESSAGE);
 
         if (opcion == JOptionPane.YES_OPTION) {
-            int idRepuesto = 0;
+            int idVenta = 0;
 
             if(tablaVentas.getRowCount() > 0){
                 if(tablaVentas.getSelectedRow()!=-1){
-                    idRepuesto = Integer.parseInt(String.valueOf(tablaVentas.getValueAt(tablaVentas.getSelectedRow(), 0)));
+                    idVenta = Integer.parseInt(String.valueOf(tablaVentas.getValueAt(tablaVentas.getSelectedRow(), 0)));
                 }
             }
 
-            repuestoController.eliminarRepuesto(idRepuesto);
+            ventaController.eliminarVenta(idVenta);
             JOptionPane.showMessageDialog(null, "Eliminación realizada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             cargarTabla();
         }
@@ -294,6 +390,10 @@ public class VistaVentas extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnAtrasActionPerformed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        cargarTabla();
+    }//GEN-LAST:event_formWindowOpened
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnAgregar;
@@ -301,6 +401,13 @@ public class VistaVentas extends javax.swing.JFrame {
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -308,13 +415,16 @@ public class VistaVentas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable tablaDetalleVenta;
     private javax.swing.JTable tablaVentas;
     // End of variables declaration//GEN-END:variables
 
     private void cargarTabla(){
-        /*
+        
         //Hacemos que la tabla no sea editable
         DefaultTableModel modeloTabla = new DefaultTableModel(){
             @Override
@@ -324,33 +434,32 @@ public class VistaVentas extends javax.swing.JFrame {
         };
         
         //Ponemos titulos a las columnas
-        String titulos[] = {"Id", "Nombre Repuesto", "Marca", "Categoria", "Ubicacion", "Stock", "Precio"};
+        String titulos[] = {"Id", "Repuesto", "Cantidad", "Fecha Venta", "Precio Final", "Cliente"};
         modeloTabla.setColumnIdentifiers(titulos);
         
-        //Traer Repuestos desde la base de datos
-        List<Repuesto> listaRepuestos = repuestoController.listarRepuestos();
+        //Traer Ventas desde la base de datos
+        List<Venta> listaVentas = ventaController.listarVentas();
         
         //Setear los datos en la tabla
-        if(listaRepuestos != null){
-            System.out.println("tamaño de la lista: " + listaRepuestos.size());
-            for(Repuesto repuesto : listaRepuestos){
-                Object[] objeto = {repuesto.getId_repuesto(), 
-                    repuesto.getNombreRepuesto().getNombre_repuesto(), 
-                    repuesto.getMarca().getNombre_marca(), 
-                    repuesto.getCategoria().getNombre_categoria(), 
-                    repuesto.getUbicacion().getNombre_ubicacion(), 
-                    repuesto.getStock(), 
-                    repuesto.getListaPrecios().get((repuesto.getListaPrecios().size()) - 1).getValor()
+        if(listaVentas != null){
+            System.out.println("tamaño de la lista: " + listaVentas.size());
+            for(Venta venta : listaVentas){
+                Object[] objeto = {venta.getId_venta(), 
+                    null, 
+                    venta.getCantidad(),
+                    venta.getFecha_venta(), 
+                    venta.getPrecioFinal(), 
+                    venta.getCliente().getApellido()
                 };
                 modeloTabla.addRow(objeto);
             }
         }
         
-        tablaRepuestos.setModel(modeloTabla);
-        */
+        tablaVentas.setModel(modeloTabla);
+        
     }
     
-    private void cargarTablaBusqueda(List<Repuesto> listaRepuestos){
+    private void cargarTablaBusqueda(List<Venta> listaVentas){
         /*
         // Hacemos que la tabla no sea editable
         DefaultTableModel modeloTabla = new DefaultTableModel() {
@@ -361,15 +470,15 @@ public class VistaVentas extends javax.swing.JFrame {
         };
 
         // Ponemos títulos a las columnas
-        String[] titulos = {"Id", "Nombre Repuesto", "Marca", "Categoria", "Ubicacion", "Stock", "Precio"};
+        String[] titulos = {"Id", "Nombre Venta", "Marca", "Categoria", "Ubicacion", "Stock", "Precio"};
         modeloTabla.setColumnIdentifiers(titulos);
 
         // Setear los datos en la tabla
-        if (listaRepuestos != null) {
-            System.out.println("Tamaño de la lista: " + listaRepuestos.size());
-            for (Repuesto repuesto : listaRepuestos) {
+        if (listaVentas != null) {
+            System.out.println("Tamaño de la lista: " + listaVentas.size());
+            for (Venta venta : listaVentas) {
                 // Asegurarse de que la lista de precios no esté vacía
-                List<Precio> listaPrecios = repuesto.getListaPrecios();
+                List<Precio> listaPrecios = venta.getListaPrecios();
                 Object precio = "No disponible"; // Valor predeterminado si la lista está vacía
 
                 if (listaPrecios != null && !listaPrecios.isEmpty()) {
@@ -378,12 +487,12 @@ public class VistaVentas extends javax.swing.JFrame {
 
                 // Asegurarse de que los métodos no devuelvan null
                 Object[] objeto = {
-                    repuesto.getId_repuesto(),
-                    repuesto.getNombreRepuesto() != null ? repuesto.getNombreRepuesto().getNombre_repuesto() : "Desconocido",
-                    repuesto.getMarca() != null ? repuesto.getMarca().getNombre_marca() : "Desconocido",
-                    repuesto.getCategoria() != null ? repuesto.getCategoria().getNombre_categoria() : "Desconocido",
-                    repuesto.getUbicacion() != null ? repuesto.getUbicacion().getNombre_ubicacion() : "Desconocido",
-                    repuesto.getStock(),
+                    venta.getId_venta(),
+                    venta.getNombreVenta() != null ? venta.getNombreVenta().getNombre_venta() : "Desconocido",
+                    venta.getMarca() != null ? venta.getMarca().getNombre_marca() : "Desconocido",
+                    venta.getCategoria() != null ? venta.getCategoria().getNombre_categoria() : "Desconocido",
+                    venta.getUbicacion() != null ? venta.getUbicacion().getNombre_ubicacion() : "Desconocido",
+                    venta.getStock(),
                     precio
                 };
                 modeloTabla.addRow(objeto);
@@ -391,23 +500,23 @@ public class VistaVentas extends javax.swing.JFrame {
         }
 
         // Asignar el modelo a la tabla
-        tablaRepuestos.setModel(modeloTabla);
+        tablaVentas.setModel(modeloTabla);
         */
     }
 
     
     private void configurarEventos() {
-        /*
+        
         btnEliminar.setEnabled(false); // Deshabilita el botón inicialmente.
 
-        tablaRepuestos.getSelectionModel().addListSelectionListener(e -> {
-            btnEliminar.setEnabled(tablaRepuestos.getSelectedRow() != -1); // Habilita si hay una fila seleccionada.
+        tablaVentas.getSelectionModel().addListSelectionListener(e -> {
+            btnEliminar.setEnabled(tablaVentas.getSelectedRow() != -1); // Habilita si hay una fila seleccionada.
         });
         
         btnEditar.setEnabled(false); // Deshabilita el botón inicialmente.
 
-        tablaRepuestos.getSelectionModel().addListSelectionListener(e -> {
-            btnEditar.setEnabled(tablaRepuestos.getSelectedRow() != -1); // Habilita si hay una fila seleccionada.
+        tablaVentas.getSelectionModel().addListSelectionListener(e -> {
+            btnEditar.setEnabled(tablaVentas.getSelectedRow() != -1); // Habilita si hay una fila seleccionada.
         });
 
         // Configura el mapeo de la tecla Esc para activar btnAtras
@@ -419,7 +528,7 @@ public class VistaVentas extends javax.swing.JFrame {
                 btnAtras.doClick(); // Simula un clic en btnAtras
             }
         });
-        */
+        
     }
     
     private void configurarListeners() {
@@ -453,7 +562,7 @@ public class VistaVentas extends javax.swing.JFrame {
         // Agrega ActionListener a los ComboBox
         comboMarca.addActionListener(comboListener);
         comboCategoria.addActionListener(comboListener);
-        comboNombreRepuesto.addActionListener(comboListener);
+        comboNombreVenta.addActionListener(comboListener);
         comboUbicacion.addActionListener(comboListener);
         
         // Agrega DocumentListener a los JTextField
@@ -467,7 +576,7 @@ public class VistaVentas extends javax.swing.JFrame {
         /*
         String marcaSeleccionada = (comboMarca.getSelectedItem() != null) ? comboMarca.getSelectedItem().toString() : "-";
         String categoriaSeleccionada = (comboCategoria.getSelectedItem() != null) ? comboCategoria.getSelectedItem().toString() : "-";
-        String nombreRepuestoSeleccionado = (comboNombreRepuesto.getSelectedItem() != null) ? comboNombreRepuesto.getSelectedItem().toString() : "-";
+        String nombreVentaSeleccionado = (comboNombreVenta.getSelectedItem() != null) ? comboNombreVenta.getSelectedItem().toString() : "-";
         String ubicacionSeleccionada = (comboUbicacion.getSelectedItem() != null) ? comboUbicacion.getSelectedItem().toString() : "-";/*
         */
         /*
@@ -483,19 +592,19 @@ public class VistaVentas extends javax.swing.JFrame {
             precio = Integer.parseInt(txtPrecio.getText());
         }
 
-        //List<Repuesto> listaRepuestos = repuestoController.busquedaDeRepuesto(marcaSeleccionada, categoriaSeleccionada, nombreRepuestoSeleccionado, ubicacionSeleccionada, stock, precio);
+        //List<Venta> listaVentas = ventaController.busquedaDeVenta(marcaSeleccionada, categoriaSeleccionada, nombreVentaSeleccionado, ubicacionSeleccionada, stock, precio);
         
         System.out.println("comienzo carga de busqueda");
         
-        List<Repuesto> listaRepuestos = repuestoController.busquedaDeRepuesto(
+        List<Venta> listaVentas = ventaController.busquedaDeVenta(
                 marcaSeleccionada, 
                 categoriaSeleccionada, 
-                nombreRepuestoSeleccionado, 
+                nombreVentaSeleccionado, 
                 ubicacionSeleccionada, 
                 stock, 
                 precio);
         
-        cargarTablaBusqueda(listaRepuestos);
+        cargarTablaBusqueda(listaVentas);
         */
     }
     
@@ -503,26 +612,26 @@ public class VistaVentas extends javax.swing.JFrame {
         /*
         comboCategoria.removeAllItems();
         comboMarca.removeAllItems();
-        comboNombreRepuesto.removeAllItems();
+        comboNombreVenta.removeAllItems();
         comboUbicacion.removeAllItems();
         
-        NombreRepuesto nombreRepuesto = new NombreRepuesto(0, "-");
+        NombreVenta nombreVenta = new NombreVenta(0, "-");
         Marca marca = new Marca(0, "-", new ArrayList<>());
         Categoria categoria = new Categoria(0, "-", new ArrayList<>(), new ArrayList<>());
         Ubicacion ubicacion = new Ubicacion(0, "-", new ArrayList<>());
         
-        comboCategoria.addItem(nombreRepuesto.getNombre_repuesto());
+        comboCategoria.addItem(nombreVenta.getNombre_venta());
         comboMarca.addItem(marca.getNombre_marca());
-        comboNombreRepuesto.addItem(categoria.getNombre_categoria());
+        comboNombreVenta.addItem(categoria.getNombre_categoria());
         comboUbicacion.addItem(ubicacion.getNombre_ubicacion());
         
-        List<NombreRepuesto> listaNombreRepuestos = repuestoController.retornarListaNombreRepuestos();
-        List<Marca> listaMarcas = repuestoController.retornarListaMarcas();
-        List<Categoria> listaCategorias = repuestoController.retornarCategorias();
-        List<Ubicacion> listaUbicaciones = repuestoController.retornarUbicaciones();
+        List<NombreVenta> listaNombreVentas = ventaController.retornarListaNombreVentas();
+        List<Marca> listaMarcas = ventaController.retornarListaMarcas();
+        List<Categoria> listaCategorias = ventaController.retornarCategorias();
+        List<Ubicacion> listaUbicaciones = ventaController.retornarUbicaciones();
         
-        for(NombreRepuesto nomb : listaNombreRepuestos){
-            comboNombreRepuesto.addItem(nomb.getNombre_repuesto());
+        for(NombreVenta nomb : listaNombreVentas){
+            comboNombreVenta.addItem(nomb.getNombre_venta());
         }
         
         for(Marca mar : listaMarcas){

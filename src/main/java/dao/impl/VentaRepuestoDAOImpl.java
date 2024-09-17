@@ -41,18 +41,18 @@ public class VentaRepuestoDAOImpl implements VentaRepuestoDAO{
     }
     
     @Override
-    public void crearVentaRepuesto(Venta venta, List<Repuesto> listaRepuestos) {
-        for(Repuesto repuesto : listaRepuestos){
-            try {
-                PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_VENTA_REPUESTO);
-                preparedStatement.setInt(1, venta.getId_venta());
-                preparedStatement.setInt(2, repuesto.getId_repuesto());
-                preparedStatement.setInt(3, obtenerCantidadRepuestos(listaRepuestos, repuesto.getId_repuesto()));
-                preparedStatement.executeUpdate();
-            } catch (SQLException ex) {
-                Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
+    public void crearVentaRepuesto(int id_venta, int id_repuesto, int cantidad) {
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_VENTA_REPUESTO);
+            preparedStatement.setInt(1, id_venta);
+            preparedStatement.setInt(2, id_repuesto);
+            preparedStatement.setInt(3, cantidad);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
 
     @Override
@@ -156,9 +156,9 @@ public class VentaRepuestoDAOImpl implements VentaRepuestoDAO{
                 }
             }
             if (!existe) {
-                VentaDAOImpl ventaDAO = new VentaDAOImpl(connection);
-                Venta venta = ventaDAO.obtenerVenta(id_venta);
-                crearVentaRepuesto(venta, listaRepuestosNuevos);
+                //VentaDAOImpl ventaDAO = new VentaDAOImpl(connection);
+                //Venta venta = ventaDAO.obtenerVenta(id_venta);
+                //crearVentaRepuesto(venta, listaRepuestosNuevos);
             }
         }
     }
@@ -319,4 +319,5 @@ public class VentaRepuestoDAOImpl implements VentaRepuestoDAO{
 
         return listaVentaRepuesto;
     }
+
 }

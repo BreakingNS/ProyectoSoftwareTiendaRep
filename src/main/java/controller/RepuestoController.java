@@ -143,12 +143,13 @@ public class RepuestoController {
         List<Repuesto> listaRepuestos= repuestoService.listarRepuestos();
         return listaRepuestos;
     }
-    /*
+
+    
     public Repuesto obtenerRepuestoPorId(int id){
         Repuesto repuesto = repuestoService.obtenerRepuestoPorId(id);
         return repuesto;
     }
-    
+    /*
     public List<Repuesto> busquedaDeRepuesto(String nombre, String apellido, String telefono){
         Repuesto repuesto = new Repuesto(0, nombre, apellido, telefono, new ArrayList<>(), new ArrayList<>());
         List<Repuesto> listaRepuestos = repuestoService.busquedaDeRepuesto(repuesto);
@@ -233,6 +234,12 @@ public class RepuestoController {
         
         Repuesto repuesto = new Repuesto(1, stock, nombreRepuestoNuevo, marcaNuevo, categoriaNuevo, new ArrayList<>(), ubicacionNuevo);
         
+        System.out.println("stock: " + stock);
+        System.out.println("nombrerep : " + repuesto.getNombreRepuesto().getNombre_repuesto());
+        System.out.println("marca: " + repuesto.getMarca().getNombre_marca());
+        System.out.println("categ: " + repuesto.getCategoria().getNombre_categoria());
+        System.out.println("ubi: " + repuesto.getUbicacion().getNombre_ubicacion());
+        
         List<Repuesto> listaRepuestos = repuestoService.busquedaDeRepuesto(repuesto);
         
         for(Repuesto rep : listaRepuestos){
@@ -253,6 +260,9 @@ public class RepuestoController {
             System.out.println(cont + ". id: " + rep.getId_repuesto());
         }
         */
+        
         return listaRepuestos;
     }
+
+    
 }

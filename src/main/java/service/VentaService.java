@@ -5,7 +5,9 @@ import dao.impl.VentaDAOImpl;
 import dao.impl.VentaRepuestoDAOImpl;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import model.Repuesto;
 import model.Venta;
 
@@ -29,8 +31,24 @@ public class VentaService {
         try {
             // Realizar operaciones de la transacción
             ventaDAO.crearVenta(venta);
-        
-            VentaRepuestoDAO.crearVentaRepuesto(venta, listaRepuestos);
+            
+            List<Venta> listaVentas= ventaDAO.obtenerVentas();
+            venta = listaVentas.get(listaVentas.size()-1);
+            
+            Map<Repuesto, Integer> contador = new HashMap<>();
+            
+            for(Repuesto repuesto : listaRepuestos){
+                contador.put(repuesto, contador.getOrDefault(repuesto, 0) + 1);
+            }
+            
+            for(Map.Entry<Repuesto, Integer> entry : contador.entrySet()){
+                Repuesto repuesto = entry.getKey();
+                int cantidad = entry.getValue();
+                
+                System.out.println("Repuesto: " + repuesto.getNombreRepuesto().getNombre_repuesto() + ". Cantidad: " + cantidad );
+                
+                VentaRepuestoDAO.crearVentaRepuesto(venta.getId_venta(), repuesto.getId_repuesto(), cantidad);
+            }
             
             descontarStockPorLista(listaRepuestos);
 
@@ -82,7 +100,7 @@ public class VentaService {
             connection.setAutoCommit(autoCommitState);
         }
     }
-    
+    /*
     public void nuevaVenta(Venta venta, List<Repuesto> listaRepuestos) throws SQLException {
         boolean autoCommitState = connection.getAutoCommit();
         connection.setAutoCommit(false);
@@ -107,7 +125,7 @@ public class VentaService {
             connection.setAutoCommit(autoCommitState);
         }
     }
-    
+    */
     public void descontarStockPorIdRepuesto(Repuesto repuesto){
         Repuesto repAux = repuestoDAO.obtenerRepuesto(repuesto.getId_repuesto());
         repAux.setStock(repAux.getStock() - 1);

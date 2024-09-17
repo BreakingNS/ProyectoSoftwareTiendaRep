@@ -43,7 +43,6 @@ C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\categ
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\controller\NombreRepuestoController.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\impl\ReparacionDAOImpl.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\categoria\EditarCategoria.java
-C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\ventas\prueba.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\interfaces\PrecioDAO.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\ubicacion\VistaUbicacion.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\clientes\EditarCliente.java
@@ -53,11 +52,13 @@ C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\App.j
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\model\VentaRepuesto.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\service\RepuestoService.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\service\EstadoService.java
+C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\app\EjemploContarElementos.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\model\ReparacionRepuesto.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\marca\VistaMarcas.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\service\ReparacionService.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\interfaces\ClienteDAO.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\service\VentaService.java
+C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\ventas\AltaVenta.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\model\Repuesto.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\app\ProyectoSoftwareTiendaRep.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\interfaces\EstadoDAO.java

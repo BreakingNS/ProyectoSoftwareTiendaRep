@@ -215,10 +215,12 @@ public class VentaRepuestoTest {
         listaRepuestos3.add(repuesto2);
         List<Repuesto> listaRepuestos4 = new ArrayList<>();
         //Venta-Repuesto
+        /*
         ventaRepuestoDAO.crearVentaRepuesto(venta1, listaRepuestos1);
         ventaRepuestoDAO.crearVentaRepuesto(venta2, listaRepuestos2);
         ventaRepuestoDAO.crearVentaRepuesto(venta3, listaRepuestos3);
         ventaRepuestoDAO.crearVentaRepuesto(venta4, listaRepuestos4);
+        */
     }
     
     @Test

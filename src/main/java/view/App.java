@@ -281,7 +281,7 @@ public class App extends javax.swing.JFrame {
 
     private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
         this.setVisible(false); // Oculta la ventana actual
-        VistaVentas alta = new VistaVentas(ventaController);
+        VistaVentas alta = new VistaVentas(ventaController, repuestoController, clienteController);
         //alta.setSize(1280, 720);
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

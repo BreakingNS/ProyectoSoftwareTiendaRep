@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Repuesto {
     private int id_repuesto;
@@ -79,4 +80,18 @@ public class Repuesto {
     public void setUbicacion(Ubicacion ubicacion) {
         this.ubicacion = ubicacion;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Repuesto repuesto = (Repuesto) obj;
+        return id_repuesto == repuesto.id_repuesto; // Compara los ID de los repuestos
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id_repuesto); // Usa el ID del repuesto para generar el hash
+    }
+
 }

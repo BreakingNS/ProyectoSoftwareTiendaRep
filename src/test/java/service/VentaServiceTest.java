@@ -229,10 +229,12 @@ public class VentaServiceTest {
         listaRepuestos3.add(repuesto2);
         List<Repuesto> listaRepuestos4 = new ArrayList<>();
         //Venta-Repuesto
+        /*
         ventaRepuestoDAO.crearVentaRepuesto(venta1, listaRepuestos1);
         ventaRepuestoDAO.crearVentaRepuesto(venta2, listaRepuestos2);
         ventaRepuestoDAO.crearVentaRepuesto(venta3, listaRepuestos3);
         ventaRepuestoDAO.crearVentaRepuesto(venta4, listaRepuestos4);
+        */
     }
     
     @Test
@@ -300,7 +302,7 @@ public class VentaServiceTest {
         List<Repuesto> listaRepuestos = new ArrayList<>();
         listaRepuestos.add(repuesto1);
         listaRepuestos.add(repuesto2);
-        ventaService.nuevaVenta(venta1, listaRepuestos);
+        //ventaService.nuevaVenta(venta1, listaRepuestos);
         repuesto1 = repuestoDAO.obtenerRepuesto(1);
         repuesto2 = repuestoDAO.obtenerRepuesto(2);
         

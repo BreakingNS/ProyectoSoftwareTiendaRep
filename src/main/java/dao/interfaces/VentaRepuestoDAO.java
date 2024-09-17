@@ -6,7 +6,7 @@ import model.Venta;
 import model.VentaRepuesto;
 
 public interface VentaRepuestoDAO {
-    public void crearVentaRepuesto(Venta venta, List<Repuesto> listaRepuestos);
+    public void crearVentaRepuesto(int id_venta, int id_repuesto, int cantidad);
     //Correcto. Permite insertar múltiples repuestos asociados a una venta específica.
     public List<VentaRepuesto> obtenerVentaRepuestos();
     public List<VentaRepuesto> obtenerVentaRepuestoPorVenta(int id_venta);
