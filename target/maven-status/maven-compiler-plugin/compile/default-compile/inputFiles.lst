@@ -32,7 +32,6 @@ C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\impl\P
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\model\Marca.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\ubicacion\EditarUbicacion.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\impl\EstadoDAOImpl.java
-C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\reparaciones\prueba.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\model\Cliente.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\config\ConfiguracionDataBase.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\controller\prueba.java
@@ -41,6 +40,7 @@ C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\impl\V
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\repuestos\AltaRepuesto.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\categoria\VistaCategorias.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\controller\NombreRepuestoController.java
+C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\reparaciones\AltaReparacion.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\impl\ReparacionDAOImpl.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\categoria\EditarCategoria.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\interfaces\PrecioDAO.java
@@ -55,6 +55,7 @@ C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\service\Es
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\app\EjemploContarElementos.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\model\ReparacionRepuesto.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\marca\VistaMarcas.java
+C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\controller\ReparacionController.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\service\ReparacionService.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\interfaces\ClienteDAO.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\service\VentaService.java
@@ -74,6 +75,7 @@ C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\util\mante
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\controller\RepuestoController.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\marca\AltaMarca.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\interfaces\ReparacionRepuestoDAO.java
+C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\reparaciones\VistaReparaciones.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\impl\ReparacionRepuestoDAOImpl.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\model\Ubicacion.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\service\MarcaService.java

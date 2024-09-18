@@ -6,7 +6,7 @@ import model.Reparacion;
 import model.ReparacionRepuesto;
 
 public interface ReparacionRepuestoDAO {
-    public void crearReparacionRepuesto(Reparacion reparacion, List<Repuesto> listaRepuestos);
+    public void crearReparacionRepuesto(int id_reparacion, int id_repuesto, int cantidad);
     //Correcto. Permite insertar múltiples repuestos asociados a una reparacion específica.
     public List<ReparacionRepuesto> obtenerReparacionRepuestos();
     public List<ReparacionRepuesto> obtenerReparacionRepuestoPorReparacion(int id_reparacion);

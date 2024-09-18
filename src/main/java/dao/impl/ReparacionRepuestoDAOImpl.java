@@ -41,17 +41,15 @@ public class ReparacionRepuestoDAOImpl implements ReparacionRepuestoDAO{
     }
     
     @Override
-    public void crearReparacionRepuesto(Reparacion reparacion, List<Repuesto> listaRepuestos) {
-        for(Repuesto repuesto : listaRepuestos){
-            try {
-                PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_REPARACION_REPUESTO);
-                preparedStatement.setInt(1, reparacion.getId_reparacion());
-                preparedStatement.setInt(2, repuesto.getId_repuesto());
-                preparedStatement.setInt(3, obtenerCantidadRepuestos(listaRepuestos, repuesto.getId_repuesto()));
-                preparedStatement.executeUpdate();
-            } catch (SQLException ex) {
-                Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
+    public void crearReparacionRepuesto(int id_reparacion, int id_repuesto, int cantidad) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_REPARACION_REPUESTO);
+            preparedStatement.setInt(1, id_reparacion);
+            preparedStatement.setInt(2, id_repuesto);
+            preparedStatement.setInt(3, cantidad);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -158,7 +156,7 @@ public class ReparacionRepuestoDAOImpl implements ReparacionRepuestoDAO{
             if (!existe) {
                 ReparacionDAOImpl reparacionDAO = new ReparacionDAOImpl(connection);
                 Reparacion reparacion = reparacionDAO.obtenerReparacion(id_reparacion);
-                crearReparacionRepuesto(reparacion, listaRepuestosNuevos);
+                //crearReparacionRepuesto(reparacion, listaRepuestosNuevos); CORREGIR
             }
         }
     }
@@ -319,4 +317,5 @@ public class ReparacionRepuestoDAOImpl implements ReparacionRepuestoDAO{
 
         return listaReparacionRepuesto;
     }
+
 }

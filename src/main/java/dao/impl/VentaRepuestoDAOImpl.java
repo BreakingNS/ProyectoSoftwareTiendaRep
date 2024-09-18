@@ -156,9 +156,9 @@ public class VentaRepuestoDAOImpl implements VentaRepuestoDAO{
                 }
             }
             if (!existe) {
-                //VentaDAOImpl ventaDAO = new VentaDAOImpl(connection);
-                //Venta venta = ventaDAO.obtenerVenta(id_venta);
-                //crearVentaRepuesto(venta, listaRepuestosNuevos);
+                //VentaDAOImpl ventaDAO = new VentaDAOImpl(connection); CORREGIR
+                //Venta venta = ventaDAO.obtenerVenta(id_venta); CORREGIR
+                //crearVentaRepuesto(venta, listaRepuestosNuevos); CORREGIR
             }
         }
     }

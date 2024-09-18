@@ -791,7 +791,7 @@ public class AltaVenta extends javax.swing.JFrame {
                 }
             }
         });
-        //Seleccionar Cliente doble click
+        //Seleccionar Cliente seleccionando en tabla
         tablaClientes.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -906,7 +906,7 @@ public class AltaVenta extends javax.swing.JFrame {
     private void agregarRepuestoSeleccionado(int filaSeleccionada) {
         DefaultTableModel modeloRepuestos = (DefaultTableModel) tablaRepuestos.getModel();
         DefaultTableModel modeloRepuestosSeleccionados = (DefaultTableModel) tablaRepuestosSeleccionados.getModel();
-
+        
         // Obtener datos de la fila seleccionada
         Object idRepuesto = modeloRepuestos.getValueAt(filaSeleccionada, 0); // Por ejemplo, columna 0 es ID
         Object nombreRepuesto = modeloRepuestos.getValueAt(filaSeleccionada, 1); // Columna 1 es Nombre

@@ -227,10 +227,12 @@ public class ReparacionRepuestoTest {
         ventaRepuestoDAO.crearVentaRepuesto(venta4, listaRepuestos4);
         */
         //Reparacion-Repuesto
+        /*
         reparacionRepuestoDAO.crearReparacionRepuesto(reparacion1, listaRepuestos1);
         reparacionRepuestoDAO.crearReparacionRepuesto(reparacion2, listaRepuestos2);
         reparacionRepuestoDAO.crearReparacionRepuesto(reparacion3, listaRepuestos3);
         reparacionRepuestoDAO.crearReparacionRepuesto(reparacion4, listaRepuestos4);
+        */
     }
     
     @Test

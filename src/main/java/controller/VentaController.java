@@ -46,12 +46,16 @@ public class VentaController {
         List<Venta> listaVentas= ventaService.listarVentas();
         return listaVentas;
     }
-    /*
-    public Venta obtenerVentaPorId(int id){
-        Venta venta = ventaService.obtenerVentaPorId(id);
-        return venta;
+    
+    public void obtenerRepuestosPorIdVenta(int id) {
+        repuestoController.obtenerRepuestosPorIdVenta(id);
     }
     
+    public Venta obtenerVentaPorId(int id) {
+        return ventaService.obtenerVentaPorId(id);
+    }
+    
+    /*
     public List<Venta> busquedaDeVenta(String nombre, String apellido, String telefono){
         Venta venta = new Venta(0, nombre, apellido, telefono, new ArrayList<>(), new ArrayList<>());
         List<Venta> listaVentas = ventaService.busquedaDeVenta(venta);

@@ -7,6 +7,7 @@ import controller.ClienteController;
 import controller.EstadoController;
 import controller.MarcaController;
 import controller.NombreRepuestoController;
+import controller.ReparacionController;
 import controller.RepuestoController;
 import controller.UbicacionController;
 import controller.VentaController;
@@ -79,8 +80,7 @@ public class ProyectoSoftwareTiendaRep {
         ventaDAO = new VentaDAOImpl(connection);
         reparacionRepuestoDAO = new ReparacionRepuestoDAOImpl(connection);
         ventaRepuestoDAO = new VentaRepuestoDAOImpl(connection);
-        
-        //reparacionService = new ReparacionService(reparacionDAO, repuestoDAO, reparacionRepuestoDAO, connection);
+        reparacionService = new ReparacionService(reparacionDAO, repuestoDAO, reparacionRepuestoDAO, connection);
         
         ClienteService clienteService = new ClienteService(clienteDAO, ventaDAO, reparacionDAO);
         RepuestoService repuestoService = new RepuestoService(repuestoDAO, precioDAO);
@@ -101,6 +101,7 @@ public class ProyectoSoftwareTiendaRep {
         ClienteController clienteController = new ClienteController(clienteService);
         RepuestoController repuestoController = new RepuestoController(nombreRepuestoService, repuestoService, marcaService, categoriaService, ubicacionService, precioService);
         VentaController ventaController = new VentaController(ventaService, clienteService, repuestoController);
+        ReparacionController reparacionController = new ReparacionController(reparacionService, categoriaService, clienteService, estadoService, repuestoController);
         
         /*
             id_venta 
@@ -119,7 +120,8 @@ public class ProyectoSoftwareTiendaRep {
                 ubicacionController, 
                 categoriaController,
                 estadoController,
-                ventaController);
+                ventaController,
+                reparacionController);
         //app.setSize(1280, 720);
         app.setResizable(false);
         app.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

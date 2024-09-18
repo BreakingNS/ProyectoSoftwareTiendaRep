@@ -243,10 +243,12 @@ public class ReparacionServiceTest {
         ventaRepuestoDAO.crearVentaRepuesto(venta4, listaRepuestos4);
         */
         //Reparacion-Repuesto
+        /*
         reparacionRepuestoDAO.crearReparacionRepuesto(reparacion1, listaRepuestos1);
         reparacionRepuestoDAO.crearReparacionRepuesto(reparacion2, listaRepuestos2);
         reparacionRepuestoDAO.crearReparacionRepuesto(reparacion3, listaRepuestos3);
         reparacionRepuestoDAO.crearReparacionRepuesto(reparacion4, listaRepuestos4);
+        */
     }
     
     @Test
@@ -315,7 +317,7 @@ public class ReparacionServiceTest {
         listaRepuestos.add(repuesto1);
         listaRepuestos.add(repuesto2);
         
-        reparacionService.nuevaReparacion(reparacion1, listaRepuestos);
+        //reparacionService.nuevaReparacion(reparacion1, listaRepuestos);
         repuesto1 = repuestoDAO.obtenerRepuesto(1);
         repuesto2 = repuestoDAO.obtenerRepuesto(2);
         

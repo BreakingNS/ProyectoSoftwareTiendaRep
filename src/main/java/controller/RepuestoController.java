@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import model.Categoria;
+import model.Estado;
 import model.Repuesto;
 import model.Marca;
 import model.NombreRepuesto;
@@ -264,5 +265,12 @@ public class RepuestoController {
         return listaRepuestos;
     }
 
-    
+    public List<Repuesto> obtenerRepuestosPorIdVenta(int id) {
+        return repuestoService.obtenerRepuestosPorIdVenta(id);
+    }
+
+    public List<Repuesto> obtenerRepuestosPorIdReparacion(int idReparacion) {
+        return repuestoService.obtenerRepuestosPorIdReparacion(idReparacion);
+    }
+
 }

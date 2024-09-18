@@ -11,4 +11,6 @@ public interface RepuestoDAO {
     public void actualizarRepuesto(Repuesto repuesto);
     public void eliminarRepuesto(int id);
     public int obtenerUltimoIdRepuesto();
+    public List<Repuesto> obtenerRepuestosPorIdVenta(int id);
+    public List<Repuesto> obtenerRepuestosPorIdReparacion(int idReparacion);
 }

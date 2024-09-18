@@ -5,7 +5,9 @@ import dao.impl.ReparacionDAOImpl;
 import dao.impl.ReparacionRepuestoDAOImpl;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import model.Repuesto;
 import model.Reparacion;
 
@@ -30,7 +32,23 @@ public class ReparacionService {
             // Realizar operaciones de la transacción
             reparacionDAO.crearReparacion(reparacion);
         
-            ReparacionRepuestoDAO.crearReparacionRepuesto(reparacion, listaRepuestos);
+            List<Reparacion> listaReparaciones = reparacionDAO.obtenerReparaciones();
+            reparacion = listaReparaciones.get(listaReparaciones.size()-1);
+            
+            Map<Repuesto, Integer> contador = new HashMap<>();
+            
+            for(Repuesto repuesto : listaRepuestos){
+                contador.put(repuesto, contador.getOrDefault(repuesto, 0) + 1);
+            }
+            
+            for(Map.Entry<Repuesto, Integer> entry : contador.entrySet()){
+                Repuesto repuesto = entry.getKey();
+                int cantidad = entry.getValue();
+                
+                System.out.println("Repuesto: " + repuesto.getNombreRepuesto().getNombre_repuesto() + ". Cantidad: " + cantidad );
+                
+                ReparacionRepuestoDAO.crearReparacionRepuesto(reparacion.getId_reparacion(), repuesto.getId_repuesto(), cantidad);
+            }
             
             descontarStockPorLista(listaRepuestos);
 
@@ -82,7 +100,7 @@ public class ReparacionService {
             connection.setAutoCommit(autoCommitState);
         }
     }
-    
+    /*
     public void nuevaReparacion(Reparacion reparacion, List<Repuesto> listaRepuestos) throws SQLException {
         boolean autoCommitState = connection.getAutoCommit();
         connection.setAutoCommit(false);
@@ -107,7 +125,7 @@ public class ReparacionService {
             connection.setAutoCommit(autoCommitState);
         }
     }
-    
+    */
     public void descontarStockPorIdRepuesto(Repuesto repuesto){
         Repuesto repAux = repuestoDAO.obtenerRepuesto(repuesto.getId_repuesto());
         repAux.setStock(repAux.getStock() - 1);
@@ -121,4 +139,6 @@ public class ReparacionService {
             repuestoDAO.actualizarRepuesto(repAux);
         }
     }
+
+
 }

@@ -69,5 +69,12 @@ public class RepuestoService {
     public int obtenerUltimoIdRepuesto() {
         return repuestoDAO.obtenerUltimoIdRepuesto();
     }
-    
+
+    public List<Repuesto> obtenerRepuestosPorIdVenta(int id) {
+        return repuestoDAO.obtenerRepuestosPorIdVenta(id);
+    }
+
+    public List<Repuesto> obtenerRepuestosPorIdReparacion(int idReparacion) {
+        return repuestoDAO.obtenerRepuestosPorIdReparacion(idReparacion);
+    }
 }
