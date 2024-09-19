@@ -3,10 +3,11 @@ package dao.impl;
 import dao.interfaces.PrecioDAO;
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -35,7 +36,7 @@ public class PrecioDAOImpl implements PrecioDAO{
     public void crearPrecio(Precio precio) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_PRECIO);
-            preparedStatement.setDate(1, new java.sql.Date(precio.getFechaPrecio().getTime()));
+            preparedStatement.setTimestamp(1, java.sql.Timestamp.valueOf(precio.getFechaPrecio()));
             preparedStatement.setBigDecimal(2, precio.getValor());
             preparedStatement.setInt(3, precio.getRepuesto().getId_repuesto());
             preparedStatement.executeUpdate();
@@ -53,14 +54,16 @@ public class PrecioDAOImpl implements PrecioDAO{
             ResultSet precio_Resultado = preparedStatement.executeQuery();
             
             while(precio_Resultado.next()){
-                Date fechaPrecio = precio_Resultado.getDate("fechaPrecio");
+                Timestamp fechaPrecio = precio_Resultado.getTimestamp("fechaPrecio");
+                LocalDateTime fechaLocal = fechaPrecio.toLocalDateTime();
+                
                 BigDecimal valor = precio_Resultado.getBigDecimal("valor");
                 int idPrecio = precio_Resultado.getInt("id_precio");
                 int idRepuesto = precio_Resultado.getInt("id_repuesto");
                 
                 Repuesto repuesto = repuestoDAO.obtenerRepuesto(idRepuesto);
 
-                Precio precio = new Precio(idPrecio, repuesto, fechaPrecio, valor);
+                Precio precio = new Precio(idPrecio, repuesto, fechaLocal, valor);
                 
                 listaPrecios.add(precio);
             }
@@ -74,7 +77,8 @@ public class PrecioDAOImpl implements PrecioDAO{
     public void actualizarPrecio(Precio precio) {
         try { //UPDATE TiendaLocal.precio SET fechaPrecio = ? , valor = ? , id_repuesto = ? WHERE id_precio = ?
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_PRECIO);
-            preparedStatement.setDate(1, new java.sql.Date(precio.getFechaPrecio().getTime()));
+            Timestamp timestamp = java.sql.Timestamp.valueOf(precio.getFechaPrecio());
+            preparedStatement.setTimestamp(1, timestamp);
             preparedStatement.setBigDecimal(2, precio.getValor());
             preparedStatement.setInt(3, precio.getRepuesto().getId_repuesto());
             preparedStatement.setInt(4, precio.getId_precio());
@@ -106,14 +110,15 @@ public class PrecioDAOImpl implements PrecioDAO{
             precio_Resultado = preparedStatement.executeQuery();
             
             if(precio_Resultado.next()){
-                Date fechaPrecio = precio_Resultado.getDate("fechaPrecio");
+                Timestamp fechaPrecio = precio_Resultado.getTimestamp("fechaPrecio");
+                LocalDateTime fechaLocal = fechaPrecio.toLocalDateTime();
                 BigDecimal valor = precio_Resultado.getBigDecimal("valor");
                 int idPrecio = precio_Resultado.getInt("id_precio");
                 int idRepuesto = precio_Resultado.getInt("id_repuesto");
                 
                 Repuesto repuesto = repuestoDAO.obtenerRepuesto(idRepuesto);
 
-                precio = new Precio(idPrecio, repuesto, fechaPrecio, valor);
+                precio = new Precio(idPrecio, repuesto, fechaLocal, valor);
             }
         } catch (SQLException ex) {
             Logger.getLogger(PrecioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -135,14 +140,15 @@ public class PrecioDAOImpl implements PrecioDAO{
             precio_Resultado = preparedStatement.executeQuery();
             
             while(precio_Resultado.next()){
-                Date fechaPrecio = precio_Resultado.getDate("fechaPrecio");
+                Timestamp fechaPrecio = precio_Resultado.getTimestamp("fechaPrecio");
+                LocalDateTime fechaLocal = fechaPrecio.toLocalDateTime();
                 BigDecimal valor = precio_Resultado.getBigDecimal("valor");
                 int idPrecio = precio_Resultado.getInt("id_precio");
                 int idRepuesto = precio_Resultado.getInt("id_repuesto");
                 
                 Repuesto repuesto = repuestoDAO.obtenerRepuesto(idRepuesto);
 
-                precio = new Precio(idPrecio, repuesto, fechaPrecio, valor);
+                precio = new Precio(idPrecio, repuesto, fechaLocal, valor);
                 
                 listaPrecios.add(precio);
             }

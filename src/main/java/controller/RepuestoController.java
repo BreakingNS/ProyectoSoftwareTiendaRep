@@ -2,6 +2,7 @@ package controller;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -136,7 +137,9 @@ public class RepuestoController {
         repuestoService.agregarRepuesto(repuesto);
         repuesto.setId_repuesto(repuestoService.obtenerUltimoIdRepuesto());
         
-        Precio precioNuevo = new Precio(1, repuesto, new Date(), new BigDecimal(precio));
+        
+        
+        Precio precioNuevo = new Precio(1, repuesto, LocalDateTime.now(), new BigDecimal(precio));
         precioService.agregarPrecio(precioNuevo);
     }
     
@@ -170,7 +173,7 @@ public class RepuestoController {
         BigDecimal precioBig = new BigDecimal(precio);
         List<Precio> listaPreciosDeRepuesto = precioService.obtenerPrecioPorIdRepuesto(repuesto.getId_repuesto());
         if(listaPreciosDeRepuesto.get(listaPreciosDeRepuesto.size() - 1).getValor() != precioBig){
-            Precio precioNuevo = new Precio(1, repuesto, new Date(), precioBig);
+            Precio precioNuevo = new Precio(1, repuesto, LocalDateTime.now(), precioBig);
             precioService.agregarPrecio(precioNuevo);
         }
     }

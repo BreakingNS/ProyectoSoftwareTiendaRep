@@ -2,10 +2,19 @@ package dao.impl;
 
 import config.ConexionDataBase;
 import config.ConfiguracionDataBase;
+import controller.CategoriaController;
+import controller.ClienteController;
+import controller.EstadoController;
+import controller.MarcaController;
+import controller.NombreRepuestoController;
+import controller.ReparacionController;
+import controller.RepuestoController;
+import controller.UbicacionController;
+import controller.VentaController;
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import model.Categoria;
 import model.Cliente;
@@ -23,6 +32,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import service.CategoriaService;
+import service.ClienteService;
+import service.EstadoService;
+import service.MarcaService;
+import service.NombreRepuestoService;
+import service.PrecioService;
+import service.ReparacionService;
+import service.RepuestoService;
+import service.UbicacionService;
+import service.VentaService;
 
 public class ReparacionTest {
     
@@ -40,6 +59,17 @@ public class ReparacionTest {
     private static PrecioDAOImpl precioDAO;
     private static ReparacionDAOImpl reparacionDAO;
     private static VentaDAOImpl ventaDAO;
+    private static ReparacionRepuestoDAOImpl reparacionRepuestoDAO;
+    private static VentaRepuestoDAOImpl ventaRepuestoDAO;
+    
+    private static ClienteService clienteService;
+    private static RepuestoService repuestoService;
+    private static ReparacionService reparacionService;
+    private static VentaService ventaService;
+    
+    private static ClienteController clienteController;
+    private static RepuestoController repuestoController;
+    
     
     public ReparacionTest() {
     }
@@ -59,6 +89,30 @@ public class ReparacionTest {
         precioDAO = new PrecioDAOImpl(connection);
         reparacionDAO = new ReparacionDAOImpl(connection);
         ventaDAO = new VentaDAOImpl(connection);
+        reparacionRepuestoDAO = new ReparacionRepuestoDAOImpl(connection);
+        ventaRepuestoDAO = new VentaRepuestoDAOImpl(connection);
+        reparacionService = new ReparacionService(reparacionDAO, repuestoDAO, reparacionRepuestoDAO, connection);
+        
+        ClienteService clienteService = new ClienteService(clienteDAO, ventaDAO, reparacionDAO);
+        RepuestoService repuestoService = new RepuestoService(repuestoDAO, precioDAO);
+        MarcaService marcaService = new MarcaService(marcaDAO, repuestoDAO);
+        NombreRepuestoService nombreRepuestoService = new NombreRepuestoService(nombreRepuestoDAO);
+        UbicacionService ubicacionService = new UbicacionService(ubicacionDAO, repuestoDAO);
+        CategoriaService categoriaService = new CategoriaService(categoriaDAO, repuestoDAO, reparacionDAO);
+        EstadoService estadoService = new EstadoService(estadoDAO, reparacionDAO);
+        PrecioService precioService = new PrecioService(precioDAO);
+        VentaService ventaService = new VentaService(ventaDAO, repuestoDAO, ventaRepuestoDAO, connection);
+        
+        MarcaController marcaController = new MarcaController(marcaService);
+        NombreRepuestoController nombreRepuestoController = new NombreRepuestoController(nombreRepuestoService);
+        UbicacionController ubicacionController = new UbicacionController(ubicacionService);
+        CategoriaController categoriaController = new CategoriaController(categoriaService);
+        EstadoController estadoController = new EstadoController(estadoService);
+        
+        ClienteController clienteController = new ClienteController(clienteService);
+        RepuestoController repuestoController = new RepuestoController(nombreRepuestoService, repuestoService, marcaService, categoriaService, ubicacionService, precioService);
+        VentaController ventaController = new VentaController(ventaService, clienteService, repuestoController);
+        ReparacionController reparacionController = new ReparacionController(reparacionService, categoriaService, clienteService, estadoService, repuestoController);
         
     }
     
@@ -158,22 +212,23 @@ public class ReparacionTest {
         repuestoDAO.crearRepuesto(repuesto);
         repuestoDAO.crearRepuesto(repuesto1);
         //Precio
-        Precio precio1 = new Precio(1, repuesto, new Date(), new BigDecimal("3000"));
-        Precio precio2 = new Precio(2, repuesto, new Date(), new BigDecimal("4000"));
-        Precio precio3 = new Precio(3, repuesto1, new Date(), new BigDecimal("7000"));
-        Precio precio4 = new Precio(4, repuesto1, new Date(), new BigDecimal("8000"));
+        LocalDateTime ahora = LocalDateTime.now();
+        Precio precio1 = new Precio(1, repuesto, ahora, new BigDecimal("3000"));
+        Precio precio2 = new Precio(2, repuesto, ahora, new BigDecimal("4000"));
+        Precio precio3 = new Precio(3, repuesto1, ahora, new BigDecimal("7000"));
+        Precio precio4 = new Precio(4, repuesto1, ahora, new BigDecimal("8000"));
         precioDAO.crearPrecio(precio1);
         precioDAO.crearPrecio(precio2);
         precioDAO.crearPrecio(precio3);
         precioDAO.crearPrecio(precio4);
         //Reparacion
-        Reparacion reparacion = new Reparacion(1, new BigDecimal("3000"), "Rota la tapa", new Date(), new Date(), categoria, cliente, estado);
-        Reparacion reparacion1 = new Reparacion(2, new BigDecimal("9000"), "Color plateado", new Date(), new Date(), categoria1, cliente1, estado1);
-        reparacionDAO.crearReparacion(reparacion);
+        Reparacion reparacion1 = new Reparacion(1, new BigDecimal("3000"), "Rota la tapa", ahora, ahora, Boolean.TRUE, categoria, cliente, estado); 
+        Reparacion reparacion2 = new Reparacion(2, new BigDecimal("9000"), "Color plateado", ahora, ahora, Boolean.TRUE, categoria1, cliente1, estado1); 
         reparacionDAO.crearReparacion(reparacion1);
+        reparacionDAO.crearReparacion(reparacion2);
         //Venta
-        Venta venta = new Venta(1, 20, new Date(), cliente, new BigDecimal("3500"));
-        Venta venta1 = new Venta(2, 50, new Date(), cliente1, new BigDecimal("9000"));
+        Venta venta = new Venta(1, 20, ahora, cliente, new BigDecimal("3500"));
+        Venta venta1 = new Venta(2, 50, ahora, cliente1, new BigDecimal("9000"));
         ventaDAO.crearVenta(venta);
         ventaDAO.crearVenta(venta1);
     }

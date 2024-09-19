@@ -2,6 +2,15 @@ package service;
 
 import config.ConexionDataBase;
 import config.ConfiguracionDataBase;
+import controller.CategoriaController;
+import controller.ClienteController;
+import controller.EstadoController;
+import controller.MarcaController;
+import controller.NombreRepuestoController;
+import controller.ReparacionController;
+import controller.RepuestoController;
+import controller.UbicacionController;
+import controller.VentaController;
 import dao.impl.CategoriaDAOImpl;
 import dao.impl.ClienteDAOImpl;
 import dao.impl.EstadoDAOImpl;
@@ -17,6 +26,7 @@ import dao.impl.VentaRepuestoDAOImpl;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -54,9 +64,28 @@ public class ReparacionServiceTest {
     private static ReparacionDAOImpl reparacionDAO;
     private static VentaDAOImpl ventaDAO;
     private static ReparacionRepuestoDAOImpl reparacionRepuestoDAO;
-    
-    private static ReparacionService reparacionService;
     private static VentaRepuestoDAOImpl ventaRepuestoDAO;
+    
+    private static ClienteService clienteService;
+    private static RepuestoService repuestoService;
+    private static ReparacionService reparacionService;
+    private static VentaService ventaService;
+    private static MarcaService marcaService;
+    private static NombreRepuestoService nombreRepuestoService;
+    private static UbicacionService ubicacionService;
+    private static CategoriaService categoriaService;
+    private static EstadoService estadoService;
+    private static PrecioService precioService;
+    
+    private static ClienteController clienteController;
+    private static RepuestoController repuestoController;
+    private static MarcaController marcaController;
+    private static NombreRepuestoController nombreRepuestoController;
+    private static UbicacionController ubicacionController;
+    private static CategoriaController categoriaController;
+    private static EstadoController estadoController;
+    private static VentaController ventaController;
+    private static ReparacionController reparacionController;
     
     public ReparacionServiceTest() {
     }
@@ -78,8 +107,28 @@ public class ReparacionServiceTest {
         ventaDAO = new VentaDAOImpl(connection);
         reparacionRepuestoDAO = new ReparacionRepuestoDAOImpl(connection);
         ventaRepuestoDAO = new VentaRepuestoDAOImpl(connection);
-        
         reparacionService = new ReparacionService(reparacionDAO, repuestoDAO, reparacionRepuestoDAO, connection);
+        
+        clienteService = new ClienteService(clienteDAO, ventaDAO, reparacionDAO);
+        repuestoService = new RepuestoService(repuestoDAO, precioDAO);
+        marcaService = new MarcaService(marcaDAO, repuestoDAO);
+        nombreRepuestoService = new NombreRepuestoService(nombreRepuestoDAO);
+        ubicacionService = new UbicacionService(ubicacionDAO, repuestoDAO);
+        categoriaService = new CategoriaService(categoriaDAO, repuestoDAO, reparacionDAO);
+        estadoService = new EstadoService(estadoDAO, reparacionDAO);
+        precioService = new PrecioService(precioDAO);
+        ventaService = new VentaService(ventaDAO, repuestoDAO, ventaRepuestoDAO, connection);
+        
+        marcaController = new MarcaController(marcaService);
+        nombreRepuestoController = new NombreRepuestoController(nombreRepuestoService);
+        ubicacionController = new UbicacionController(ubicacionService);
+        categoriaController = new CategoriaController(categoriaService);
+        estadoController = new EstadoController(estadoService);
+        clienteController = new ClienteController(clienteService);
+        repuestoController = new RepuestoController(nombreRepuestoService, repuestoService, marcaService, categoriaService, ubicacionService, precioService);
+        ventaController = new VentaController(ventaService, clienteService, repuestoController);
+        reparacionController = new ReparacionController(reparacionService, categoriaService, clienteService, estadoService, repuestoController);
+        
     }
     
     @AfterAll
@@ -141,7 +190,7 @@ public class ReparacionServiceTest {
     }
     
     @Test
-    public void agregarReparacion(){
+    public void agregarReparacion() throws SQLException{
         //Marca
         Marca marca = new Marca(1, "Fiat", new ArrayList<>());
         Marca marca1 = new Marca(2, "Renault", new ArrayList<>());
@@ -186,14 +235,15 @@ public class ReparacionServiceTest {
         repuestoDAO.crearRepuesto(repuesto3);
         repuestoDAO.crearRepuesto(repuesto4);
         //Precio
-        Precio precio1 = new Precio(1, repuesto1, new Date(), new BigDecimal("3000"));
-        Precio precio2 = new Precio(2, repuesto1, new Date(), new BigDecimal("4000"));
-        Precio precio3 = new Precio(3, repuesto2, new Date(), new BigDecimal("7000"));
-        Precio precio4 = new Precio(4, repuesto2, new Date(), new BigDecimal("8000"));
-        Precio precio5 = new Precio(5, repuesto3, new Date(), new BigDecimal("9000"));
-        Precio precio6 = new Precio(6, repuesto3, new Date(), new BigDecimal("10000"));
-        Precio precio7 = new Precio(7, repuesto4, new Date(), new BigDecimal("15000"));
-        Precio precio8 = new Precio(8, repuesto4, new Date(), new BigDecimal("18000"));
+        LocalDateTime ahora = LocalDateTime.now();
+        Precio precio1 = new Precio(1, repuesto1, ahora, new BigDecimal("3000"));
+        Precio precio2 = new Precio(2, repuesto1, ahora, new BigDecimal("4000"));
+        Precio precio3 = new Precio(3, repuesto2, ahora, new BigDecimal("7000"));
+        Precio precio4 = new Precio(4, repuesto2, ahora, new BigDecimal("8000"));
+        Precio precio5 = new Precio(5, repuesto3, ahora, new BigDecimal("9000"));
+        Precio precio6 = new Precio(6, repuesto3, ahora, new BigDecimal("10000"));
+        Precio precio7 = new Precio(7, repuesto4, ahora, new BigDecimal("15000"));
+        Precio precio8 = new Precio(8, repuesto4, ahora, new BigDecimal("18000"));
         precioDAO.crearPrecio(precio1);
         precioDAO.crearPrecio(precio2);
         precioDAO.crearPrecio(precio3);
@@ -203,28 +253,16 @@ public class ReparacionServiceTest {
         precioDAO.crearPrecio(precio7);
         precioDAO.crearPrecio(precio8);
         //Reparacion
-        Reparacion reparacion1 = new Reparacion(1, new BigDecimal("3000"), "Rota la tapa", new Date(), new Date(), categoria, cliente, estado);
-        Reparacion reparacion2 = new Reparacion(2, new BigDecimal("9000"), "Color plateado", new Date(), new Date(), categoria1, cliente1, estado1);
-        Reparacion reparacion3 = new Reparacion(1, new BigDecimal("3000"), "Rota la tapa", new Date(), new Date(), categoria, cliente, estado);
-        Reparacion reparacion4 = new Reparacion(2, new BigDecimal("9000"), "Color plateado", new Date(), new Date(), categoria1, cliente1, estado1);
-        reparacionDAO.crearReparacion(reparacion1);
-        reparacionDAO.crearReparacion(reparacion2);
-        reparacionDAO.crearReparacion(reparacion3);
-        reparacionDAO.crearReparacion(reparacion4);        
+        Reparacion reparacion1 = new Reparacion(1, new BigDecimal("3000"), "Rota la tapa", ahora, ahora, Boolean.TRUE, categoria, cliente, estado);
+        Reparacion reparacion2 = new Reparacion(2, new BigDecimal("9000"), "Rota la tapa", ahora, ahora, Boolean.TRUE, categoria1, cliente1, estado1);
+        Reparacion reparacion3 = new Reparacion(1, new BigDecimal("3000"), "Rota la tapa", ahora, ahora, Boolean.TRUE, categoria, cliente, estado);
+        Reparacion reparacion4 = new Reparacion(2, new BigDecimal("9000"), "Rota la tapa", ahora, ahora, Boolean.TRUE, categoria1, cliente1, estado1);
         //Venta
-        Venta venta1 = new Venta(1, 20, new Date(), cliente, new BigDecimal("15000"));
-        Venta venta2 = new Venta(2, 50, new Date(), cliente, new BigDecimal("40000"));
-        Venta venta3 = new Venta(3, 10, new Date(), cliente1, new BigDecimal("9000"));
-        Venta venta4 = new Venta(4, 40, new Date(), cliente1, new BigDecimal("50000"));
-        ventaDAO.crearVenta(venta1);
-        ventaDAO.crearVenta(venta2);
-        ventaDAO.crearVenta(venta3);
-        ventaDAO.crearVenta(venta4);
+        Venta venta1 = new Venta(1, 20, ahora, cliente, new BigDecimal("15000"));
+        Venta venta2 = new Venta(2, 50, ahora, cliente, new BigDecimal("40000"));
+        Venta venta3 = new Venta(3, 10, ahora, cliente1, new BigDecimal("9000"));
+        Venta venta4 = new Venta(4, 40, ahora, cliente1, new BigDecimal("50000"));
         //Listas Repuestos
-        venta1 = ventaDAO.obtenerVenta(1);
-        venta2 = ventaDAO.obtenerVenta(2);
-        venta3 = ventaDAO.obtenerVenta(3);
-        venta4 = ventaDAO.obtenerVenta(4);
         List<Repuesto> listaRepuestos1 = new ArrayList<>();
         listaRepuestos1.add(repuesto1);
         listaRepuestos1.add(repuesto1);
@@ -236,23 +274,19 @@ public class ReparacionServiceTest {
         listaRepuestos3.add(repuesto2);
         List<Repuesto> listaRepuestos4 = new ArrayList<>();
         //Venta-Repuesto
-        /*
-        ventaRepuestoDAO.crearVentaRepuesto(venta1, listaRepuestos1);
-        ventaRepuestoDAO.crearVentaRepuesto(venta2, listaRepuestos2);
-        ventaRepuestoDAO.crearVentaRepuesto(venta3, listaRepuestos3);
-        ventaRepuestoDAO.crearVentaRepuesto(venta4, listaRepuestos4);
-        */
+        ventaService.agregarVenta(venta1, listaRepuestos1);
+        ventaService.agregarVenta(venta2, listaRepuestos2);
+        ventaService.agregarVenta(venta3, listaRepuestos3);
+        ventaService.agregarVenta(venta4, listaRepuestos4);
         //Reparacion-Repuesto
-        /*
-        reparacionRepuestoDAO.crearReparacionRepuesto(reparacion1, listaRepuestos1);
-        reparacionRepuestoDAO.crearReparacionRepuesto(reparacion2, listaRepuestos2);
-        reparacionRepuestoDAO.crearReparacionRepuesto(reparacion3, listaRepuestos3);
-        reparacionRepuestoDAO.crearReparacionRepuesto(reparacion4, listaRepuestos4);
-        */
+        reparacionService.agregarReparacion(reparacion1, listaRepuestos1);
+        reparacionService.agregarReparacion(reparacion2, listaRepuestos2);
+        reparacionService.agregarReparacion(reparacion3, listaRepuestos3);
+        reparacionService.agregarReparacion(reparacion4, listaRepuestos4);
     }
     
     @Test
-    public void listarReparaciones(){
+    public void listarReparaciones() throws SQLException{
         agregarReparacion();
         List<Reparacion> listaReparaciones = reparacionService.listarReparaciones();
         
@@ -260,12 +294,12 @@ public class ReparacionServiceTest {
         assertEquals("Rota la tapa", listaReparaciones.get(0).getDetalles());
     
         assertEquals(2, listaReparaciones.get(1).getId_reparacion());
-        assertEquals("Color plateado", listaReparaciones.get(1).getDetalles());
+        assertEquals("Rota la tapa", listaReparaciones.get(1).getDetalles());
     
     }
     
     @Test
-    public void obtenerReparacionPorId(){
+    public void obtenerReparacionPorId() throws SQLException{
         agregarReparacion();
         Reparacion reparacion = reparacionService.obtenerReparacionPorId(1);
         
@@ -274,7 +308,7 @@ public class ReparacionServiceTest {
     }
     
     @Test
-    public void editarReparacion(){
+    public void editarReparacion() throws SQLException{
         agregarReparacion();
         Reparacion reparacion = reparacionService.obtenerReparacionPorId(1);
         reparacion.setDetalles("No funciona la bocha");
@@ -288,7 +322,7 @@ public class ReparacionServiceTest {
     /*
     @Test
     public void eliminarReparacionPorId() throws SQLException{
-        agregarReparacion();
+        agregarCategoria();
         reparacionService.eliminarReparacionPorId(1);
         List<Reparacion> listaReparaciones = reparacionService.listarReparaciones();
         
@@ -303,8 +337,8 @@ public class ReparacionServiceTest {
         Cliente cliente = clienteDAO.obtenerCliente(1);
         Categoria categoria = categoriaDAO.obtenerCategoria(1);
         Estado estado = estadoDAO.obtenerEstado(1);
-        Date ahora = new Date();
-        Reparacion reparacion1 = new Reparacion(0, new BigDecimal("3000"), "Sin patas traseras", ahora, ahora, categoria, cliente, estado);
+        LocalDateTime ahora = LocalDateTime.now();
+        Reparacion reparacion1 = new Reparacion(0, new BigDecimal("3000"), "Sin tapas traseras", ahora, ahora, Boolean.TRUE, categoria, cliente, estado);
         reparacionDAO.crearReparacion(reparacion1);
         reparacion1 = reparacionDAO.obtenerReparacion(5);
         
@@ -321,8 +355,8 @@ public class ReparacionServiceTest {
         repuesto1 = repuestoDAO.obtenerRepuesto(1);
         repuesto2 = repuestoDAO.obtenerRepuesto(2);
         
-        assertEquals(9, repuesto1.getStock());
-        assertEquals(19, repuesto2.getStock());
+        assertEquals(6, repuesto1.getStock());
+        assertEquals(16, repuesto2.getStock());
     }
     
 }

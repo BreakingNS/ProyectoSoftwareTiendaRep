@@ -4,8 +4,8 @@ import config.ConexionDataBase;
 import config.ConfiguracionDataBase;
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import model.Categoria;
 import model.Marca;
@@ -144,10 +144,11 @@ public class PrecioTest {
         
         //Crear Precio
         
-        Precio precio1 = new Precio(1, repuesto, new Date(), new BigDecimal("3000"));
-        Precio precio2 = new Precio(2, repuesto, new Date(), new BigDecimal("4000"));
-        Precio precio3 = new Precio(3, repuesto1, new Date(), new BigDecimal("7000"));
-        Precio precio4 = new Precio(4, repuesto1, new Date(), new BigDecimal("8000"));
+        LocalDateTime ahora = LocalDateTime.now();
+        Precio precio1 = new Precio(1, repuesto, ahora, new BigDecimal("3000"));
+        Precio precio2 = new Precio(2, repuesto, ahora, new BigDecimal("4000"));
+        Precio precio3 = new Precio(3, repuesto1, ahora, new BigDecimal("7000"));
+        Precio precio4 = new Precio(4, repuesto1, ahora, new BigDecimal("8000"));
         precioDAO.crearPrecio(precio1);
         precioDAO.crearPrecio(precio2);
         precioDAO.crearPrecio(precio3);
@@ -196,7 +197,8 @@ public class PrecioTest {
         Repuesto repuesto = new Repuesto(1, 40, nombreRepuesto, marca, categoria, listaPrecios, ubicacion);
         repuestoDAO.actualizarRepuesto(repuesto);
         
-        Precio precio = new Precio(1, repuesto, new Date(), new BigDecimal("18000"));
+        LocalDateTime ahora = LocalDateTime.now();
+        Precio precio = new Precio(1, repuesto, ahora, new BigDecimal("18000"));
         precioDAO.actualizarPrecio(precio);
         
         listaPrecios = precioDAO.obtenerPrecios();

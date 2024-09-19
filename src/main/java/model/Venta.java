@@ -1,19 +1,19 @@
 package model;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Venta {
     private int id_venta;
     private Integer cantidad;
-    private Date fecha_venta;
+    private LocalDateTime fecha_venta;
     private Cliente cliente;
     private BigDecimal precioFinal;
 
     public Venta() {
     }
     
-    public Venta(int id_venta, Integer cantidad, Date fecha_venta, Cliente cliente, BigDecimal precioFinal) {
+    public Venta(int id_venta, Integer cantidad, LocalDateTime fecha_venta, Cliente cliente, BigDecimal precioFinal) {
         this.id_venta = id_venta;
         this.cantidad = cantidad;
         this.fecha_venta = fecha_venta;
@@ -29,7 +29,7 @@ public class Venta {
         return cantidad;
     }
 
-    public Date getFecha_venta() {
+    public LocalDateTime getFecha_venta() {
         return fecha_venta;
     }
 
@@ -49,7 +49,7 @@ public class Venta {
         this.cantidad = cantidad;
     }
 
-    public void setFecha_venta(Date fecha_venta) {
+    public void setFecha_venta(LocalDateTime fecha_venta) {
         this.fecha_venta = fecha_venta;
     }
 

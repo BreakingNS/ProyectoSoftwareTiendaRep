@@ -4,6 +4,8 @@ import config.ConexionDataBase;
 import config.ConfiguracionDataBase;
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import model.Cliente;
@@ -121,15 +123,17 @@ public class VentaTest {
         
         cliente = clienteDAO.obtenerCliente(1);
         
+        LocalDateTime ahora = LocalDateTime.now();
+        
         Venta venta = new Venta();
         venta.setCantidad(5);
-        venta.setFecha_venta(new Date());
+        venta.setFecha_venta(ahora);
         venta.setPrecioFinal(new BigDecimal("9000"));
         venta.setCliente(cliente);
         
         Venta venta1 = new Venta();
         venta1.setCantidad(10);
-        venta1.setFecha_venta(new Date());
+        venta1.setFecha_venta(ahora);
         venta1.setPrecioFinal(new BigDecimal("3000"));
         venta1.setCliente(cliente);
         
@@ -142,18 +146,20 @@ public class VentaTest {
         pruebaCrearVenta();
         List<Venta> listaVentas = ventaDAO.obtenerVentas();
         System.out.println("fecha hoy : " + listaVentas.get(0).getFecha_venta());
-        
-        String ahora = new java.sql.Date(new Date().getTime()).toString();
-        
+
         assertEquals(1, listaVentas.get(0).getId_venta());
         assertEquals(5, listaVentas.get(0).getCantidad());
-        assertEquals(ahora, listaVentas.get(0).getFecha_venta().toString());
+        LocalDate fechaEsperada = new java.sql.Date(new Date().getTime()).toLocalDate();
+        LocalDate fechaVenta = listaVentas.get(0).getFecha_venta().toLocalDate();
+        assertEquals(fechaEsperada, fechaVenta);
         assertEquals("9000.00", listaVentas.get(0).getPrecioFinal().toString());
         assertEquals(1, listaVentas.get(0).getCliente().getId_cliente());
         
         assertEquals(2, listaVentas.get(1).getId_venta());
         assertEquals(10, listaVentas.get(1).getCantidad());
-        assertEquals(ahora, listaVentas.get(1).getFecha_venta().toString());
+        fechaEsperada = new java.sql.Date(new Date().getTime()).toLocalDate();
+        fechaVenta = listaVentas.get(1).getFecha_venta().toLocalDate();
+        assertEquals(fechaEsperada, fechaVenta);
         assertEquals("3000.00", listaVentas.get(1).getPrecioFinal().toString());
         assertEquals(1, listaVentas.get(1).getCliente().getId_cliente());
     }
@@ -167,13 +173,17 @@ public class VentaTest {
         
         assertEquals(1, listaVentas.get(0).getId_venta());
         assertEquals(5, listaVentas.get(0).getCantidad());
-        assertEquals(ahora, listaVentas.get(0).getFecha_venta().toString());
+        LocalDate fechaEsperada = new java.sql.Date(new Date().getTime()).toLocalDate();
+        LocalDate fechaVenta = listaVentas.get(0).getFecha_venta().toLocalDate();
+        assertEquals(fechaEsperada, fechaVenta);
         assertEquals("9000.00", listaVentas.get(0).getPrecioFinal().toString());
         assertEquals(1, listaVentas.get(0).getCliente().getId_cliente());
         
         assertEquals(2, listaVentas.get(1).getId_venta());
         assertEquals(10, listaVentas.get(1).getCantidad());
-        assertEquals(ahora, listaVentas.get(1).getFecha_venta().toString());
+        fechaEsperada = new java.sql.Date(new Date().getTime()).toLocalDate();
+        fechaVenta = listaVentas.get(1).getFecha_venta().toLocalDate();
+        assertEquals(fechaEsperada, fechaVenta);
         assertEquals("3000.00", listaVentas.get(1).getPrecioFinal().toString());
         assertEquals(1, listaVentas.get(1).getCliente().getId_cliente());
     }
@@ -187,9 +197,13 @@ public class VentaTest {
         
         assertEquals(1, venta.getId_venta());
         assertEquals(5, venta.getCantidad());
-        assertEquals(ahora, venta.getFecha_venta().toString());
+        LocalDate fechaEsperada = new java.sql.Date(new Date().getTime()).toLocalDate();
+        LocalDate fechaVenta = venta.getFecha_venta().toLocalDate();
+        assertEquals(fechaEsperada, fechaVenta);
         assertEquals("9000.00", venta.getPrecioFinal().toString());
         assertEquals(1, venta.getCliente().getId_cliente());
+        
+        
     }
     
     @Test
@@ -213,13 +227,17 @@ public class VentaTest {
         
         assertEquals(1, listaVentas.get(0).getId_venta());
         assertEquals(15, listaVentas.get(0).getCantidad());
-        assertEquals(ahora, listaVentas.get(0).getFecha_venta().toString());
+        LocalDate fechaEsperada = new java.sql.Date(new Date().getTime()).toLocalDate();
+        LocalDate fechaVenta = listaVentas.get(0).getFecha_venta().toLocalDate();
+        assertEquals(fechaEsperada, fechaVenta);
         assertEquals("19000.00", listaVentas.get(0).getPrecioFinal().toString());
         assertEquals(1, listaVentas.get(0).getCliente().getId_cliente());
         
         assertEquals(2, listaVentas.get(1).getId_venta());
         assertEquals(110, listaVentas.get(1).getCantidad());
-        assertEquals(ahora, listaVentas.get(1).getFecha_venta().toString());
+        fechaEsperada = new java.sql.Date(new Date().getTime()).toLocalDate();
+        fechaVenta = listaVentas.get(1).getFecha_venta().toLocalDate();
+        assertEquals(fechaEsperada, fechaVenta);
         assertEquals("13000.00", listaVentas.get(1).getPrecioFinal().toString());
         assertEquals(1, listaVentas.get(1).getCliente().getId_cliente());
     }

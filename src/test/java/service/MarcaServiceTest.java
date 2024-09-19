@@ -156,12 +156,13 @@ public class MarcaServiceTest {
         agregarMarcaTest();
         List<Marca> listaMarcas = marcaService.listarMarcas();
         
-        assertEquals(1, listaMarcas.get(0).getId_marca());
-        assertEquals("Philips", listaMarcas.get(0).getNombre_marca());
-        assertEquals(10, listaMarcas.get(0).getListaRepuestos().get(0).getStock());
-        assertEquals(2, listaMarcas.get(1).getId_marca());
-        assertEquals("Generico", listaMarcas.get(1).getNombre_marca());
-        assertEquals(20, listaMarcas.get(1).getListaRepuestos().get(0).getStock());
+        
+        assertEquals(2, listaMarcas.get(0).getId_marca());
+        assertEquals("Generico", listaMarcas.get(0).getNombre_marca());
+        assertEquals(20, listaMarcas.get(0).getListaRepuestos().get(0).getStock());
+        assertEquals(1, listaMarcas.get(1).getId_marca());
+        assertEquals("Philips", listaMarcas.get(1).getNombre_marca());
+        assertEquals(10, listaMarcas.get(1).getListaRepuestos().get(0).getStock());
     }
     
     @Test
@@ -182,12 +183,13 @@ public class MarcaServiceTest {
         marcaService.editarMarcaPorId(marca1);
         List<Marca> listaMarcas = marcaService.listarMarcas();
         
-        assertEquals(1, listaMarcas.get(0).getId_marca());
-        assertEquals("Volkswagen", listaMarcas.get(0).getNombre_marca());
-        assertEquals(10, listaMarcas.get(0).getListaRepuestos().get(0).getStock());
-        assertEquals(2, listaMarcas.get(1).getId_marca());
-        assertEquals("BMW", listaMarcas.get(1).getNombre_marca());
-        assertEquals(20, listaMarcas.get(1).getListaRepuestos().get(0).getStock());
+        
+        assertEquals(2, listaMarcas.get(0).getId_marca());
+        assertEquals("BMW", listaMarcas.get(0).getNombre_marca());
+        assertEquals(20, listaMarcas.get(0).getListaRepuestos().get(0).getStock());
+        assertEquals(1, listaMarcas.get(1).getId_marca());
+        assertEquals("Volkswagen", listaMarcas.get(1).getNombre_marca());
+        assertEquals(10, listaMarcas.get(1).getListaRepuestos().get(0).getStock());
     }
     
     //A revision, pareciera necesitar la query metodo cascada

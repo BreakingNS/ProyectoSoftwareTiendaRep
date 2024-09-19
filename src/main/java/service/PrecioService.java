@@ -45,7 +45,7 @@ public class PrecioService {
         
         Precio precioNuevo = new Precio();
         precioNuevo.setRepuesto(repuesto);
-        precioNuevo.setFechaPrecio(sqlDate);
+        precioNuevo.setFechaPrecio(LocalDateTime.now());
         precioNuevo.setValor(nuevoValor);
         
         precioDAO.crearPrecio(precioNuevo);

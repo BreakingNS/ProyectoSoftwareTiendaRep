@@ -142,8 +142,8 @@ public class UbicacionServiceTest {
         
         List<Ubicacion> listaUbicaciones = ubicacionService.listarUbicaciones();
         
-        assertEquals(1, listaUbicaciones.get(0).getId_ubicacion());
-        assertEquals("Repisa", listaUbicaciones.get(0).getNombre_ubicacion());
+        assertEquals(1, listaUbicaciones.get(1).getId_ubicacion());
+        assertEquals("Repisa", listaUbicaciones.get(1).getNombre_ubicacion());
     }
     
     //A revision, pareciera necesitar la query metodo cascada

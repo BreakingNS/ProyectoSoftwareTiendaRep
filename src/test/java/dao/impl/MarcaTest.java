@@ -145,10 +145,11 @@ public class MarcaTest {
         marcaDAO.actualizarMarca(marca2);
         List<Marca> listaMarcas = marcaDAO.obtenerMarcas();
         
-        assertEquals(1, listaMarcas.get(0).getId_marca());
-        assertEquals("Peugeot", listaMarcas.get(0).getNombre_marca());
-        assertEquals(2, listaMarcas.get(1).getId_marca());
-        assertEquals("Citroen", listaMarcas.get(1).getNombre_marca());
+        assertEquals(2, listaMarcas.get(0).getId_marca());
+        assertEquals("Citroen", listaMarcas.get(0).getNombre_marca());
+        assertEquals(1, listaMarcas.get(1).getId_marca());
+        assertEquals("Peugeot", listaMarcas.get(1).getNombre_marca());
+        
     }
     
     @Test

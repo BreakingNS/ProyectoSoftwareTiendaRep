@@ -1,14 +1,15 @@
 package model;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Reparacion {
     private int id_reparacion;
     private BigDecimal costo;
     private String detalles;
-    private Date fecha_ingreso;
-    private Date fecha_devolucion;
+    private LocalDateTime fecha_ingreso;
+    private LocalDateTime fecha_devolucion;
+    private Boolean pagado;
     private Categoria categoria;
     private Cliente cliente;
     private Estado estado;
@@ -16,12 +17,13 @@ public class Reparacion {
     public Reparacion() {
     }
 
-    public Reparacion(int id_reparacion, BigDecimal costo, String detalles, Date fecha_ingreso, Date fecha_devolucion, Categoria categoria, Cliente cliente, Estado estado) {
+    public Reparacion(int id_reparacion, BigDecimal costo, String detalles, LocalDateTime fecha_ingreso, LocalDateTime fecha_devolucion, Boolean pagado, Categoria categoria, Cliente cliente, Estado estado) {
         this.id_reparacion = id_reparacion;
         this.costo = costo;
         this.detalles = detalles;
         this.fecha_ingreso = fecha_ingreso;
         this.fecha_devolucion = fecha_devolucion;
+        this.pagado = pagado;
         this.categoria = categoria;
         this.cliente = cliente;
         this.estado = estado;
@@ -39,12 +41,16 @@ public class Reparacion {
         return detalles;
     }
 
-    public Date getFecha_ingreso() {
+    public LocalDateTime getFecha_ingreso() {
         return fecha_ingreso;
     }
 
-    public Date getFecha_devolucion() {
+    public LocalDateTime getFecha_devolucion() {
         return fecha_devolucion;
+    }
+
+    public Boolean getPagado() {
+        return pagado;
     }
 
     public Categoria getCategoria() {
@@ -71,12 +77,16 @@ public class Reparacion {
         this.detalles = detalles;
     }
 
-    public void setFecha_ingreso(Date fecha_ingreso) {
+    public void setFecha_ingreso(LocalDateTime fecha_ingreso) {
         this.fecha_ingreso = fecha_ingreso;
     }
 
-    public void setFecha_devolucion(Date fecha_devolucion) {
+    public void setFecha_devolucion(LocalDateTime fecha_devolucion) {
         this.fecha_devolucion = fecha_devolucion;
+    }
+
+    public void setPagado(Boolean pagad) {
+        this.pagado = pagad;
     }
 
     public void setCategoria(Categoria categoria) {
@@ -90,6 +100,4 @@ public class Reparacion {
     public void setEstado(Estado estado) {
         this.estado = estado;
     }
-
-    
 }

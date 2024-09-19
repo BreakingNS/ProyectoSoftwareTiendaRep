@@ -7,6 +7,8 @@ import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,20 +21,20 @@ import model.Reparacion;
 public class ReparacionDAOImpl implements ReparacionDAO{
     
     private Connection connection = null; 
-    private final String SENTENCIA_ELIMINAR_REPARACION = 
+    private final String SENTENCIA_ELIMINAR_REPARACION =
             "DELETE FROM TiendaLocal.reparacion WHERE id_reparacion = ?";
-    private final String SENTENCIA_OBTENER_REPARACIONES = 
+    private final String SENTENCIA_OBTENER_REPARACIONES =
             "SELECT * FROM TiendaLocal.reparacion ORDER BY id_reparacion ASC";
-    private final String SENTENCIA_OBTENER_REPARACIONES_POR_ID_CLIENTE = 
+    private final String SENTENCIA_OBTENER_REPARACIONES_POR_ID_CLIENTE =
             "SELECT * FROM TiendaLocal.reparacion WHERE id_cliente = ?";
-    private final String SENTENCIA_OBTENER_REPARACIONES_POR_ID_CATEGORIA = 
+    private final String SENTENCIA_OBTENER_REPARACIONES_POR_ID_CATEGORIA =
             "SELECT * FROM TiendaLocal.reparacion WHERE id_categoria = ?";
-    private final String SENTENCIA_OBTENER_REPARACION = 
+    private final String SENTENCIA_OBTENER_REPARACION =
             "SELECT * FROM TiendaLocal.reparacion WHERE id_reparacion = ?";
-    private final String SENTENCIA_CREAR_REPARACION = 
-            "INSERT INTO TiendaLocal.reparacion (costo, detalles, fecha_ingreso, fecha_devolucion, id_categoria, id_cliente, id_estado) VALUES ( ? , ? , ? , ? , ? , ? , ? )";
-    private final String SENTENCIA_ACTUALIZAR_REPARACION = 
-            "UPDATE TiendaLocal.reparacion SET costo = ?, detalles = ?, fecha_ingreso = ?, fecha_devolucion = ?, id_categoria = ?, id_cliente = ?, id_estado = ? WHERE id_reparacion = ?";
+    private final String SENTENCIA_CREAR_REPARACION =
+            "INSERT INTO TiendaLocal.reparacion (costo, detalles, fecha_ingreso, fecha_devolucion, pagado, id_categoria, id_cliente, id_estado) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? )";
+    private final String SENTENCIA_ACTUALIZAR_REPARACION =
+            "UPDATE TiendaLocal.reparacion SET costo = ?, detalles = ?, fecha_ingreso = ?, fecha_devolucion = ?, pagado = ?, id_categoria = ?, id_cliente = ?, id_estado = ? WHERE id_reparacion = ?";
 
     public ReparacionDAOImpl(Connection connection) {
         this.connection = connection;
@@ -44,11 +46,12 @@ public class ReparacionDAOImpl implements ReparacionDAO{
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_REPARACION);
             preparedStatement.setBigDecimal(1, reparacion.getCosto());
             preparedStatement.setString(2, reparacion.getDetalles());
-            preparedStatement.setDate(3, new java.sql.Date(reparacion.getFecha_ingreso().getTime()));
-            preparedStatement.setDate(4, new java.sql.Date(reparacion.getFecha_devolucion().getTime()));
-            preparedStatement.setInt(5, reparacion.getCategoria().getId_categoria());
-            preparedStatement.setInt(6, reparacion.getCliente().getId_cliente());
-            preparedStatement.setInt(7, reparacion.getEstado().getId_estado());
+            preparedStatement.setTimestamp(3, java.sql.Timestamp.valueOf(reparacion.getFecha_ingreso()));
+            preparedStatement.setTimestamp(4, java.sql.Timestamp.valueOf(reparacion.getFecha_devolucion()));
+            preparedStatement.setBoolean(5, reparacion.getPagado());
+            preparedStatement.setInt(6, reparacion.getCategoria().getId_categoria());
+            preparedStatement.setInt(7, reparacion.getCliente().getId_cliente());
+            preparedStatement.setInt(8, reparacion.getEstado().getId_estado());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ReparacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -66,8 +69,13 @@ public class ReparacionDAOImpl implements ReparacionDAO{
             while(reparacion_Resultado.next()){
                 BigDecimal costo = reparacion_Resultado.getBigDecimal("costo");
                 String detalles = reparacion_Resultado.getString("detalles");
-                Date fecha_ingreso = reparacion_Resultado.getDate("fecha_ingreso");
-                Date fecha_devolucion = reparacion_Resultado.getDate("fecha_devolucion");
+                
+                Timestamp fecha = reparacion_Resultado.getTimestamp("fecha_ingreso");
+                LocalDateTime fecha_ingreso = fecha.toLocalDateTime();
+                fecha = reparacion_Resultado.getTimestamp("fecha_devolucion");
+                LocalDateTime fecha_devolucion = fecha.toLocalDateTime();
+
+                Boolean pagado = reparacion_Resultado.getBoolean("pagado");
                 int id_reparacion = reparacion_Resultado.getInt("id_reparacion");
                 int id_categoria = reparacion_Resultado.getInt("id_categoria");
                 int id_cliente = reparacion_Resultado.getInt("id_cliente");
@@ -81,7 +89,7 @@ public class ReparacionDAOImpl implements ReparacionDAO{
                 Cliente cliente = clienteDAO.obtenerCliente(id_cliente);
                 Estado estado = estadoDAO.obtenerEstado(id_estado);
                 
-                Reparacion reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, categoria, cliente, estado);
+                Reparacion reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, pagado, categoria, cliente, estado);
                 
                 listaReparaciones.add(reparacion);
             }
@@ -98,12 +106,14 @@ public class ReparacionDAOImpl implements ReparacionDAO{
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_REPARACION);
             preparedStatement.setBigDecimal(1, reparacion.getCosto());
             preparedStatement.setString(2, reparacion.getDetalles());
-            preparedStatement.setDate(3, new java.sql.Date(reparacion.getFecha_ingreso().getTime()));
-            preparedStatement.setDate(4, new java.sql.Date(reparacion.getFecha_devolucion().getTime()));
-            preparedStatement.setInt(5, reparacion.getCategoria().getId_categoria());
-            preparedStatement.setInt(6, reparacion.getCliente().getId_cliente());
-            preparedStatement.setInt(7, reparacion.getEstado().getId_estado());
-            preparedStatement.setInt(8, reparacion.getId_reparacion());
+             preparedStatement.setTimestamp(3, java.sql.Timestamp.valueOf(reparacion.getFecha_ingreso()));
+            preparedStatement.setTimestamp(4, java.sql.Timestamp.valueOf(reparacion.getFecha_devolucion()));
+            preparedStatement.setBoolean(5, reparacion.getPagado());
+            preparedStatement.setInt(6, reparacion.getCategoria().getId_categoria());
+            preparedStatement.setInt(7, reparacion.getCliente().getId_cliente());
+            preparedStatement.setInt(8, reparacion.getEstado().getId_estado());
+            preparedStatement.setInt(9, reparacion.getId_reparacion());
+            
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ReparacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -134,9 +144,13 @@ public class ReparacionDAOImpl implements ReparacionDAO{
             if(reparacion_Resultado.next()){
                 BigDecimal costo = reparacion_Resultado.getBigDecimal("costo");
                 String detalles = reparacion_Resultado.getString("detalles");
-                Date fecha_ingreso = reparacion_Resultado.getDate("fecha_ingreso");
-                Date fecha_devolucion = reparacion_Resultado.getDate("fecha_devolucion");
                 
+                Timestamp fecha = reparacion_Resultado.getTimestamp("fecha_ingreso");
+                LocalDateTime fecha_ingreso = fecha.toLocalDateTime();
+                fecha = reparacion_Resultado.getTimestamp("fecha_devolucion");
+                LocalDateTime fecha_devolucion = fecha.toLocalDateTime();
+
+                Boolean pagado = reparacion_Resultado.getBoolean("pagado");
                 int id_reparacion = reparacion_Resultado.getInt("id_reparacion");
                 int id_categoria = reparacion_Resultado.getInt("id_categoria");
                 int id_cliente = reparacion_Resultado.getInt("id_cliente");
@@ -150,7 +164,7 @@ public class ReparacionDAOImpl implements ReparacionDAO{
                 Cliente cliente = clienteDAO.obtenerCliente(id_cliente);
                 Estado estado = EstadoDAO.obtenerEstado(id_estado);
                 
-                reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, categoria, cliente, estado);
+                reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, pagado, categoria, cliente, estado);
             }
         } catch (SQLException ex) {
             Logger.getLogger(ReparacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -172,8 +186,13 @@ public class ReparacionDAOImpl implements ReparacionDAO{
             while(reparacion_Resultado.next()){
                 BigDecimal costo = reparacion_Resultado.getBigDecimal("costo");
                 String detalles = reparacion_Resultado.getString("detalles");
-                Date fecha_ingreso = reparacion_Resultado.getDate("fecha_ingreso");
-                Date fecha_devolucion = reparacion_Resultado.getDate("fecha_devolucion");
+                
+                Timestamp fecha = reparacion_Resultado.getTimestamp("fecha_ingreso");
+                LocalDateTime fecha_ingreso = fecha.toLocalDateTime();
+                fecha = reparacion_Resultado.getTimestamp("fecha_devolucion");
+                LocalDateTime fecha_devolucion = fecha.toLocalDateTime();
+
+                Boolean pagado = reparacion_Resultado.getBoolean("pagado");
                 int id_reparacion = reparacion_Resultado.getInt("id_reparacion");
                 int id_categoria = reparacion_Resultado.getInt("id_categoria");
                 int id_cliente = reparacion_Resultado.getInt("id_cliente");
@@ -187,7 +206,7 @@ public class ReparacionDAOImpl implements ReparacionDAO{
                 Cliente cliente = clienteDAO.obtenerCliente(id_cliente);
                 Estado estado = estadoDAO.obtenerEstado(id_estado);
                 
-                Reparacion reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, categoria, cliente, estado);
+                Reparacion reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, pagado, categoria, cliente, estado);
                 
                 listaReparaciones.add(reparacion);
             }
@@ -211,8 +230,13 @@ public class ReparacionDAOImpl implements ReparacionDAO{
             while(reparacion_Resultado.next()){
                 BigDecimal costo = reparacion_Resultado.getBigDecimal("costo");
                 String detalles = reparacion_Resultado.getString("detalles");
-                Date fecha_ingreso = reparacion_Resultado.getDate("fecha_ingreso");
-                Date fecha_devolucion = reparacion_Resultado.getDate("fecha_devolucion");
+                
+                Timestamp fecha = reparacion_Resultado.getTimestamp("fecha_ingreso");
+                LocalDateTime fecha_ingreso = fecha.toLocalDateTime();
+                fecha = reparacion_Resultado.getTimestamp("fecha_devolucion");
+                LocalDateTime fecha_devolucion = fecha.toLocalDateTime();
+
+                Boolean pagado = reparacion_Resultado.getBoolean("pagado");
                 int id_reparacion = reparacion_Resultado.getInt("id_reparacion");
                 int id_categoria = reparacion_Resultado.getInt("id_categoria");
                 int id_cliente = reparacion_Resultado.getInt("id_cliente");
@@ -226,7 +250,7 @@ public class ReparacionDAOImpl implements ReparacionDAO{
                 Cliente cliente = clienteDAO.obtenerCliente(id_cliente);
                 Estado estado = estadoDAO.obtenerEstado(id_estado);
                 
-                Reparacion reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, categoria, cliente, estado);
+                Reparacion reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, pagado, categoria, cliente, estado);
                 
                 listaReparaciones.add(reparacion);
             }

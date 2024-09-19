@@ -7,6 +7,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -33,7 +35,7 @@ public class VentaDAOImpl implements VentaDAO{
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_VENTA);
             preparedStatement.setInt(1, venta.getCantidad());
-            preparedStatement.setDate(2, new java.sql.Date(venta.getFecha_venta().getTime()));
+            preparedStatement.setTimestamp(2, java.sql.Timestamp.valueOf(venta.getFecha_venta()));
             preparedStatement.setInt(3, venta.getCliente().getId_cliente());
             preparedStatement.setBigDecimal(4, venta.getPrecioFinal());
             preparedStatement.executeUpdate();
@@ -52,7 +54,9 @@ public class VentaDAOImpl implements VentaDAO{
             
             while(venta_Resultado.next()){
                 Integer cantidadVenta = venta_Resultado.getInt("cantidad");
-                Date fechaVenta = venta_Resultado.getDate("fecha_venta");
+                Timestamp fechaPrecio = venta_Resultado.getTimestamp("fecha_venta");
+                LocalDateTime fechaVenta = fechaPrecio.toLocalDateTime();
+                
                 int idVenta = venta_Resultado.getInt("id_venta");
                 int idCliente = venta_Resultado.getInt("id_cliente");
                 BigDecimal precioFinal = venta_Resultado.getBigDecimal("precioFinal");
@@ -75,7 +79,7 @@ public class VentaDAOImpl implements VentaDAO{
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_VENTA);
             preparedStatement.setInt(1, venta.getCantidad());
-            preparedStatement.setDate(2, new java.sql.Date(venta.getFecha_venta().getTime()));
+            preparedStatement.setTimestamp(2, java.sql.Timestamp.valueOf(venta.getFecha_venta()));
             preparedStatement.setInt(3,venta.getCliente().getId_cliente());
             preparedStatement.setBigDecimal(4, venta.getPrecioFinal());
             preparedStatement.setInt(5, venta.getId_venta());
@@ -109,7 +113,9 @@ public class VentaDAOImpl implements VentaDAO{
             if(venta_Resultado.next()){
                 int idVenta = venta_Resultado.getInt("id_venta");
                 Integer cantidad = venta_Resultado.getInt("cantidad");
-                Date fechaVenta = venta_Resultado.getDate("fecha_venta");
+                Timestamp fechaPrecio = venta_Resultado.getTimestamp("fecha_venta");
+                LocalDateTime fechaVenta = fechaPrecio.toLocalDateTime();
+                
                 BigDecimal precioFinal = venta_Resultado.getBigDecimal("precioFinal");
                 int idCliente = venta_Resultado.getInt("id_cliente");
                 
@@ -136,7 +142,9 @@ public class VentaDAOImpl implements VentaDAO{
             
             while(venta_Resultado.next()){
                 Integer cantidadVenta = venta_Resultado.getInt("cantidad");
-                Date fechaVenta = venta_Resultado.getDate("fecha_venta");
+                Timestamp fechaPrecio = venta_Resultado.getTimestamp("fecha_venta");
+                LocalDateTime fechaVenta = fechaPrecio.toLocalDateTime();
+                
                 int idVenta = venta_Resultado.getInt("id_venta");
                 int idCliente = venta_Resultado.getInt("id_cliente");
                 BigDecimal precioFinal = venta_Resultado.getBigDecimal("precioFinal");

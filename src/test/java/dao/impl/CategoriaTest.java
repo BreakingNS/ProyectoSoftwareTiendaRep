@@ -122,10 +122,10 @@ public class CategoriaTest {
         pruebaCrearCategoria();
         List<Categoria> listaCategorias = categoriaDAO.obtenerCategorias();
         
-        assertEquals(1, listaCategorias.get(0).getId_categoria());
-        assertEquals("Lavarropa", listaCategorias.get(0).getNombre_categoria());
-        assertEquals(2, listaCategorias.get(1).getId_categoria());
-        assertEquals("Aire Acondicionado", listaCategorias.get(1).getNombre_categoria());
+        assertEquals(2, listaCategorias.get(0).getId_categoria());
+        assertEquals("Aire Acondicionado", listaCategorias.get(0).getNombre_categoria());
+        assertEquals(1, listaCategorias.get(1).getId_categoria());
+        assertEquals("Lavarropa", listaCategorias.get(1).getNombre_categoria());
     }
     
     @Test
