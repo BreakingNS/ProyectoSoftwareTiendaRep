@@ -62,6 +62,8 @@ public class VistaRepuestos extends javax.swing.JFrame {
         comboUbicacion = new javax.swing.JComboBox<>();
         comboCategoria = new javax.swing.JComboBox<>();
         comboNombreRepuesto = new javax.swing.JComboBox<>();
+        btnActualizarPrecio = new javax.swing.JButton();
+        btnActualizarStock = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -163,6 +165,22 @@ public class VistaRepuestos extends javax.swing.JFrame {
         comboNombreRepuesto.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         comboNombreRepuesto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        btnActualizarPrecio.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        btnActualizarPrecio.setText("ACTUALIZAR PRECIO");
+        btnActualizarPrecio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarPrecioActionPerformed(evt);
+            }
+        });
+
+        btnActualizarStock.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        btnActualizarStock.setText("ACTUALIZAR STOCK");
+        btnActualizarStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarStockActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -216,7 +234,9 @@ public class VistaRepuestos extends javax.swing.JFrame {
                                     .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnActualizarPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnActualizarStock, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -251,15 +271,19 @@ public class VistaRepuestos extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnActualizarStock, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41)
-                        .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnActualizarPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
@@ -289,6 +313,7 @@ public class VistaRepuestos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        this.setEnabled(false);
         AltaRepuesto alta = new AltaRepuesto(repuestoController);
         //alta.setSize(600, 400);
         alta.setResizable(false);
@@ -299,6 +324,10 @@ public class VistaRepuestos extends javax.swing.JFrame {
         alta.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
+                VistaRepuestos.this.setEnabled(true);
+                VistaRepuestos.this.setState(JFrame.NORMAL);  
+                VistaRepuestos.this.toFront();                
+                VistaRepuestos.this.requestFocus(); 
                 cargarTabla(); // Actualiza la tabla después de cerrar AltaRepuesto.
             }
         });
@@ -317,6 +346,7 @@ public class VistaRepuestos extends javax.swing.JFrame {
                 int stock = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 5)));
                 BigDecimal precio = new BigDecimal(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 6).toString());
                 
+                this.setEnabled(false);
                 EditarRepuesto alta = new EditarRepuesto(idRepuesto, 
                         comboNombreRep,
                         comboMarca,
@@ -334,6 +364,10 @@ public class VistaRepuestos extends javax.swing.JFrame {
                 alta.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosed(java.awt.event.WindowEvent e) {
+                        VistaRepuestos.this.setEnabled(true);
+                        VistaRepuestos.this.setState(JFrame.NORMAL);  
+                        VistaRepuestos.this.toFront();                
+                        VistaRepuestos.this.requestFocus(); 
                         cargarTabla(); // Actualiza la tabla después de cerrar AltaRepuesto.
                     }
                 });
@@ -378,8 +412,70 @@ public class VistaRepuestos extends javax.swing.JFrame {
         cargarTabla();
     }//GEN-LAST:event_formWindowOpened
 
+    private void btnActualizarPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarPrecioActionPerformed
+        /*
+        this.setEnabled(false);
+        ActualizarStock alta = new ActualizarStock(repuestoController);
+        //alta.setSize(600, 400);
+        alta.setResizable(false);
+        alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        alta.setVisible(true);
+        alta.setLocationRelativeTo(null);
+
+        alta.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                VistaRepuestos.this.setEnabled(true);
+                VistaRepuestos.this.setState(JFrame.NORMAL);  
+                VistaRepuestos.this.toFront();                
+                VistaRepuestos.this.requestFocus(); 
+                cargarTabla(); // Actualiza la tabla después de cerrar AltaRepuesto.
+            }
+        });*/
+    }//GEN-LAST:event_btnActualizarPrecioActionPerformed
+
+    private void btnActualizarStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarStockActionPerformed
+        if(tablaRepuestos.getRowCount() > 0){
+            if(tablaRepuestos.getSelectedRow()!=-1){
+                
+                int idRepuesto = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 0)));
+                String comboNombreRep = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 1));
+                String comboCategoria = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 3));
+                int stock = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 5)));
+                BigDecimal precio = new BigDecimal(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 6).toString());
+                
+                this.setEnabled(false);
+                ActualizarStock alta = new ActualizarStock(idRepuesto, 
+                        comboNombreRep,
+                        comboCategoria,
+                        stock,
+                        precio,
+                        repuestoController);
+                alta.setResizable(false);
+                alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                alta.setVisible(true);
+                alta.setLocationRelativeTo(null);
+
+                alta.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+                        VistaRepuestos.this.setEnabled(true);
+                        VistaRepuestos.this.setState(JFrame.NORMAL);  
+                        VistaRepuestos.this.toFront();                
+                        VistaRepuestos.this.requestFocus(); 
+                        cargarTabla(); // Actualiza la tabla después de cerrar AltaRepuesto.
+                    }
+                });
+                
+            }
+        }
+        
+    }//GEN-LAST:event_btnActualizarStockActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnActualizarPrecio;
+    private javax.swing.JButton btnActualizarStock;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnEditar;
@@ -482,7 +578,6 @@ public class VistaRepuestos extends javax.swing.JFrame {
         tablaRepuestos.setModel(modeloTabla);
     }
 
-    
     private void configurarEventos() {
         btnEliminar.setEnabled(false); // Deshabilita el botón inicialmente.
 
@@ -494,6 +589,18 @@ public class VistaRepuestos extends javax.swing.JFrame {
 
         tablaRepuestos.getSelectionModel().addListSelectionListener(e -> {
             btnEditar.setEnabled(tablaRepuestos.getSelectedRow() != -1); // Habilita si hay una fila seleccionada.
+        });
+        
+        btnActualizarPrecio.setEnabled(false); // Deshabilita el botón inicialmente.
+
+        tablaRepuestos.getSelectionModel().addListSelectionListener(e -> {
+            btnActualizarPrecio.setEnabled(tablaRepuestos.getSelectedRow() != -1); // Habilita si hay una fila seleccionada.
+        });
+        
+        btnActualizarStock.setEnabled(false); // Deshabilita el botón inicialmente.
+
+        tablaRepuestos.getSelectionModel().addListSelectionListener(e -> {
+            btnActualizarStock.setEnabled(tablaRepuestos.getSelectedRow() != -1); // Habilita si hay una fila seleccionada.
         });
 
         // Configura el mapeo de la tecla Esc para activar btnAtras
@@ -582,6 +689,7 @@ public class VistaRepuestos extends javax.swing.JFrame {
     }
     
     private void cargarComboBoxes(){
+        
         comboCategoria.removeAllItems();
         comboMarca.removeAllItems();
         comboNombreRepuesto.removeAllItems();
@@ -619,5 +727,6 @@ public class VistaRepuestos extends javax.swing.JFrame {
         }
         
         System.out.println("fin carga comboboxes");
+        
     }
 }

@@ -157,7 +157,8 @@ public class VistaUbicacion extends javax.swing.JFrame {
         if(tablaUbicaciones.getRowCount() > 0){
             if(tablaUbicaciones.getSelectedRow()!=-1){
                 idUbicacion = Integer.parseInt(String.valueOf(tablaUbicaciones.getValueAt(tablaUbicaciones.getSelectedRow(), 0)));
-
+                
+                this.setEnabled(false);
                 EditarUbicacion alta = new EditarUbicacion(idUbicacion, ubicacionController);
                 //alta.setSize(600, 400);
                 alta.setResizable(false);
@@ -168,6 +169,10 @@ public class VistaUbicacion extends javax.swing.JFrame {
                 alta.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosed(java.awt.event.WindowEvent e) {
+                        VistaUbicacion.this.setEnabled(true);
+                        VistaUbicacion.this.setState(JFrame.NORMAL);  
+                        VistaUbicacion.this.toFront();                
+                        VistaUbicacion.this.requestFocus(); 
                         cargarTabla(); // Actualiza la tabla después de cerrar AltaUbicacion.
                     }
                 });
@@ -186,6 +191,7 @@ public class VistaUbicacion extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         
+        this.setEnabled(false);
         AltaUbicacion alta = new AltaUbicacion(ubicacionController);
         //alta.setSize(600, 400);
         alta.setResizable(false);
@@ -196,6 +202,10 @@ public class VistaUbicacion extends javax.swing.JFrame {
         alta.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
+                VistaUbicacion.this.setEnabled(true);
+                VistaUbicacion.this.setState(JFrame.NORMAL);  
+                VistaUbicacion.this.toFront();                
+                VistaUbicacion.this.requestFocus(); 
                 cargarTabla(); // Actualiza la tabla después de cerrar AltaUbicacion.
             }
         });

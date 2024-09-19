@@ -11,6 +11,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
@@ -498,16 +501,25 @@ public class VistaReparaciones extends javax.swing.JFrame {
         if(listaReparaciones != null){
             System.out.println("tamaño de la lista: " + listaReparaciones.size());
             for(Reparacion reparacion : listaReparaciones){
+                LocalDateTime fecha = reparacion.getFecha_ingreso();
+                DateTimeFormatter formatoDiasHoras = DateTimeFormatter.ofPattern("dd-MM-yyyy' 'HH:mm:ss");
+                String fechaIngreso = fecha.format(formatoDiasHoras);
+                
+                fecha = reparacion.getFecha_devolucion();
+                DateTimeFormatter formatoDias = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                String fechaDevolucion = fecha.format(formatoDias);
+                
                 Object[] objeto = { 
                     reparacion.getId_reparacion(),
                     reparacion.getCategoria(), 
                     reparacion.getCliente().getApellido().concat(" " + reparacion.getCliente().getNombre()),
                     reparacion.getCliente().getTelefono(),
-                    reparacion.getFecha_ingreso(),
-                    reparacion.getFecha_devolucion(),
+                    fechaIngreso,
+                    fechaDevolucion,
                     reparacion.getCosto(),
                     reparacion.getEstado().getNombre_estado()
                 };
+
                 modeloTablaReparaciones.addRow(objeto);
             }
         }

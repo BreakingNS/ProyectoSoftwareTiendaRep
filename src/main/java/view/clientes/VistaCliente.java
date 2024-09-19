@@ -14,6 +14,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import model.Cliente;
+import view.marca.VistaMarcas;
 
 public class VistaCliente extends javax.swing.JFrame {
     
@@ -275,7 +276,7 @@ public class VistaCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-
+        this.setEnabled(false);
         AltaCliente alta = new AltaCliente(clienteController);
         //alta.setSize(600, 400);
         alta.setResizable(false);
@@ -286,6 +287,10 @@ public class VistaCliente extends javax.swing.JFrame {
         alta.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
+                VistaCliente.this.setEnabled(true);
+                VistaCliente.this.setState(JFrame.NORMAL);  
+                VistaCliente.this.toFront();                
+                VistaCliente.this.requestFocus();  
                 cargarTabla(); // Actualiza la tabla después de cerrar AltaCliente.
             }
         });
@@ -306,7 +311,8 @@ public class VistaCliente extends javax.swing.JFrame {
         if(tablaClientes.getRowCount() > 0){
             if(tablaClientes.getSelectedRow()!=-1){
                 idCliente = Integer.parseInt(String.valueOf(tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0)));
-            
+                
+                this.setEnabled(false);
                 EditarCliente alta = new EditarCliente(idCliente, clienteController);
                 //alta.setSize(600, 400);
                 alta.setResizable(false);
@@ -317,6 +323,10 @@ public class VistaCliente extends javax.swing.JFrame {
                 alta.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosed(java.awt.event.WindowEvent e) {
+                        VistaCliente.this.setEnabled(true);
+                        VistaCliente.this.setState(JFrame.NORMAL);  
+                        VistaCliente.this.toFront();                
+                        VistaCliente.this.requestFocus();  
                         cargarTabla(); // Actualiza la tabla después de cerrar AltaCliente.
                     }
                 });

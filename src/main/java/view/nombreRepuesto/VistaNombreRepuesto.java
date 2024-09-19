@@ -155,11 +155,12 @@ public class VistaNombreRepuesto extends javax.swing.JFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         int idNombreRepuesto = 0;
-        
+   
         if(tablaNombreRepuestos.getRowCount() > 0){
             if(tablaNombreRepuestos.getSelectedRow()!=-1){
                 idNombreRepuesto = Integer.parseInt(String.valueOf(tablaNombreRepuestos.getValueAt(tablaNombreRepuestos.getSelectedRow(), 0)));
-            
+                
+                this.setEnabled(false);
                 EditarNombreRepuesto alta = new EditarNombreRepuesto(idNombreRepuesto, nombreRepuestoController);
                 //alta.setSize(600, 400);
                 alta.setResizable(false);
@@ -170,13 +171,17 @@ public class VistaNombreRepuesto extends javax.swing.JFrame {
                 alta.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosed(java.awt.event.WindowEvent e) {
+                        VistaNombreRepuesto.this.setEnabled(true);
+                        VistaNombreRepuesto.this.setState(JFrame.NORMAL);  
+                        VistaNombreRepuesto.this.toFront();                
+                        VistaNombreRepuesto.this.requestFocus();   
                         cargarTabla(); // Actualiza la tabla después de cerrar AltaNombreRepuesto.
                     }
                 });
             }
         }
     }//GEN-LAST:event_btnEditarActionPerformed
-
+    
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         cargarTabla();
     }//GEN-LAST:event_btnActualizarActionPerformed
@@ -187,6 +192,7 @@ public class VistaNombreRepuesto extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         
+        this.setEnabled(false);
         AltaNombreRepuesto alta = new AltaNombreRepuesto(nombreRepuestoController);
         //alta.setSize(600, 400);
         alta.setResizable(false);
@@ -197,6 +203,10 @@ public class VistaNombreRepuesto extends javax.swing.JFrame {
         alta.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
+                VistaNombreRepuesto.this.setEnabled(true);
+                VistaNombreRepuesto.this.setState(JFrame.NORMAL);  
+                VistaNombreRepuesto.this.toFront();                
+                VistaNombreRepuesto.this.requestFocus();
                 cargarTabla(); // Actualiza la tabla después de cerrar AltaNombreRepuesto.
             }
         });
@@ -258,7 +268,7 @@ public class VistaNombreRepuesto extends javax.swing.JFrame {
         modeloTabla.setColumnIdentifiers(titulos);
         
         //Traer NombreRepuestos desde la base de datos
-        List<NombreRepuesto> listaNombreRepuestos = nombreRepuestoController.listarNombreRepuestos();
+        List<NombreRepuesto> listaNombreRepuestos = nombreRepuestoController.listarNombreRepuestosOrdenadoPorId();
         
         //Setear los datos en la tabla
         if(listaNombreRepuestos != null){

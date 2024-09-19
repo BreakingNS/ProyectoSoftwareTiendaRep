@@ -45,7 +45,7 @@ public class ConfiguracionDataBase {
             + "id_cliente INT PRIMARY KEY AUTO_INCREMENT,"
             + "nombre VARCHAR(255) NOT NULL,"
             + "apellido VARCHAR(255) NOT NULL,"
-            + "telefono VARCHAR(255) NOT NULL UNIQUE"
+            + "telefono VARCHAR(255) NOT NULL"
             + ")";
     
     private final String SENTENCIA_CREAR_TABLA_VENTA = 

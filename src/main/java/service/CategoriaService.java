@@ -23,8 +23,8 @@ public class CategoriaService {
         categoriaDAO.crearCategoria(categoria);
     }
     
-    public List<Categoria> listarCategorias() {
-        List<Categoria> listaCategorias = categoriaDAO.obtenerCategorias();
+    public List<Categoria> listarCategoriasOrdenadasPorId() {
+        List<Categoria> listaCategorias = categoriaDAO.obtenerCategoriasOrdenadasPorId();
         
         List<Repuesto> listaRepuestosAuxiliar = repuestoDAO.obtenerRepuestos();
         for(Categoria mar : listaCategorias){
@@ -46,6 +46,31 @@ public class CategoriaService {
         
         return listaCategorias;
     }
+
+    public List<Categoria> listarCategoriasOrdenadasPorNombre() {
+        List<Categoria> listaCategorias = categoriaDAO.obtenerCategoriasOrdenadasPorNombre();
+        
+        List<Repuesto> listaRepuestosAuxiliar = repuestoDAO.obtenerRepuestos();
+        for(Categoria mar : listaCategorias){
+            for(Repuesto rep : listaRepuestosAuxiliar){
+                if(rep.getCategoria().getId_categoria() == (mar.getId_categoria())){
+                    mar.getListaRepuestos().add(rep);
+                }
+            }
+        }
+        
+        List<Reparacion> listaReparacionesAuxiliar = reparacionDAO.obtenerReparaciones();
+        for(Categoria mar : listaCategorias){
+            for(Reparacion rep : listaReparacionesAuxiliar){
+                if(rep.getCategoria().getId_categoria() == (mar.getId_categoria())){
+                    mar.getListaReparaciones().add(rep);
+                }
+            }
+        }
+        
+        return listaCategorias;
+    }
+
     
     public Categoria obtenerCategoriaPorId(int id) {
         Categoria categoria = categoriaDAO.obtenerCategoria(id);
@@ -82,5 +107,6 @@ public class CategoriaService {
     public Categoria obtenerCategoriaPorNombre(String nombre){
         return categoriaDAO.obtenerCategoriaPorNombre(nombre);
     }
+
 }
 

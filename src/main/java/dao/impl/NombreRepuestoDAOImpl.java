@@ -15,7 +15,8 @@ public class NombreRepuestoDAOImpl implements NombreRepuestoDAO{
     
     private Connection connection = null; 
     private final String SENTENCIA_CREAR_NOMBREREP = "INSERT INTO TiendaLocal.nombrerepuesto (nombre_repuesto) VALUES ( ? )";
-    private final String SENTENCIA_OBTENER_NOMBRESREP = "SELECT * FROM TiendaLocal.nombrerepuesto ORDER BY nombre_repuesto ASC";
+    private final String SENTENCIA_OBTENER_NOMBRESREP_ORDENADO_POR_ID = "SELECT * FROM TiendaLocal.nombrerepuesto ORDER BY id_nombrerepuesto ASC";
+    private final String SENTENCIA_OBTENER_NOMBRESREP_ORDENADO_POR_NOMBRE = "SELECT * FROM TiendaLocal.nombrerepuesto ORDER BY nombre_repuesto ASC";
     private final String SENTENCIA_OBTENER_NOMBREREP = "SELECT * FROM TiendaLocal.nombrerepuesto WHERE id_nombrerepuesto = ?";
     private final String SENTENCIA_OBTENER_NOMBREREP_POR_NOMBRE = "SELECT * FROM TiendaLocal.nombrerepuesto WHERE nombre_repuesto = ?";
     private final String SENTENCIA_ACTUALIZAR_NOMBREREP = "UPDATE TiendaLocal.nombrerepuesto SET nombre_repuesto = ? WHERE id_nombrerepuesto = ?";
@@ -36,13 +37,13 @@ public class NombreRepuestoDAOImpl implements NombreRepuestoDAO{
             Logger.getLogger(NombreRepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     @Override
-    public List<NombreRepuesto> obtenerNombreRepuestos() {
+    public List<NombreRepuesto> obtenerNombreRepuestosOrdenadorPorId() {
         List<NombreRepuesto> listaNombresRespuestos = new ArrayList<>();
         
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_NOMBRESREP);
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_NOMBRESREP_ORDENADO_POR_ID);
             ResultSet nombrerepuesto_Resultado = preparedStatement.executeQuery();
             
             while(nombrerepuesto_Resultado.next()){
@@ -59,6 +60,29 @@ public class NombreRepuestoDAOImpl implements NombreRepuestoDAO{
         
         return listaNombresRespuestos;
     }
+
+    @Override
+    public List<NombreRepuesto> obtenerNombreRepuestosOrdenadorPorNombre() {
+        
+    List<NombreRepuesto> listaNombresRespuestos = new ArrayList<>();
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_NOMBRESREP_ORDENADO_POR_NOMBRE);
+            ResultSet nombrerepuesto_Resultado = preparedStatement.executeQuery();
+            
+            while(nombrerepuesto_Resultado.next()){
+                String nombre_Repuesto = nombrerepuesto_Resultado.getString("nombre_repuesto");
+                int idNombreRepuesto =  nombrerepuesto_Resultado.getInt("id_nombrerepuesto");
+                
+                NombreRepuesto nombreRepuesto = new NombreRepuesto(idNombreRepuesto, nombre_Repuesto);
+                
+                listaNombresRespuestos.add(nombreRepuesto);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NombreRepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return listaNombresRespuestos;}
 
     @Override
     public void actualizarNombreRepuesto(NombreRepuesto nombreRepuesto) {
@@ -158,5 +182,7 @@ public class NombreRepuestoDAOImpl implements NombreRepuestoDAO{
         
         return nombreRepuesto;
     }
+
+    
     
 }

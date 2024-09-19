@@ -102,6 +102,8 @@
                                       <Component id="btnAgregar" alignment="1" min="-2" pref="249" max="-2" attributes="0"/>
                                       <Component id="btnEliminar" alignment="1" min="-2" pref="249" max="-2" attributes="0"/>
                                       <Component id="btnAtras" alignment="1" min="-2" pref="249" max="-2" attributes="0"/>
+                                      <Component id="btnActualizarPrecio" alignment="1" min="-2" pref="249" max="-2" attributes="0"/>
+                                      <Component id="btnActualizarStock" alignment="1" min="-2" pref="249" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -148,18 +150,22 @@
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="btnAgregar" min="-2" pref="87" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="btnAgregar" min="-2" pref="60" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="btnEditar" min="-2" pref="87" max="-2" attributes="0"/>
+                          <Component id="btnEditar" min="-2" pref="60" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="btnActualizar" min="-2" pref="87" max="-2" attributes="0"/>
+                          <Component id="btnActualizarStock" min="-2" pref="60" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="btnEliminar" min="-2" pref="87" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                          <Component id="btnAtras" min="-2" pref="87" max="-2" attributes="0"/>
+                          <Component id="btnActualizarPrecio" min="-2" pref="60" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="btnActualizar" min="-2" pref="60" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="btnEliminar" min="-2" pref="60" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                          <Component id="btnAtras" min="-2" pref="60" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jScrollPane1" alignment="0" min="-2" pref="530" max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" pref="530" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="37" max="32767" attributes="0"/>
               </Group>
@@ -386,6 +392,28 @@
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnActualizarPrecio">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Dialog" size="18" style="0"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="ACTUALIZAR PRECIO"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnActualizarPrecioActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnActualizarStock">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Dialog" size="18" style="0"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="ACTUALIZAR STOCK"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnActualizarStockActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

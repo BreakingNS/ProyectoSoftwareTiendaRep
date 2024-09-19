@@ -155,7 +155,7 @@ public class NombreRepuestoServiceTest {
     public void listarNombreRepuestos(){
         agregarNombreRepuesto();
         
-        List<NombreRepuesto> listaNombreRepuestos = nombreRepuestoService.listarNombreRepuestos();
+        List<NombreRepuesto> listaNombreRepuestos = nombreRepuestoService.listarNombreRepuestosOrdenadosPorId();
         
         assertEquals(1, listaNombreRepuestos.get(0).getId_nombrerepuesto());
         assertEquals("Bobina", listaNombreRepuestos.get(0).getNombre_repuesto());

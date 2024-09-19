@@ -19,9 +19,23 @@ public class MarcaService {
         marcaDAO.crearMarca(marca);
     }
     
-    public List<Marca> listarMarcas() {
+    public List<Marca> listarMarcasOrdenadasPorNombre() {
         List<Repuesto> listaRepuestosAuxiliar = repuestoDAO.obtenerRepuestos();
-        List<Marca> listaMarcas = marcaDAO.obtenerMarcas();
+        List<Marca> listaMarcas = marcaDAO.obtenerMarcasOrdenadasPorNombre();
+        for(Marca mar : listaMarcas){
+            for(Repuesto rep : listaRepuestosAuxiliar){
+                if(rep.getMarca().getId_marca() == (mar.getId_marca())){
+                    mar.getListaRepuestos().add(rep);
+                }
+            }
+        }
+        
+        return listaMarcas;
+    }
+    
+    public List<Marca> listarMarcasOrdenadasPorId() {
+        List<Repuesto> listaRepuestosAuxiliar = repuestoDAO.obtenerRepuestos();
+        List<Marca> listaMarcas = marcaDAO.obtenerMarcasOrdenadasPorId();
         for(Marca mar : listaMarcas){
             for(Repuesto rep : listaRepuestosAuxiliar){
                 if(rep.getMarca().getId_marca() == (mar.getId_marca())){
@@ -61,4 +75,6 @@ public class MarcaService {
     public Marca obtenerMarcaPorNombre(String nombre){
         return marcaDAO.obtenerMarcaPorNombre(nombre);
     }
+
+    
 }

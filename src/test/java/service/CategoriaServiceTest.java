@@ -288,7 +288,7 @@ public class CategoriaServiceTest {
     @Test
     public void listarCategorias() throws SQLException{
         agregarCategoria();
-        List<Categoria> listaCategorias = categoriaService.listarCategorias();
+        List<Categoria> listaCategorias = categoriaService.listarCategoriasOrdenadasPorNombre();
         
         assertEquals(2, listaCategorias.get(0).getId_categoria());
         assertEquals("Heladera", listaCategorias.get(0).getNombre_categoria());

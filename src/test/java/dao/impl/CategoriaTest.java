@@ -120,7 +120,7 @@ public class CategoriaTest {
     @Test
     public void pruebaObtenerCategorias(){
         pruebaCrearCategoria();
-        List<Categoria> listaCategorias = categoriaDAO.obtenerCategorias();
+        List<Categoria> listaCategorias = categoriaDAO.obtenerCategoriasOrdenadasPorNombre();
         
         assertEquals(2, listaCategorias.get(0).getId_categoria());
         assertEquals("Aire Acondicionado", listaCategorias.get(0).getNombre_categoria());
@@ -143,7 +143,7 @@ public class CategoriaTest {
         Categoria categoria2 = new Categoria(2, "Linea Blanca", new ArrayList<>(), new ArrayList<>());
         categoriaDAO.actualizarCategoria(categoria1);
         categoriaDAO.actualizarCategoria(categoria2);
-        List<Categoria> listaCategorias = categoriaDAO.obtenerCategorias();
+        List<Categoria> listaCategorias = categoriaDAO.obtenerCategoriasOrdenadasPorNombre();
         
         assertEquals(1, listaCategorias.get(0).getId_categoria());
         assertEquals("Heladera", listaCategorias.get(0).getNombre_categoria());
@@ -155,7 +155,7 @@ public class CategoriaTest {
     public void pruebaEliminarCategorias(){
         pruebaCrearCategoria();
         categoriaDAO.eliminarCategoria(1);
-        List<Categoria> listaCategorias = categoriaDAO.obtenerCategorias();
+        List<Categoria> listaCategorias = categoriaDAO.obtenerCategoriasOrdenadasPorNombre();
         assertEquals(1, listaCategorias.size());
         assertEquals(2, listaCategorias.get(0).getId_categoria());
     }

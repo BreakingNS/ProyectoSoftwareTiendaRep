@@ -142,7 +142,7 @@ public class ReparacionTest {
     
     @AfterEach
     public void tearDown() {
-        
+        /*
         configuracion.eliminarTablaReparacionRepuesto();
         configuracion.eliminarTablaVentaRepuesto();
         configuracion.eliminarTablaReparacion();
@@ -155,7 +155,7 @@ public class ReparacionTest {
         configuracion.eliminarTablaUbicacion();
         configuracion.eliminarTablaNombreRepuesto();
         configuracion.eliminarTablaMarca();
-        
+        */
     }
 
     @Test

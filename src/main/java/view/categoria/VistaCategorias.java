@@ -152,6 +152,7 @@ public class VistaCategorias extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        this.setEnabled(false);
         AltaCategoria alta = new AltaCategoria(categoriaController);
         //alta.setSize(600, 400);
         alta.setResizable(false);
@@ -162,6 +163,10 @@ public class VistaCategorias extends javax.swing.JFrame {
         alta.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
+                VistaCategorias.this.setEnabled(true);
+                VistaCategorias.this.setState(JFrame.NORMAL);  
+                VistaCategorias.this.toFront();                
+                VistaCategorias.this.requestFocus(); 
                 cargarTabla(); // Actualiza la tabla después de cerrar AltaCategoria.
             }
         });
@@ -173,7 +178,8 @@ public class VistaCategorias extends javax.swing.JFrame {
         if(tablaCategorias.getRowCount() > 0){
             if(tablaCategorias.getSelectedRow()!=-1){
                 idCategoria = Integer.parseInt(String.valueOf(tablaCategorias.getValueAt(tablaCategorias.getSelectedRow(), 0)));
-
+                
+                this.setEnabled(false);
                 EditarCategoria alta = new EditarCategoria(idCategoria, categoriaController);
                 //alta.setSize(600, 400);
                 alta.setResizable(false);
@@ -184,6 +190,10 @@ public class VistaCategorias extends javax.swing.JFrame {
                 alta.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosed(java.awt.event.WindowEvent e) {
+                        VistaCategorias.this.setEnabled(true);
+                        VistaCategorias.this.setState(JFrame.NORMAL);  
+                        VistaCategorias.this.toFront();                
+                        VistaCategorias.this.requestFocus(); 
                         cargarTabla(); // Actualiza la tabla después de cerrar AltaCategoria.
                     }
                 });
@@ -252,7 +262,7 @@ public class VistaCategorias extends javax.swing.JFrame {
         modeloTabla.setColumnIdentifiers(titulos);
         
         //Traer Categorias desde la base de datos
-        List<Categoria> listaCategorias = categoriaController.listarCategorias();
+        List<Categoria> listaCategorias = categoriaController.listarCategoriasOrdenadasPorId();
         
         //Setear los datos en la tabla
         if(listaCategorias != null){

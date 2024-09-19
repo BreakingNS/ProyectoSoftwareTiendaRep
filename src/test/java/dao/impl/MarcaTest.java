@@ -120,7 +120,7 @@ public class MarcaTest {
     @Test
     public void pruebaObtenerMarcas(){
         pruebaCrearMarca();
-        List<Marca> listaMarcas = marcaDAO.obtenerMarcas();
+        List<Marca> listaMarcas = marcaDAO.obtenerMarcasOrdenadasPorNombre();
         
         assertEquals(1, listaMarcas.get(0).getId_marca());
         assertEquals("Fiat", listaMarcas.get(0).getNombre_marca());
@@ -143,7 +143,7 @@ public class MarcaTest {
         Marca marca2 = new Marca(2, "Citroen", new ArrayList<>());
         marcaDAO.actualizarMarca(marca1);
         marcaDAO.actualizarMarca(marca2);
-        List<Marca> listaMarcas = marcaDAO.obtenerMarcas();
+        List<Marca> listaMarcas = marcaDAO.obtenerMarcasOrdenadasPorNombre();
         
         assertEquals(2, listaMarcas.get(0).getId_marca());
         assertEquals("Citroen", listaMarcas.get(0).getNombre_marca());
@@ -156,7 +156,7 @@ public class MarcaTest {
     public void pruebaEliminarMarcas(){
         pruebaCrearMarca();
         marcaDAO.eliminarMarca(1);
-        List<Marca> listaMarcas = marcaDAO.obtenerMarcas();
+        List<Marca> listaMarcas = marcaDAO.obtenerMarcasOrdenadasPorNombre();
         assertEquals(1, listaMarcas.size());
         assertEquals(2, listaMarcas.get(0).getId_marca());
     }

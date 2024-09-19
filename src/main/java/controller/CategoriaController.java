@@ -17,8 +17,13 @@ public class CategoriaController {
         categoriaService.agregarCategoria(categoria);
     }
     
-    public List<Categoria> listarCategorias(){
-        List<Categoria> listaCategorias= categoriaService.listarCategorias();
+    public List<Categoria> listarCategoriasOrdenadasPorId(){
+        List<Categoria> listaCategorias= categoriaService.listarCategoriasOrdenadasPorId();
+        return listaCategorias;
+    }
+    
+    public List<Categoria> listarCategoriasOrdenadasPorNombre(){
+        List<Categoria> listaCategorias= categoriaService.listarCategoriasOrdenadasPorNombre();
         return listaCategorias;
     }
     

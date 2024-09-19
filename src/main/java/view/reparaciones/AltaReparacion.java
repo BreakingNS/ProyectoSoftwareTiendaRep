@@ -15,6 +15,10 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,6 +28,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -113,7 +118,6 @@ public class AltaReparacion extends javax.swing.JFrame {
         txtAreaDetalles = new javax.swing.JTextArea();
         lblCosto = new javax.swing.JLabel();
         comboEstado2 = new javax.swing.JComboBox<>();
-        comboFechaIngreso2 = new javax.swing.JComboBox<>();
         comboFechaDevolucion = new javax.swing.JComboBox<>();
         comboCategoria2 = new javax.swing.JComboBox<>();
         txtManoDeObra = new javax.swing.JTextField();
@@ -331,9 +335,6 @@ public class AltaReparacion extends javax.swing.JFrame {
         comboEstado2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         comboEstado2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        comboFechaIngreso2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        comboFechaIngreso2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         comboFechaDevolucion.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         comboFechaDevolucion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -381,10 +382,7 @@ public class AltaReparacion extends javax.swing.JFrame {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(comboEstado2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addComponent(lblDetalles)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(lblFechaIngreso)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(comboFechaIngreso2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(lblFechaIngreso)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(lblFechaDevolucion)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -533,9 +531,7 @@ public class AltaReparacion extends javax.swing.JFrame {
                             .addComponent(lblEstado)
                             .addComponent(comboEstado2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblFechaIngreso)
-                            .addComponent(comboFechaIngreso2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblFechaIngreso)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblFechaDevolucion)
@@ -627,10 +623,11 @@ public class AltaReparacion extends javax.swing.JFrame {
         
         //Reparacion
         
+        LocalDateTime ahora = LocalDateTime.now();
         Categoria categoriaSeleccionada = new Categoria();
         Estado estadoSeleccionado = new Estado();
-        Date fechaIngreso = new Date();
-        Date fechaDevolucion = new Date();
+        LocalDateTime fechaIngresoAhora = LocalDateTime.now();
+        LocalDateTime fechaDevolucion = LocalDateTime.now();
         String detalles = txtAreaDetalles.getText();
         
         List<Categoria> listaCategorias = repuestoController.retornarCategorias();
@@ -650,24 +647,14 @@ public class AltaReparacion extends javax.swing.JFrame {
             }
         }
         
-        String fechaIngresoObtenida = comboFechaIngreso2.getSelectedItem().toString();
+        LocalDateTime fechaIngresoObtenida = ahora;
         String fechaDevolucionObtenida = comboFechaDevolucion.getSelectedItem().toString();
-        
-        // Crear un SimpleDateFormat con el formato utilizado
-        SimpleDateFormat formato = new SimpleDateFormat("EEEE, dd-MM-yyyy", new Locale("es", "ES"));
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("EEEE, dd-MM-yyyy", new Locale("es", "ES"));
+        LocalDate fecha = LocalDate.parse(fechaDevolucionObtenida, formato);
+        fechaDevolucion = fecha.atStartOfDay();
+        fechaDevolucion = fechaDevolucion.truncatedTo(ChronoUnit.SECONDS);
+        LocalDateTime fechaIngreso = fechaIngresoAhora.truncatedTo(ChronoUnit.SECONDS);
 
-        try {
-            // Convertir la cadena de texto en un objeto Date
-            fechaIngreso = formato.parse(fechaIngresoObtenida);
-            fechaDevolucion = formato.parse(fechaDevolucionObtenida);
-            
-            // Aquí puedes usar fechaIngreso para almacenarlo en la base de datos
-            System.out.println("Fecha convertida: " + fechaIngreso);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            // Manejar el error de parseo
-        }
-        
         System.out.println("Costo total: " + costoTotal);
         System.out.println("Detalles: " + detalles);
         System.out.println("fecha ing: " + fechaIngreso);
@@ -676,10 +663,11 @@ public class AltaReparacion extends javax.swing.JFrame {
         System.out.println("cliente: " + cliente.getApellido() + " " + cliente.getNombre());
         System.out.println("estado: " + estadoSeleccionado.getNombre_estado());
         
-        Reparacion reparacion = new Reparacion(1, costoTotal, detalles, fechaIngreso, fechaDevolucion, categoriaSeleccionada, cliente, estadoSeleccionado);
-        
+        Reparacion reparacion = new Reparacion(1, costoTotal, detalles, fechaIngreso, fechaDevolucion, Boolean.TRUE, categoriaSeleccionada, cliente, estadoSeleccionado);
+
         try {
             reparacionController.agregarReparacion(reparacion, listaRepuestos);
+            JOptionPane.showMessageDialog(null, "Carga realizada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             Logger.getLogger(AltaReparacion.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -742,7 +730,6 @@ public class AltaReparacion extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboCategoria2;
     private javax.swing.JComboBox<String> comboEstado2;
     private javax.swing.JComboBox<String> comboFechaDevolucion;
-    private javax.swing.JComboBox<String> comboFechaIngreso2;
     private javax.swing.JComboBox<String> comboMarca;
     private javax.swing.JComboBox<String> comboNombreRepuesto;
     private javax.swing.JComboBox<String> comboUbicacion;
@@ -1050,7 +1037,7 @@ public class AltaReparacion extends javax.swing.JFrame {
         
         comboCategoria2.removeAllItems();
         comboEstado2.removeAllItems();
-        comboFechaIngreso2.removeAllItems();
+        //comboFechaIngreso2.removeAllItems();
         comboFechaDevolucion.removeAllItems();
         
         Categoria categoria2 = new Categoria(0, "-", new ArrayList<>(), new ArrayList<>());
@@ -1077,7 +1064,7 @@ public class AltaReparacion extends javax.swing.JFrame {
             Date fecha = cal.getTime();
 
             String fechaFormateada = formato.format(fecha); // Formatear la fecha
-            comboFechaIngreso2.addItem(fechaFormateada);
+            //comboFechaIngreso2.addItem(fechaFormateada);
             comboFechaDevolucion.addItem(fechaFormateada);
 
             System.out.println(fechaFormateada); // Para verificar en la consola

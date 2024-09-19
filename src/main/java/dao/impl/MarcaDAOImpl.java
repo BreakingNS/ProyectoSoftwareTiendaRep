@@ -16,7 +16,8 @@ public class MarcaDAOImpl implements MarcaDAO{
     
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_MARCA = "DELETE FROM TiendaLocal.marca WHERE id_marca = ?";
-    private final String SENTENCIA_OBTENER_MARCAS = "SELECT * FROM TiendaLocal.marca ORDER BY nombre_marca ASC";
+    private final String SENTENCIA_OBTENER_MARCAS_ORDENADA_POR_NOMBRE = "SELECT * FROM TiendaLocal.marca ORDER BY nombre_marca ASC";
+    private final String SENTENCIA_OBTENER_MARCAS_ORDENADA_POR_ID = "SELECT * FROM TiendaLocal.marca ORDER BY id_marca ASC";
     private final String SENTENCIA_OBTENER_MARCA = "SELECT * FROM TiendaLocal.marca WHERE id_marca = ?";
     private final String SENTENCIA_OBTENER_MARCA_POR_NOMBRE = "SELECT * FROM TiendaLocal.marca WHERE nombre_marca = ?";
     private final String SENTENCIA_CREAR_MARCA = "INSERT INTO TiendaLocal.marca (nombre_marca) VALUES ( ? )";
@@ -39,11 +40,11 @@ public class MarcaDAOImpl implements MarcaDAO{
     }
 
     @Override
-    public List<Marca> obtenerMarcas() {
+    public List<Marca> obtenerMarcasOrdenadasPorNombre() {
         List<Marca> listaMarcas = new ArrayList<>();
         
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_MARCAS);
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_MARCAS_ORDENADA_POR_NOMBRE);
             ResultSet marca_Resultado = preparedStatement.executeQuery();
             
             while (marca_Resultado.next()){
@@ -64,6 +65,32 @@ public class MarcaDAOImpl implements MarcaDAO{
         
         return listaMarcas;
     }
+    
+    @Override
+    public List<Marca> obtenerMarcasOrdenadasPorId() {
+        List<Marca> listaMarcas = new ArrayList<>();
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_MARCAS_ORDENADA_POR_ID);
+            ResultSet marca_Resultado = preparedStatement.executeQuery();
+            
+            while (marca_Resultado.next()){
+                String nombreMarca = marca_Resultado.getString("nombre_marca");
+                int idMarca = marca_Resultado.getInt("id_marca");
+                
+                List<Repuesto> listaRepuestos = new ArrayList<>();
+                
+                Marca marca = new Marca(idMarca, nombreMarca, listaRepuestos);
+                
+                listaMarcas.add(marca);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(MarcaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        return listaMarcas;}
 
     @Override
     public void actualizarMarca(Marca marca) {
@@ -178,4 +205,6 @@ public class MarcaDAOImpl implements MarcaDAO{
         
         return marca;
     }
+
+    
 }

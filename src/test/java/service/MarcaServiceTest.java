@@ -154,7 +154,7 @@ public class MarcaServiceTest {
     @Test
     public void listarMarcasTest(){
         agregarMarcaTest();
-        List<Marca> listaMarcas = marcaService.listarMarcas();
+        List<Marca> listaMarcas = marcaService.listarMarcasOrdenadasPorNombre();
         
         
         assertEquals(2, listaMarcas.get(0).getId_marca());
@@ -181,7 +181,7 @@ public class MarcaServiceTest {
         Marca marca1 = new Marca(2, "BMW", new ArrayList<>());
         marcaService.editarMarcaPorId(marca);
         marcaService.editarMarcaPorId(marca1);
-        List<Marca> listaMarcas = marcaService.listarMarcas();
+        List<Marca> listaMarcas = marcaService.listarMarcasOrdenadasPorNombre();
         
         
         assertEquals(2, listaMarcas.get(0).getId_marca());

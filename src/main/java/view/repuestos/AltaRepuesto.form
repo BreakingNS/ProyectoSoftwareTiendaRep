@@ -68,9 +68,9 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="txtStock" alignment="0" pref="155" max="32767" attributes="0"/>
+                              <Component id="txtStock" alignment="0" max="32767" attributes="0"/>
                               <Component id="txtPrecio" alignment="0" max="32767" attributes="0"/>
-                              <Component id="comboUbicacion" alignment="0" max="32767" attributes="0"/>
+                              <Component id="comboUbicacion" alignment="0" pref="155" max="32767" attributes="0"/>
                               <Component id="comboCategoria" alignment="0" max="32767" attributes="0"/>
                               <Component id="comboMarca" alignment="0" max="32767" attributes="0"/>
                               <Component id="comboNombreRepuesto" alignment="0" max="32767" attributes="0"/>

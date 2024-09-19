@@ -15,8 +15,12 @@ public class NombreRepuestoService {
         nombreRepuestoDAO.crearNombreRepuesto(nombreRepuesto);
     }
     
-    public List<NombreRepuesto> listarNombreRepuestos() {
-        return nombreRepuestoDAO.obtenerNombreRepuestos();
+    public List<NombreRepuesto> listarNombreRepuestosOrdenadosPorId() {
+        return nombreRepuestoDAO.obtenerNombreRepuestosOrdenadorPorId();
+    }
+
+    public List<NombreRepuesto> listarNombreRepuestosOrdenadosPorNombre() {
+        return nombreRepuestoDAO.obtenerNombreRepuestosOrdenadorPorNombre();
     }
     
     public NombreRepuesto obtenerNombreRepuestoPorId(int id) {
@@ -38,4 +42,6 @@ public class NombreRepuestoService {
     public NombreRepuesto obtenerNombreRepuestoPorNombre(String nombreRepuesto) {
         return nombreRepuestoDAO.obtenerNombreRepuestoPorNombre(nombreRepuesto);
     }
+
+    
 }

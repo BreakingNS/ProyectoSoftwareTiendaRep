@@ -17,8 +17,13 @@ public class NombreRepuestoController {
         nombreRepuestoService.agregarNombreRepuesto(nombreRepuesto);
     }
     
-    public List<NombreRepuesto> listarNombreRepuestos(){
-        List<NombreRepuesto> listaNombreRepuestos= nombreRepuestoService.listarNombreRepuestos();
+    public List<NombreRepuesto> listarNombreRepuestosOrdenadoPorId(){
+        List<NombreRepuesto> listaNombreRepuestos= nombreRepuestoService.listarNombreRepuestosOrdenadosPorId();
+        return listaNombreRepuestos;
+    }
+    
+    public List<NombreRepuesto> listarNombreRepuestosOrdenadoPorNombre(){
+        List<NombreRepuesto> listaNombreRepuestos= nombreRepuestoService.listarNombreRepuestosOrdenadosPorNombre();
         return listaNombreRepuestos;
     }
     

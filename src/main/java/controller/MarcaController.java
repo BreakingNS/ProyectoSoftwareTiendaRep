@@ -18,8 +18,13 @@ public class MarcaController {
         marcaService.agregarMarca(marca);
     }
     
-    public List<Marca> listarMarcas(){
-        List<Marca> listaMarcas= marcaService.listarMarcas();
+    public List<Marca> listarMarcasOrdenadasPorNombre(){
+        List<Marca> listaMarcas= marcaService.listarMarcasOrdenadasPorNombre();
+        return listaMarcas;
+    }
+    
+    public List<Marca> listarMarcasOrdenadasPorId(){
+        List<Marca> listaMarcas= marcaService.listarMarcasOrdenadasPorId();
         return listaMarcas;
     }
     

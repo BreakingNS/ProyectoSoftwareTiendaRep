@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
 import model.Estado;
+import view.marca.VistaMarcas;
 
 public class VistaEstados extends javax.swing.JFrame {
 
@@ -153,6 +154,7 @@ public class VistaEstados extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        this.setEnabled(false);
         AltaEstado alta = new AltaEstado(estadoController);
         //alta.setSize(600, 400);
         alta.setResizable(false);
@@ -163,6 +165,10 @@ public class VistaEstados extends javax.swing.JFrame {
         alta.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
+                VistaEstados.this.setEnabled(true);
+                VistaEstados.this.setState(JFrame.NORMAL);  
+                VistaEstados.this.toFront();                
+                VistaEstados.this.requestFocus();  
                 cargarTabla(); // Actualiza la tabla después de cerrar AltaEstado.
             }
         });
@@ -174,7 +180,8 @@ public class VistaEstados extends javax.swing.JFrame {
         if(tablaEstados.getRowCount() > 0){
             if(tablaEstados.getSelectedRow()!=-1){
                 idEstado = Integer.parseInt(String.valueOf(tablaEstados.getValueAt(tablaEstados.getSelectedRow(), 0)));
-
+                
+                this.setEnabled(false);
                 EditarEstado alta = new EditarEstado(idEstado, estadoController);
                 //alta.setSize(600, 400);
                 alta.setResizable(false);
@@ -185,6 +192,10 @@ public class VistaEstados extends javax.swing.JFrame {
                 alta.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosed(java.awt.event.WindowEvent e) {
+                        VistaEstados.this.setEnabled(true);
+                        VistaEstados.this.setState(JFrame.NORMAL);  
+                        VistaEstados.this.toFront();                
+                        VistaEstados.this.requestFocus();
                         cargarTabla(); // Actualiza la tabla después de cerrar AltaEstado.
                     }
                 });

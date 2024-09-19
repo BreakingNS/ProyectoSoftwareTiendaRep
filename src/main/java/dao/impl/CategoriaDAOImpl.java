@@ -15,7 +15,8 @@ public class CategoriaDAOImpl implements CategoriaDAO{
     
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_CATEGORIA = "DELETE FROM TiendaLocal.categoria WHERE id_categoria = ?";
-    private final String SENTENCIA_OBTENER_CATEGORIAS = "SELECT * FROM TiendaLocal.categoria ORDER BY nombre_categoria ASC";
+    private final String SENTENCIA_OBTENER_CATEGORIAS_ORDENADOS_POR_ID = "SELECT * FROM TiendaLocal.categoria ORDER BY id_categoria ASC";
+    private final String SENTENCIA_OBTENER_CATEGORIAS_ORDENADOS_POR_NOMBRE = "SELECT * FROM TiendaLocal.categoria ORDER BY nombre_categoria ASC";
     private final String SENTENCIA_OBTENER_CATEGORIA = "SELECT * FROM TiendaLocal.categoria WHERE id_categoria = ? ";
     private final String SENTENCIA_OBTENER_CATEGORIA_POR_NOMBRE = "SELECT * FROM TiendaLocal.categoria WHERE nombre_categoria = ? ";
     private final String SENTENCIA_CREAR_CATEGORIA = "INSERT INTO TiendaLocal.categoria (nombre_categoria) VALUES ( ? )";
@@ -39,10 +40,32 @@ public class CategoriaDAOImpl implements CategoriaDAO{
     }
 
     @Override
-    public List<Categoria> obtenerCategorias() {
+    public List<Categoria> obtenerCategoriasOrdenadasPorId() {
         List<Categoria> listaCategorias = new ArrayList<>();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_CATEGORIAS);
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_CATEGORIAS_ORDENADOS_POR_ID);
+            ResultSet categoria_Categoria = preparedStatement.executeQuery();
+            
+            while (categoria_Categoria.next()){
+                String nombreCategoria = categoria_Categoria.getString("nombre_categoria");
+                int idCategoria = categoria_Categoria.getInt("id_categoria");
+
+                Categoria categoria = new Categoria(idCategoria, nombreCategoria, new ArrayList<>(), new ArrayList<>());
+                
+                listaCategorias.add(categoria);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoriaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return listaCategorias;
+    }
+    
+    @Override
+    public List<Categoria> obtenerCategoriasOrdenadasPorNombre() {
+        List<Categoria> listaCategorias = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_CATEGORIAS_ORDENADOS_POR_NOMBRE);
             ResultSet categoria_Categoria = preparedStatement.executeQuery();
             
             while (categoria_Categoria.next()){

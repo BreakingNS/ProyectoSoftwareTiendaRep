@@ -8,6 +8,7 @@ C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\interf
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\clientes\VistaCliente.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\marca\EditarMarca.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\nombreRepuesto\AltaNombreRepuesto.java
+C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\repuestos\ActualizarPrecio.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\interfaces\NombreRepuestoDAO.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\interfaces\VentaDAO.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\service\PrecioService.java
@@ -52,6 +53,7 @@ C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\App.j
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\model\VentaRepuesto.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\service\RepuestoService.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\service\EstadoService.java
+C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\repuestos\ActualizarStock.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\app\EjemploContarElementos.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\model\ReparacionRepuesto.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\marca\VistaMarcas.java

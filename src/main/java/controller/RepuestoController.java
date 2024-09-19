@@ -186,15 +186,15 @@ public class RepuestoController {
     
     
     public List<NombreRepuesto> retornarListaNombreRepuestos(){
-        return nombreRepuestoService.listarNombreRepuestos();
+        return nombreRepuestoService.listarNombreRepuestosOrdenadosPorId();
     }
     
     public List<Marca> retornarListaMarcas(){
-        return marcaService.listarMarcas();
+        return marcaService.listarMarcasOrdenadasPorNombre();
     }
     
     public List<Categoria> retornarCategorias(){
-        return categoriaService.listarCategorias();
+        return categoriaService.listarCategoriasOrdenadasPorId();
     }
     
     public List<Ubicacion> retornarUbicaciones(){
@@ -274,6 +274,10 @@ public class RepuestoController {
 
     public List<Repuesto> obtenerRepuestosPorIdReparacion(int idReparacion) {
         return repuestoService.obtenerRepuestosPorIdReparacion(idReparacion);
+    }
+
+    public void actualizarRepuesto(Repuesto repuesto, int stock) {
+        repuestoService.actualizarStock(repuesto, stock);
     }
 
 }

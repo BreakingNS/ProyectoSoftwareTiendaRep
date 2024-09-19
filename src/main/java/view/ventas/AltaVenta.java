@@ -10,6 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -521,7 +522,8 @@ public class AltaVenta extends javax.swing.JFrame {
             listaRepuestos.add(repuesto);
         }
         
-        Venta venta = new Venta(1, listaRepuestos.size(), new Date(), cliente, precioFinal);
+        LocalDateTime ahora = LocalDateTime.now();
+        Venta venta = new Venta(1, listaRepuestos.size(), ahora, cliente, precioFinal);
         
         try {
             ventaController.agregarVenta(venta, listaRepuestos);

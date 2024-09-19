@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
 import model.Marca;
+import view.nombreRepuesto.VistaNombreRepuesto;
 
 public class VistaMarcas extends javax.swing.JFrame {
     
@@ -179,6 +180,7 @@ public class VistaMarcas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        this.setEnabled(false);
         AltaMarca alta = new AltaMarca(marcaController);
         //alta.setSize(600, 400);
         alta.setResizable(false);
@@ -189,6 +191,10 @@ public class VistaMarcas extends javax.swing.JFrame {
         alta.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
+                VistaMarcas.this.setEnabled(true);
+                VistaMarcas.this.setState(JFrame.NORMAL);  
+                VistaMarcas.this.toFront();                
+                VistaMarcas.this.requestFocus();   
                 cargarTabla(); // Actualiza la tabla después de cerrar AltaMarca.
             }
         });
@@ -204,11 +210,12 @@ public class VistaMarcas extends javax.swing.JFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         int idMarca = 0;
-        
+
         if(tablaMarcas.getRowCount() > 0){
             if(tablaMarcas.getSelectedRow()!=-1){
                 idMarca = Integer.parseInt(String.valueOf(tablaMarcas.getValueAt(tablaMarcas.getSelectedRow(), 0)));
-            
+                
+                this.setEnabled(false);
                 EditarMarca alta = new EditarMarca(idMarca, marcaController);
                 //alta.setSize(600, 400);
                 alta.setResizable(false);
@@ -219,6 +226,10 @@ public class VistaMarcas extends javax.swing.JFrame {
                 alta.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosed(java.awt.event.WindowEvent e) {
+                        VistaMarcas.this.setEnabled(true);
+                        VistaMarcas.this.setState(JFrame.NORMAL);  
+                        VistaMarcas.this.toFront();                
+                        VistaMarcas.this.requestFocus();   
                         cargarTabla(); // Actualiza la tabla después de cerrar AltaMarca.
                     }
                 });
@@ -257,7 +268,7 @@ public class VistaMarcas extends javax.swing.JFrame {
         modeloTabla.setColumnIdentifiers(titulos);
         
         //Traer Marcas desde la base de datos
-        List<Marca> listaMarcas = marcaController.listarMarcas();
+        List<Marca> listaMarcas = marcaController.listarMarcasOrdenadasPorId();
         
         //Setear los datos en la tabla
         if(listaMarcas != null){

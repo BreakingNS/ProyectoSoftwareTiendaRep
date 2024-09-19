@@ -119,7 +119,7 @@ public class NombreRepuestoTest {
     @Test
     public void pruebaObtenerNombreRepuestos(){
         pruebaCrearNombreRepuesto();
-        List<NombreRepuesto> listaNombreRepuestos = nombreRepuestoDAO.obtenerNombreRepuestos();
+        List<NombreRepuesto> listaNombreRepuestos = nombreRepuestoDAO.obtenerNombreRepuestosOrdenadorPorNombre();
         
         assertEquals(1, listaNombreRepuestos.get(0).getId_nombrerepuesto());
         assertEquals("Bobina", listaNombreRepuestos.get(0).getNombre_repuesto());
@@ -142,7 +142,7 @@ public class NombreRepuestoTest {
         NombreRepuesto nombreRepuesto2 = new NombreRepuesto(2, "Termostato");
         nombreRepuestoDAO.actualizarNombreRepuesto(nombreRepuesto1);
         nombreRepuestoDAO.actualizarNombreRepuesto(nombreRepuesto2);
-        List<NombreRepuesto> listaNombreRepuestos = nombreRepuestoDAO.obtenerNombreRepuestos();
+        List<NombreRepuesto> listaNombreRepuestos = nombreRepuestoDAO.obtenerNombreRepuestosOrdenadorPorNombre();
         assertEquals(1, listaNombreRepuestos.get(0).getId_nombrerepuesto());
         assertEquals("Sensor", listaNombreRepuestos.get(0).getNombre_repuesto());
         assertEquals(2, listaNombreRepuestos.get(1).getId_nombrerepuesto());
@@ -153,7 +153,7 @@ public class NombreRepuestoTest {
     public void pruebaEliminarNombreRepuestos(){
         pruebaCrearNombreRepuesto();
         nombreRepuestoDAO.eliminarNombreRepuesto(1);
-        List<NombreRepuesto> listaNombreRepuestos = nombreRepuestoDAO.obtenerNombreRepuestos();
+        List<NombreRepuesto> listaNombreRepuestos = nombreRepuestoDAO.obtenerNombreRepuestosOrdenadorPorNombre();
         assertEquals(1, listaNombreRepuestos.size());
         assertEquals(2, listaNombreRepuestos.get(0).getId_nombrerepuesto());
     }
