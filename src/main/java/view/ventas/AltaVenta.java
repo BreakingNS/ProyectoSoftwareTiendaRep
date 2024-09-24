@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
@@ -31,6 +32,8 @@ import model.Precio;
 import model.Repuesto;
 import model.Ubicacion;
 import model.Venta;
+import view.clientes.AltaCliente;
+import view.clientes.VistaCliente;
 
 public class AltaVenta extends javax.swing.JFrame {
 
@@ -40,10 +43,7 @@ public class AltaVenta extends javax.swing.JFrame {
     
     public AltaVenta(VentaController ventaController, RepuestoController repuestoController, ClienteController clienteController) {
         this.ventaController = ventaController;
-        
-        //Repuesto
         this.repuestoController = repuestoController;
-        
         this.clienteController = clienteController;
         initComponents();
         cargarComboBoxes();
@@ -72,7 +72,7 @@ public class AltaVenta extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         btnCheckR = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
-        btnCheck1 = new javax.swing.JButton();
+        btnNuevoCli = new javax.swing.JButton();
         lblApellido = new javax.swing.JLabel();
         comboNombreRepuesto = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
@@ -95,6 +95,16 @@ public class AltaVenta extends javax.swing.JFrame {
         lblNombre = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                formMouseMoved(evt);
+            }
+        });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -148,6 +158,7 @@ public class AltaVenta extends javax.swing.JFrame {
 
             }
         ));
+        tablaRepuestosSeleccionados.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tablaRepuestosSeleccionados);
 
         tablaRepuestos.setModel(new javax.swing.table.DefaultTableModel(
@@ -161,6 +172,7 @@ public class AltaVenta extends javax.swing.JFrame {
 
             }
         ));
+        tablaRepuestos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(tablaRepuestos);
 
         tablaClientes.setModel(new javax.swing.table.DefaultTableModel(
@@ -174,26 +186,37 @@ public class AltaVenta extends javax.swing.JFrame {
 
             }
         ));
+        tablaClientes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane3.setViewportView(tablaClientes);
 
         btnEliminar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         btnEliminar.setForeground(new java.awt.Color(255, 51, 51));
         btnEliminar.setText("✘");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnCheckR.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         btnCheckR.setForeground(new java.awt.Color(102, 255, 102));
         btnCheckR.setText("✔");
         btnCheckR.setToolTipText("");
+        btnCheckR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCheckRActionPerformed(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         jLabel8.setText("Repuestos Seleccionados:");
 
-        btnCheck1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnCheck1.setText("AGREGAR");
-        btnCheck1.setToolTipText("");
-        btnCheck1.addActionListener(new java.awt.event.ActionListener() {
+        btnNuevoCli.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        btnNuevoCli.setText("NUEVO CLIENTE");
+        btnNuevoCli.setToolTipText("");
+        btnNuevoCli.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCheck1ActionPerformed(evt);
+                btnNuevoCliActionPerformed(evt);
             }
         });
 
@@ -336,32 +359,31 @@ public class AltaVenta extends javax.swing.JFrame {
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel8))
                                 .addGap(122, 122, 122)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel4)
-                                .addComponent(lblApellido)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel14)
-                                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(18, 18, 18)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel11))
-                                    .addGap(18, 18, 18)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel10)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(btnLimpiarFiltroC, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lblNombre)
-                                .addComponent(lblTelefono)
-                                .addComponent(btnCheck1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel4)
+                            .addComponent(lblApellido)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel14)
+                                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel11))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnLimpiarFiltroC, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblNombre)
+                            .addComponent(lblTelefono)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(59, 59, 59)
-                                .addComponent(jLabel7)))
+                                .addComponent(jLabel7))
+                            .addComponent(btnNuevoCli, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(36, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -434,7 +456,7 @@ public class AltaVenta extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(12, 12, 12)
-                                        .addComponent(btnCheck1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnNuevoCli, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jLabel7)
                                         .addGap(18, 18, 18)
@@ -446,7 +468,7 @@ public class AltaVenta extends javax.swing.JFrame {
                                                 .addComponent(lblApellido)))))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(lblTelefono)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnLimpiarTodo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -483,12 +505,15 @@ public class AltaVenta extends javax.swing.JFrame {
         txtApellido.setText("");
         txtTelefono.setText("");
         
+        
         DefaultTableModel modeloRepuestosSeleccionados = (DefaultTableModel) tablaRepuestosSeleccionados.getModel();
+        DefaultTableModel modeloClienteSeleccionado = (DefaultTableModel) tablaClientes.getModel();
+        modeloClienteSeleccionado.fireTableDataChanged();
         
         for (int i = modeloRepuestosSeleccionados.getRowCount() - 1; i >= 0; i--) {
             modeloRepuestosSeleccionados.removeRow(i);
         }
-        
+
         calcularTotalVenta(modeloRepuestosSeleccionados);
         
         lblNombre.setText("Nombre: ");
@@ -578,19 +603,54 @@ public class AltaVenta extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnLimpiarFiltroRActionPerformed
 
-    private void btnCheck1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheck1ActionPerformed
+    private void btnNuevoCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoCliActionPerformed
+        this.setEnabled(false);
+        AltaCliente alta = new AltaCliente(clienteController);
+        //alta.setSize(600, 400);
+        alta.setResizable(false);
+        alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        alta.setVisible(true);
+        alta.setLocationRelativeTo(null);
+        
+        alta.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                AltaVenta.this.setEnabled(true);
+                AltaVenta.this.setState(JFrame.NORMAL);  
+                AltaVenta.this.toFront();                
+                AltaVenta.this.requestFocus();  
+                cargarTablaClientes(); // Actualiza la tabla después de cerrar AltaCliente.
+            }
+        });
+    }//GEN-LAST:event_btnNuevoCliActionPerformed
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        //configurarListeners();
+    }//GEN-LAST:event_formMouseClicked
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        if (tablaRepuestosSeleccionados.getRowCount() == 0) {
+            configurarListeners();
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
+        
+    }//GEN-LAST:event_formMouseMoved
+
+    private void btnCheckRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckRActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnCheck1ActionPerformed
+    }//GEN-LAST:event_btnCheckRActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAtras;
-    private javax.swing.JButton btnCheck1;
     private javax.swing.JButton btnCheckR;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiarFiltroC;
     private javax.swing.JButton btnLimpiarFiltroR;
     private javax.swing.JButton btnLimpiarTodo;
+    private javax.swing.JButton btnNuevoCli;
     private javax.swing.JComboBox<String> comboCategoria;
     private javax.swing.JComboBox<String> comboMarca;
     private javax.swing.JComboBox<String> comboNombreRepuesto;
@@ -655,6 +715,24 @@ public class AltaVenta extends javax.swing.JFrame {
         tablaRepuestos.setModel(modeloTabla);
         
         //Tabla Clientes
+        cargarTablaClientes();
+        
+        //Tabla RepuestosSeleccionados
+        DefaultTableModel modeloTabla2 = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
+
+        String titulos2[] = {"Id", "Nombre Repuesto", "Marca", "Categoria", "Precio"};
+        modeloTabla2.setColumnIdentifiers(titulos2);
+        
+
+        tablaRepuestosSeleccionados.setModel(modeloTabla2);
+    }
+    
+    private void cargarTablaClientes() {
         DefaultTableModel modeloTabla1 = new DefaultTableModel(){
             @Override
             public boolean isCellEditable(int row, int column){
@@ -677,19 +755,6 @@ public class AltaVenta extends javax.swing.JFrame {
         }
 
         tablaClientes.setModel(modeloTabla1);
-        
-        //Tabla RepuestosSeleccionados
-        DefaultTableModel modeloTabla2 = new DefaultTableModel(){
-            @Override
-            public boolean isCellEditable(int row, int column){
-                return false;
-            }
-        };
-        
-        String titulos2[] = {"Id", "Nombre Repuesto", "Marca", "Categoria", "Stock", "Precio"};
-        modeloTabla2.setColumnIdentifiers(titulos2);
-        
-        tablaRepuestosSeleccionados.setModel(modeloTabla2);
     }
     
     private void configurarListeners() {
@@ -750,6 +815,47 @@ public class AltaVenta extends javax.swing.JFrame {
         txtNombre.getDocument().addDocumentListener(docListener1);
         txtApellido.getDocument().addDocumentListener(docListener1);
         txtTelefono.getDocument().addDocumentListener(docListener1);
+        
+        // ---------- Desabilitar btnGuardar
+        
+        btnGuardar.setEnabled(false); // Deshabilita el botón inicialmente.
+
+        DocumentListener docBtnListener = new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                actualizarEstadoBoton();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                actualizarEstadoBoton();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                actualizarEstadoBoton();
+            }
+        };
+
+        // Listener para detectar selección en tablaClientes
+        tablaClientes.getSelectionModel().addListSelectionListener(e -> actualizarEstadoBoton());
+
+        // Listener para detectar cambios en tablaRepuestosSeleccionados
+        tablaRepuestosSeleccionados.getModel().addTableModelListener(e -> actualizarEstadoBoton());
+
+        // Agregar un ListSelectionListener para tablaRepuestosSeleccionados
+        tablaRepuestosSeleccionados.getSelectionModel().addListSelectionListener(e -> actualizarEstadoBoton());
+
+        }
+
+    
+    // Método para actualizar el estado del botón
+    private void actualizarEstadoBoton() {
+        boolean clienteSeleccionado = tablaClientes.getSelectedRow() != -1; // Verifica si hay fila seleccionada en tablaClientes
+        boolean repuestosSeleccionados = tablaRepuestosSeleccionados.getRowCount() > 0; // Verifica si hay elementos en tablaRepuestosSeleccionados
+
+        // Habilita el botón solo si hay un cliente seleccionado y hay repuestos seleccionados
+        btnGuardar.setEnabled(clienteSeleccionado && repuestosSeleccionados);
     }
     
     private void configurarEventos() {
@@ -908,21 +1014,23 @@ public class AltaVenta extends javax.swing.JFrame {
     private void agregarRepuestoSeleccionado(int filaSeleccionada) {
         DefaultTableModel modeloRepuestos = (DefaultTableModel) tablaRepuestos.getModel();
         DefaultTableModel modeloRepuestosSeleccionados = (DefaultTableModel) tablaRepuestosSeleccionados.getModel();
+
+        
+        
         
         // Obtener datos de la fila seleccionada
         Object idRepuesto = modeloRepuestos.getValueAt(filaSeleccionada, 0); // Por ejemplo, columna 0 es ID
         Object nombreRepuesto = modeloRepuestos.getValueAt(filaSeleccionada, 1); // Columna 1 es Nombre
         Object marca = modeloRepuestos.getValueAt(filaSeleccionada, 2); // Columna 2 es Marca
         Object categoria = modeloRepuestos.getValueAt(filaSeleccionada, 3); // Columna 3 es Categoría
-        Object stock = modeloRepuestos.getValueAt(filaSeleccionada, 5); // Columna 5 es Stock
         Object precio = modeloRepuestos.getValueAt(filaSeleccionada, 6);
         if (precio == null || precio.toString().isEmpty()) {
             precio = BigDecimal.ZERO; // Valor predeterminado si el precio es nulo
         }
 
         // Agregar los datos a la tabla de repuestos seleccionados
-        modeloRepuestosSeleccionados.addRow(new Object[]{idRepuesto, nombreRepuesto, marca, categoria, stock, precio});
-        
+        modeloRepuestosSeleccionados.addRow(new Object[]{idRepuesto, nombreRepuesto, marca, categoria, precio});
+
         calcularTotalVenta(modeloRepuestosSeleccionados);
         
     }
@@ -940,7 +1048,7 @@ public class AltaVenta extends javax.swing.JFrame {
         BigDecimal total = BigDecimal.ZERO;
         
         for (int i = 0; i < modeloRepuestosSeleccionados.getRowCount(); i++) {
-            BigDecimal precioTot = new BigDecimal(modeloRepuestosSeleccionados.getValueAt(i, 5).toString());
+            BigDecimal precioTot = new BigDecimal(modeloRepuestosSeleccionados.getValueAt(i, 4).toString());
             total = total.add(precioTot); // Sumar el precio al total
         }
         
@@ -996,5 +1104,7 @@ public class AltaVenta extends javax.swing.JFrame {
         lblApellido.setText("Apellido: " + apellidoCliente);
         lblTelefono.setText("Telefono: " + telefonoCliente);
     }
+
+    
     
 }

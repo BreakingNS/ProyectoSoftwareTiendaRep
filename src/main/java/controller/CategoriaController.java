@@ -18,8 +18,7 @@ public class CategoriaController {
     }
     
     public List<Categoria> listarCategoriasOrdenadasPorId(){
-        List<Categoria> listaCategorias= categoriaService.listarCategoriasOrdenadasPorId();
-        return listaCategorias;
+        return categoriaService.listarCategoriasOrdenadasPorId();
     }
     
     public List<Categoria> listarCategoriasOrdenadasPorNombre(){

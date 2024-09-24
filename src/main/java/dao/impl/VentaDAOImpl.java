@@ -17,10 +17,13 @@ import model.Cliente;
 import model.Venta;
 
 public class VentaDAOImpl implements VentaDAO{
+
+    
     
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_VENTA = "DELETE FROM TiendaLocal.venta WHERE id_venta = ?";
     private final String SENTENCIA_OBTENER_VENTAS = "SELECT * FROM TiendaLocal.venta ORDER BY id_venta ASC";
+    private final String SENTENCIA_OBTENER_VENTAS_POR_FECHA = "SELECT * FROM TiendaLocal.venta WHERE CAST(fecha_venta AS DATE) = ?";
     private final String SENTENCIA_OBTENER_VENTA = "SELECT * FROM TiendaLocal.venta WHERE id_venta = ?";
     private final String SENTENCIA_OBTENER_VENTA_POR_ID_CLIENTE = "SELECT * FROM TiendaLocal.venta WHERE id_cliente = ?";
     private final String SENTENCIA_CREAR_VENTA = "INSERT INTO TiendaLocal.venta (cantidad, fecha_venta, id_cliente, precioFinal) VALUES ( ? , ? , ? , ? )";
@@ -131,13 +134,46 @@ public class VentaDAOImpl implements VentaDAO{
         return venta;
     }
 
-    @Override
+    
     public List<Venta> obtenerVentasPorIdCliente(int id) {
         List<Venta> listaVentas = new ArrayList<>();
         
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_VENTA_POR_ID_CLIENTE);
             preparedStatement.setInt(1, id);
+            ResultSet venta_Resultado = preparedStatement.executeQuery();
+            
+            while(venta_Resultado.next()){
+                Integer cantidadVenta = venta_Resultado.getInt("cantidad");
+                Timestamp fechaPrecio = venta_Resultado.getTimestamp("fecha_venta");
+                LocalDateTime fechaVenta = fechaPrecio.toLocalDateTime();
+                
+                int idVenta = venta_Resultado.getInt("id_venta");
+                int idCliente = venta_Resultado.getInt("id_cliente");
+                BigDecimal precioFinal = venta_Resultado.getBigDecimal("precioFinal");
+                
+                ClienteDAOImpl clienteDAO = new ClienteDAOImpl(connection);
+                Cliente cliente = clienteDAO.obtenerCliente(idCliente);
+                
+                Venta venta = new Venta(idVenta, cantidadVenta, fechaVenta, cliente, precioFinal);
+                
+                listaVentas.add(venta);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(VentaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return listaVentas;
+    }
+
+    @Override
+    public List<Venta> busquedaDeVentas(LocalDateTime fechaBuscar) {
+        List<Venta> listaVentas = new ArrayList<>();
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_VENTAS_POR_FECHA);
+            preparedStatement.setTimestamp(1, Timestamp.valueOf(fechaBuscar));
             ResultSet venta_Resultado = preparedStatement.executeQuery();
             
             while(venta_Resultado.next()){

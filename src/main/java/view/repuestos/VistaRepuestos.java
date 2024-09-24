@@ -413,25 +413,40 @@ public class VistaRepuestos extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnActualizarPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarPrecioActionPerformed
-        /*
-        this.setEnabled(false);
-        ActualizarStock alta = new ActualizarStock(repuestoController);
-        //alta.setSize(600, 400);
-        alta.setResizable(false);
-        alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        alta.setVisible(true);
-        alta.setLocationRelativeTo(null);
+        if(tablaRepuestos.getRowCount() > 0){
+            if(tablaRepuestos.getSelectedRow()!=-1){
+                
+                int idRepuesto = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 0)));
+                String comboNombreRep = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 1));
+                String comboCategoria = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 3));
+                int stock = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 5)));
+                BigDecimal precio = new BigDecimal(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 6).toString());
+                
+                this.setEnabled(false);
+                ActualizarPrecio alta = new ActualizarPrecio(idRepuesto, 
+                        comboNombreRep,
+                        comboCategoria,
+                        stock,
+                        precio,
+                        repuestoController);
+                alta.setResizable(false);
+                alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                alta.setVisible(true);
+                alta.setLocationRelativeTo(null);
 
-        alta.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosed(java.awt.event.WindowEvent e) {
-                VistaRepuestos.this.setEnabled(true);
-                VistaRepuestos.this.setState(JFrame.NORMAL);  
-                VistaRepuestos.this.toFront();                
-                VistaRepuestos.this.requestFocus(); 
-                cargarTabla(); // Actualiza la tabla después de cerrar AltaRepuesto.
+                alta.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+                        VistaRepuestos.this.setEnabled(true);
+                        VistaRepuestos.this.setState(JFrame.NORMAL);  
+                        VistaRepuestos.this.toFront();                
+                        VistaRepuestos.this.requestFocus(); 
+                        cargarTabla(); // Actualiza la tabla después de cerrar AltaRepuesto.
+                    }
+                });
+                
             }
-        });*/
+        }
     }//GEN-LAST:event_btnActualizarPrecioActionPerformed
 
     private void btnActualizarStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarStockActionPerformed

@@ -47,7 +47,13 @@ public class ReparacionDAOImpl implements ReparacionDAO{
             preparedStatement.setBigDecimal(1, reparacion.getCosto());
             preparedStatement.setString(2, reparacion.getDetalles());
             preparedStatement.setTimestamp(3, java.sql.Timestamp.valueOf(reparacion.getFecha_ingreso()));
-            preparedStatement.setTimestamp(4, java.sql.Timestamp.valueOf(reparacion.getFecha_devolucion()));
+            if(reparacion.getFecha_devolucion().equals(LocalDateTime.of(1900, 1, 1, 0, 0))){
+                preparedStatement.setNull(4, java.sql.Types.TIMESTAMP);
+            }
+            else{
+                preparedStatement.setTimestamp(4, java.sql.Timestamp.valueOf(reparacion.getFecha_devolucion()));
+            }   
+            
             preparedStatement.setBoolean(5, reparacion.getPagado());
             preparedStatement.setInt(6, reparacion.getCategoria().getId_categoria());
             preparedStatement.setInt(7, reparacion.getCliente().getId_cliente());
@@ -73,7 +79,15 @@ public class ReparacionDAOImpl implements ReparacionDAO{
                 Timestamp fecha = reparacion_Resultado.getTimestamp("fecha_ingreso");
                 LocalDateTime fecha_ingreso = fecha.toLocalDateTime();
                 fecha = reparacion_Resultado.getTimestamp("fecha_devolucion");
-                LocalDateTime fecha_devolucion = fecha.toLocalDateTime();
+                
+                LocalDateTime fecha_devolucion;
+                if (fecha != null) {
+                    fecha_devolucion = fecha.toLocalDateTime();
+                } else {
+                    // Manejar el caso donde fecha es null
+                    fecha_devolucion = null;
+                    System.out.println("La fecha es nula");
+                }
 
                 Boolean pagado = reparacion_Resultado.getBoolean("pagado");
                 int id_reparacion = reparacion_Resultado.getInt("id_reparacion");
@@ -148,7 +162,15 @@ public class ReparacionDAOImpl implements ReparacionDAO{
                 Timestamp fecha = reparacion_Resultado.getTimestamp("fecha_ingreso");
                 LocalDateTime fecha_ingreso = fecha.toLocalDateTime();
                 fecha = reparacion_Resultado.getTimestamp("fecha_devolucion");
-                LocalDateTime fecha_devolucion = fecha.toLocalDateTime();
+                
+                LocalDateTime fecha_devolucion;
+                if (fecha != null) {
+                    fecha_devolucion = fecha.toLocalDateTime();
+                } else {
+                    // Manejar el caso donde fecha es null
+                    fecha_devolucion = null;
+                    System.out.println("La fecha es nula");
+                }
 
                 Boolean pagado = reparacion_Resultado.getBoolean("pagado");
                 int id_reparacion = reparacion_Resultado.getInt("id_reparacion");
@@ -190,7 +212,15 @@ public class ReparacionDAOImpl implements ReparacionDAO{
                 Timestamp fecha = reparacion_Resultado.getTimestamp("fecha_ingreso");
                 LocalDateTime fecha_ingreso = fecha.toLocalDateTime();
                 fecha = reparacion_Resultado.getTimestamp("fecha_devolucion");
-                LocalDateTime fecha_devolucion = fecha.toLocalDateTime();
+                
+                LocalDateTime fecha_devolucion;
+                if (fecha != null) {
+                    fecha_devolucion = fecha.toLocalDateTime();
+                } else {
+                    // Manejar el caso donde fecha es null
+                    fecha_devolucion = null;
+                    System.out.println("La fecha es nula");
+                }
 
                 Boolean pagado = reparacion_Resultado.getBoolean("pagado");
                 int id_reparacion = reparacion_Resultado.getInt("id_reparacion");
@@ -234,7 +264,15 @@ public class ReparacionDAOImpl implements ReparacionDAO{
                 Timestamp fecha = reparacion_Resultado.getTimestamp("fecha_ingreso");
                 LocalDateTime fecha_ingreso = fecha.toLocalDateTime();
                 fecha = reparacion_Resultado.getTimestamp("fecha_devolucion");
-                LocalDateTime fecha_devolucion = fecha.toLocalDateTime();
+                
+                LocalDateTime fecha_devolucion;
+                if (fecha != null) {
+                    fecha_devolucion = fecha.toLocalDateTime();
+                } else {
+                    // Manejar el caso donde fecha es null
+                    fecha_devolucion = null;
+                    System.out.println("La fecha es nula");
+                }
 
                 Boolean pagado = reparacion_Resultado.getBoolean("pagado");
                 int id_reparacion = reparacion_Resultado.getInt("id_reparacion");

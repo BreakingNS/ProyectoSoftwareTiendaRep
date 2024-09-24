@@ -55,6 +55,9 @@ public class VentaController {
         return ventaService.obtenerVentaPorId(id);
     }
     
+    public void modificarVenta(Venta venta) {
+        ventaService.editarVenta(venta);
+    }
     /*
     public List<Venta> busquedaDeVenta(String nombre, String apellido, String telefono){
         Venta venta = new Venta(0, nombre, apellido, telefono, new ArrayList<>(), new ArrayList<>());
@@ -164,4 +167,24 @@ public class VentaController {
         return listaVentas;
     }
     */
+
+    public Precio obtenerPrecioRepuestoPorFechaVenta(int idVenta, Repuesto repuesto) {
+        return ventaService.obtenerPrecioRepuestoPorFechaVenta(idVenta, repuesto);
+    }
+
+    public List<Venta> busquedaDeVentas(int dia, int mes, int anio) {
+        return ventaService.busquedaDeVentas(dia, mes, anio);
+    }
+
+    public void actualizarListaRepuestosPorVenta(Venta venta, List<Repuesto> listaRepuestosNuevos) throws SQLException {
+        ventaService.actualizarListaRepuestosPorVenta(venta, listaRepuestosNuevos);
+    }
+
+    public void agregarRepuestosAVenta(Venta venta, List<Repuesto> listaRepuestos) throws SQLException {
+        ventaService.agregarRepuestosAVenta(venta, listaRepuestos);
+    }
+
+    public void eliminarVenta(int idVenta) throws SQLException {
+        ventaService.eliminarVentaPorId(idVenta);
+    }
 }

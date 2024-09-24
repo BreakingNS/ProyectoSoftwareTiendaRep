@@ -74,7 +74,7 @@
                                       <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="lblTotalRepuestos" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="44" max="32767" attributes="0"/>
+                                  <EmptySpace pref="46" max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="lblFechaDevolucion" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="lblFechaIngreso" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -88,21 +88,17 @@
                                               <Component id="lblIdReparacion" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="lblCategoria" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                  <Component id="lblTelefono" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                                                  <Component id="lblCliente" min="-2" max="-2" attributes="0"/>
-                                              </Group>
+                                              <Component id="lblTelefono" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lblCliente" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Component id="lblCostoTotal" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="lblManoDeObra" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblPagado" alignment="0" min="-2" pref="147" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="36" max="32767" attributes="0"/>
+                                  <EmptySpace pref="49" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="103" groupAlignment="1" attributes="0">
@@ -114,7 +110,7 @@
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace pref="26" max="32767" attributes="0"/>
+                  <EmptySpace pref="31" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -145,21 +141,25 @@
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="btnEliminar" min="-2" pref="87" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                          <Component id="btnAtras" min="-2" pref="87" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="btnAtras" alignment="3" min="-2" pref="87" max="-2" attributes="0"/>
+                              <Component id="lblManoDeObra" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jScrollPane1" min="-2" pref="215" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                                   <Component id="lblIdVenta1" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="jScrollPane2" min="-2" pref="215" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="lblIdReparacion" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="lblCliente" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -177,11 +177,11 @@
                                       <Component id="jScrollPane4" min="-2" max="-2" attributes="0"/>
                                       <Component id="lblPrecioFinal4" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="lblManoDeObra" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="lblPagado" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="lblCostoTotal" min="-2" max="-2" attributes="0"/>
                               <Component id="lblTotalRepuestos" min="-2" max="-2" attributes="0"/>
@@ -358,7 +358,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="18" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Id Reparacion:                  "/>
+            <Property name="text" type="java.lang.String" value="Id Reparacion:                "/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblTelefono">
@@ -451,7 +451,15 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="18" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Total Repuestos: $0                 "/>
+            <Property name="text" type="java.lang.String" value="Total Repuestos: $0             "/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblPagado">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Dialog" size="18" style="0"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Pagado:     "/>
           </Properties>
         </Component>
       </SubComponents>

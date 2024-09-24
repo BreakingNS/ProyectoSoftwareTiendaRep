@@ -37,6 +37,7 @@ C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\model\Clie
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\config\ConfiguracionDataBase.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\controller\prueba.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\estado\VistaEstados.java
+C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\config\NumerosSoloDocumentFilter.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\impl\VentaDAOImpl.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\repuestos\AltaRepuesto.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\categoria\VistaCategorias.java
@@ -64,6 +65,7 @@ C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\service\Ve
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\ventas\AltaVenta.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\model\Repuesto.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\app\ProyectoSoftwareTiendaRep.java
+C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\ventas\EditarVenta.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\interfaces\EstadoDAO.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\interfaces\RepuestoDAO.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\impl\RepuestoDAOImpl.java

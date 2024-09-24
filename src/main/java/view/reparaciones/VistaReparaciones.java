@@ -85,6 +85,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
         lblIdVenta1 = new javax.swing.JLabel();
         lblCostoTotal = new javax.swing.JLabel();
         lblTotalRepuestos = new javax.swing.JLabel();
+        lblPagado = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -178,7 +179,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
         lblCategoria.setText("Categoria:                  ");
 
         lblIdReparacion.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        lblIdReparacion.setText("Id Reparacion:                  ");
+        lblIdReparacion.setText("Id Reparacion:                ");
 
         lblTelefono.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         lblTelefono.setText("Telefono:                  ");
@@ -213,7 +214,10 @@ public class VistaReparaciones extends javax.swing.JFrame {
         lblCostoTotal.setText("Costo: $0                 ");
 
         lblTotalRepuestos.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        lblTotalRepuestos.setText("Total Repuestos: $0                 ");
+        lblTotalRepuestos.setText("Total Repuestos: $0             ");
+
+        lblPagado.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        lblPagado.setText("Pagado:     ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -248,7 +252,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
                                     .addComponent(lblIdVenta1)
                                     .addComponent(jLabel8)
                                     .addComponent(lblTotalRepuestos))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblFechaDevolucion)
                                     .addComponent(lblFechaIngreso)
@@ -260,23 +264,21 @@ public class VistaReparaciones extends javax.swing.JFrame {
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(lblIdReparacion)
                                             .addComponent(lblCategoria))
+                                        .addGap(18, 18, 18)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(18, 18, 18)
-                                                .addComponent(lblTelefono))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(28, 28, 28)
-                                                .addComponent(lblCliente))))
+                                            .addComponent(lblTelefono)
+                                            .addComponent(lblCliente)))
                                     .addComponent(lblCostoTotal)
-                                    .addComponent(lblManoDeObra))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)))
+                                    .addComponent(lblManoDeObra)
+                                    .addComponent(lblPagado, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -303,18 +305,21 @@ public class VistaReparaciones extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(41, 41, 41)
-                        .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblManoDeObra))
                         .addGap(22, 22, 22))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel8)
                                 .addGap(12, 12, 12)
                                 .addComponent(lblIdVenta1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(lblIdReparacion)
@@ -330,9 +335,9 @@ public class VistaReparaciones extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(lblPrecioFinal4))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lblManoDeObra)))
-                        .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblPagado)
+                                .addGap(38, 38, 38)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblCostoTotal)
                             .addComponent(lblTotalRepuestos))
@@ -472,6 +477,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
     private javax.swing.JLabel lblIdReparacion;
     private javax.swing.JLabel lblIdVenta1;
     private javax.swing.JLabel lblManoDeObra;
+    private javax.swing.JLabel lblPagado;
     private javax.swing.JLabel lblPrecioFinal4;
     private javax.swing.JLabel lblTelefono;
     private javax.swing.JLabel lblTotalRepuestos;
@@ -491,7 +497,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
         };
         
         //Ponemos titulos a las columnas
-        String titulosReparaciones[] = {"Id", "Categoria", "Cliente", "Telefono", "Fecha Ingreso", "Fecha Devolucion", "Costo", "Estado"};
+        String titulosReparaciones[] = {"Id", "Categoria", "Cliente", "Telefono", "Fecha Ingreso", "Fecha Devolucion", "Costo", "Pagado", "Estado"};
         modeloTablaReparaciones.setColumnIdentifiers(titulosReparaciones);
         
         //Traer Ventas desde la base de datos
@@ -501,13 +507,27 @@ public class VistaReparaciones extends javax.swing.JFrame {
         if(listaReparaciones != null){
             System.out.println("tamaño de la lista: " + listaReparaciones.size());
             for(Reparacion reparacion : listaReparaciones){
-                LocalDateTime fecha = reparacion.getFecha_ingreso();
-                DateTimeFormatter formatoDiasHoras = DateTimeFormatter.ofPattern("dd-MM-yyyy' 'HH:mm:ss");
-                String fechaIngreso = fecha.format(formatoDiasHoras);
                 
-                fecha = reparacion.getFecha_devolucion();
+                DateTimeFormatter formatoDiasHoras = DateTimeFormatter.ofPattern("dd-MM-yyyy' 'HH:mm");
                 DateTimeFormatter formatoDias = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                String fechaDevolucion = fecha.format(formatoDias);
+                String fechaIngreso = reparacion.getFecha_ingreso().format(formatoDiasHoras);
+                String fechaDevolucion;
+
+                if(reparacion.getFecha_devolucion() == null){
+                    fechaDevolucion = " - ";
+                }
+                else{
+                    fechaDevolucion = reparacion.getFecha_devolucion().format(formatoDias);
+                }        
+                
+                String pagado;
+                
+                if(reparacion.getPagado() == true){
+                    pagado = "SI";
+                }
+                else{
+                    pagado = "NO";
+                }
                 
                 Object[] objeto = { 
                     reparacion.getId_reparacion(),
@@ -517,6 +537,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
                     fechaIngreso,
                     fechaDevolucion,
                     reparacion.getCosto(),
+                    pagado,
                     reparacion.getEstado().getNombre_estado()
                 };
 
@@ -621,8 +642,21 @@ public class VistaReparaciones extends javax.swing.JFrame {
         
         lblIdReparacion.setText("Id Reparacion: " + idReparacion);
         lblCategoria.setText("Categoria: " + reparacion.getCategoria().getNombre_categoria());
-        lblFechaIngreso.setText("Fecha Ingreso: " + reparacion.getFecha_ingreso());
-        lblFechaDevolucion.setText("Fecha Devolucion: " + reparacion.getFecha_devolucion());
+        
+        DateTimeFormatter formatoDiasHoras = DateTimeFormatter.ofPattern("dd-MM-yyyy' 'HH:mm");
+        DateTimeFormatter formatoDias = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String fechaIngreso = reparacion.getFecha_ingreso().format(formatoDiasHoras);
+        String fechaDevolucion;
+        
+        if(reparacion.getFecha_devolucion() == null){
+            fechaDevolucion = " - ";
+        }
+        else{
+            fechaDevolucion = reparacion.getFecha_devolucion().format(formatoDias);
+        } 
+        
+        lblFechaIngreso.setText("Fecha Ingreso: " + fechaIngreso);
+        lblFechaDevolucion.setText("Fecha Devolucion: " + fechaDevolucion);
         txtAreaDetalles.setText(reparacion.getDetalles());
         lblCliente.setText("Cliente: " + reparacion.getCliente().getApellido().concat(" " + reparacion.getCliente().getNombre()));
         lblTelefono.setText("Telefono: " + reparacion.getCliente().getTelefono());
@@ -634,6 +668,14 @@ public class VistaReparaciones extends javax.swing.JFrame {
         }
         
         lblTotalRepuestos.setText("Total Repuestos: $" + TotalRepuestos);
+        
+        if(reparacion.getPagado() == true){
+            lblPagado.setText("Pagado: SI");
+        }
+        else{
+            lblPagado.setText("Pagado: NO");
+        }
+        
         
         lblManoDeObra.setText("Mano de Obra: $" + reparacion.getCosto().subtract(TotalRepuestos));
         

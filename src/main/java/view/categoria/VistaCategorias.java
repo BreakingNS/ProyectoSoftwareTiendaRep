@@ -264,6 +264,8 @@ public class VistaCategorias extends javax.swing.JFrame {
         //Traer Categorias desde la base de datos
         List<Categoria> listaCategorias = categoriaController.listarCategoriasOrdenadasPorId();
         
+        System.out.println("TAMAÑO LISTA: " + listaCategorias.size());
+        
         //Setear los datos en la tabla
         if(listaCategorias != null){
             System.out.println("tamaño de la lista: " + listaCategorias.size());

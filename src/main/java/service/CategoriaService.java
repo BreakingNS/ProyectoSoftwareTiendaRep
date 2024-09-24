@@ -35,14 +35,29 @@ public class CategoriaService {
             }
         }
         
+        System.out.println("TAMAÑO DE LA LISTA 1: " + listaRepuestosAuxiliar.size());
+        
         List<Reparacion> listaReparacionesAuxiliar = reparacionDAO.obtenerReparaciones();
+        
+        System.out.println("Tamaño lista reparacion: " + listaReparacionesAuxiliar.size());
+        
+        for(Reparacion rep : listaReparacionesAuxiliar){
+            System.out.println("idrep: " + rep.getId_reparacion() + ", idcat: " + rep.getCategoria().getId_categoria());
+        }
+        
+        System.out.println("TAMAÑO DE LA LISTA 2: " + listaReparacionesAuxiliar.size());
         for(Categoria mar : listaCategorias){
+            System.out.println("TAMAÑO DE LA LISTA 3: " + listaReparacionesAuxiliar.size());
             for(Reparacion rep : listaReparacionesAuxiliar){
+                System.out.println("TAMAÑO DE LA LISTA 4: " + listaReparacionesAuxiliar.size());
                 if(rep.getCategoria().getId_categoria() == (mar.getId_categoria())){
+                    System.out.println("TAMAÑO DE LA LISTA 5: " + listaReparacionesAuxiliar.size());
                     mar.getListaReparaciones().add(rep);
                 }
             }
         }
+        
+        
         
         return listaCategorias;
     }

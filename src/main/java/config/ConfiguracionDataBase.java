@@ -9,6 +9,9 @@ import java.util.logging.Logger;
 public class ConfiguracionDataBase {
     private Connection connection = null;
     
+    private final String SENTENCIA_CREAR_BD_TIENDALOCAL = 
+            "CREATE SCHEMA IF NOT EXISTS TiendaLocal;";
+    
     //------------ SENTENCIAS CREAR TABLAS
     private final String SENTENCIA_CREAR_TABLA_MARCA = 
             "CREATE TABLE IF NOT EXISTS TiendaLocal.marca("
@@ -160,6 +163,11 @@ public class ConfiguracionDataBase {
         this.connection = connection;
     }
     
+    public void crearBDTiendaLocal() throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_BD_TIENDALOCAL)) {
+            preparedStatement.executeUpdate();
+        }
+    }
     //------------- METODOS CREAR TABLAS
     
     public void crearTablaMarca(){

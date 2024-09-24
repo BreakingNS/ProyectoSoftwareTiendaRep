@@ -21,12 +21,14 @@ import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import service.ClienteService;
 import view.categoria.VistaCategorias;
+import view.clientes.AltaCliente;
 import view.clientes.VistaCliente;
 import view.estado.VistaEstados;
 import view.marca.VistaMarcas;
 import view.nombreRepuesto.VistaNombreRepuesto;
 import view.reparaciones.AltaReparacion;
 import view.reparaciones.VistaReparaciones;
+import view.repuestos.AltaRepuesto;
 import view.repuestos.VistaRepuestos;
 import view.ubicacion.VistaUbicacion;
 import view.ventas.AltaVenta;
@@ -91,8 +93,8 @@ public class App extends javax.swing.JFrame {
         btnSalir = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        menuNuevoCliente = new javax.swing.JMenuItem();
+        menuNuevoRepuesto = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         menuClientes = new javax.swing.JMenuItem();
         menuRepuestos = new javax.swing.JMenuItem();
@@ -202,13 +204,23 @@ public class App extends javax.swing.JFrame {
         jMenu3.setText("Nuevo      ");
         jMenu3.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
 
-        jMenuItem1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        jMenuItem1.setText("Nuevo Cliente");
-        jMenu3.add(jMenuItem1);
+        menuNuevoCliente.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        menuNuevoCliente.setText("Nuevo Cliente");
+        menuNuevoCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuNuevoClienteActionPerformed(evt);
+            }
+        });
+        jMenu3.add(menuNuevoCliente);
 
-        jMenuItem2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        jMenuItem2.setText("Nuevo Repuesto");
-        jMenu3.add(jMenuItem2);
+        menuNuevoRepuesto.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        menuNuevoRepuesto.setText("Nuevo Repuesto");
+        menuNuevoRepuesto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuNuevoRepuestoActionPerformed(evt);
+            }
+        });
+        jMenu3.add(menuNuevoRepuesto);
 
         jMenuBar1.add(jMenu3);
 
@@ -525,6 +537,40 @@ public class App extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void menuNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNuevoClienteActionPerformed
+        this.setVisible(false); // Oculta la ventana actual
+        AltaCliente alta = new AltaCliente(clienteController);
+        //alta.setSize(1280, 720);
+        alta.setResizable(false);
+        alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        alta.setVisible(true);
+        alta.setLocationRelativeTo(null);
+
+        alta.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                setVisible(true); // Muestra la ventana anterior cuando la nueva se cierra
+            }
+        });
+    }//GEN-LAST:event_menuNuevoClienteActionPerformed
+
+    private void menuNuevoRepuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNuevoRepuestoActionPerformed
+        this.setVisible(false); // Oculta la ventana actual
+        AltaRepuesto alta = new AltaRepuesto(repuestoController);
+        //alta.setSize(1280, 720);
+        alta.setResizable(false);
+        alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        alta.setVisible(true);
+        alta.setLocationRelativeTo(null);
+
+        alta.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                setVisible(true); // Muestra la ventana anterior cuando la nueva se cierra
+            }
+        });
+    }//GEN-LAST:event_menuNuevoRepuestoActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClientes;
     private javax.swing.JButton btnReparaciones;
@@ -540,8 +586,6 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
@@ -550,6 +594,8 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuEstado;
     private javax.swing.JMenuItem menuMarca;
     private javax.swing.JMenuItem menuNombreRepuesto;
+    private javax.swing.JMenuItem menuNuevoCliente;
+    private javax.swing.JMenuItem menuNuevoRepuesto;
     private javax.swing.JMenuItem menuRepuestos;
     private javax.swing.JMenuItem menuUbicacion;
     // End of variables declaration//GEN-END:variables

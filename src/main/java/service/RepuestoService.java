@@ -3,6 +3,7 @@ package service;
 import dao.interfaces.PrecioDAO;
 import dao.interfaces.RepuestoDAO;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import model.Precio;
 import model.Repuesto;
@@ -59,12 +60,7 @@ public class RepuestoService {
         repuestoDAO.eliminarRepuesto(id);
     }
     
-    public void actualizarStock(Repuesto repuesto, int nuevoStock){
-        int stock = repuesto.getStock();
-        stock = stock + nuevoStock;
-        repuesto.setStock(stock);
-        repuestoDAO.actualizarRepuesto(repuesto);
-    }
+    
 
     public int obtenerUltimoIdRepuesto() {
         return repuestoDAO.obtenerUltimoIdRepuesto();
@@ -77,4 +73,18 @@ public class RepuestoService {
     public List<Repuesto> obtenerRepuestosPorIdReparacion(int idReparacion) {
         return repuestoDAO.obtenerRepuestosPorIdReparacion(idReparacion);
     }
+    
+    public void actualizarStock(Repuesto repuesto, int nuevoStock){
+        int stock = repuesto.getStock();
+        stock = stock + nuevoStock;
+        repuesto.setStock(stock);
+        repuestoDAO.actualizarRepuesto(repuesto);
+    }
+    
+    public void actualizarPrecio(Repuesto repuesto, BigDecimal precio) {
+        LocalDateTime ahora = LocalDateTime.now();
+        Precio precioNuevo = new Precio(1, repuesto, ahora, precio);
+        precioDAO.crearPrecio(precioNuevo);
+    }
+
 }
