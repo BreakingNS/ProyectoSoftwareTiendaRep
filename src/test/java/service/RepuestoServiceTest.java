@@ -15,11 +15,14 @@ import dao.impl.CategoriaDAOImpl;
 import dao.impl.ClienteDAOImpl;
 import dao.impl.EstadoDAOImpl;
 import dao.impl.MarcaDAOImpl;
+import dao.impl.ModeloDAOImpl;
 import dao.impl.NombreRepuestoDAOImpl;
+import dao.impl.PagadoDAOImpl;
 import dao.impl.PrecioDAOImpl;
 import dao.impl.ReparacionDAOImpl;
 import dao.impl.ReparacionRepuestoDAOImpl;
 import dao.impl.RepuestoDAOImpl;
+import dao.impl.TecnicoDAOImpl;
 import dao.impl.UbicacionDAOImpl;
 import dao.impl.VentaDAOImpl;
 import dao.impl.VentaRepuestoDAOImpl;
@@ -55,10 +58,13 @@ public class RepuestoServiceTest {
     
     private static MarcaDAOImpl marcaDAO;
     private static NombreRepuestoDAOImpl nombreRepuestoDAO;
+    private static ModeloDAOImpl modeloDAO;
     private static UbicacionDAOImpl ubicacionDAO;
     private static CategoriaDAOImpl categoriaDAO;
     private static EstadoDAOImpl estadoDAO;
+    private static PagadoDAOImpl pagadoDAO;
     private static ClienteDAOImpl clienteDAO;
+    private static TecnicoDAOImpl tecnicoDAO;
     private static RepuestoDAOImpl repuestoDAO;
     private static PrecioDAOImpl precioDAO;
     private static ReparacionDAOImpl reparacionDAO;
@@ -87,7 +93,7 @@ public class RepuestoServiceTest {
     private static VentaController ventaController;
     private static ReparacionController reparacionController;
     
-    public RepuestoServiceTest() {
+    public VentaServiceTest() {
     }
     
     @BeforeAll
@@ -97,10 +103,13 @@ public class RepuestoServiceTest {
         
         marcaDAO = new MarcaDAOImpl(connection);
         nombreRepuestoDAO = new NombreRepuestoDAOImpl(connection);
+        modeloDAO = new ModeloDAOImpl(connection);
         ubicacionDAO = new UbicacionDAOImpl(connection);
         categoriaDAO = new CategoriaDAOImpl(connection);
         estadoDAO = new EstadoDAOImpl(connection);
+        pagadoDAO = new PagadoDAOImpl(connection);
         clienteDAO = new ClienteDAOImpl(connection);
+        tecnicoDAO = new TecnicoDAOImpl(connection);
         repuestoDAO = new RepuestoDAOImpl(connection);
         precioDAO = new PrecioDAOImpl(connection);
         reparacionDAO = new ReparacionDAOImpl(connection);
@@ -142,17 +151,19 @@ public class RepuestoServiceTest {
         
         configuracion.crearTablaMarca();
         configuracion.crearTablaNombreRepuesto();
+        configuracion.crearTablaModelo();
         configuracion.crearTablaUbicacion();
         configuracion.crearTablaCategoria();
         configuracion.crearTablaEstado();
+        configuracion.crearTablaPagado();
         configuracion.crearTablaCliente();
+        configuracion.crearTablaTecnico();
         configuracion.crearTablaVenta();
         configuracion.crearTablaRepuesto();
         configuracion.crearTablaPrecio();
         configuracion.crearTablaReparacion();
         configuracion.crearTablaVentaRepuesto();
         configuracion.crearTablaReparacionRepuesto();
-        
     }
     
     @AfterEach
@@ -164,10 +175,13 @@ public class RepuestoServiceTest {
         configuracion.eliminarTablaPrecio();
         configuracion.eliminarTablaRepuesto();
         configuracion.eliminarTablaVenta();
+        configuracion.eliminarTablaTecnico();
         configuracion.eliminarTablaCliente();
+        configuracion.eliminarTablaPagado();
         configuracion.eliminarTablaEstado();
         configuracion.eliminarTablaCategoria();
         configuracion.eliminarTablaUbicacion();
+        configuracion.eliminarTablaModelo();
         configuracion.eliminarTablaNombreRepuesto();
         configuracion.eliminarTablaMarca();
         
@@ -175,18 +189,23 @@ public class RepuestoServiceTest {
 
     @Test
     public void eliminarTablas(){
+        
         configuracion.eliminarTablaReparacionRepuesto();
         configuracion.eliminarTablaVentaRepuesto();
         configuracion.eliminarTablaReparacion();
         configuracion.eliminarTablaPrecio();
         configuracion.eliminarTablaRepuesto();
         configuracion.eliminarTablaVenta();
+        configuracion.eliminarTablaTecnico();
         configuracion.eliminarTablaCliente();
+        configuracion.eliminarTablaPagado();
         configuracion.eliminarTablaEstado();
         configuracion.eliminarTablaCategoria();
         configuracion.eliminarTablaUbicacion();
+        configuracion.eliminarTablaModelo();
         configuracion.eliminarTablaNombreRepuesto();
         configuracion.eliminarTablaMarca();
+        
     }
     
     @Test

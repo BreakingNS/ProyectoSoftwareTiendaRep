@@ -1,3 +1,4 @@
+
 package model;
 
 import java.util.List;
@@ -9,7 +10,8 @@ public class RepuestoTest {
     @Test
     public void pruebaCrearRepuesto(){
         List<Precio> listaPrecios = null;
-        Repuesto rep = new Repuesto(6, 57, null, null, null, listaPrecios, null);
+        Repuesto rep = new Repuesto(6, 57, null, null, null, null, listaPrecios, null, "A000");
+
         assertEquals(6, rep.getId_repuesto());
         assertEquals(57, rep.getStock());
         assertEquals(null, rep.getNombreRepuesto());
@@ -17,6 +19,7 @@ public class RepuestoTest {
         assertEquals(null, rep.getCategoria());
         assertEquals(null, rep.getListaPrecios());
         assertEquals(null, rep.getUbicacion());
+        assertEquals("A000", rep.getCodigo());
     }
     
 }

@@ -463,8 +463,8 @@ public class VistaCliente extends javax.swing.JFrame {
         String apellido = txtApellido.getText();
         String telefono = txtTelefono.getText();
 
-        List<Cliente> listaClientes = clienteController.busquedaDeCliente(nombre, apellido, telefono);
-        cargarTablaBusqueda(listaClientes);
+        //List<Cliente> listaClientes = clienteController.busquedaDeCliente(nombre, apellido, telefono);
+        //cargarTablaBusqueda(listaClientes);
     }
 
     // Lógica de configuración inicial

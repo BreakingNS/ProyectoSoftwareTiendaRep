@@ -1,6 +1,7 @@
 package dao.impl;
 
 import controller.RepuestoController;
+import dao.interfaces.ModeloDAO;
 import dao.interfaces.RepuestoDAO;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -14,6 +15,7 @@ import java.util.logging.Logger;
 import model.Categoria;
 import model.Repuesto;
 import model.Marca;
+import model.Modelo;
 import model.NombreRepuesto;
 import model.Precio;
 import model.Reparacion;
@@ -64,9 +66,9 @@ public class RepuestoDAOImpl implements RepuestoDAO{
                 + "r.id_ubicacion;";
 
     private final String SENTENCIA_CREAR_REPUESTO = 
-            "INSERT INTO TiendaLocal.repuesto (stock, id_nombrerepuesto, id_marca, id_categoria, id_ubicacion) VALUES ( ? , ? , ? , ? , ? )";
+            "INSERT INTO TiendaLocal.repuesto (stock, codigo, id_nombrerepuesto, id_marca, id_categoria, id_modelo, id_ubicacion) VALUES ( ? , ? , ? , ? , ? , ? , ? )";
     private final String SENTENCIA_ACTUALIZAR_REPUESTO = 
-            "UPDATE TiendaLocal.repuesto SET stock = ?, id_nombrerepuesto = ?, id_marca = ?, id_categoria = ?, id_ubicacion = ? WHERE id_repuesto = ?";
+            "UPDATE TiendaLocal.repuesto SET stock = ?, codigo = ?, id_nombrerepuesto = ?, id_marca = ?, id_categoria = ?, id_modelo = ?, id_ubicacion = ? WHERE id_repuesto = ?";
 
     public RepuestoDAOImpl(Connection connection) {
         this.connection = connection;
@@ -77,10 +79,12 @@ public class RepuestoDAOImpl implements RepuestoDAO{
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_REPUESTO);
             preparedStatement.setInt(1, repuesto.getStock());
-            preparedStatement.setInt(2, repuesto.getNombreRepuesto().getId_nombrerepuesto());
-            preparedStatement.setInt(3, repuesto.getMarca().getId_marca());
-            preparedStatement.setInt(4, repuesto.getCategoria().getId_categoria());
-            preparedStatement.setInt(5, repuesto.getUbicacion().getId_ubicacion());
+            preparedStatement.setString(2, repuesto.getCodigo());
+            preparedStatement.setInt(3, repuesto.getNombreRepuesto().getId_nombrerepuesto());
+            preparedStatement.setInt(4, repuesto.getMarca().getId_marca());
+            preparedStatement.setInt(5, repuesto.getCategoria().getId_categoria());
+            preparedStatement.setInt(6, repuesto.getModelo().getId_modelo());
+            preparedStatement.setInt(7, repuesto.getUbicacion().getId_ubicacion());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -99,23 +103,27 @@ public class RepuestoDAOImpl implements RepuestoDAO{
             while(repuesto_Resultado.next()){
                 int idRepuesto = repuesto_Resultado.getInt("id_repuesto");
                 int stock = repuesto_Resultado.getInt("stock");
+                String codigo = repuesto_Resultado.getString("codigo");
                 int idNombreRepuesto = repuesto_Resultado.getInt("id_nombrerepuesto");
                 int idMarca = repuesto_Resultado.getInt("id_marca");
                 int idCategoria = repuesto_Resultado.getInt("id_categoria");
+                int idModelo = repuesto_Resultado.getInt("id_modelo");
                 int idUbicacion = repuesto_Resultado.getInt("id_ubicacion");
                 
                 NombreRepuestoDAOImpl nombreRepuestoDAO = new NombreRepuestoDAOImpl(connection);
                 MarcaDAOImpl marcaDAO = new MarcaDAOImpl(connection);
                 CategoriaDAOImpl categoriaDAO = new CategoriaDAOImpl(connection);
+                ModeloDAOImpl modeloDAO = new ModeloDAOImpl(connection);
                 UbicacionDAOImpl ubicacionDAO = new UbicacionDAOImpl(connection);
                 
                 NombreRepuesto nombreRepuesto = nombreRepuestoDAO.obtenerNombreRepuesto(idNombreRepuesto);
                 Marca marca = marcaDAO.obtenerMarca(idMarca);
                 Categoria categoria = categoriaDAO.obtenerCategoria(idCategoria);
+                Modelo modelo = modeloDAO.obtenerModelo(idModelo);
                 List<Precio> listaPrecios = new ArrayList<>();
                 Ubicacion ubicacion = ubicacionDAO.obtenerUbicacion(idUbicacion);
                 
-                Repuesto repuesto = new Repuesto(idRepuesto, stock, nombreRepuesto, marca, categoria, listaPrecios, ubicacion);
+                Repuesto repuesto = new Repuesto(idRepuesto, stock, nombreRepuesto, marca, categoria, modelo, listaPrecios, ubicacion, codigo);
                 
                 listaRepuestos.add(repuesto);
             }
@@ -162,20 +170,23 @@ public class RepuestoDAOImpl implements RepuestoDAO{
                 int idNombreRepuestoRet = repuesto_Resultado.getInt("id_nombrerepuesto");
                 int idMarcaRet = repuesto_Resultado.getInt("id_marca");
                 int idCategoriaRet = repuesto_Resultado.getInt("id_categoria");
+                int idModelo = repuesto_Resultado.getInt("id_modelo");
                 int idUbicacionRet = repuesto_Resultado.getInt("id_ubicacion");
                 
                 NombreRepuestoDAOImpl nombreRepuestoDAO = new NombreRepuestoDAOImpl(connection);
                 MarcaDAOImpl marcaDAO = new MarcaDAOImpl(connection);
                 CategoriaDAOImpl categoriaDAO = new CategoriaDAOImpl(connection);
+                ModeloDAOImpl modeloDAO = new ModeloDAOImpl(connection);
                 UbicacionDAOImpl ubicacionDAO = new UbicacionDAOImpl(connection);
                 
                 NombreRepuesto nombreRepuesto = nombreRepuestoDAO.obtenerNombreRepuesto(idNombreRepuestoRet);
                 Marca marca = marcaDAO.obtenerMarca(idMarcaRet);
                 Categoria categoria = categoriaDAO.obtenerCategoria(idCategoriaRet);
+                Modelo modelo = modeloDAO.obtenerModelo(idModelo);
                 List<Precio> listaPrecios = new ArrayList<>();
                 Ubicacion ubicacion = ubicacionDAO.obtenerUbicacion(idUbicacionRet);
                 
-                Repuesto repuestoBusqueda = new Repuesto(idRepuestoRet, stockRet, nombreRepuesto, marca, categoria, listaPrecios, ubicacion);
+                Repuesto repuestoBusqueda = new Repuesto(idRepuestoRet, stockRet, nombreRepuesto, marca, categoria, modelo, listaPrecios, ubicacion, SENTENCIA_CREAR_REPUESTO);
                 
                 listaRepuesto.add(repuestoBusqueda);
             }
@@ -194,11 +205,13 @@ public class RepuestoDAOImpl implements RepuestoDAO{
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_REPUESTO);
             preparedStatement.setInt(1, repuesto.getStock());
-            preparedStatement.setInt(2, repuesto.getNombreRepuesto().getId_nombrerepuesto());
-            preparedStatement.setInt(3, repuesto.getMarca().getId_marca());
-            preparedStatement.setInt(4, repuesto.getCategoria().getId_categoria());
-            preparedStatement.setInt(5, repuesto.getUbicacion().getId_ubicacion());
-            preparedStatement.setInt(6, repuesto.getId_repuesto());
+            preparedStatement.setString(2, repuesto.getCodigo());
+            preparedStatement.setInt(3, repuesto.getNombreRepuesto().getId_nombrerepuesto());
+            preparedStatement.setInt(4, repuesto.getMarca().getId_marca());
+            preparedStatement.setInt(5, repuesto.getCategoria().getId_categoria());
+            preparedStatement.setInt(6, repuesto.getModelo().getId_modelo());
+            preparedStatement.setInt(7, repuesto.getUbicacion().getId_ubicacion());
+            preparedStatement.setInt(8, repuesto.getId_repuesto());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -229,23 +242,27 @@ public class RepuestoDAOImpl implements RepuestoDAO{
             if(repuesto_Resultado.next()){
                 int idRepuesto = repuesto_Resultado.getInt("id_repuesto");
                 int stock = repuesto_Resultado.getInt("stock");
+                String codigo = repuesto_Resultado.getString("codigo");
                 int idNombreRepuesto = repuesto_Resultado.getInt("id_nombrerepuesto");
                 int idMarca = repuesto_Resultado.getInt("id_marca");
                 int idCategoria = repuesto_Resultado.getInt("id_categoria");
+                int idModelo = repuesto_Resultado.getInt("id_modelo");
                 int idUbicacion = repuesto_Resultado.getInt("id_ubicacion");
                 
                 NombreRepuestoDAOImpl nombreRepuestoDAO = new NombreRepuestoDAOImpl(connection);
                 MarcaDAOImpl marcaDAO = new MarcaDAOImpl(connection);
                 CategoriaDAOImpl categoriaDAO = new CategoriaDAOImpl(connection);
+                ModeloDAOImpl modeloDAO = new ModeloDAOImpl(connection);
                 UbicacionDAOImpl ubicacionDAO = new UbicacionDAOImpl(connection);
                 
                 NombreRepuesto nombreRepuesto = nombreRepuestoDAO.obtenerNombreRepuesto(idNombreRepuesto);
                 Marca marca = marcaDAO.obtenerMarca(idMarca);
                 Categoria categoria = categoriaDAO.obtenerCategoria(idCategoria);
+                Modelo modelo = modeloDAO.obtenerModelo(idModelo);
                 List<Precio> listaPrecios = new ArrayList<>();
                 Ubicacion ubicacion = ubicacionDAO.obtenerUbicacion(idUbicacion);
                 
-                repuesto = new Repuesto(idRepuesto, stock, nombreRepuesto, marca, categoria, listaPrecios, ubicacion);
+                repuesto = new Repuesto(idRepuesto, stock, nombreRepuesto, marca, categoria, modelo, listaPrecios, ubicacion, codigo);
             }
         } catch (SQLException ex) {
             Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);

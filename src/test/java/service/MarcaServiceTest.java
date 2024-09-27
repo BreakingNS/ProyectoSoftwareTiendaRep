@@ -6,6 +6,7 @@ import dao.impl.CategoriaDAOImpl;
 import dao.impl.ClienteDAOImpl;
 import dao.impl.EstadoDAOImpl;
 import dao.impl.MarcaDAOImpl;
+import dao.impl.ModeloDAOImpl;
 import dao.impl.NombreRepuestoDAOImpl;
 import dao.impl.PrecioDAOImpl;
 import dao.impl.ReparacionDAOImpl;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Categoria;
 import model.Marca;
+import model.Modelo;
 import model.NombreRepuesto;
 import model.Repuesto;
 import model.Ubicacion;
@@ -35,6 +37,7 @@ public class MarcaServiceTest {
     
     private static MarcaDAOImpl marcaDAO;
     private static NombreRepuestoDAOImpl nombreRepuestoDAO;
+    private static ModeloDAOImpl modeloDAO;
     private static UbicacionDAOImpl ubicacionDAO;
     private static CategoriaDAOImpl categoriaDAO;
     private static EstadoDAOImpl estadoDAO;
@@ -56,6 +59,7 @@ public class MarcaServiceTest {
         
         marcaDAO = new MarcaDAOImpl(connection);
         nombreRepuestoDAO = new NombreRepuestoDAOImpl(connection);
+        modeloDAO = new ModeloDAOImpl(connection);
         ubicacionDAO = new UbicacionDAOImpl(connection);
         categoriaDAO = new CategoriaDAOImpl(connection);
         estadoDAO = new EstadoDAOImpl(connection);
@@ -79,10 +83,13 @@ public class MarcaServiceTest {
         
         configuracion.crearTablaMarca();
         configuracion.crearTablaNombreRepuesto();
+        configuracion.crearTablaModelo();
         configuracion.crearTablaUbicacion();
         configuracion.crearTablaCategoria();
         configuracion.crearTablaEstado();
+        configuracion.crearTablaPagado();
         configuracion.crearTablaCliente();
+        configuracion.crearTablaTecnico();
         configuracion.crearTablaVenta();
         configuracion.crearTablaRepuesto();
         configuracion.crearTablaPrecio();
@@ -101,10 +108,13 @@ public class MarcaServiceTest {
         configuracion.eliminarTablaPrecio();
         configuracion.eliminarTablaRepuesto();
         configuracion.eliminarTablaVenta();
+        configuracion.eliminarTablaTecnico();
         configuracion.eliminarTablaCliente();
+        configuracion.eliminarTablaPagado();
         configuracion.eliminarTablaEstado();
         configuracion.eliminarTablaCategoria();
         configuracion.eliminarTablaUbicacion();
+        configuracion.eliminarTablaModelo();
         configuracion.eliminarTablaNombreRepuesto();
         configuracion.eliminarTablaMarca();
         
@@ -118,10 +128,13 @@ public class MarcaServiceTest {
         configuracion.eliminarTablaPrecio();
         configuracion.eliminarTablaRepuesto();
         configuracion.eliminarTablaVenta();
+        configuracion.eliminarTablaTecnico();
         configuracion.eliminarTablaCliente();
+        configuracion.eliminarTablaPagado();
         configuracion.eliminarTablaEstado();
         configuracion.eliminarTablaCategoria();
         configuracion.eliminarTablaUbicacion();
+        configuracion.eliminarTablaModelo();
         configuracion.eliminarTablaNombreRepuesto();
         configuracion.eliminarTablaMarca();
     }
@@ -144,9 +157,12 @@ public class MarcaServiceTest {
         Ubicacion ubicacion1 = new Ubicacion(2, "Mostrador", new ArrayList<>());
         ubicacionDAO.crearUbicacion(ubicacion);
         ubicacionDAO.crearUbicacion(ubicacion1);
-        
-        Repuesto repuesto = new Repuesto(1, 10, nombreRepuesto, marca, categoria, new ArrayList<>(), ubicacion);
-        Repuesto repuesto1 = new Repuesto(2, 20, nombreRepuesto1, marca1, categoria1, new ArrayList<>(), ubicacion1);
+        Modelo modelo = new Modelo(1, "Plus");
+        Modelo modelo1 = new Modelo(2, "Plus Ultra");
+        modeloDAO.crearModelo(modelo);
+        modeloDAO.crearModelo(modelo1);
+        Repuesto repuesto = new Repuesto(1, 10, nombreRepuesto, marca, categoria, modelo, new ArrayList<>(), ubicacion, "A000");
+        Repuesto repuesto1 = new Repuesto(2, 20, nombreRepuesto1, marca1, categoria1, modelo1, new ArrayList<>(), ubicacion1, "A001");
         repuestoDAO.crearRepuesto(repuesto);
         repuestoDAO.crearRepuesto(repuesto1);
     }

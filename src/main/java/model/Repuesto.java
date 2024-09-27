@@ -9,20 +9,24 @@ public class Repuesto {
     private NombreRepuesto nombreRepuesto;
     private Marca marca;
     private Categoria categoria;
+    private Modelo modelo;
     private List<Precio> listaPrecios;
     private Ubicacion ubicacion;
+    private String codigo;
 
     public Repuesto() {
     }
 
-    public Repuesto(int id_repuesto, int stock, NombreRepuesto nombreRepuesto, Marca marca, Categoria categoria, List<Precio> listaPrecios, Ubicacion ubicacion) {
+    public Repuesto(int id_repuesto, int stock, NombreRepuesto nombreRepuesto, Marca marca, Categoria categoria, Modelo modelo, List<Precio> listaPrecios, Ubicacion ubicacion, String codigo) {
         this.id_repuesto = id_repuesto;
         this.stock = stock;
         this.nombreRepuesto = nombreRepuesto;
         this.marca = marca;
         this.categoria = categoria;
+        this.modelo = modelo;
         this.listaPrecios = listaPrecios;
         this.ubicacion = ubicacion;
+        this.codigo = codigo;
     }
 
     public int getId_repuesto() {
@@ -45,12 +49,20 @@ public class Repuesto {
         return categoria;
     }
 
+    public Modelo getModelo() {
+        return modelo;
+    }
+
     public List<Precio> getListaPrecios() {
         return listaPrecios;
     }
 
     public Ubicacion getUbicacion() {
         return ubicacion;
+    }
+
+    public String getCodigo() {
+        return codigo;
     }
 
     public void setId_repuesto(int id_repuesto) {
@@ -73,12 +85,20 @@ public class Repuesto {
         this.categoria = categoria;
     }
 
-    public void setListaPrecios(List<Precio> precio) {
-        this.listaPrecios = precio;
+    public void setModelo(Modelo modelo) {
+        this.modelo = modelo;
+    }
+
+    public void setListaPrecios(List<Precio> listaPrecios) {
+        this.listaPrecios = listaPrecios;
     }
 
     public void setUbicacion(Ubicacion ubicacion) {
         this.ubicacion = ubicacion;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
     
     @Override

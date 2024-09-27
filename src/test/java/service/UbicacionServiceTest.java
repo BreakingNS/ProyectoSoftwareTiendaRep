@@ -3,18 +3,26 @@ package service;
 import config.ConexionDataBase;
 import config.ConfiguracionDataBase;
 import dao.impl.CategoriaDAOImpl;
+import dao.impl.ClienteDAOImpl;
+import dao.impl.EstadoDAOImpl;
 import dao.impl.MarcaDAOImpl;
+import dao.impl.ModeloDAOImpl;
 import dao.impl.NombreRepuestoDAOImpl;
+import dao.impl.PrecioDAOImpl;
+import dao.impl.ReparacionDAOImpl;
 import dao.impl.RepuestoDAOImpl;
 import dao.impl.UbicacionDAOImpl;
+import dao.impl.VentaDAOImpl;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import model.Categoria;
 import model.Marca;
+import model.Modelo;
 import model.NombreRepuesto;
 import model.Repuesto;
 import model.Ubicacion;
+import org.junit.Ignore;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,14 +33,19 @@ import static org.junit.jupiter.api.Assertions.*;
 public class UbicacionServiceTest {
     private static ConexionDataBase conexionDataBase;
     private static ConfiguracionDataBase configuracion;
-    
     private static Connection connection;
     
-    private static RepuestoDAOImpl repuestoDAO;
-    private static NombreRepuestoDAOImpl nombreRepuestoDAO;
     private static MarcaDAOImpl marcaDAO;
-    private static CategoriaDAOImpl categoriaDAO;
+    private static NombreRepuestoDAOImpl nombreRepuestoDAO;
+    private static ModeloDAOImpl modeloDAO;
     private static UbicacionDAOImpl ubicacionDAO;
+    private static CategoriaDAOImpl categoriaDAO;
+    private static EstadoDAOImpl estadoDAO;
+    private static ClienteDAOImpl clienteDAO;
+    private static RepuestoDAOImpl repuestoDAO;
+    private static PrecioDAOImpl precioDAO;
+    private static ReparacionDAOImpl reparacionDAO;
+    private static VentaDAOImpl ventaDAO;
     
     private static UbicacionService ubicacionService;
     
@@ -44,11 +57,17 @@ public class UbicacionServiceTest {
         conexionDataBase = new ConexionDataBase();
         connection = conexionDataBase.getConexionDBH2();
         
-        repuestoDAO = new RepuestoDAOImpl(connection);
-        nombreRepuestoDAO = new NombreRepuestoDAOImpl(connection);
         marcaDAO = new MarcaDAOImpl(connection);
-        categoriaDAO = new CategoriaDAOImpl(connection);
+        nombreRepuestoDAO = new NombreRepuestoDAOImpl(connection);
+        modeloDAO = new ModeloDAOImpl(connection);
         ubicacionDAO = new UbicacionDAOImpl(connection);
+        categoriaDAO = new CategoriaDAOImpl(connection);
+        estadoDAO = new EstadoDAOImpl(connection);
+        clienteDAO = new ClienteDAOImpl(connection);
+        repuestoDAO = new RepuestoDAOImpl(connection);
+        precioDAO = new PrecioDAOImpl(connection);
+        reparacionDAO = new ReparacionDAOImpl(connection);
+        ventaDAO = new VentaDAOImpl(connection);
         
         ubicacionService = new UbicacionService(ubicacionDAO, repuestoDAO);
     }
@@ -61,34 +80,64 @@ public class UbicacionServiceTest {
     @BeforeEach
     public void setUp() {
         configuracion = new ConfiguracionDataBase(connection);
+        
         configuracion.crearTablaMarca();
         configuracion.crearTablaNombreRepuesto();
+        configuracion.crearTablaModelo();
         configuracion.crearTablaUbicacion();
         configuracion.crearTablaCategoria();
+        configuracion.crearTablaEstado();
+        configuracion.crearTablaPagado();
+        configuracion.crearTablaCliente();
+        configuracion.crearTablaTecnico();
+        configuracion.crearTablaVenta();
         configuracion.crearTablaRepuesto();
+        configuracion.crearTablaPrecio();
+        configuracion.crearTablaReparacion();
+        configuracion.crearTablaVentaRepuesto();
+        configuracion.crearTablaReparacionRepuesto();
     }
     
     @AfterEach
     public void tearDown() {
         
+        configuracion.eliminarTablaReparacionRepuesto();
+        configuracion.eliminarTablaVentaRepuesto();
+        configuracion.eliminarTablaReparacion();
+        configuracion.eliminarTablaPrecio();
         configuracion.eliminarTablaRepuesto();
+        configuracion.eliminarTablaVenta();
+        configuracion.eliminarTablaTecnico();
+        configuracion.eliminarTablaCliente();
+        configuracion.eliminarTablaPagado();
+        configuracion.eliminarTablaEstado();
         configuracion.eliminarTablaCategoria();
         configuracion.eliminarTablaUbicacion();
+        configuracion.eliminarTablaModelo();
         configuracion.eliminarTablaNombreRepuesto();
         configuracion.eliminarTablaMarca();
         
     }
-    /*
+    
     @Test
     public void eliminarTablas(){
+        configuracion.eliminarTablaReparacionRepuesto();
+        configuracion.eliminarTablaVentaRepuesto();
+        configuracion.eliminarTablaReparacion();
+        configuracion.eliminarTablaPrecio();
         configuracion.eliminarTablaRepuesto();
+        configuracion.eliminarTablaVenta();
+        configuracion.eliminarTablaTecnico();
+        configuracion.eliminarTablaCliente();
+        configuracion.eliminarTablaPagado();
+        configuracion.eliminarTablaEstado();
         configuracion.eliminarTablaCategoria();
         configuracion.eliminarTablaUbicacion();
+        configuracion.eliminarTablaModelo();
         configuracion.eliminarTablaNombreRepuesto();
         configuracion.eliminarTablaMarca();
     }
-    */
-
+    
     @Test
     public void agregarMarcaTest(){
         NombreRepuesto nombreRepuesto = new NombreRepuesto(1, "Bobina");
@@ -107,9 +156,13 @@ public class UbicacionServiceTest {
         Ubicacion ubicacion1 = new Ubicacion(2, "Mostrador", new ArrayList<>());
         ubicacionService.agregarUbicacion(ubicacion);
         ubicacionService.agregarUbicacion(ubicacion1);
+        Modelo modelo = new Modelo(1, "Plus");
+        Modelo modelo1 = new Modelo(2, "Plus Ultra");
+        modeloDAO.crearModelo(modelo);
+        modeloDAO.crearModelo(modelo1);
         
-        Repuesto repuesto = new Repuesto(1, 10, nombreRepuesto, marca, categoria, new ArrayList<>(), ubicacion);
-        Repuesto repuesto1 = new Repuesto(2, 20, nombreRepuesto1, marca1, categoria1, new ArrayList<>(), ubicacion1);
+        Repuesto repuesto = new Repuesto(1, 10, nombreRepuesto, marca, categoria, modelo, new ArrayList<>(), ubicacion, "A000");
+        Repuesto repuesto1 = new Repuesto(2, 20, nombreRepuesto1, marca1, categoria1, modelo1, new ArrayList<>(), ubicacion1, "A001");
         repuestoDAO.crearRepuesto(repuesto);
         repuestoDAO.crearRepuesto(repuesto1);
     }
@@ -133,6 +186,7 @@ public class UbicacionServiceTest {
         assertEquals(1, ubicacion.getId_ubicacion());
         assertEquals("Deposito", ubicacion.getNombre_ubicacion());
     }
+    
     
     @Test
     public void editarUbicacionPorIdTest(){

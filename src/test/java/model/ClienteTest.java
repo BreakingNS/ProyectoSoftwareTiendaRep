@@ -11,12 +11,13 @@ public class ClienteTest {
     public void pruebaCrearCliente(){
         List<Reparacion> listaReparaciones = null;
         List<Venta> listaVentas = null;
-        Cliente cli = new Cliente(1, "Nahuel", "Segura", "123456", listaVentas, listaReparaciones);
+        Cliente cli = new Cliente(1, "Nahuel", "Segura", "123456", "Achachay", listaVentas, listaReparaciones);
 
         assertEquals(1, cli.getId_cliente());
         assertEquals("Nahuel", cli.getNombre());
         assertEquals("Segura", cli.getApellido());
         assertEquals("123456", cli.getTelefono());
+        assertEquals("Achachay", cli.getDomicilio());
         assertEquals(null, cli.getListaReparaciones());
         assertEquals(null, cli.getListaVentas());
     }

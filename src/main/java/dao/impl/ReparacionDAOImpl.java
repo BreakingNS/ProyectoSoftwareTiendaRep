@@ -16,7 +16,9 @@ import java.util.logging.Logger;
 import model.Categoria;
 import model.Cliente;
 import model.Estado;
+import model.Pagado;
 import model.Reparacion;
+import model.Tecnico;
 
 public class ReparacionDAOImpl implements ReparacionDAO{
     
@@ -32,9 +34,9 @@ public class ReparacionDAOImpl implements ReparacionDAO{
     private final String SENTENCIA_OBTENER_REPARACION =
             "SELECT * FROM TiendaLocal.reparacion WHERE id_reparacion = ?";
     private final String SENTENCIA_CREAR_REPARACION =
-            "INSERT INTO TiendaLocal.reparacion (costo, detalles, fecha_ingreso, fecha_devolucion, pagado, id_categoria, id_cliente, id_estado) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? )";
+            "INSERT INTO TiendaLocal.reparacion (costo, detalles, fecha_ingreso, fecha_devolucion, id_pagado, id_categoria, id_cliente, id_estado, id_tecnico) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? )";
     private final String SENTENCIA_ACTUALIZAR_REPARACION =
-            "UPDATE TiendaLocal.reparacion SET costo = ?, detalles = ?, fecha_ingreso = ?, fecha_devolucion = ?, pagado = ?, id_categoria = ?, id_cliente = ?, id_estado = ? WHERE id_reparacion = ?";
+            "UPDATE TiendaLocal.reparacion SET costo = ?, detalles = ?, fecha_ingreso = ?, fecha_devolucion = ?, id_pagado = ?, id_categoria = ?, id_cliente = ?, id_estado = ?, id_tecnico = ? WHERE id_reparacion = ?";
 
     public ReparacionDAOImpl(Connection connection) {
         this.connection = connection;
@@ -54,10 +56,11 @@ public class ReparacionDAOImpl implements ReparacionDAO{
                 preparedStatement.setTimestamp(4, java.sql.Timestamp.valueOf(reparacion.getFecha_devolucion()));
             }   
             
-            preparedStatement.setBoolean(5, reparacion.getPagado());
+            preparedStatement.setInt(5, reparacion.getPagado().getId_pagado());
             preparedStatement.setInt(6, reparacion.getCategoria().getId_categoria());
             preparedStatement.setInt(7, reparacion.getCliente().getId_cliente());
             preparedStatement.setInt(8, reparacion.getEstado().getId_estado());
+            preparedStatement.setInt(9, reparacion.getTecnico().getId_tecnico());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ReparacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -88,22 +91,27 @@ public class ReparacionDAOImpl implements ReparacionDAO{
                     fecha_devolucion = null;
                     System.out.println("La fecha es nula");
                 }
-
-                Boolean pagado = reparacion_Resultado.getBoolean("pagado");
+                
+                int id_pagado = reparacion_Resultado.getInt("id_pagado");
                 int id_reparacion = reparacion_Resultado.getInt("id_reparacion");
                 int id_categoria = reparacion_Resultado.getInt("id_categoria");
                 int id_cliente = reparacion_Resultado.getInt("id_cliente");
                 int id_estado = reparacion_Resultado.getInt("id_estado");
+                int id_tecnico = reparacion_Resultado.getInt("id_tecnico");
                 
+                PagadoDAOImpl pagadoDAO = new PagadoDAOImpl(connection);
                 CategoriaDAOImpl categoriaDAO = new CategoriaDAOImpl(connection);
                 ClienteDAOImpl clienteDAO = new ClienteDAOImpl(connection);
                 EstadoDAOImpl estadoDAO = new EstadoDAOImpl(connection);
+                TecnicoDAOImpl tecnicoDAO = new TecnicoDAOImpl(connection);
                 
+                Pagado pagado = pagadoDAO.obtenerPagado(id_pagado);
                 Categoria categoria = categoriaDAO.obtenerCategoria(id_estado);
                 Cliente cliente = clienteDAO.obtenerCliente(id_cliente);
                 Estado estado = estadoDAO.obtenerEstado(id_estado);
+                Tecnico tecnico = tecnicoDAO.obtenerTecnico(id_tecnico);
                 
-                Reparacion reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, pagado, categoria, cliente, estado);
+                Reparacion reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, pagado, categoria, cliente, estado, tecnico);
                 
                 listaReparaciones.add(reparacion);
             }
@@ -122,11 +130,12 @@ public class ReparacionDAOImpl implements ReparacionDAO{
             preparedStatement.setString(2, reparacion.getDetalles());
              preparedStatement.setTimestamp(3, java.sql.Timestamp.valueOf(reparacion.getFecha_ingreso()));
             preparedStatement.setTimestamp(4, java.sql.Timestamp.valueOf(reparacion.getFecha_devolucion()));
-            preparedStatement.setBoolean(5, reparacion.getPagado());
+            preparedStatement.setInt(5, reparacion.getPagado().getId_pagado());
             preparedStatement.setInt(6, reparacion.getCategoria().getId_categoria());
             preparedStatement.setInt(7, reparacion.getCliente().getId_cliente());
             preparedStatement.setInt(8, reparacion.getEstado().getId_estado());
-            preparedStatement.setInt(9, reparacion.getId_reparacion());
+            preparedStatement.setInt(9, reparacion.getTecnico().getId_tecnico());
+            preparedStatement.setInt(10, reparacion.getId_reparacion());
             
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
@@ -171,22 +180,27 @@ public class ReparacionDAOImpl implements ReparacionDAO{
                     fecha_devolucion = null;
                     System.out.println("La fecha es nula");
                 }
-
-                Boolean pagado = reparacion_Resultado.getBoolean("pagado");
+                
+                int id_pagado = reparacion_Resultado.getInt("id_pagado");
                 int id_reparacion = reparacion_Resultado.getInt("id_reparacion");
                 int id_categoria = reparacion_Resultado.getInt("id_categoria");
                 int id_cliente = reparacion_Resultado.getInt("id_cliente");
                 int id_estado = reparacion_Resultado.getInt("id_estado");
+                int id_tecnico = reparacion_Resultado.getInt("id_tecnico");
                 
+                PagadoDAOImpl pagadoDAO = new PagadoDAOImpl(connection);
                 CategoriaDAOImpl categoriaDAO = new CategoriaDAOImpl(connection);
                 ClienteDAOImpl clienteDAO = new ClienteDAOImpl(connection);
-                EstadoDAOImpl EstadoDAO = new EstadoDAOImpl(connection);
+                EstadoDAOImpl estadoDAO = new EstadoDAOImpl(connection);
+                TecnicoDAOImpl tecnicoDAO = new TecnicoDAOImpl(connection);
                 
-                Categoria categoria = categoriaDAO.obtenerCategoria(id_categoria);
+                Pagado pagado = pagadoDAO.obtenerPagado(id_pagado);
+                Categoria categoria = categoriaDAO.obtenerCategoria(id_estado);
                 Cliente cliente = clienteDAO.obtenerCliente(id_cliente);
-                Estado estado = EstadoDAO.obtenerEstado(id_estado);
+                Estado estado = estadoDAO.obtenerEstado(id_estado);
+                Tecnico tecnico = tecnicoDAO.obtenerTecnico(id_tecnico);
                 
-                reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, pagado, categoria, cliente, estado);
+                reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, pagado, categoria, cliente, estado, tecnico);
             }
         } catch (SQLException ex) {
             Logger.getLogger(ReparacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -221,22 +235,27 @@ public class ReparacionDAOImpl implements ReparacionDAO{
                     fecha_devolucion = null;
                     System.out.println("La fecha es nula");
                 }
-
-                Boolean pagado = reparacion_Resultado.getBoolean("pagado");
+                
+                int id_pagado = reparacion_Resultado.getInt("id_pagado");
                 int id_reparacion = reparacion_Resultado.getInt("id_reparacion");
                 int id_categoria = reparacion_Resultado.getInt("id_categoria");
                 int id_cliente = reparacion_Resultado.getInt("id_cliente");
                 int id_estado = reparacion_Resultado.getInt("id_estado");
+                int id_tecnico = reparacion_Resultado.getInt("id_tecnico");
                 
+                PagadoDAOImpl pagadoDAO = new PagadoDAOImpl(connection);
                 CategoriaDAOImpl categoriaDAO = new CategoriaDAOImpl(connection);
                 ClienteDAOImpl clienteDAO = new ClienteDAOImpl(connection);
                 EstadoDAOImpl estadoDAO = new EstadoDAOImpl(connection);
+                TecnicoDAOImpl tecnicoDAO = new TecnicoDAOImpl(connection);
                 
+                Pagado pagado = pagadoDAO.obtenerPagado(id_pagado);
                 Categoria categoria = categoriaDAO.obtenerCategoria(id_estado);
                 Cliente cliente = clienteDAO.obtenerCliente(id_cliente);
                 Estado estado = estadoDAO.obtenerEstado(id_estado);
+                Tecnico tecnico = tecnicoDAO.obtenerTecnico(id_tecnico);
                 
-                Reparacion reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, pagado, categoria, cliente, estado);
+                Reparacion reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, pagado, categoria, cliente, estado, tecnico);
                 
                 listaReparaciones.add(reparacion);
             }
@@ -273,22 +292,27 @@ public class ReparacionDAOImpl implements ReparacionDAO{
                     fecha_devolucion = null;
                     System.out.println("La fecha es nula");
                 }
-
-                Boolean pagado = reparacion_Resultado.getBoolean("pagado");
+                
+                int id_pagado = reparacion_Resultado.getInt("id_pagado");
                 int id_reparacion = reparacion_Resultado.getInt("id_reparacion");
                 int id_categoria = reparacion_Resultado.getInt("id_categoria");
                 int id_cliente = reparacion_Resultado.getInt("id_cliente");
                 int id_estado = reparacion_Resultado.getInt("id_estado");
+                int id_tecnico = reparacion_Resultado.getInt("id_tecnico");
                 
+                PagadoDAOImpl pagadoDAO = new PagadoDAOImpl(connection);
                 CategoriaDAOImpl categoriaDAO = new CategoriaDAOImpl(connection);
                 ClienteDAOImpl clienteDAO = new ClienteDAOImpl(connection);
                 EstadoDAOImpl estadoDAO = new EstadoDAOImpl(connection);
+                TecnicoDAOImpl tecnicoDAO = new TecnicoDAOImpl(connection);
                 
+                Pagado pagado = pagadoDAO.obtenerPagado(id_pagado);
                 Categoria categoria = categoriaDAO.obtenerCategoria(id_estado);
                 Cliente cliente = clienteDAO.obtenerCliente(id_cliente);
                 Estado estado = estadoDAO.obtenerEstado(id_estado);
+                Tecnico tecnico = tecnicoDAO.obtenerTecnico(id_tecnico);
                 
-                Reparacion reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, pagado, categoria, cliente, estado);
+                Reparacion reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, pagado, categoria, cliente, estado, tecnico);
                 
                 listaReparaciones.add(reparacion);
             }

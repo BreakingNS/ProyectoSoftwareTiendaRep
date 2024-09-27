@@ -232,7 +232,7 @@ public class AltaRepuesto extends javax.swing.JFrame {
         int stock = Integer.parseInt(txtStock.getText());
         int precio = Integer.parseInt(txtPrecio.getText()); 
         
-        repuestoController.agregarRepuesto(nombreRepuestoSeleccionado, marcaSeleccionada, categoriaSeleccionada, ubicacionSeleccionada, stock, precio);
+        //repuestoController.agregarRepuesto(nombreRepuestoSeleccionado, marcaSeleccionada, categoriaSeleccionada, ubicacionSeleccionada, stock, precio);
         JOptionPane.showMessageDialog(null, "Carga realizada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         dispose();
     }//GEN-LAST:event_btnGuardarActionPerformed

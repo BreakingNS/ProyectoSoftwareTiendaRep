@@ -15,11 +15,14 @@ import dao.impl.CategoriaDAOImpl;
 import dao.impl.ClienteDAOImpl;
 import dao.impl.EstadoDAOImpl;
 import dao.impl.MarcaDAOImpl;
+import dao.impl.ModeloDAOImpl;
 import dao.impl.NombreRepuestoDAOImpl;
+import dao.impl.PagadoDAOImpl;
 import dao.impl.PrecioDAOImpl;
 import dao.impl.ReparacionDAOImpl;
 import dao.impl.ReparacionRepuestoDAOImpl;
 import dao.impl.RepuestoDAOImpl;
+import dao.impl.TecnicoDAOImpl;
 import dao.impl.UbicacionDAOImpl;
 import dao.impl.VentaDAOImpl;
 import dao.impl.VentaRepuestoDAOImpl;
@@ -34,10 +37,13 @@ import model.Categoria;
 import model.Cliente;
 import model.Estado;
 import model.Marca;
+import model.Modelo;
 import model.NombreRepuesto;
+import model.Pagado;
 import model.Precio;
 import model.Reparacion;
 import model.Repuesto;
+import model.Tecnico;
 import model.Ubicacion;
 import model.Venta;
 import org.junit.jupiter.api.AfterEach;
@@ -55,10 +61,13 @@ public class CategoriaServiceTest {
     
     private static MarcaDAOImpl marcaDAO;
     private static NombreRepuestoDAOImpl nombreRepuestoDAO;
+    private static ModeloDAOImpl modeloDAO;
     private static UbicacionDAOImpl ubicacionDAO;
     private static CategoriaDAOImpl categoriaDAO;
     private static EstadoDAOImpl estadoDAO;
+    private static PagadoDAOImpl pagadoDAO;
     private static ClienteDAOImpl clienteDAO;
+    private static TecnicoDAOImpl tecnicoDAO;
     private static RepuestoDAOImpl repuestoDAO;
     private static PrecioDAOImpl precioDAO;
     private static ReparacionDAOImpl reparacionDAO;
@@ -97,10 +106,13 @@ public class CategoriaServiceTest {
         
         marcaDAO = new MarcaDAOImpl(connection);
         nombreRepuestoDAO = new NombreRepuestoDAOImpl(connection);
+        modeloDAO = new ModeloDAOImpl(connection);
         ubicacionDAO = new UbicacionDAOImpl(connection);
         categoriaDAO = new CategoriaDAOImpl(connection);
         estadoDAO = new EstadoDAOImpl(connection);
+        pagadoDAO = new PagadoDAOImpl(connection);
         clienteDAO = new ClienteDAOImpl(connection);
+        tecnicoDAO = new TecnicoDAOImpl(connection);
         repuestoDAO = new RepuestoDAOImpl(connection);
         precioDAO = new PrecioDAOImpl(connection);
         reparacionDAO = new ReparacionDAOImpl(connection);
@@ -142,17 +154,19 @@ public class CategoriaServiceTest {
         
         configuracion.crearTablaMarca();
         configuracion.crearTablaNombreRepuesto();
+        configuracion.crearTablaModelo();
         configuracion.crearTablaUbicacion();
         configuracion.crearTablaCategoria();
         configuracion.crearTablaEstado();
+        configuracion.crearTablaPagado();
         configuracion.crearTablaCliente();
+        configuracion.crearTablaTecnico();
         configuracion.crearTablaVenta();
         configuracion.crearTablaRepuesto();
         configuracion.crearTablaPrecio();
         configuracion.crearTablaReparacion();
         configuracion.crearTablaVentaRepuesto();
         configuracion.crearTablaReparacionRepuesto();
-        
     }
     
     @AfterEach
@@ -164,10 +178,13 @@ public class CategoriaServiceTest {
         configuracion.eliminarTablaPrecio();
         configuracion.eliminarTablaRepuesto();
         configuracion.eliminarTablaVenta();
+        configuracion.eliminarTablaTecnico();
         configuracion.eliminarTablaCliente();
+        configuracion.eliminarTablaPagado();
         configuracion.eliminarTablaEstado();
         configuracion.eliminarTablaCategoria();
         configuracion.eliminarTablaUbicacion();
+        configuracion.eliminarTablaModelo();
         configuracion.eliminarTablaNombreRepuesto();
         configuracion.eliminarTablaMarca();
         
@@ -175,18 +192,23 @@ public class CategoriaServiceTest {
 
     @Test
     public void eliminarTablas(){
+        
         configuracion.eliminarTablaReparacionRepuesto();
         configuracion.eliminarTablaVentaRepuesto();
         configuracion.eliminarTablaReparacion();
         configuracion.eliminarTablaPrecio();
         configuracion.eliminarTablaRepuesto();
         configuracion.eliminarTablaVenta();
+        configuracion.eliminarTablaTecnico();
         configuracion.eliminarTablaCliente();
+        configuracion.eliminarTablaPagado();
         configuracion.eliminarTablaEstado();
         configuracion.eliminarTablaCategoria();
         configuracion.eliminarTablaUbicacion();
+        configuracion.eliminarTablaModelo();
         configuracion.eliminarTablaNombreRepuesto();
         configuracion.eliminarTablaMarca();
+        
     }
 
     @Test
@@ -220,16 +242,41 @@ public class CategoriaServiceTest {
         Estado estado1 = new Estado(2, "Presupuesto", new ArrayList<>());
         estadoDAO.crearEstado(estado);
         estadoDAO.crearEstado(estado1);
+        //Modelo
+        Modelo modelo = new Modelo(1, "Plus");
+        Modelo modelo1 = new Modelo(2, "Plus Ultra");
+        Modelo modelo2 = new Modelo(3, "Gold");
+        Modelo modelo3 = new Modelo(4, "Platinum");
+        Modelo modelo4 = new Modelo(5, "White");
+        modeloDAO.crearModelo(modelo);
+        modeloDAO.crearModelo(modelo1);
+        modeloDAO.crearModelo(modelo2);
+        modeloDAO.crearModelo(modelo3);
+        modeloDAO.crearModelo(modelo4);
+        //Pagado
+        Pagado pagado = new Pagado(1, "SI");
+        Pagado pagado1 = new Pagado(2, "NO");
+        Pagado pagado2 = new Pagado(3, "PARCIAL");
+        pagadoDAO.crearPagado(pagado);
+        pagadoDAO.crearPagado(pagado1);
+        pagadoDAO.crearPagado(pagado2);
         //Cliente
-        Cliente cliente = new Cliente(1, "Carlos", "Perez", "3834123456", new ArrayList<>(), new ArrayList<>());
-        Cliente cliente1 = new Cliente(2, "Maria", "Carrizo", "3834654321", new ArrayList<>(), new ArrayList<>());
+        Cliente cliente = new Cliente(1, "Carlos", "Perez", "3834123456", "Valle Viejo", new ArrayList<>(), new ArrayList<>());
+        Cliente cliente1 = new Cliente(2, "Maria", "Carrizo", "3834654321", "Achachay", new ArrayList<>(), new ArrayList<>());
         clienteDAO.crearCliente(cliente);
         clienteDAO.crearCliente(cliente1);
+        //Tecnico
+        Tecnico tecnico = new Tecnico(1, "Mario", "Montenegro", "3834557788", "Centro", new ArrayList<>());
+        Tecnico tecnico1 = new Tecnico(2, "Pablo", "Castro", "3834650078", "Sur", new ArrayList<>());
+        Tecnico tecnico2 = new Tecnico(3, "Silvio", "Martinez", "3834882104", "Centro", new ArrayList<>());
+        tecnicoDAO.crearTecnico(tecnico);
+        tecnicoDAO.crearTecnico(tecnico1);
+        tecnicoDAO.crearTecnico(tecnico2);
         //Repuesto +
-        Repuesto repuesto1 = new Repuesto(1, 10, nombreRepuesto1, marca, categoria, new ArrayList<>(), ubicacion);
-        Repuesto repuesto2 = new Repuesto(2, 20, nombreRepuesto2, marca, categoria, new ArrayList<>(), ubicacion);
-        Repuesto repuesto3 = new Repuesto(3, 40, nombreRepuesto3, marca1, categoria1, new ArrayList<>(), ubicacion1);
-        Repuesto repuesto4 = new Repuesto(4, 50, nombreRepuesto4, marca1, categoria1, new ArrayList<>(), ubicacion1);
+        Repuesto repuesto1 = new Repuesto(1, 10, nombreRepuesto1, marca, categoria, modelo, new ArrayList<>(), ubicacion, "A000");
+        Repuesto repuesto2 = new Repuesto(2, 20, nombreRepuesto2, marca1, categoria1, modelo1, new ArrayList<>(), ubicacion1, "A001");
+        Repuesto repuesto3 = new Repuesto(3, 45, nombreRepuesto3, marca, categoria, modelo2, new ArrayList<>(), ubicacion, "A002");
+        Repuesto repuesto4 = new Repuesto(4, 100, nombreRepuesto4, marca1, categoria1, modelo3, new ArrayList<>(), ubicacion1, "A007");
         repuestoDAO.crearRepuesto(repuesto1);
         repuestoDAO.crearRepuesto(repuesto2);
         repuestoDAO.crearRepuesto(repuesto3);
@@ -253,10 +300,21 @@ public class CategoriaServiceTest {
         precioDAO.crearPrecio(precio7);
         precioDAO.crearPrecio(precio8);
         //Reparacion
-        Reparacion reparacion1 = new Reparacion(1, new BigDecimal("3000"), "Rota la tapa", ahora, ahora, Boolean.TRUE, categoria, cliente, estado);
-        Reparacion reparacion2 = new Reparacion(2, new BigDecimal("9000"), "Rota la tapa", ahora, ahora, Boolean.TRUE, categoria1, cliente1, estado1);
-        Reparacion reparacion3 = new Reparacion(1, new BigDecimal("3000"), "Rota la tapa", ahora, ahora, Boolean.TRUE, categoria, cliente, estado);
-        Reparacion reparacion4 = new Reparacion(2, new BigDecimal("9000"), "Rota la tapa", ahora, ahora, Boolean.TRUE, categoria1, cliente1, estado1);
+        LocalDateTime fecha3 = LocalDateTime.of(2024, 4, 2, 8, 42);
+        LocalDateTime fecha4 = LocalDateTime.of(2024, 4, 22, 18, 5);
+        LocalDateTime fecha5 = LocalDateTime.of(2024, 5, 12, 20, 2);
+        LocalDateTime fecha6 = LocalDateTime.of(2024, 5, 4, 21, 58);
+        LocalDateTime fecha7 = LocalDateTime.of(2024, 6, 9, 9, 21);
+        LocalDateTime fecha8 = LocalDateTime.of(2024, 6, 4, 11, 56);
+        LocalDateTime fecha9 = LocalDateTime.of(2024, 7, 23, 10, 40);
+        LocalDateTime fecha10 = LocalDateTime.of(2024, 7, 21, 13, 30);
+        LocalDateTime fecha11 = LocalDateTime.of(2024, 8, 7, 16, 58);
+        LocalDateTime fecha12 = LocalDateTime.of(2024, 8, 30, 18, 14);
+        LocalDateTime fecha0 = LocalDateTime.of(1900, 1, 1, 0, 0);
+        Reparacion reparacion1 = new Reparacion(1, new BigDecimal("20000"), "Rota la tapa", fecha3, fecha4, pagado, categoria, cliente, estado, tecnico); 
+        Reparacion reparacion2 = new Reparacion(2, new BigDecimal("18000"), "Color plateado", fecha4, fecha5, pagado1, categoria1, cliente1, estado1, tecnico1); 
+        Reparacion reparacion3 = new Reparacion(3, new BigDecimal("80000"), "no gira", fecha5, fecha0, pagado2, categoria, cliente, estado, tecnico2); 
+        Reparacion reparacion4 = new Reparacion(4, new BigDecimal("9000"), "", fecha6, fecha7, pagado, categoria1, cliente1, estado1, tecnico1); 
         //Venta
         Venta venta1 = new Venta(1, 20, ahora, cliente, new BigDecimal("15000"));
         Venta venta2 = new Venta(2, 50, ahora, cliente, new BigDecimal("40000"));

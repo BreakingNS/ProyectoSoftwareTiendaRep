@@ -25,6 +25,12 @@ public class ConfiguracionDataBase {
             + "nombre_repuesto VARCHAR(255) NOT NULL UNIQUE"
             + ")";
     
+    private final String SENTENCIA_CREAR_TABLA_MODELO = 
+            "CREATE TABLE IF NOT EXISTS TiendaLocal.modelo("
+            + "id_modelo INT PRIMARY KEY AUTO_INCREMENT,"
+            + "nombre_modelo VARCHAR(255) NOT NULL UNIQUE"
+            + ")";
+    
     private final String SENTENCIA_CREAR_TABLA_UBICACION = 
             "CREATE TABLE IF NOT EXISTS TiendaLocal.ubicacion("
             + "id_ubicacion INT PRIMARY KEY AUTO_INCREMENT,"
@@ -43,12 +49,28 @@ public class ConfiguracionDataBase {
             + "nombre_estado VARCHAR(255) NOT NULL UNIQUE"
             + ")";
     
+    private final String SENTENCIA_CREAR_TABLA_PAGADO = 
+            "CREATE TABLE IF NOT EXISTS TiendaLocal.pagado("
+            + "id_pagado INT PRIMARY KEY AUTO_INCREMENT,"
+            + "nombre_pago VARCHAR(255) NOT NULL UNIQUE"
+            + ")";
+    
     private final String SENTENCIA_CREAR_TABLA_CLIENTE = 
             "CREATE TABLE IF NOT EXISTS TiendaLocal.cliente("
             + "id_cliente INT PRIMARY KEY AUTO_INCREMENT,"
             + "nombre VARCHAR(255) NOT NULL,"
             + "apellido VARCHAR(255) NOT NULL,"
-            + "telefono VARCHAR(255) NOT NULL"
+            + "telefono VARCHAR(255) NOT NULL,"
+            + "domicilio VARCHAR(255)"
+            + ")";
+    
+    private final String SENTENCIA_CREAR_TABLA_TECNICO = 
+            "CREATE TABLE IF NOT EXISTS TiendaLocal.tecnico("
+            + "id_tecnico INT PRIMARY KEY AUTO_INCREMENT,"
+            + "nombre_tecnico VARCHAR(255) NOT NULL,"
+            + "apellido_tecnico VARCHAR(255) NOT NULL,"
+            + "telefono_tecnico VARCHAR(255) NOT NULL,"
+            + "domicilio_tecnico VARCHAR(255)"
             + ")";
     
     private final String SENTENCIA_CREAR_TABLA_VENTA = 
@@ -65,10 +87,13 @@ public class ConfiguracionDataBase {
             "CREATE TABLE IF NOT EXISTS TiendaLocal.repuesto("
             + "id_repuesto INT PRIMARY KEY AUTO_INCREMENT,"
             + "stock INT NOT NULL,"
+            + "codigo VARCHAR(255),"
             + "id_nombrerepuesto INT,"
             + "FOREIGN KEY (id_nombrerepuesto) REFERENCES TiendaLocal.nombrerepuesto(id_nombrerepuesto),"
             + "id_marca INT,"
             + "FOREIGN KEY (id_marca) REFERENCES TiendaLocal.marca(id_marca),"
+            + "id_modelo INT,"
+            + "FOREIGN KEY (id_modelo) REFERENCES TiendaLocal.modelo(id_modelo),"
             + "id_categoria INT,"
             + "FOREIGN KEY (id_categoria) REFERENCES TiendaLocal.categoria(id_categoria),"
             + "id_ubicacion INT,"
@@ -91,13 +116,16 @@ public class ConfiguracionDataBase {
             + "detalles VARCHAR(255),"
             + "fecha_ingreso TIMESTAMP NOT NULL,"
             + "fecha_devolucion TIMESTAMP,"
-            + "pagado BOOLEAN,"
+            + "id_pagado INT,"
+            + "FOREIGN KEY (id_pagado) REFERENCES TiendaLocal.pagado(id_pagado),"
             + "id_categoria INT,"
             + "FOREIGN KEY (id_categoria) REFERENCES TiendaLocal.categoria(id_categoria),"
             + "id_cliente  INT,"
             + "FOREIGN KEY (id_cliente) REFERENCES TiendaLocal.cliente(id_cliente),"
             + "id_estado  INT,"
-            + "FOREIGN KEY (id_estado ) REFERENCES TiendaLocal.estado(id_estado)"
+            + "FOREIGN KEY (id_estado) REFERENCES TiendaLocal.estado(id_estado),"
+            + "id_tecnico INT,"
+            + "FOREIGN KEY (id_tecnico) REFERENCES TiendaLocal.tecnico(id_tecnico)"
             + ")";
     
     private final String SENTENCIA_CREAR_TABLA_VENTA_REPUESTO = 
@@ -110,7 +138,7 @@ public class ConfiguracionDataBase {
             + "FOREIGN KEY (id_repuesto) REFERENCES TiendaLocal.repuesto (id_repuesto)"
             + ")";
     
-    private final String SENTENCIA_CREAR_TABLA_REPARACION_REPUESTO= 
+    private final String SENTENCIA_CREAR_TABLA_REPARACION_REPUESTO = 
             "CREATE TABLE IF NOT EXISTS TiendaLocal.Reparacion_Repuesto("
             + "id_reparacion INT,"
             + "id_repuesto INT,"
@@ -122,40 +150,49 @@ public class ConfiguracionDataBase {
     
     //------------- SENTENCIAS ELIMINAR TABLAS
     private final String SENTENCIA_ELIMINAR_TABLA_MARCA =
-            "DROP TABLE TiendaLocal.marca";
+            "DROP TABLE IF EXISTS TiendaLocal.marca";
     
     private final String SENTENCIA_ELIMINAR_TABLA_NOMBRE_REPUESTO = 
-            "DROP TABLE TiendaLocal.nombrerepuesto";
+            "DROP TABLE IF EXISTS TiendaLocal.nombrerepuesto";
+    
+    private final String SENTENCIA_ELIMINAR_TABLA_MODELO = 
+            "DROP TABLE IF EXISTS TiendaLocal.modelo";
     
     private final String SENTENCIA_ELIMINAR_TABLA_UBICACION = 
-            "DROP TABLE TiendaLocal.ubicacion";
-    
+            "DROP TABLE IF EXISTS TiendaLocal.ubicacion";
+
     private final String SENTENCIA_ELIMINAR_TABLA_CATEGORIA = 
-            "DROP TABLE TiendaLocal.categoria";
+            "DROP TABLE IF EXISTS TiendaLocal.categoria";
     
     private final String SENTENCIA_ELIMINAR_TABLA_ESTADO = 
-            "DROP TABLE TiendaLocal.estado";
+            "DROP TABLE IF EXISTS TiendaLocal.estado";
+    
+    private final String SENTENCIA_ELIMINAR_TABLA_PAGADO = 
+            "DROP TABLE IF EXISTS TiendaLocal.pagado";
     
     private final String SENTENCIA_ELIMINAR_TABLA_CLIENTE = 
-            "DROP TABLE TiendaLocal.cliente";
+            "DROP TABLE IF EXISTS TiendaLocal.cliente";
+    
+    private final String SENTENCIA_ELIMINAR_TABLA_TECNICO = 
+            "DROP TABLE IF EXISTS TiendaLocal.tecnico";
     
     private final String SENTENCIA_ELIMINAR_TABLA_VENTA = 
-            "DROP TABLE TiendaLocal.venta";
+            "DROP TABLE IF EXISTS TiendaLocal.venta";
     
     private final String SENTENCIA_ELIMINAR_TABLA_PRECIO = 
-            "DROP TABLE TiendaLocal.precio";
+            "DROP TABLE IF EXISTS TiendaLocal.precio";
     
     private final String SENTENCIA_ELIMINAR_TABLA_REPUESTO = 
-            "DROP TABLE TiendaLocal.repuesto";
+            "DROP TABLE IF EXISTS TiendaLocal.repuesto";
     
     private final String SENTENCIA_ELIMINAR_TABLA_REPARACION = 
-            "DROP TABLE TiendaLocal.reparacion";
+            "DROP TABLE IF EXISTS TiendaLocal.reparacion";
     
     private final String SENTENCIA_ELIMINAR_TABLA_VENTA_REPUESTO = 
-            "DROP TABLE TiendaLocal.Venta_Repuesto";
+            "DROP TABLE IF EXISTS TiendaLocal.Venta_Repuesto";
     
     private final String SENTENCIA_ELIMINAR_TABLA_REPARACION_REPUESTO = 
-            "DROP TABLE TiendaLocal.Reparacion_Repuesto";
+            "DROP TABLE IF EXISTS TiendaLocal.Reparacion_Repuesto";
     
     //------------- CONSTRUCTOR
 
@@ -188,6 +225,15 @@ public class ConfiguracionDataBase {
         }
     }
     
+    public void crearTablaModelo(){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_TABLA_MODELO);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConfiguracionDataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void crearTablaUbicacion(){
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_TABLA_UBICACION);
@@ -196,7 +242,7 @@ public class ConfiguracionDataBase {
             Logger.getLogger(ConfiguracionDataBase.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void crearTablaCategoria(){
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_TABLA_CATEGORIA);
@@ -215,9 +261,27 @@ public class ConfiguracionDataBase {
         }
     }
     
+    public void crearTablaPagado(){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_TABLA_PAGADO);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConfiguracionDataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void crearTablaCliente(){
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_TABLA_CLIENTE);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConfiguracionDataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void crearTablaTecnico(){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_TABLA_TECNICO);
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ConfiguracionDataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -298,6 +362,15 @@ public class ConfiguracionDataBase {
         }
     }
     
+    public void eliminarTablaModelo(){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ELIMINAR_TABLA_MODELO);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConfiguracionDataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void eliminarTablaUbicacion(){
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ELIMINAR_TABLA_UBICACION);
@@ -325,9 +398,27 @@ public class ConfiguracionDataBase {
         }
     }
     
+    public void eliminarTablaPagado(){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ELIMINAR_TABLA_PAGADO);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConfiguracionDataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void eliminarTablaCliente(){
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ELIMINAR_TABLA_CLIENTE);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConfiguracionDataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void eliminarTablaTecnico(){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ELIMINAR_TABLA_TECNICO);
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ConfiguracionDataBase.class.getName()).log(Level.SEVERE, null, ex);

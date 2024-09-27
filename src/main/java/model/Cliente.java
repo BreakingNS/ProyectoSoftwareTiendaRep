@@ -7,17 +7,19 @@ public class Cliente {
     private String nombre;
     private String apellido;
     private String telefono;
+    private String domicilio;
     private List<Venta> listaVentas;
     private List<Reparacion> listaReparaciones;
 
     public Cliente() {
     }
 
-    public Cliente(int id_cliente, String nombre, String apellido, String telefono, List<Venta> listaVentas, List<Reparacion> listaReparaciones) {
+    public Cliente(int id_cliente, String nombre, String apellido, String telefono, String domicilio, List<Venta> listaVentas, List<Reparacion> listaReparaciones) {
         this.id_cliente = id_cliente;
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;
+        this.domicilio = domicilio;
         this.listaVentas = listaVentas;
         this.listaReparaciones = listaReparaciones;
     }
@@ -36,6 +38,10 @@ public class Cliente {
 
     public String getTelefono() {
         return telefono;
+    }
+
+    public String getDomicilio() {
+        return domicilio;
     }
 
     public List<Venta> getListaVentas() {
@@ -60,6 +66,10 @@ public class Cliente {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public void setDomicilio(String domicilio) {
+        this.domicilio = domicilio;
     }
 
     public void setListaVentas(List<Venta> listaVentas) {

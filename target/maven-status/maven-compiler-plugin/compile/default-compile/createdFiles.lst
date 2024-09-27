@@ -9,6 +9,7 @@ view\App$26.class
 view\clientes\AltaCliente$2.class
 view\ubicacion\VistaUbicacion$5.class
 view\ubicacion\AltaUbicacion$4.class
+model\Tecnico.class
 view\App$13.class
 view\estado\AltaEstado$5.class
 view\App$8.class
@@ -138,6 +139,7 @@ view\ventas\AltaVenta$21.class
 view\categoria\AltaCategoria$5.class
 view\categoria\EditarCategoria$4.class
 view\categoria\VistaCategorias$8.class
+model\Pagado.class
 model\Estado.class
 view\estado\EditarEstado$2.class
 config\NumerosSoloDocumentFilter.class
@@ -162,9 +164,11 @@ dao\interfaces\VentaDAO.class
 view\ventas\VistaVentas$2.class
 view\repuestos\ActualizarPrecio$4.class
 view\repuestos\VistaRepuestos$12.class
+dao\impl\ModeloDAOImpl.class
 view\ventas\AltaVenta$24.class
 controller\RepuestoController.class
 view\ubicacion\VistaUbicacion$9.class
+dao\interfaces\PagadoDAO.class
 dao\interfaces\ReparacionRepuestoDAO.class
 service\PrecioService.class
 view\estado\AltaEstado$1.class
@@ -180,6 +184,7 @@ view\ventas\AltaVenta$25.class
 view\repuestos\VistaRepuestos$5.class
 view\ventas\EditarVenta$18.class
 view\repuestos\VistaRepuestos$10.class
+dao\impl\TecnicoDAOImpl.class
 view\reparaciones\VistaReparaciones$11.class
 controller\ClienteController.class
 view\estado\AltaEstado$2.class
@@ -216,6 +221,7 @@ view\ventas\EditarVenta$10.class
 view\marca\AltaMarca.class
 view\ubicacion\VistaUbicacion$10.class
 view\repuestos\EditarRepuesto$3.class
+view\reparaciones\AltaReparacion$25.class
 view\ventas\EditarVenta$4.class
 view\nombreRepuesto\EditarNombreRepuesto$5.class
 model\Repuesto.class
@@ -256,6 +262,7 @@ view\reparaciones\AltaReparacion$8.class
 view\clientes\EditarCliente$2.class
 view\categoria\VistaCategorias$3.class
 view\nombreRepuesto\VistaNombreRepuesto$10.class
+dao\interfaces\TecnicoDAO.class
 view\marca\AltaMarca$1.class
 view\ventas\VistaVentas$5.class
 view\repuestos\AltaRepuesto.class
@@ -280,7 +287,9 @@ view\clientes\VistaCliente$11.class
 view\marca\EditarMarca$2.class
 view\repuestos\EditarRepuesto$6.class
 controller\CategoriaController.class
+dao\interfaces\ModeloDAO.class
 service\NombreRepuestoService.class
+model\Modelo.class
 view\App$4.class
 view\repuestos\ActualizarStock$4.class
 view\repuestos\VistaRepuestos$17.class
@@ -354,6 +363,7 @@ view\clientes\VistaCliente$2.class
 view\clientes\EditarCliente$5.class
 dao\interfaces\ClienteDAO.class
 view\clientes\VistaCliente$16.class
+dao\impl\PagadoDAOImpl.class
 view\clientes\EditarCliente.class
 model\ReparacionRepuesto.class
 view\nombreRepuesto\VistaNombreRepuesto$9.class

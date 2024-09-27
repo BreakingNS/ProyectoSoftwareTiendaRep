@@ -9,15 +9,16 @@ public class Reparacion {
     private String detalles;
     private LocalDateTime fecha_ingreso;
     private LocalDateTime fecha_devolucion;
-    private Boolean pagado;
+    private Pagado pagado;
     private Categoria categoria;
     private Cliente cliente;
     private Estado estado;
+    private Tecnico tecnico;
 
     public Reparacion() {
     }
 
-    public Reparacion(int id_reparacion, BigDecimal costo, String detalles, LocalDateTime fecha_ingreso, LocalDateTime fecha_devolucion, Boolean pagado, Categoria categoria, Cliente cliente, Estado estado) {
+    public Reparacion(int id_reparacion, BigDecimal costo, String detalles, LocalDateTime fecha_ingreso, LocalDateTime fecha_devolucion, Pagado pagado, Categoria categoria, Cliente cliente, Estado estado, Tecnico tecnico) {
         this.id_reparacion = id_reparacion;
         this.costo = costo;
         this.detalles = detalles;
@@ -27,6 +28,7 @@ public class Reparacion {
         this.categoria = categoria;
         this.cliente = cliente;
         this.estado = estado;
+        this.tecnico = tecnico;
     }
 
     public int getId_reparacion() {
@@ -49,7 +51,7 @@ public class Reparacion {
         return fecha_devolucion;
     }
 
-    public Boolean getPagado() {
+    public Pagado getPagado() {
         return pagado;
     }
 
@@ -63,6 +65,10 @@ public class Reparacion {
 
     public Estado getEstado() {
         return estado;
+    }
+
+    public Tecnico getTecnico() {
+        return tecnico;
     }
 
     public void setId_reparacion(int id_reparacion) {
@@ -85,8 +91,8 @@ public class Reparacion {
         this.fecha_devolucion = fecha_devolucion;
     }
 
-    public void setPagado(Boolean pagad) {
-        this.pagado = pagad;
+    public void setPagado(Pagado pagado) {
+        this.pagado = pagado;
     }
 
     public void setCategoria(Categoria categoria) {
@@ -99,5 +105,9 @@ public class Reparacion {
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    public void setTecnico(Tecnico tecnico) {
+        this.tecnico = tecnico;
     }
 }

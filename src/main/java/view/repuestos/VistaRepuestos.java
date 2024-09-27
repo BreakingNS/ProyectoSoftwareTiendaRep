@@ -691,7 +691,7 @@ public class VistaRepuestos extends javax.swing.JFrame {
         //List<Repuesto> listaRepuestos = repuestoController.busquedaDeRepuesto(marcaSeleccionada, categoriaSeleccionada, nombreRepuestoSeleccionado, ubicacionSeleccionada, stock, precio);
         
         System.out.println("comienzo carga de busqueda");
-        
+        /*
         List<Repuesto> listaRepuestos = repuestoController.busquedaDeRepuesto(
                 marcaSeleccionada, 
                 categoriaSeleccionada, 
@@ -700,7 +700,7 @@ public class VistaRepuestos extends javax.swing.JFrame {
                 stock, 
                 precio);
         
-        cargarTablaBusqueda(listaRepuestos);
+        cargarTablaBusqueda(listaRepuestos);*/
     }
     
     private void cargarComboBoxes(){

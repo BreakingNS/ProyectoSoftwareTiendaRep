@@ -676,6 +676,7 @@ public class AltaReparacion extends javax.swing.JFrame {
         System.out.println("cliente: " + cliente.getApellido() + " " + cliente.getNombre());
         System.out.println("estado: " + estadoSeleccionado.getNombre_estado());
         System.out.println("pagado: " + pagado);
+        /*
         Reparacion reparacion = new Reparacion(1, costoTotal, detalles, fechaIngreso, fechaDevolucion, pagado, categoriaSeleccionada, cliente, estadoSeleccionado);
 
         try {
@@ -684,7 +685,7 @@ public class AltaReparacion extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(AltaReparacion.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        */
         dispose();
         
     }//GEN-LAST:event_btnGuardarActionPerformed
@@ -1116,7 +1117,7 @@ public class AltaReparacion extends javax.swing.JFrame {
         String ubicacionSeleccionada = (comboUbicacion.getSelectedItem() != null) ? comboUbicacion.getSelectedItem().toString() : "-";
 
         System.out.println("comienzo carga de busqueda");
-        
+        /*
         List<Repuesto> listaRepuestos = repuestoController.busquedaDeRepuesto(
                 marcaSeleccionada, 
                 categoriaSeleccionada, 
@@ -1125,7 +1126,7 @@ public class AltaReparacion extends javax.swing.JFrame {
                 1, 
                 1);
         
-        cargarTablaBusquedaRepuestos(listaRepuestos);
+        cargarTablaBusquedaRepuestos(listaRepuestos);*/
     }
     
     private void cargarTablaBusquedaRepuestos(List<Repuesto> listaRepuestos){
@@ -1223,9 +1224,9 @@ public class AltaReparacion extends javax.swing.JFrame {
         String nombre = txtNombre.getText();
         String apellido = txtApellido.getText();
         String telefono = txtTelefono.getText();
-
+        /*
         List<Cliente> listaClientes = clienteController.busquedaDeCliente(nombre, apellido, telefono);
-        cargarTablaBusquedaClientes(listaClientes);
+        cargarTablaBusquedaClientes(listaClientes);*/
     }
     
     private void cargarTablaBusquedaClientes(List<Cliente> listaClientes){

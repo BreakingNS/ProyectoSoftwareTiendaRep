@@ -174,7 +174,7 @@ public class EditarCliente extends javax.swing.JFrame {
         String apellido = txtApellido.getText();
         String telefono = txtTelefono.getText();
 
-        clienteController.editarCliente(id, nombre, apellido, telefono);
+        //clienteController.editarCliente(id, nombre, apellido, telefono);
         JOptionPane.showMessageDialog(null, "Carga realizada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         dispose();
     }//GEN-LAST:event_btnGuardarActionPerformed

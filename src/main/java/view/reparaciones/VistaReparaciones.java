@@ -521,7 +521,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
                 }        
                 
                 String pagado;
-                
+                /*
                 if(reparacion.getPagado() == true){
                     pagado = "SI";
                 }
@@ -541,7 +541,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
                     reparacion.getEstado().getNombre_estado()
                 };
 
-                modeloTablaReparaciones.addRow(objeto);
+                modeloTablaReparaciones.addRow(objeto);*/
             }
         }
         
@@ -668,14 +668,14 @@ public class VistaReparaciones extends javax.swing.JFrame {
         }
         
         lblTotalRepuestos.setText("Total Repuestos: $" + TotalRepuestos);
-        
+        /*
         if(reparacion.getPagado() == true){
             lblPagado.setText("Pagado: SI");
         }
         else{
             lblPagado.setText("Pagado: NO");
         }
-        
+        */
         
         lblManoDeObra.setText("Mano de Obra: $" + reparacion.getCosto().subtract(TotalRepuestos));
         

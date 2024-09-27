@@ -2,7 +2,6 @@ package dao.interfaces;
 
 import java.util.List;
 import model.Repuesto;
-import model.Reparacion;
 import model.ReparacionRepuesto;
 
 public interface ReparacionRepuestoDAO {

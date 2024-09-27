@@ -24,9 +24,10 @@ public class ClienteDAOImpl implements ClienteDAO{
             "FROM TiendaLocal.cliente " +
             "WHERE UPPER(nombre) LIKE ? " +
             "AND UPPER(apellido) LIKE ? " +
-            "AND UPPER(telefono) LIKE ? ";
-    private final String SENTENCIA_CREAR_CLIENTE = "INSERT INTO TiendaLocal.cliente (nombre, apellido, telefono) VALUES ( ? , ? , ?)";
-    private final String SENTENCIA_ACTUALIZAR_CLIENTE = "UPDATE TiendaLocal.cliente SET nombre = ?, apellido = ?, telefono = ? WHERE id_cliente = ?";
+            "AND UPPER(telefono) LIKE ? " +
+            "AND UPPER(domicilio) LIKE ? ";
+    private final String SENTENCIA_CREAR_CLIENTE = "INSERT INTO TiendaLocal.cliente (nombre, apellido, telefono, domicilio) VALUES ( ? , ? , ?, ? )";
+    private final String SENTENCIA_ACTUALIZAR_CLIENTE = "UPDATE TiendaLocal.cliente SET nombre = ?, apellido = ?, telefono = ?, domicilio = ? WHERE id_cliente = ?";
 
     public ClienteDAOImpl(Connection connection) {
         this.connection = connection;
@@ -39,6 +40,7 @@ public class ClienteDAOImpl implements ClienteDAO{
             preparedStatement.setString(1, cliente.getNombre());
             preparedStatement.setString(2, cliente.getApellido());
             preparedStatement.setString(3, cliente.getTelefono());
+            preparedStatement.setString(4, cliente.getDomicilio());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ClienteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -57,12 +59,13 @@ public class ClienteDAOImpl implements ClienteDAO{
                 String nombreCliente = cliente_Resultado.getString("nombre");
                 String apellidoCliente = cliente_Resultado.getString("apellido");
                 String telefonoCliente = cliente_Resultado.getString("telefono");
+                String domicilioCliente = cliente_Resultado.getString("domicilio");
                 int idCliente = cliente_Resultado.getInt("id_cliente");
                 
                 List<Venta> listaVentas = new ArrayList<>();
                 List<Reparacion> listaReparaciones = new ArrayList<>();
                 
-                Cliente cliente = new Cliente(idCliente, nombreCliente, apellidoCliente, telefonoCliente, listaVentas, listaReparaciones);
+                Cliente cliente = new Cliente(idCliente, nombreCliente, apellidoCliente, telefonoCliente, domicilioCliente, listaVentas, listaReparaciones);
                 
                 listaClientes.add(cliente);
             }
@@ -84,6 +87,7 @@ public class ClienteDAOImpl implements ClienteDAO{
             preparedStatement.setString(1, "%" + cliente.getNombre().toUpperCase() + "%");
             preparedStatement.setString(2, "%" + cliente.getApellido().toUpperCase() + "%");
             preparedStatement.setString(3, "%" + cliente.getTelefono().toUpperCase() + "%");
+            preparedStatement.setString(4, "%" + cliente.getDomicilio().toUpperCase() + "%");
 
             cliente_Resultado = preparedStatement.executeQuery();
             
@@ -92,11 +96,12 @@ public class ClienteDAOImpl implements ClienteDAO{
                 String nombreCliente = cliente_Resultado.getString("nombre");
                 String apellidoCliente = cliente_Resultado.getString("apellido");
                 String telefonoCliente = cliente_Resultado.getString("telefono");
+                String domicilioCliente = cliente_Resultado.getString("domicilio");
                 
                 List<Venta> listaVentas = new ArrayList<>();
                 List<Reparacion> listaReparaciones = new ArrayList<>();
                 
-                cliente = new Cliente(idCliente, nombreCliente, apellidoCliente, telefonoCliente, listaVentas, listaReparaciones);
+                cliente = new Cliente(idCliente, nombreCliente, apellidoCliente, telefonoCliente, domicilioCliente, listaVentas, listaReparaciones);
             
                 listaClientes.add(cliente);
             }
@@ -114,7 +119,8 @@ public class ClienteDAOImpl implements ClienteDAO{
             preparedStatement.setString(1, cliente.getNombre());
             preparedStatement.setString(2, cliente.getApellido());
             preparedStatement.setString(3, cliente.getTelefono());
-            preparedStatement.setInt(4, cliente.getId_cliente());
+            preparedStatement.setString(4, cliente.getDomicilio());
+            preparedStatement.setInt(5, cliente.getId_cliente());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ClienteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -147,11 +153,12 @@ public class ClienteDAOImpl implements ClienteDAO{
                 String nombreCliente = cliente_Resultado.getString("nombre");
                 String apellidoCliente = cliente_Resultado.getString("apellido");
                 String telefonoCliente = cliente_Resultado.getString("telefono");
+                String domicilioCliente = cliente_Resultado.getString("domicilio");
                 
                 List<Venta> listaVentas = new ArrayList<>();
                 List<Reparacion> listaReparaciones = new ArrayList<>();
                 
-                cliente = new Cliente(idCliente, nombreCliente, apellidoCliente, telefonoCliente, listaVentas, listaReparaciones);
+                cliente = new Cliente(idCliente, nombreCliente, apellidoCliente, telefonoCliente, domicilioCliente, listaVentas, listaReparaciones);
             }
         } catch (SQLException ex) {
             Logger.getLogger(ClienteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);

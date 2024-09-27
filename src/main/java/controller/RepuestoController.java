@@ -44,7 +44,7 @@ public class RepuestoController {
         this.precioService = precioService;
         this.nombreRepuestoService = nombreRepuestoService;
     }
-    
+    /*
     public void agregarRepuesto(String nombreRepuesto, 
             String marca, 
             String categoria, 
@@ -83,7 +83,7 @@ public class RepuestoController {
         else{
             nombreRepuestoNuevo = new NombreRepuesto(0, "-");
         }
-
+        
         Repuesto repuesto = new Repuesto(1, stock, nombreRepuestoNuevo, marcaNuevo, categoriaNuevo, new ArrayList<>(), ubicacionNuevo);
         repuestoService.agregarRepuesto(repuesto);
         repuesto.setId_repuesto(repuestoService.obtenerUltimoIdRepuesto());
@@ -93,7 +93,7 @@ public class RepuestoController {
         Precio precioNuevo = new Precio(1, repuesto, LocalDateTime.now(), new BigDecimal(precio));
         precioService.agregarPrecio(precioNuevo);
     }
-    
+    */
     public List<Repuesto> listarRepuestos(){
         List<Repuesto> listaRepuestos= repuestoService.listarRepuestos();
         return listaRepuestos;
@@ -105,13 +105,6 @@ public class RepuestoController {
         return repuesto;
     }
     /*
-    public List<Repuesto> busquedaDeRepuesto(String nombre, String apellido, String telefono){
-        Repuesto repuesto = new Repuesto(0, nombre, apellido, telefono, new ArrayList<>(), new ArrayList<>());
-        List<Repuesto> listaRepuestos = repuestoService.busquedaDeRepuesto(repuesto);
-        
-        return listaRepuestos;
-    }
-    */
     public void editarRepuesto(int idRepuesto, String nombreMarca, String nombreCategoria, String nombreNombreRepuesto, String nombreUbicacion, int stock, int precio){
         Marca marcaEdit = marcaService.obtenerMarcaPorNombre(nombreMarca);
         Categoria categoriaEdit = categoriaService.obtenerCategoriaPorNombre(nombreCategoria);
@@ -128,7 +121,7 @@ public class RepuestoController {
             precioService.agregarPrecio(precioNuevo);
         }
     }
-    
+    */
     
     public void eliminarRepuesto(int id){
         precioService.eliminarPreciosPorIdRepuesto(id);
@@ -152,6 +145,7 @@ public class RepuestoController {
         return ubicacionService.listarUbicaciones();
     } 
 
+    /*
     public List<Repuesto> busquedaDeRepuesto(String nombreMarca, String nombreCategoria, String nombreNombreRepuesto, String nombreUbicacion, int stock, int precio) {
 
         Marca marcaNuevo;
@@ -200,25 +194,10 @@ public class RepuestoController {
         for(Repuesto rep : listaRepuestos){
             rep.setListaPrecios(precioService.obtenerPrecioPorIdRepuesto(rep.getId_repuesto()));
         }
-        /*
-        System.out.println("stock " + stock);
-        System.out.println("nombreRepuesto " + nombreRepuestoNuevo.getNombre_repuesto());
-        System.out.println("marca " + marcaNuevo.getNombre_marca());
-        System.out.println("categoria " + categoriaNuevo.getNombre_categoria());
-        System.out.println("ubicacion " + ubicacionNuevo.getNombre_ubicacion());
-        
-        System.out.println("tamaño de lista de busqueda: " + listaRepuestos.size());
-        
-        int cont = 0;
-        for(Repuesto rep : listaRepuestos){
-            cont = cont + 1;
-            System.out.println(cont + ". id: " + rep.getId_repuesto());
-        }
-        */
         
         return listaRepuestos;
     }
-
+    */
     public List<Repuesto> obtenerRepuestosPorIdVenta(int id) {
         return repuestoService.obtenerRepuestosPorIdVenta(id);
     }

@@ -13,8 +13,8 @@ public class ClienteController {
         this.clienteService = clienteService;
     }
     
-    public void agregarCliente(String nombre, String apellido, String telefono){
-        Cliente cliente = new Cliente(1, nombre, apellido, telefono, new ArrayList<>(), new ArrayList<>());
+    public void agregarCliente(String nombre, String apellido, String telefono, String domicilio){
+        Cliente cliente = new Cliente(1, nombre, apellido, telefono, domicilio, new ArrayList<>(), new ArrayList<>());
         clienteService.agregarCliente(cliente);
     }
     
@@ -28,15 +28,15 @@ public class ClienteController {
         return cliente;
     }
     
-    public List<Cliente> busquedaDeCliente(String nombre, String apellido, String telefono){
-        Cliente cliente = new Cliente(0, nombre, apellido, telefono, new ArrayList<>(), new ArrayList<>());
+    public List<Cliente> busquedaDeCliente(String nombre, String apellido, String telefono, String domicilio){
+        Cliente cliente = new Cliente(0, nombre, apellido, telefono, domicilio, new ArrayList<>(), new ArrayList<>());
         List<Cliente> listaClientes = clienteService.busquedaDeCliente(cliente);
         
         return listaClientes;
     }
     
-    public void editarCliente(int id, String nombre, String apellido, String telefono){
-        Cliente cliente = new Cliente(id, nombre, apellido, telefono, new ArrayList<>(), new ArrayList<>());
+    public void editarCliente(int id, String nombre, String apellido, String telefono, String domicilio){
+        Cliente cliente = new Cliente(id, nombre, apellido, telefono, domicilio, new ArrayList<>(), new ArrayList<>());
         clienteService.editarClientePorId(cliente);
     }
     

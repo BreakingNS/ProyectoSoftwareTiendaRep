@@ -161,7 +161,7 @@ public class AltaCliente extends javax.swing.JFrame {
         String apellido = txtApellido.getText();
         String telefono = txtTelefono.getText();
         
-        clienteController.agregarCliente(nombre, apellido, telefono);
+        //clienteController.agregarCliente(nombre, apellido, telefono);
         JOptionPane.showMessageDialog(null, "Carga realizada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         dispose();
     }//GEN-LAST:event_btnGuardarActionPerformed

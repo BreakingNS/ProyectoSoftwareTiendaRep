@@ -255,7 +255,7 @@ public class EditarRepuesto extends javax.swing.JFrame {
         int stock = Integer.parseInt(txtStock.getText());
         int precio = Integer.parseInt(txtPrecio.getText());
 
-        repuestoController.editarRepuesto(idRepuesto, nombreMarca, nombreCategoria, nombreNombreRep, nombreUbicacion, stock, precio);
+        //repuestoController.editarRepuesto(idRepuesto, nombreMarca, nombreCategoria, nombreNombreRep, nombreUbicacion, stock, precio);
         JOptionPane.showMessageDialog(null, "Carga realizada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         dispose();
 
