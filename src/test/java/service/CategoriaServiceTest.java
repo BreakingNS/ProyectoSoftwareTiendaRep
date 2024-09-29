@@ -80,11 +80,14 @@ public class CategoriaServiceTest {
     private static ReparacionService reparacionService;
     private static VentaService ventaService;
     private static MarcaService marcaService;
+    private static ModeloService modeloService;
     private static NombreRepuestoService nombreRepuestoService;
     private static UbicacionService ubicacionService;
     private static CategoriaService categoriaService;
     private static EstadoService estadoService;
     private static PrecioService precioService;
+    private static PagadoService pagadoService;
+    private static TecnicoService tecnicoService;
     
     private static ClienteController clienteController;
     private static RepuestoController repuestoController;
@@ -124,6 +127,7 @@ public class CategoriaServiceTest {
         clienteService = new ClienteService(clienteDAO, ventaDAO, reparacionDAO);
         repuestoService = new RepuestoService(repuestoDAO, precioDAO);
         marcaService = new MarcaService(marcaDAO, repuestoDAO);
+        modeloService = new ModeloService(modeloDAO);
         nombreRepuestoService = new NombreRepuestoService(nombreRepuestoDAO);
         ubicacionService = new UbicacionService(ubicacionDAO, repuestoDAO);
         categoriaService = new CategoriaService(categoriaDAO, repuestoDAO, reparacionDAO);
@@ -137,7 +141,7 @@ public class CategoriaServiceTest {
         categoriaController = new CategoriaController(categoriaService);
         estadoController = new EstadoController(estadoService);
         clienteController = new ClienteController(clienteService);
-        repuestoController = new RepuestoController(nombreRepuestoService, repuestoService, marcaService, categoriaService, ubicacionService, precioService);
+        repuestoController = new RepuestoController(nombreRepuestoService, repuestoService, marcaService, categoriaService, ubicacionService, precioService, modeloService);
         ventaController = new VentaController(ventaService, clienteService, repuestoController);
         reparacionController = new ReparacionController(reparacionService, categoriaService, clienteService, estadoService, repuestoController);
         

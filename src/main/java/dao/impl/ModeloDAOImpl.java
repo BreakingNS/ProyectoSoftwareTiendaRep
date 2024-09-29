@@ -171,7 +171,7 @@ public class ModeloDAOImpl implements ModeloDAO{
                 }
             }
         }
-        
+        System.out.println("EL MODELO ENCONTRADO: " + modelo.getNombre_modelo());
         return modelo;
     }
     

@@ -10,12 +10,14 @@ import model.Categoria;
 import model.Estado;
 import model.Repuesto;
 import model.Marca;
+import model.Modelo;
 import model.NombreRepuesto;
 import model.Precio;
 import model.Repuesto;
 import model.Ubicacion;
 import service.CategoriaService;
 import service.MarcaService;
+import service.ModeloService;
 import service.NombreRepuestoService;
 import service.PrecioService;
 import service.RepuestoService;
@@ -30,28 +32,36 @@ public class RepuestoController {
     private final UbicacionService ubicacionService;
     private final PrecioService precioService;
     private final NombreRepuestoService nombreRepuestoService;
+    private final ModeloService modeloService;
 
     public RepuestoController(NombreRepuestoService nombreRepuestoService,
             RepuestoService repuestoService,
             MarcaService marcaService, 
             CategoriaService categoriaService, 
             UbicacionService ubicacionService, 
-            PrecioService precioService) {
+            PrecioService precioService,
+            ModeloService modeloService) {
         this.repuestoService = repuestoService;
         this.marcaService = marcaService;
         this.categoriaService = categoriaService;
         this.ubicacionService = ubicacionService;
         this.precioService = precioService;
         this.nombreRepuestoService = nombreRepuestoService;
+        this.modeloService = modeloService;
     }
-    /*
+    
     public void agregarRepuesto(String nombreRepuesto, 
             String marca, 
+            String modelo,
             String categoria, 
             String ubicacion, 
+            String codigo,
             int stock, 
-            int precio){
+            int precio            
+        ){
+
         Marca marcaNuevo;
+        Modelo modeloNuevo;
         Categoria categoriaNuevo;
         Ubicacion ubicacionNuevo;
         NombreRepuesto nombreRepuestoNuevo;
@@ -84,16 +94,21 @@ public class RepuestoController {
             nombreRepuestoNuevo = new NombreRepuesto(0, "-");
         }
         
-        Repuesto repuesto = new Repuesto(1, stock, nombreRepuestoNuevo, marcaNuevo, categoriaNuevo, new ArrayList<>(), ubicacionNuevo);
+        if(!modelo.equals("-")){
+            modeloNuevo = modeloService.obtenerModeloPorNombre(modelo);
+        }
+        else{
+            modeloNuevo = new Modelo(0, "-");
+        }
+        
+        Repuesto repuesto = new Repuesto(1, stock, nombreRepuestoNuevo, marcaNuevo, categoriaNuevo, modeloNuevo, new ArrayList<>(), ubicacionNuevo, codigo);
         repuestoService.agregarRepuesto(repuesto);
         repuesto.setId_repuesto(repuestoService.obtenerUltimoIdRepuesto());
-        
-        
         
         Precio precioNuevo = new Precio(1, repuesto, LocalDateTime.now(), new BigDecimal(precio));
         precioService.agregarPrecio(precioNuevo);
     }
-    */
+    
     public List<Repuesto> listarRepuestos(){
         List<Repuesto> listaRepuestos= repuestoService.listarRepuestos();
         return listaRepuestos;
@@ -143,15 +158,20 @@ public class RepuestoController {
     
     public List<Ubicacion> retornarUbicaciones(){
         return ubicacionService.listarUbicaciones();
-    } 
+    }
+    
+    public List<Modelo> retornarModelos(){
+        return modeloService.listarModelos();
+    }
 
-    /*
-    public List<Repuesto> busquedaDeRepuesto(String nombreMarca, String nombreCategoria, String nombreNombreRepuesto, String nombreUbicacion, int stock, int precio) {
+    
+    public List<Repuesto> busquedaDeRepuesto(String nombreMarca, String nombreCategoria, String nombreNombreRepuesto, String nombreUbicacion, String nombreModelo, String codigo) {
 
         Marca marcaNuevo;
         Categoria categoriaNuevo;
         NombreRepuesto nombreRepuestoNuevo;
         Ubicacion ubicacionNuevo;
+        Modelo modeloNuevo;
         
         if(!nombreMarca.equals("-")){
             marcaNuevo = marcaService.obtenerMarcaPorNombre(nombreMarca);
@@ -181,13 +201,21 @@ public class RepuestoController {
             ubicacionNuevo = new Ubicacion(0, "-", new ArrayList<>());
         }
         
-        Repuesto repuesto = new Repuesto(1, stock, nombreRepuestoNuevo, marcaNuevo, categoriaNuevo, new ArrayList<>(), ubicacionNuevo);
+        if(!nombreModelo.equals("-")){
+            modeloNuevo = modeloService.obtenerModeloPorNombre(nombreModelo);
+        }
+        else{
+            modeloNuevo = new Modelo(0, "-");
+        }
         
-        System.out.println("stock: " + stock);
+        Repuesto repuesto = new Repuesto(0, 0, nombreRepuestoNuevo, marcaNuevo, categoriaNuevo, modeloNuevo, new ArrayList<>(), ubicacionNuevo, codigo);
+        
         System.out.println("nombrerep : " + repuesto.getNombreRepuesto().getNombre_repuesto());
         System.out.println("marca: " + repuesto.getMarca().getNombre_marca());
         System.out.println("categ: " + repuesto.getCategoria().getNombre_categoria());
         System.out.println("ubi: " + repuesto.getUbicacion().getNombre_ubicacion());
+        System.out.println("modelo: " + repuesto.getModelo().getNombre_modelo());
+        System.out.println("codigo: " + repuesto.getCodigo());
         
         List<Repuesto> listaRepuestos = repuestoService.busquedaDeRepuesto(repuesto);
         
@@ -197,7 +225,7 @@ public class RepuestoController {
         
         return listaRepuestos;
     }
-    */
+    
     public List<Repuesto> obtenerRepuestosPorIdVenta(int id) {
         return repuestoService.obtenerRepuestosPorIdVenta(id);
     }

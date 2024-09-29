@@ -18,6 +18,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import model.Categoria;
 import model.Marca;
+import model.Modelo;
 import model.NombreRepuesto;
 import model.Precio;
 import model.Repuesto;
@@ -46,7 +47,6 @@ public class VistaRepuestos extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         btnLimpiar = new javax.swing.JButton();
         btnAgregar = new javax.swing.JButton();
@@ -56,14 +56,15 @@ public class VistaRepuestos extends javax.swing.JFrame {
         btnAtras = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaRepuestos = new javax.swing.JTable();
-        txtStock = new javax.swing.JTextField();
-        txtPrecio = new javax.swing.JTextField();
+        txtCodigo = new javax.swing.JTextField();
         comboMarca = new javax.swing.JComboBox<>();
         comboUbicacion = new javax.swing.JComboBox<>();
         comboCategoria = new javax.swing.JComboBox<>();
         comboNombreRepuesto = new javax.swing.JComboBox<>();
         btnActualizarPrecio = new javax.swing.JButton();
         btnActualizarStock = new javax.swing.JButton();
+        comboModelo = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -83,9 +84,7 @@ public class VistaRepuestos extends javax.swing.JFrame {
 
         jLabel6.setText("Ubicacion");
 
-        jLabel7.setText("Stock");
-
-        jLabel8.setText("Precio");
+        jLabel7.setText("Codigo");
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 48)); // NOI18N
         jLabel1.setText("MODELO VISTA REPUESTOS");
@@ -149,9 +148,7 @@ public class VistaRepuestos extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tablaRepuestos);
 
-        txtStock.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-
-        txtPrecio.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        txtCodigo.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
 
         comboMarca.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         comboMarca.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -181,6 +178,11 @@ public class VistaRepuestos extends javax.swing.JFrame {
             }
         });
 
+        comboModelo.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        comboModelo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel9.setText("Modelo");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -204,42 +206,37 @@ public class VistaRepuestos extends javax.swing.JFrame {
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                         .addComponent(comboNombreRepuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(comboMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9)
+                                    .addComponent(comboModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addGap(125, 125, 125)
-                                        .addComponent(jLabel5)
-                                        .addGap(104, 104, 104)
-                                        .addComponent(jLabel6)
-                                        .addGap(103, 103, 103))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(comboMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(comboUbicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7)
-                                    .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(12, 12, 12)
+                                        .addComponent(jLabel6))
+                                    .addComponent(comboUbicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel8)
-                                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(28, 28, 28)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnActualizarPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnActualizarStock, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel7))))
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnActualizarPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnActualizarStock, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(33, 33, 33))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -249,25 +246,35 @@ public class VistaRepuestos extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
-                .addGap(4, 4, 4)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnLimpiar)
-                        .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(comboUbicacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(comboMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(comboNombreRepuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(comboUbicacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel9)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(comboModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel3))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(btnLimpiar)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(comboMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(comboNombreRepuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -303,13 +310,13 @@ public class VistaRepuestos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        comboCategoria.setSelectedItem("-");
-        comboMarca.setSelectedItem("-");
         comboNombreRepuesto.setSelectedItem("-");
+        comboModelo.setSelectedItem("-");
+        comboMarca.setSelectedItem("-");
+        comboCategoria.setSelectedItem("-");
         comboUbicacion.setSelectedItem("-");
         
-        txtStock.setText("");
-        txtPrecio.setText("");
+        txtCodigo.setText("");
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
@@ -340,19 +347,22 @@ public class VistaRepuestos extends javax.swing.JFrame {
                 
                 int idRepuesto = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 0)));
                 String comboNombreRep = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 1));
-                String comboMarca = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 2));
-                String comboCategoria = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 3));
-                String comboUbicacion = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 4));
-                int stock = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 5)));
-                BigDecimal precio = new BigDecimal(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 6).toString());
+                String comboMarcaa = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 2));
+                String comboCategoriaa = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 3));
+                String textoCodigo = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 4));
+                String comboUbicacionn = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 5));
+                int stock = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 7)));
+                BigDecimal precio = new BigDecimal(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 7).toString());
                 
                 this.setEnabled(false);
                 EditarRepuesto alta = new EditarRepuesto(idRepuesto, 
-                        comboNombreRep,
-                        comboMarca,
-                        comboCategoria,
-                        comboUbicacion,
-                        stock,
+                        comboNombreRep, 
+                        comboMarcaa, 
+                        comboCategoriaa, 
+                        comboUbicacionn, 
+                        comboMarcaa, 
+                        textoCodigo,
+                        stock, 
                         precio,
                         repuestoController);
                 //alta.setSize(600, 400);
@@ -418,14 +428,14 @@ public class VistaRepuestos extends javax.swing.JFrame {
                 
                 int idRepuesto = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 0)));
                 String comboNombreRep = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 1));
-                String comboCategoria = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 3));
+                String comboCategoriaa = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 3));
                 int stock = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 5)));
                 BigDecimal precio = new BigDecimal(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 6).toString());
                 
                 this.setEnabled(false);
                 ActualizarPrecio alta = new ActualizarPrecio(idRepuesto, 
                         comboNombreRep,
-                        comboCategoria,
+                        comboCategoriaa,
                         stock,
                         precio,
                         repuestoController);
@@ -455,14 +465,14 @@ public class VistaRepuestos extends javax.swing.JFrame {
                 
                 int idRepuesto = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 0)));
                 String comboNombreRep = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 1));
-                String comboCategoria = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 3));
+                String comboCategoriaa = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 3));
                 int stock = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 5)));
                 BigDecimal precio = new BigDecimal(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 6).toString());
                 
                 this.setEnabled(false);
                 ActualizarStock alta = new ActualizarStock(idRepuesto, 
                         comboNombreRep,
-                        comboCategoria,
+                        comboCategoriaa,
                         stock,
                         precio,
                         repuestoController);
@@ -498,6 +508,7 @@ public class VistaRepuestos extends javax.swing.JFrame {
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JComboBox<String> comboCategoria;
     private javax.swing.JComboBox<String> comboMarca;
+    private javax.swing.JComboBox<String> comboModelo;
     private javax.swing.JComboBox<String> comboNombreRepuesto;
     private javax.swing.JComboBox<String> comboUbicacion;
     private javax.swing.JLabel jLabel1;
@@ -507,12 +518,11 @@ public class VistaRepuestos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaRepuestos;
-    private javax.swing.JTextField txtPrecio;
-    private javax.swing.JTextField txtStock;
+    private javax.swing.JTextField txtCodigo;
     // End of variables declaration//GEN-END:variables
     
     private void cargarTabla(){
@@ -525,7 +535,7 @@ public class VistaRepuestos extends javax.swing.JFrame {
         };
         
         //Ponemos titulos a las columnas
-        String titulos[] = {"Id", "Nombre Repuesto", "Marca", "Categoria", "Ubicacion", "Stock", "Precio"};
+        String titulos[] = {"Id", "Nombre Repuesto", "Marca", "Modelo", "Categoria", "Codigo", "Ubicacion", "Stock", "Precio"};
         modeloTabla.setColumnIdentifiers(titulos);
         
         //Traer Repuestos desde la base de datos
@@ -538,7 +548,9 @@ public class VistaRepuestos extends javax.swing.JFrame {
                 Object[] objeto = {repuesto.getId_repuesto(), 
                     repuesto.getNombreRepuesto().getNombre_repuesto(), 
                     repuesto.getMarca().getNombre_marca(), 
-                    repuesto.getCategoria().getNombre_categoria(), 
+                    repuesto.getModelo().getNombre_modelo(),
+                    repuesto.getCategoria().getNombre_categoria(),
+                    repuesto.getCodigo(),
                     repuesto.getUbicacion().getNombre_ubicacion(), 
                     repuesto.getStock(), 
                     repuesto.getListaPrecios().get((repuesto.getListaPrecios().size()) - 1).getValor()
@@ -560,7 +572,7 @@ public class VistaRepuestos extends javax.swing.JFrame {
         };
 
         // Ponemos títulos a las columnas
-        String[] titulos = {"Id", "Nombre Repuesto", "Marca", "Categoria", "Ubicacion", "Stock", "Precio"};
+        String[] titulos = {"Id", "Nombre Repuesto", "Marca", "Modelo", "Categoria", "Codigo", "Ubicacion", "Stock", "Precio"};
         modeloTabla.setColumnIdentifiers(titulos);
 
         // Setear los datos en la tabla
@@ -580,7 +592,9 @@ public class VistaRepuestos extends javax.swing.JFrame {
                     repuesto.getId_repuesto(),
                     repuesto.getNombreRepuesto() != null ? repuesto.getNombreRepuesto().getNombre_repuesto() : "Desconocido",
                     repuesto.getMarca() != null ? repuesto.getMarca().getNombre_marca() : "Desconocido",
+                    repuesto.getModelo() != null ? repuesto.getModelo().getNombre_modelo() : "Desconocido",
                     repuesto.getCategoria() != null ? repuesto.getCategoria().getNombre_categoria() : "Desconocido",
+                    repuesto.getCodigo(),
                     repuesto.getUbicacion() != null ? repuesto.getUbicacion().getNombre_ubicacion() : "Desconocido",
                     repuesto.getStock(),
                     precio
@@ -661,10 +675,10 @@ public class VistaRepuestos extends javax.swing.JFrame {
         comboCategoria.addActionListener(comboListener);
         comboNombreRepuesto.addActionListener(comboListener);
         comboUbicacion.addActionListener(comboListener);
+        comboModelo.addActionListener(comboListener);
         
         // Agrega DocumentListener a los JTextField
-        txtStock.getDocument().addDocumentListener(docListener);
-        txtPrecio.getDocument().addDocumentListener(docListener);
+        txtCodigo.getDocument().addDocumentListener(docListener);
         
     }
     
@@ -674,33 +688,21 @@ public class VistaRepuestos extends javax.swing.JFrame {
         String marcaSeleccionada = (comboMarca.getSelectedItem() != null) ? comboMarca.getSelectedItem().toString() : "-";
         String categoriaSeleccionada = (comboCategoria.getSelectedItem() != null) ? comboCategoria.getSelectedItem().toString() : "-";
         String nombreRepuestoSeleccionado = (comboNombreRepuesto.getSelectedItem() != null) ? comboNombreRepuesto.getSelectedItem().toString() : "-";
-        String ubicacionSeleccionada = (comboUbicacion.getSelectedItem() != null) ? comboUbicacion.getSelectedItem().toString() : "-";/*
-        */
-        int stock = 0;
-        int precio = 0;
+        String ubicacionSeleccionada = (comboUbicacion.getSelectedItem() != null) ? comboUbicacion.getSelectedItem().toString() : "-";
+        String modeloSeleccionada = (comboModelo.getSelectedItem() != null) ? comboModelo.getSelectedItem().toString() : "-";
+        
+        String codigo = "";
 
         // Verifica que los campos de texto no estén vacíos antes de convertirlos
-        if (!txtStock.getText().isEmpty()) {
-            stock = Integer.parseInt(txtStock.getText());
+        if (!txtCodigo.getText().isEmpty()) {
+            codigo = txtCodigo.getText();
         }
 
-        if (!txtPrecio.getText().isEmpty()) {
-            precio = Integer.parseInt(txtPrecio.getText());
-        }
-
-        //List<Repuesto> listaRepuestos = repuestoController.busquedaDeRepuesto(marcaSeleccionada, categoriaSeleccionada, nombreRepuestoSeleccionado, ubicacionSeleccionada, stock, precio);
+        List<Repuesto> listaRepuestos = repuestoController.busquedaDeRepuesto(marcaSeleccionada, categoriaSeleccionada, nombreRepuestoSeleccionado, ubicacionSeleccionada, modeloSeleccionada, codigo);
         
         System.out.println("comienzo carga de busqueda");
-        /*
-        List<Repuesto> listaRepuestos = repuestoController.busquedaDeRepuesto(
-                marcaSeleccionada, 
-                categoriaSeleccionada, 
-                nombreRepuestoSeleccionado, 
-                ubicacionSeleccionada, 
-                stock, 
-                precio);
         
-        cargarTablaBusqueda(listaRepuestos);*/
+        cargarTablaBusqueda(listaRepuestos);
     }
     
     private void cargarComboBoxes(){
@@ -709,21 +711,25 @@ public class VistaRepuestos extends javax.swing.JFrame {
         comboMarca.removeAllItems();
         comboNombreRepuesto.removeAllItems();
         comboUbicacion.removeAllItems();
+        comboModelo.removeAllItems();
         
         NombreRepuesto nombreRepuesto = new NombreRepuesto(0, "-");
         Marca marca = new Marca(0, "-", new ArrayList<>());
         Categoria categoria = new Categoria(0, "-", new ArrayList<>(), new ArrayList<>());
         Ubicacion ubicacion = new Ubicacion(0, "-", new ArrayList<>());
+        Modelo modelo = new Modelo(0, "-");
         
         comboCategoria.addItem(nombreRepuesto.getNombre_repuesto());
         comboMarca.addItem(marca.getNombre_marca());
         comboNombreRepuesto.addItem(categoria.getNombre_categoria());
         comboUbicacion.addItem(ubicacion.getNombre_ubicacion());
+        comboModelo.addItem(modelo.getNombre_modelo());
         
         List<NombreRepuesto> listaNombreRepuestos = repuestoController.retornarListaNombreRepuestos();
         List<Marca> listaMarcas = repuestoController.retornarListaMarcas();
         List<Categoria> listaCategorias = repuestoController.retornarCategorias();
         List<Ubicacion> listaUbicaciones = repuestoController.retornarUbicaciones();
+        List<Modelo> listaModelos = repuestoController.retornarModelos();
         
         for(NombreRepuesto nomb : listaNombreRepuestos){
             comboNombreRepuesto.addItem(nomb.getNombre_repuesto());
@@ -739,6 +745,10 @@ public class VistaRepuestos extends javax.swing.JFrame {
         
         for(Ubicacion ubi : listaUbicaciones){
             comboUbicacion.addItem(ubi.getNombre_ubicacion());
+        }
+        
+        for(Modelo mod : listaModelos){
+            comboModelo.addItem(mod.getNombre_modelo());
         }
         
         System.out.println("fin carga comboboxes");

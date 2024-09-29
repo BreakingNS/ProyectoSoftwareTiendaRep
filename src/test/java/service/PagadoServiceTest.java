@@ -54,7 +54,6 @@ import org.junit.jupiter.api.Test;
 
 public class PagadoServiceTest {
     
-    
     private static ConexionDataBase conexionDataBase;
     private static ConfiguracionDataBase configuracion;
     private static Connection connection;
@@ -80,6 +79,7 @@ public class PagadoServiceTest {
     private static ReparacionService reparacionService;
     private static VentaService ventaService;
     private static MarcaService marcaService;
+    private static ModeloService modeloService;
     private static NombreRepuestoService nombreRepuestoService;
     private static UbicacionService ubicacionService;
     private static CategoriaService categoriaService;
@@ -139,7 +139,7 @@ public class PagadoServiceTest {
         categoriaController = new CategoriaController(categoriaService);
         estadoController = new EstadoController(estadoService);
         clienteController = new ClienteController(clienteService);
-        repuestoController = new RepuestoController(nombreRepuestoService, repuestoService, marcaService, categoriaService, ubicacionService, precioService);
+        repuestoController = new RepuestoController(nombreRepuestoService, repuestoService, marcaService, categoriaService, ubicacionService, precioService, modeloService);
         ventaController = new VentaController(ventaService, clienteService, repuestoController);
         reparacionController = new ReparacionController(reparacionService, categoriaService, clienteService, estadoService, repuestoController);
         

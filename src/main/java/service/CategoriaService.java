@@ -57,8 +57,6 @@ public class CategoriaService {
             }
         }
         
-        
-        
         return listaCategorias;
     }
 

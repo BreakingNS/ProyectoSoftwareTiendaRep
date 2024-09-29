@@ -80,11 +80,13 @@ public class VentaServiceTest {
     private static ReparacionService reparacionService;
     private static VentaService ventaService;
     private static MarcaService marcaService;
+    private static ModeloService modeloService;
     private static NombreRepuestoService nombreRepuestoService;
     private static UbicacionService ubicacionService;
     private static CategoriaService categoriaService;
     private static EstadoService estadoService;
     private static PrecioService precioService;
+    private static PagadoService pagadoService;
     
     private static ClienteController clienteController;
     private static RepuestoController repuestoController;
@@ -137,7 +139,7 @@ public class VentaServiceTest {
         categoriaController = new CategoriaController(categoriaService);
         estadoController = new EstadoController(estadoService);
         clienteController = new ClienteController(clienteService);
-        repuestoController = new RepuestoController(nombreRepuestoService, repuestoService, marcaService, categoriaService, ubicacionService, precioService);
+        repuestoController = new RepuestoController(nombreRepuestoService, repuestoService, marcaService, categoriaService, ubicacionService, precioService, modeloService);
         ventaController = new VentaController(ventaService, clienteService, repuestoController);
         reparacionController = new ReparacionController(reparacionService, categoriaService, clienteService, estadoService, repuestoController);
         

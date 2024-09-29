@@ -5,9 +5,11 @@ import controller.CategoriaController;
 import controller.ClienteController;
 import controller.EstadoController;
 import controller.MarcaController;
+import controller.ModeloController;
 import controller.NombreRepuestoController;
 import controller.ReparacionController;
 import controller.RepuestoController;
+import controller.TecnicoController;
 import controller.UbicacionController;
 import controller.VentaController;
 import dao.impl.MarcaDAOImpl;
@@ -25,11 +27,13 @@ import view.clientes.AltaCliente;
 import view.clientes.VistaCliente;
 import view.estado.VistaEstados;
 import view.marca.VistaMarcas;
+import view.modelo.VistaModelo;
 import view.nombreRepuesto.VistaNombreRepuesto;
 import view.reparaciones.AltaReparacion;
 import view.reparaciones.VistaReparaciones;
 import view.repuestos.AltaRepuesto;
 import view.repuestos.VistaRepuestos;
+import view.tecnico.VistaTecnico;
 import view.ubicacion.VistaUbicacion;
 import view.ventas.AltaVenta;
 import view.ventas.VistaVentas;
@@ -40,39 +44,50 @@ public class App extends javax.swing.JFrame {
     private ConexionDataBase conexionDataBase;
 
     private MarcaController marcaController;
+    private ModeloController modeloController;
     private NombreRepuestoController nombreRepuestoController;
     private UbicacionController ubicacionController;
     private CategoriaController categoriaController;
     private EstadoController estadoController;
+    private TecnicoController tecnicoController;
     
     private ClienteController clienteController;
     private RepuestoController repuestoController;
     private VentaController ventaController;
     private ReparacionController reparacionController;
     
+    
     public App(Connection connection, 
             ConexionDataBase conexionDataBase, 
             ClienteController clienteController, 
             RepuestoController repuestoController, 
-            MarcaController marcaController, 
+            MarcaController marcaController,
+            ModeloController modeloController,
             NombreRepuestoController nombreRepuestoController,
             UbicacionController ubicacionController,
+            TecnicoController tecnicoController,
             CategoriaController categoriaController,
             EstadoController estadoController,
             VentaController ventaController,
-            ReparacionController reparacionController) {
+            ReparacionController reparacionController
+            
+            ) {
         this.connection = connection;
         this.conexionDataBase = conexionDataBase;
         this.marcaController = marcaController;
+        this.modeloController = modeloController;
         this.nombreRepuestoController = nombreRepuestoController;
         this.ubicacionController = ubicacionController;
         this.categoriaController = categoriaController;
         this.estadoController = estadoController;
+        this.tecnicoController = tecnicoController;
         
         this.clienteController = clienteController;
         this.repuestoController = repuestoController;
         this.ventaController = ventaController;
         this.reparacionController = reparacionController;
+        
+        
         initComponents();
         configurarEventos();
     }
@@ -99,11 +114,13 @@ public class App extends javax.swing.JFrame {
         menuClientes = new javax.swing.JMenuItem();
         menuRepuestos = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        menuMarca = new javax.swing.JMenuItem();
         menuNombreRepuesto = new javax.swing.JMenuItem();
-        menuUbicacion = new javax.swing.JMenuItem();
+        menuMarca = new javax.swing.JMenuItem();
+        menuModelo = new javax.swing.JMenuItem();
         menuCategoria = new javax.swing.JMenuItem();
+        menuUbicacion = new javax.swing.JMenuItem();
         menuEstado = new javax.swing.JMenuItem();
+        menuTecnico = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -250,15 +267,6 @@ public class App extends javax.swing.JFrame {
         jMenu2.setText("Configuracion");
         jMenu2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
 
-        menuMarca.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        menuMarca.setText("Marca");
-        menuMarca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuMarcaActionPerformed(evt);
-            }
-        });
-        jMenu2.add(menuMarca);
-
         menuNombreRepuesto.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         menuNombreRepuesto.setText("NombreRepuesto");
         menuNombreRepuesto.addActionListener(new java.awt.event.ActionListener() {
@@ -268,14 +276,23 @@ public class App extends javax.swing.JFrame {
         });
         jMenu2.add(menuNombreRepuesto);
 
-        menuUbicacion.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        menuUbicacion.setText("Ubicacion");
-        menuUbicacion.addActionListener(new java.awt.event.ActionListener() {
+        menuMarca.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        menuMarca.setText("Marca");
+        menuMarca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuUbicacionActionPerformed(evt);
+                menuMarcaActionPerformed(evt);
             }
         });
-        jMenu2.add(menuUbicacion);
+        jMenu2.add(menuMarca);
+
+        menuModelo.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        menuModelo.setText("Modelo");
+        menuModelo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuModeloActionPerformed(evt);
+            }
+        });
+        jMenu2.add(menuModelo);
 
         menuCategoria.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         menuCategoria.setText("Categoria");
@@ -286,6 +303,15 @@ public class App extends javax.swing.JFrame {
         });
         jMenu2.add(menuCategoria);
 
+        menuUbicacion.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        menuUbicacion.setText("Ubicacion");
+        menuUbicacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuUbicacionActionPerformed(evt);
+            }
+        });
+        jMenu2.add(menuUbicacion);
+
         menuEstado.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         menuEstado.setText("Estado");
         menuEstado.addActionListener(new java.awt.event.ActionListener() {
@@ -294,6 +320,15 @@ public class App extends javax.swing.JFrame {
             }
         });
         jMenu2.add(menuEstado);
+
+        menuTecnico.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        menuTecnico.setText("Tecnico");
+        menuTecnico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuTecnicoActionPerformed(evt);
+            }
+        });
+        jMenu2.add(menuTecnico);
 
         jMenuBar1.add(jMenu2);
 
@@ -571,6 +606,40 @@ public class App extends javax.swing.JFrame {
         });
     }//GEN-LAST:event_menuNuevoRepuestoActionPerformed
 
+    private void menuModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuModeloActionPerformed
+        this.setVisible(false); // Oculta la ventana actual
+        VistaModelo alta = new VistaModelo(modeloController);
+        //alta.setSize(1280, 720);
+        alta.setResizable(false);
+        alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        alta.setVisible(true);
+        alta.setLocationRelativeTo(null);
+
+        alta.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                setVisible(true); // Muestra la ventana anterior cuando la nueva se cierra
+            }
+        });
+    }//GEN-LAST:event_menuModeloActionPerformed
+
+    private void menuTecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuTecnicoActionPerformed
+        this.setVisible(false); // Oculta la ventana actual
+        VistaTecnico alta = new VistaTecnico(tecnicoController, connection);
+        //alta.setSize(1280, 720);
+        alta.setResizable(false);
+        alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        alta.setVisible(true);
+        alta.setLocationRelativeTo(null);
+
+        alta.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                setVisible(true); // Muestra la ventana anterior cuando la nueva se cierra
+            }
+        });
+    }//GEN-LAST:event_menuTecnicoActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClientes;
     private javax.swing.JButton btnReparaciones;
@@ -593,10 +662,12 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuClientes;
     private javax.swing.JMenuItem menuEstado;
     private javax.swing.JMenuItem menuMarca;
+    private javax.swing.JMenuItem menuModelo;
     private javax.swing.JMenuItem menuNombreRepuesto;
     private javax.swing.JMenuItem menuNuevoCliente;
     private javax.swing.JMenuItem menuNuevoRepuesto;
     private javax.swing.JMenuItem menuRepuestos;
+    private javax.swing.JMenuItem menuTecnico;
     private javax.swing.JMenuItem menuUbicacion;
     // End of variables declaration//GEN-END:variables
 

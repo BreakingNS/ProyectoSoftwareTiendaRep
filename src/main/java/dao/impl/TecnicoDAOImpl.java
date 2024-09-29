@@ -70,6 +70,8 @@ public class TecnicoDAOImpl implements TecnicoDAO{
         } catch (SQLException ex) {
             Logger.getLogger(TecnicoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        System.out.println("tamaño de la lista: " + listaTecnicos.size());
         return listaTecnicos;
     }
 

@@ -44,11 +44,13 @@ public class RepuestoDAOImpl implements RepuestoDAO{
     
     private final String SENTENCIA_BUSQUEDA_DE_REPUESTO = 
             "SELECT r.id_repuesto,"
-                + "r.stock, "
                 + "r.id_nombrerepuesto, "
                 + "r.id_marca, "
-                + "r.id_categoria, "
+                + "r.id_modelo, "
+                + "r.id_categoria, "    
+                + "r.codigo, "
                 + "r.id_ubicacion, "
+                + "r.stock, "
                 + "MIN(p.valor) AS valor "
             + "FROM TiendaLocal.repuesto r "
             + "INNER JOIN TiendaLocal.precio p "
@@ -57,11 +59,13 @@ public class RepuestoDAOImpl implements RepuestoDAO{
             + "AND (r.id_marca = ? OR ? = 0) "
             + "AND (r.id_categoria = ? OR ? = 0) "
             + "AND (r.id_ubicacion = ? OR ? = 0) "
-            + "AND (r.stock = ? OR ? = 0) "
+            + "AND (r.id_modelo = ? OR ? = 0) "
+            + "AND UPPER(r.codigo) LIKE ? "
             + "GROUP BY r.id_repuesto, "
                 + "r.stock, "
                 + "r.id_nombrerepuesto, "
                 + "r.id_marca, "
+                + "r.id_modelo, "
                 + "r.id_categoria,"
                 + "r.id_ubicacion;";
 
@@ -158,12 +162,27 @@ public class RepuestoDAOImpl implements RepuestoDAO{
             preparedStatement.setInt(8, repuesto.getUbicacion().getId_ubicacion());
             //System.out.println("idUbicacion: " + repuesto.getUbicacion().getNombre_ubicacion());
             
-            int stockBuscar = (repuesto.getStock() == 0) ? repuesto.getStock() : 0;
-            preparedStatement.setInt(9, stockBuscar);
-            preparedStatement.setInt(10, stockBuscar);
+            preparedStatement.setInt(9, repuesto.getModelo().getId_modelo());
+            preparedStatement.setInt(10, repuesto.getModelo().getId_modelo());
+            //System.out.println("idUbicacion: " + repuesto.getUbicacion().getNombre_ubicacion());
+            
+            preparedStatement.setString(11, "%" + repuesto.getCodigo().toUpperCase() + "%");
 
             repuesto_Resultado = preparedStatement.executeQuery();
 
+            /*
+            "SELECT r.id_repuesto,"
+                + "r.id_nombrerepuesto, "
+                + "r.id_marca, "
+                + "r.id_modelo, "
+                + "r.id_categoria, "    
+                + "r.codigo, "
+                + "r.id_ubicacion, "
+                + "r.stock, "
+                + "MIN(p.valor) AS valor "
+            */
+            
+            
             while (repuesto_Resultado.next()) {
                 int idRepuestoRet = repuesto_Resultado.getInt("id_repuesto");
                 int stockRet = repuesto_Resultado.getInt("stock");
@@ -172,6 +191,7 @@ public class RepuestoDAOImpl implements RepuestoDAO{
                 int idCategoriaRet = repuesto_Resultado.getInt("id_categoria");
                 int idModelo = repuesto_Resultado.getInt("id_modelo");
                 int idUbicacionRet = repuesto_Resultado.getInt("id_ubicacion");
+                String codigo = repuesto_Resultado.getString("codigo");
                 
                 NombreRepuestoDAOImpl nombreRepuestoDAO = new NombreRepuestoDAOImpl(connection);
                 MarcaDAOImpl marcaDAO = new MarcaDAOImpl(connection);
@@ -186,7 +206,7 @@ public class RepuestoDAOImpl implements RepuestoDAO{
                 List<Precio> listaPrecios = new ArrayList<>();
                 Ubicacion ubicacion = ubicacionDAO.obtenerUbicacion(idUbicacionRet);
                 
-                Repuesto repuestoBusqueda = new Repuesto(idRepuestoRet, stockRet, nombreRepuesto, marca, categoria, modelo, listaPrecios, ubicacion, SENTENCIA_CREAR_REPUESTO);
+                Repuesto repuestoBusqueda = new Repuesto(idRepuestoRet, stockRet, nombreRepuesto, marca, categoria, modelo, listaPrecios, ubicacion, codigo);
                 
                 listaRepuesto.add(repuestoBusqueda);
             }

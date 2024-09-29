@@ -42,6 +42,7 @@ import service.CategoriaService;
 import service.ClienteService;
 import service.EstadoService;
 import service.MarcaService;
+import service.ModeloService;
 import service.NombreRepuestoService;
 import service.PrecioService;
 import service.ReparacionService;
@@ -76,6 +77,7 @@ public class ReparacionDAOImplTest {
     private static ReparacionService reparacionService;
     private static VentaService ventaService;
     private static MarcaService marcaService;
+    private static ModeloService modeloService;
     private static NombreRepuestoService nombreRepuestoService;
     private static UbicacionService ubicacionService;
     private static CategoriaService categoriaService;
@@ -121,6 +123,7 @@ public class ReparacionDAOImplTest {
         clienteService = new ClienteService(clienteDAO, ventaDAO, reparacionDAO);
         repuestoService = new RepuestoService(repuestoDAO, precioDAO);
         marcaService = new MarcaService(marcaDAO, repuestoDAO);
+        modeloService = new ModeloService(modeloDAO);
         nombreRepuestoService = new NombreRepuestoService(nombreRepuestoDAO);
         ubicacionService = new UbicacionService(ubicacionDAO, repuestoDAO);
         categoriaService = new CategoriaService(categoriaDAO, repuestoDAO, reparacionDAO);
@@ -135,7 +138,7 @@ public class ReparacionDAOImplTest {
         estadoController = new EstadoController(estadoService);
         
         clienteController = new ClienteController(clienteService);
-        repuestoController = new RepuestoController(nombreRepuestoService, repuestoService, marcaService, categoriaService, ubicacionService, precioService);
+        repuestoController = new RepuestoController(nombreRepuestoService, repuestoService, marcaService, categoriaService, ubicacionService, precioService, modeloService);
         ventaController = new VentaController(ventaService, clienteService, repuestoController);
         reparacionController = new ReparacionController(reparacionService, categoriaService, clienteService, estadoService, repuestoController);
         
