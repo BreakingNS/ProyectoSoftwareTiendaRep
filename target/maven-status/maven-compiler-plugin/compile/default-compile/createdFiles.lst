@@ -38,6 +38,7 @@ model\VentaRepuesto.class
 reloj\RelojEnTiempoReal$1.class
 dao\interfaces\RepuestoDAO.class
 view\marca\EditarMarca$5.class
+view\App$34.class
 view\ventas\AltaVenta$28.class
 view\repuestos\ActualizarStock$1.class
 view\App.class
@@ -51,6 +52,7 @@ view\repuestos\VistaRepuestos$9.class
 view\tecnico\VistaTecnico$18.class
 view\App$1.class
 view\clientes\VistaCliente$6.class
+config\BackupDataBase.class
 view\nombreRepuesto\EditarNombreRepuesto$4.class
 controller\ReparacionController.class
 view\estado\VistaEstados$3.class
@@ -58,10 +60,12 @@ view\reparaciones\AltaReparacion$18.class
 view\repuestos\VistaRepuestos$2.class
 view\App$18.class
 view\repuestos\EditarRepuesto$2.class
+view\administrador\VistaBD$1.class
 view\reparaciones\AltaReparacion$2.class
 view\ventas\AltaVenta$17.class
 view\marca\VistaMarcas$5.class
 view\tecnico\AltaTecnico$2.class
+view\administrador\VistaBD$8.class
 model\Marca.class
 view\App$32.class
 view\repuestos\ActualizarStock$3.class
@@ -89,8 +93,10 @@ view\App$28.class
 view\repuestos\AltaRepuesto$4.class
 view\ventas\AltaVenta$12.class
 view\repuestos\ActualizarStock$6.class
+view\administrador\VistaBD$6.class
 view\marca\EditarMarca$3.class
 view\clientes\AltaCliente$4.class
+view\administrador\VistaBD$3.class
 view\estado\VistaEstados$1.class
 view\ventas\AltaVenta$15.class
 view\categoria\VistaCategorias$4.class
@@ -123,6 +129,7 @@ controller\MarcaController.class
 view\ubicacion\VistaUbicacion$8.class
 config\ConfiguracionDataBase.class
 view\App$29.class
+view\administrador\VistaBD$4.class
 view\repuestos\AltaRepuesto$3.class
 view\ventas\EditarVenta$1.class
 view\categoria\AltaCategoria$4.class
@@ -171,6 +178,7 @@ view\tecnico\VistaTecnico$10.class
 view\reparaciones\AltaReparacion$23.class
 view\tecnico\EditarTecnico$6.class
 view\ventas\VistaVentas$3.class
+view\App$35.class
 view\repuestos\ActualizarPrecio$3.class
 view\ubicacion\EditarUbicacion$5.class
 view\repuestos\AltaRepuesto$2.class
@@ -218,6 +226,7 @@ controller\ClienteController.class
 controller\TecnicoController.class
 view\estado\AltaEstado$2.class
 view\tecnico\VistaTecnico$15.class
+view\administrador\VistaBD.class
 view\ventas\AltaVenta$19.class
 service\PagadoService.class
 view\ventas\VistaVentas.class
@@ -233,6 +242,7 @@ view\ventas\EditarVenta$23.class
 view\tecnico\VistaTecnico$14.class
 view\ventas\AltaVenta$30.class
 view\marca\EditarMarca.class
+config\RestoreDataBase.class
 view\estado\AltaEstado$3.class
 view\reparaciones\VistaReparaciones$10.class
 view\repuestos\EditarRepuesto.class
@@ -242,6 +252,7 @@ view\App$19.class
 view\reparaciones\AltaReparacion$20.class
 view\reparaciones\AltaReparacion$1.class
 view\estado\VistaEstados$10.class
+view\administrador\VistaBD$7.class
 view\clientes\AltaCliente.class
 view\estado\VistaEstados$2.class
 view\marca\EditarMarca$4.class
@@ -269,6 +280,7 @@ view\clientes\AltaCliente$3.class
 view\clientes\VistaCliente$7.class
 dao\interfaces\CategoriaDAO.class
 dao\interfaces\ReparacionDAO.class
+view\administrador\VistaBD$2.class
 view\reparaciones\AltaReparacion$19.class
 view\tecnico\AltaTecnico$1.class
 view\ventas\AltaVenta$11.class
@@ -340,6 +352,7 @@ model\Modelo.class
 view\App$4.class
 view\repuestos\ActualizarStock$4.class
 view\repuestos\VistaRepuestos$17.class
+config\ScriptRunner.class
 view\categoria\EditarCategoria$1.class
 view\App$31.class
 view\ventas\EditarVenta$2.class
@@ -347,6 +360,7 @@ view\ventas\AltaVenta$14.class
 view\clientes\AltaCliente$6.class
 view\marca\EditarMarca$1.class
 view\ventas\AltaVenta$6.class
+view\administrador\VistaBD$5.class
 view\ubicacion\AltaUbicacion$5.class
 view\repuestos\AltaRepuesto$5.class
 view\repuestos\EditarRepuesto$5.class

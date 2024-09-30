@@ -2,7 +2,10 @@ C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\service\No
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\reloj\RelojEnTiempoReal.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\service\UbicacionService.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\interfaces\ReparacionDAO.java
+C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\administrador\VistaBD.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\clientes\VistaCliente.java
+C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\config\BackupDataBase.java
+C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\config\RestoreDataBase.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\model\Estado.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\config\ConexionDataBase.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\interfaces\MarcaDAO.java
@@ -99,6 +102,7 @@ C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\venta
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\interfaces\EstadoDAO.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\interfaces\RepuestoDAO.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\impl\RepuestoDAOImpl.java
+C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\config\ScriptRunner.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\estado\AltaEstado.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\controller\ClienteController.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\interfaces\ReparacionRepuestoDAO.java

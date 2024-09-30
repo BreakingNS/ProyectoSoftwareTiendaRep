@@ -27,4 +27,9 @@ public class Modelo {
     public void setNombre_modelo(String nombre_modelo) {
         this.nombre_modelo = nombre_modelo;
     }
+    
+    @Override
+    public String toString() {
+        return this.nombre_modelo;
+    }
 }

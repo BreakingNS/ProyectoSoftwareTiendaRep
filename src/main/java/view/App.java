@@ -1,5 +1,6 @@
 package view;
 
+import config.BackupDataBase;
 import config.ConexionDataBase;
 import controller.CategoriaController;
 import controller.ClienteController;
@@ -22,6 +23,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import service.ClienteService;
+import view.administrador.VistaBD;
 import view.categoria.VistaCategorias;
 import view.clientes.AltaCliente;
 import view.clientes.VistaCliente;
@@ -122,8 +124,9 @@ public class App extends javax.swing.JFrame {
         menuEstado = new javax.swing.JMenuItem();
         menuTecnico = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        menuIngresoAdmin = new javax.swing.JMenuItem();
+        menuCerrarAdmin = new javax.swing.JMenuItem();
+        menuConfigBD = new javax.swing.JMenuItem();
 
         jMenu4.setText("File");
         jMenuBar2.add(jMenu4);
@@ -335,18 +338,27 @@ public class App extends javax.swing.JFrame {
         jMenu6.setText("Administrador");
         jMenu6.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
 
-        jMenuItem3.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        jMenuItem3.setText("Ingreso Admin");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        menuIngresoAdmin.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        menuIngresoAdmin.setText("Ingreso Admin");
+        menuIngresoAdmin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                menuIngresoAdminActionPerformed(evt);
             }
         });
-        jMenu6.add(jMenuItem3);
+        jMenu6.add(menuIngresoAdmin);
 
-        jMenuItem4.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        jMenuItem4.setText("Cerrar Admin");
-        jMenu6.add(jMenuItem4);
+        menuCerrarAdmin.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        menuCerrarAdmin.setText("Cerrar Admin");
+        jMenu6.add(menuCerrarAdmin);
+
+        menuConfigBD.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        menuConfigBD.setText("Configurar Base de Datos");
+        menuConfigBD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuConfigBDActionPerformed(evt);
+            }
+        });
+        jMenu6.add(menuConfigBD);
 
         jMenuBar1.add(jMenu6);
 
@@ -568,9 +580,9 @@ public class App extends javax.swing.JFrame {
         });
     }//GEN-LAST:event_menuRepuestosActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void menuIngresoAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuIngresoAdminActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_menuIngresoAdminActionPerformed
 
     private void menuNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNuevoClienteActionPerformed
         this.setVisible(false); // Oculta la ventana actual
@@ -640,6 +652,23 @@ public class App extends javax.swing.JFrame {
         });
     }//GEN-LAST:event_menuTecnicoActionPerformed
 
+    private void menuConfigBDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuConfigBDActionPerformed
+        this.setVisible(false); // Oculta la ventana actual
+        VistaBD alta = new VistaBD();
+        //alta.setSize(1280, 720);
+        alta.setResizable(false);
+        alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        alta.setVisible(true);
+        alta.setLocationRelativeTo(null);
+
+        alta.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                setVisible(true); // Muestra la ventana anterior cuando la nueva se cierra
+            }
+        });
+    }//GEN-LAST:event_menuConfigBDActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClientes;
     private javax.swing.JButton btnReparaciones;
@@ -655,12 +684,13 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JMenuItem menuCategoria;
+    private javax.swing.JMenuItem menuCerrarAdmin;
     private javax.swing.JMenuItem menuClientes;
+    private javax.swing.JMenuItem menuConfigBD;
     private javax.swing.JMenuItem menuEstado;
+    private javax.swing.JMenuItem menuIngresoAdmin;
     private javax.swing.JMenuItem menuMarca;
     private javax.swing.JMenuItem menuModelo;
     private javax.swing.JMenuItem menuNombreRepuesto;

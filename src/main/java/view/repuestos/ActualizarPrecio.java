@@ -16,20 +16,29 @@ public class ActualizarPrecio extends javax.swing.JFrame {
 
     private final RepuestoController repuestoController;
     private final int idRepuesto;
-    private final String comboNombreRep;
-    private final String comboCategoria;
+    private final String nombreRep;
+    private final String marca;
+    private final String modelo;
+    private final String categoria;
+    private final String codigo;
     private final int stock;
     private final BigDecimal precio;
     
     public ActualizarPrecio(int idRepuesto, 
-                        String comboNombreRep,
-                        String comboCategoria,
+                        String nombreRep,
+                        String marca,
+                        String modelo,
+                        String categoria,
+                        String codigo,
                         int stock,
                         BigDecimal precio,
                         RepuestoController repuestoController) {
         this.idRepuesto = idRepuesto;
-        this.comboNombreRep = comboNombreRep;
-        this.comboCategoria = comboCategoria;
+        this.nombreRep = nombreRep;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.categoria = categoria;
+        this.codigo = codigo;
         this.stock = stock;
         this.precio = precio;
         this.repuestoController = repuestoController;
@@ -57,6 +66,12 @@ public class ActualizarPrecio extends javax.swing.JFrame {
         txtStock = new javax.swing.JTextField();
         lblPrecio = new javax.swing.JLabel();
         txtPrecio = new javax.swing.JTextField();
+        txtMarca = new javax.swing.JTextField();
+        lblNombre2 = new javax.swing.JLabel();
+        lblNombre1 = new javax.swing.JLabel();
+        txtModelo = new javax.swing.JTextField();
+        lblCategoria1 = new javax.swing.JLabel();
+        txtCodigo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -116,6 +131,24 @@ public class ActualizarPrecio extends javax.swing.JFrame {
 
         txtPrecio.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
 
+        txtMarca.setEditable(false);
+        txtMarca.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+
+        lblNombre2.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        lblNombre2.setText("Marca:");
+
+        lblNombre1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        lblNombre1.setText("Modelo:");
+
+        txtModelo.setEditable(false);
+        txtModelo.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+
+        lblCategoria1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        lblCategoria1.setText("Codigo: ");
+
+        txtCodigo.setEditable(false);
+        txtCodigo.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -136,6 +169,18 @@ public class ActualizarPrecio extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblCategoria1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblNombre2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblNombre1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblIdRepuesto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -163,7 +208,7 @@ public class ActualizarPrecio extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblIdRepuesto)
                     .addComponent(txtIdRepuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -173,8 +218,20 @@ public class ActualizarPrecio extends javax.swing.JFrame {
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNombre2)
+                    .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNombre1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCategoria)
                     .addComponent(txtCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCategoria1)
+                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -183,7 +240,7 @@ public class ActualizarPrecio extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPrecio)
                     .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -233,11 +290,17 @@ public class ActualizarPrecio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblCategoria;
+    private javax.swing.JLabel lblCategoria1;
     private javax.swing.JLabel lblIdRepuesto;
     private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblNombre1;
+    private javax.swing.JLabel lblNombre2;
     private javax.swing.JLabel lblPrecio;
     private javax.swing.JTextField txtCategoria;
+    private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtIdRepuesto;
+    private javax.swing.JTextField txtMarca;
+    private javax.swing.JTextField txtModelo;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPrecio;
     private javax.swing.JTextField txtStock;
@@ -249,11 +312,13 @@ public class ActualizarPrecio extends javax.swing.JFrame {
         
         txtIdRepuesto.setText(String.valueOf(repuesto.getId_repuesto()));
         txtNombre.setText(String.valueOf(repuesto.getNombreRepuesto().getNombre_repuesto()));
+        txtMarca.setText(String.valueOf(repuesto.getMarca().getNombre_marca()));
+        txtModelo.setText(String.valueOf(repuesto.getModelo().getNombre_modelo()));
         txtCategoria.setText(String.valueOf(repuesto.getCategoria().getNombre_categoria()));
+        txtCodigo.setText(String.valueOf(repuesto.getCodigo()));
         txtStock.setText(String.valueOf(repuesto.getStock()));
         txtPrecio.setText(String.valueOf(repuesto.getListaPrecios().get(repuesto.getListaPrecios().size()-1).getValor()));
-
-    }
+   }
     
     private void configurarEventos(){
         

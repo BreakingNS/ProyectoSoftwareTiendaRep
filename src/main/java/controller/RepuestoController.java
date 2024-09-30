@@ -119,24 +119,43 @@ public class RepuestoController {
         Repuesto repuesto = repuestoService.obtenerRepuestoPorId(id);
         return repuesto;
     }
-    /*
-    public void editarRepuesto(int idRepuesto, String nombreMarca, String nombreCategoria, String nombreNombreRepuesto, String nombreUbicacion, int stock, int precio){
+    
+    public void editarRepuesto(int idRepuesto, 
+            String nombreMarca, 
+            String nombreCategoria,
+            String nombreModelo,
+            String nombreNombreRepuesto, 
+            String nombreUbicacion, 
+            String codigo,
+            int stock,
+            BigDecimal precio
+    ){
         Marca marcaEdit = marcaService.obtenerMarcaPorNombre(nombreMarca);
         Categoria categoriaEdit = categoriaService.obtenerCategoriaPorNombre(nombreCategoria);
+        Modelo modeloEdit = modeloService.obtenerModeloPorNombre(nombreModelo);
         NombreRepuesto nombreRepuestoEdit = nombreRepuestoService.obtenerNombreRepuestoPorNombre(nombreNombreRepuesto);
         Ubicacion ubicacionEdit = ubicacionService.obtenerUbicacionPorNombre(nombreUbicacion);
         
-        Repuesto repuesto = new Repuesto(idRepuesto, stock, nombreRepuestoEdit, marcaEdit, categoriaEdit, new ArrayList<>(), ubicacionEdit);
+        Repuesto repuesto = new Repuesto(idRepuesto, stock, nombreRepuestoEdit, marcaEdit, categoriaEdit, modeloEdit, new ArrayList<>(), ubicacionEdit, codigo);
+        System.out.println("id: " + repuesto.getId_repuesto());
+        System.out.println("stock: " + repuesto.getStock());
+        System.out.println("nombreRepuesto: " + repuesto.getNombreRepuesto());
+        System.out.println("marca: " + repuesto.getMarca());
+        System.out.println("categoria: " + repuesto.getCategoria());
+        System.out.println("modelo: " + repuesto.getModelo());
+        System.out.println("ubicacion: " + repuesto.getUbicacion());
+        System.out.println("codigo: " + repuesto.getCodigo());
+        
         repuestoService.editarRepuestoPorId(repuesto);
         
-        BigDecimal precioBig = new BigDecimal(precio);
+        //BigDecimal precioBig = new BigDecimal(precio);
         List<Precio> listaPreciosDeRepuesto = precioService.obtenerPrecioPorIdRepuesto(repuesto.getId_repuesto());
-        if(listaPreciosDeRepuesto.get(listaPreciosDeRepuesto.size() - 1).getValor() != precioBig){
-            Precio precioNuevo = new Precio(1, repuesto, LocalDateTime.now(), precioBig);
+        if(listaPreciosDeRepuesto.get(listaPreciosDeRepuesto.size() - 1).getValor() != precio){
+            Precio precioNuevo = new Precio(1, repuesto, LocalDateTime.now(), precio);
             precioService.agregarPrecio(precioNuevo);
         }
     }
-    */
+    
     
     public void eliminarRepuesto(int id){
         precioService.eliminarPreciosPorIdRepuesto(id);

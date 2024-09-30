@@ -307,11 +307,19 @@ public class EditarRepuesto extends javax.swing.JFrame {
         String ubicacionSeleccionada = comboUbicacion.getSelectedItem().toString();
         String categoriaSeleccionada = comboCategoria.getSelectedItem().toString();
         
-        int codigo = Integer.parseInt(txtCodigo.getText());
+        String codigoN = txtCodigo.getText();
         int stockN = Integer.parseInt(txtStock.getText());
-        int precioN = Integer.parseInt(txtPrecio.getText()); 
+        BigDecimal precioN = new BigDecimal(txtPrecio.getText()); 
 
-        //repuestoController.editarRepuesto(idRepuesto, nombreMarca, nombreCategoria, nombreNombreRep, nombreUbicacion, stock, precio);
+        repuestoController.editarRepuesto(idRepuesto, 
+                marcaSeleccionada, 
+                categoriaSeleccionada,
+                modeloSeleccionada,
+                nombreRepuestoSeleccionado, 
+                ubicacionSeleccionada, 
+                codigoN,
+                stockN, 
+                precioN);
         JOptionPane.showMessageDialog(null, "Carga realizada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         dispose();
 
@@ -439,7 +447,7 @@ public class EditarRepuesto extends javax.swing.JFrame {
         }
         
         for(Modelo mod : listaModelos){
-            comboUbicacion.addItem(mod.getNombre_modelo());
+            comboModelo.addItem(mod.getNombre_modelo());
         }
         
         comboNombreRepuesto.setSelectedItem(nombreNombreRep);

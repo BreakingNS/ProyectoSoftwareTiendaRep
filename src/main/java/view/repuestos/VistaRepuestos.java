@@ -348,11 +348,12 @@ public class VistaRepuestos extends javax.swing.JFrame {
                 int idRepuesto = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 0)));
                 String comboNombreRep = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 1));
                 String comboMarcaa = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 2));
-                String comboCategoriaa = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 3));
-                String textoCodigo = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 4));
-                String comboUbicacionn = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 5));
+                String comboModeloo = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 3));
+                String comboCategoriaa = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 4));
+                String textoCodigo = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 5));
+                String comboUbicacionn = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 6));
                 int stock = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 7)));
-                BigDecimal precio = new BigDecimal(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 7).toString());
+                BigDecimal precio = new BigDecimal(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 8).toString());
                 
                 this.setEnabled(false);
                 EditarRepuesto alta = new EditarRepuesto(idRepuesto, 
@@ -360,7 +361,7 @@ public class VistaRepuestos extends javax.swing.JFrame {
                         comboMarcaa, 
                         comboCategoriaa, 
                         comboUbicacionn, 
-                        comboMarcaa, 
+                        comboModeloo, 
                         textoCodigo,
                         stock, 
                         precio,
@@ -427,15 +428,21 @@ public class VistaRepuestos extends javax.swing.JFrame {
             if(tablaRepuestos.getSelectedRow()!=-1){
                 
                 int idRepuesto = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 0)));
-                String comboNombreRep = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 1));
-                String comboCategoriaa = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 3));
-                int stock = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 5)));
-                BigDecimal precio = new BigDecimal(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 6).toString());
+                String nombreRep = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 1));
+                String marca = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 2));
+                String modelo = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 3));
+                String categoria = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 4));
+                String codigo = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 5));
+                int stock = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 7)));
+                BigDecimal precio = new BigDecimal(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 8).toString());
                 
                 this.setEnabled(false);
                 ActualizarPrecio alta = new ActualizarPrecio(idRepuesto, 
-                        comboNombreRep,
-                        comboCategoriaa,
+                        nombreRep,
+                        marca,
+                        modelo,
+                        categoria,
+                        codigo,
                         stock,
                         precio,
                         repuestoController);
@@ -464,15 +471,21 @@ public class VistaRepuestos extends javax.swing.JFrame {
             if(tablaRepuestos.getSelectedRow()!=-1){
                 
                 int idRepuesto = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 0)));
-                String comboNombreRep = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 1));
-                String comboCategoriaa = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 3));
-                int stock = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 5)));
-                BigDecimal precio = new BigDecimal(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 6).toString());
+                String nombreRep = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 1));
+                String marca = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 2));
+                String modelo = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 3));
+                String categoria = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 4));
+                String codigo = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 5));
+                int stock = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 7)));
+                BigDecimal precio = new BigDecimal(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 8).toString());
                 
                 this.setEnabled(false);
                 ActualizarStock alta = new ActualizarStock(idRepuesto, 
-                        comboNombreRep,
-                        comboCategoriaa,
+                        nombreRep,
+                        marca,
+                        modelo,
+                        categoria,
+                        codigo,
                         stock,
                         precio,
                         repuestoController);
@@ -526,6 +539,7 @@ public class VistaRepuestos extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     
     private void cargarTabla(){
+        
         //Hacemos que la tabla no sea editable
         DefaultTableModel modeloTabla = new DefaultTableModel(){
             @Override
