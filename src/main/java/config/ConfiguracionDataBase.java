@@ -73,6 +73,23 @@ public class ConfiguracionDataBase {
             + "domicilio_tecnico VARCHAR(255)"
             + ")";
     
+    private final String SENTENCIA_CREAR_TABLA_FACTURA = 
+            "CREATE TABLE IF NOT EXISTS TiendaLocal.factura("
+            + "id_factura INT PRIMARY KEY AUTO_INCREMENT,"
+            + "estado VARCHAR(255) NOT NULL,"
+            + "montoTotal DECIMAL(10, 2) NOT NULL"
+            + ")";
+    
+    private final String SENTENCIA_CREAR_TABLA_PAGO = 
+            "CREATE TABLE IF NOT EXISTS TiendaLocal.pago("
+            + "id_pago INT PRIMARY KEY AUTO_INCREMENT,"
+            + "id_factura INT,"
+            + "FOREIGN KEY (id_factura) REFERENCES TiendaLocal.factura(id_factura),"
+            + "montoAbonado DECIMAL(10, 2) NOT NULL,"
+            + "fechaPago TIMESTAMP NOT NULL,"
+            + "detalle VARCHAR(255)"
+            + ")";
+    
     private final String SENTENCIA_CREAR_TABLA_VENTA = 
             "CREATE TABLE IF NOT EXISTS TiendaLocal.venta("
             + "id_venta INT PRIMARY KEY AUTO_INCREMENT,"
@@ -116,8 +133,8 @@ public class ConfiguracionDataBase {
             + "detalles VARCHAR(255),"
             + "fecha_ingreso TIMESTAMP NOT NULL,"
             + "fecha_devolucion TIMESTAMP,"
-            + "id_pagado INT,"
-            + "FOREIGN KEY (id_pagado) REFERENCES TiendaLocal.pagado(id_pagado),"
+            + "id_factura INT,"
+            + "FOREIGN KEY (id_factura) REFERENCES TiendaLocal.factura(id_factura),"
             + "id_categoria INT,"
             + "FOREIGN KEY (id_categoria) REFERENCES TiendaLocal.categoria(id_categoria),"
             + "id_cliente  INT,"
@@ -175,6 +192,12 @@ public class ConfiguracionDataBase {
     
     private final String SENTENCIA_ELIMINAR_TABLA_TECNICO = 
             "DROP TABLE IF EXISTS TiendaLocal.tecnico";
+    
+    private final String SENTENCIA_ELIMINAR_TABLA_FACTURA = 
+            "DROP TABLE IF EXISTS TiendaLocal.factura";
+    
+    private final String SENTENCIA_ELIMINAR_TABLA_PAGO = 
+            "DROP TABLE IF EXISTS TiendaLocal.pago";
     
     private final String SENTENCIA_ELIMINAR_TABLA_VENTA = 
             "DROP TABLE IF EXISTS TiendaLocal.venta";
@@ -282,6 +305,24 @@ public class ConfiguracionDataBase {
     public void crearTablaTecnico(){
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_TABLA_TECNICO);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConfiguracionDataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void crearTablaFactura(){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_TABLA_FACTURA);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConfiguracionDataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void crearTablaPago(){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_CREAR_TABLA_PAGO);
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ConfiguracionDataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -419,6 +460,24 @@ public class ConfiguracionDataBase {
     public void eliminarTablaTecnico(){
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ELIMINAR_TABLA_TECNICO);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConfiguracionDataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void eliminarTablaFactura(){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ELIMINAR_TABLA_FACTURA);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConfiguracionDataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void eliminarTablaPago(){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ELIMINAR_TABLA_PAGO);
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ConfiguracionDataBase.class.getName()).log(Level.SEVERE, null, ex);

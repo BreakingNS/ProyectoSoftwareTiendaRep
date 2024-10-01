@@ -1,3 +1,4 @@
+
 package dao.impl;
 
 import config.ConexionDataBase;
@@ -34,9 +35,10 @@ public class PrecioDAOImplTest {
     private static UbicacionDAOImpl ubicacionDAO;
     private static CategoriaDAOImpl categoriaDAO;
     private static EstadoDAOImpl estadoDAO;
-    private static PagadoDAOImpl pagadoDAO;
     private static ClienteDAOImpl clienteDAO;
     private static TecnicoDAOImpl tecnicoDAO;
+    private static FacturaDAOImpl facturaDAO;
+    private static PagoDAOImpl pagoDAO;
     private static RepuestoDAOImpl repuestoDAO;
     private static PrecioDAOImpl precioDAO;
     private static ReparacionDAOImpl reparacionDAO;
@@ -56,9 +58,10 @@ public class PrecioDAOImplTest {
         ubicacionDAO = new UbicacionDAOImpl(connection);
         categoriaDAO = new CategoriaDAOImpl(connection);
         estadoDAO = new EstadoDAOImpl(connection);
-        pagadoDAO = new PagadoDAOImpl(connection);
         clienteDAO = new ClienteDAOImpl(connection);
         tecnicoDAO = new TecnicoDAOImpl(connection);
+        facturaDAO = new FacturaDAOImpl(connection);
+        pagoDAO = new PagoDAOImpl(connection);
         repuestoDAO = new RepuestoDAOImpl(connection);
         precioDAO = new PrecioDAOImpl(connection);
         reparacionDAO = new ReparacionDAOImpl(connection);
@@ -81,9 +84,10 @@ public class PrecioDAOImplTest {
         configuracion.crearTablaUbicacion();
         configuracion.crearTablaCategoria();
         configuracion.crearTablaEstado();
-        configuracion.crearTablaPagado();
         configuracion.crearTablaCliente();
         configuracion.crearTablaTecnico();
+        configuracion.crearTablaFactura();
+        configuracion.crearTablaPago();
         configuracion.crearTablaVenta();
         configuracion.crearTablaRepuesto();
         configuracion.crearTablaPrecio();
@@ -102,9 +106,10 @@ public class PrecioDAOImplTest {
         configuracion.eliminarTablaPrecio();
         configuracion.eliminarTablaRepuesto();
         configuracion.eliminarTablaVenta();
+        configuracion.eliminarTablaPago();
+        configuracion.eliminarTablaFactura();
         configuracion.eliminarTablaTecnico();
         configuracion.eliminarTablaCliente();
-        configuracion.eliminarTablaPagado();
         configuracion.eliminarTablaEstado();
         configuracion.eliminarTablaCategoria();
         configuracion.eliminarTablaUbicacion();
@@ -122,9 +127,10 @@ public class PrecioDAOImplTest {
         configuracion.eliminarTablaPrecio();
         configuracion.eliminarTablaRepuesto();
         configuracion.eliminarTablaVenta();
+        configuracion.eliminarTablaPago();
+        configuracion.eliminarTablaFactura();
         configuracion.eliminarTablaTecnico();
         configuracion.eliminarTablaCliente();
-        configuracion.eliminarTablaPagado();
         configuracion.eliminarTablaEstado();
         configuracion.eliminarTablaCategoria();
         configuracion.eliminarTablaUbicacion();

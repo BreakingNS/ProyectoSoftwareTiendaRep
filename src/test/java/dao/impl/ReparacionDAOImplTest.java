@@ -1,4 +1,3 @@
-
 package dao.impl;
 
 import config.ConexionDataBase;
@@ -22,10 +21,11 @@ import java.util.List;
 import model.Categoria;
 import model.Cliente;
 import model.Estado;
+import model.Factura;
 import model.Marca;
 import model.Modelo;
 import model.NombreRepuesto;
-import model.Pagado;
+import model.Pago;
 import model.Precio;
 import model.Reparacion;
 import model.Repuesto;
@@ -62,9 +62,10 @@ public class ReparacionDAOImplTest {
     private static UbicacionDAOImpl ubicacionDAO;
     private static CategoriaDAOImpl categoriaDAO;
     private static EstadoDAOImpl estadoDAO;
-    private static PagadoDAOImpl pagadoDAO;
     private static ClienteDAOImpl clienteDAO;
     private static TecnicoDAOImpl tecnicoDAO;
+    private static FacturaDAOImpl facturaDAO;
+    private static PagoDAOImpl pagoDAO;
     private static RepuestoDAOImpl repuestoDAO;
     private static PrecioDAOImpl precioDAO;
     private static ReparacionDAOImpl reparacionDAO;
@@ -109,9 +110,10 @@ public class ReparacionDAOImplTest {
         ubicacionDAO = new UbicacionDAOImpl(connection);
         categoriaDAO = new CategoriaDAOImpl(connection);
         estadoDAO = new EstadoDAOImpl(connection);
-        pagadoDAO = new PagadoDAOImpl(connection);
         clienteDAO = new ClienteDAOImpl(connection);
         tecnicoDAO = new TecnicoDAOImpl(connection);
+        facturaDAO = new FacturaDAOImpl(connection);
+        pagoDAO = new PagoDAOImpl(connection);
         repuestoDAO = new RepuestoDAOImpl(connection);
         precioDAO = new PrecioDAOImpl(connection);
         reparacionDAO = new ReparacionDAOImpl(connection);
@@ -150,10 +152,8 @@ public class ReparacionDAOImplTest {
     }
     
     @BeforeEach
-    public void setUp() throws SQLException {
+    public void setUp() {
         configuracion = new ConfiguracionDataBase(connection);
-        
-        configuracion.crearBDTiendaLocal();
         
         configuracion.crearTablaMarca();
         configuracion.crearTablaNombreRepuesto();
@@ -161,9 +161,10 @@ public class ReparacionDAOImplTest {
         configuracion.crearTablaUbicacion();
         configuracion.crearTablaCategoria();
         configuracion.crearTablaEstado();
-        configuracion.crearTablaPagado();
         configuracion.crearTablaCliente();
         configuracion.crearTablaTecnico();
+        configuracion.crearTablaFactura();
+        configuracion.crearTablaPago();
         configuracion.crearTablaVenta();
         configuracion.crearTablaRepuesto();
         configuracion.crearTablaPrecio();
@@ -182,9 +183,10 @@ public class ReparacionDAOImplTest {
         configuracion.eliminarTablaPrecio();
         configuracion.eliminarTablaRepuesto();
         configuracion.eliminarTablaVenta();
+        configuracion.eliminarTablaPago();
+        configuracion.eliminarTablaFactura();
         configuracion.eliminarTablaTecnico();
         configuracion.eliminarTablaCliente();
-        configuracion.eliminarTablaPagado();
         configuracion.eliminarTablaEstado();
         configuracion.eliminarTablaCategoria();
         configuracion.eliminarTablaUbicacion();
@@ -196,16 +198,16 @@ public class ReparacionDAOImplTest {
 
     @Test
     public void eliminarTablas(){
-        
         configuracion.eliminarTablaReparacionRepuesto();
         configuracion.eliminarTablaVentaRepuesto();
         configuracion.eliminarTablaReparacion();
         configuracion.eliminarTablaPrecio();
         configuracion.eliminarTablaRepuesto();
         configuracion.eliminarTablaVenta();
+        configuracion.eliminarTablaPago();
+        configuracion.eliminarTablaFactura();
         configuracion.eliminarTablaTecnico();
         configuracion.eliminarTablaCliente();
-        configuracion.eliminarTablaPagado();
         configuracion.eliminarTablaEstado();
         configuracion.eliminarTablaCategoria();
         configuracion.eliminarTablaUbicacion();
@@ -303,12 +305,47 @@ public class ReparacionDAOImplTest {
         modeloDAO.crearModelo(modelo3);
         modeloDAO.crearModelo(modelo4);
         //Pagado
-        Pagado pagado = new Pagado(1, "SI");
-        Pagado pagado1 = new Pagado(2, "NO");
-        Pagado pagado2 = new Pagado(3, "PARCIAL");
-        pagadoDAO.crearPagado(pagado);
-        pagadoDAO.crearPagado(pagado1);
-        pagadoDAO.crearPagado(pagado2);
+        Factura factura1 = new Factura(1, "Pagado", new BigDecimal("3000"));
+        Factura factura2 = new Factura(2, "No Pagado", new BigDecimal("5000"));
+        Factura factura3 = new Factura(3, "Parcial", new BigDecimal("90000"));
+        Factura factura4 = new Factura(4, "No Pagado", new BigDecimal("55000"));
+        Factura factura5 = new Factura(5, "Pagado", new BigDecimal("30000"));
+        Factura factura6 = new Factura(6, "Parcial", new BigDecimal("15000"));
+        Factura factura7 = new Factura(7, "Parcial", new BigDecimal("13000"));
+        Factura factura8 = new Factura(8, "No Pagado", new BigDecimal("5000"));
+        Factura factura9 = new Factura(9, "Parcial", new BigDecimal("33000"));
+        Factura factura10 = new Factura(10, "No Pagado", new BigDecimal("51000"));
+        facturaDAO.crearFactura(factura1);
+        facturaDAO.crearFactura(factura2);
+        facturaDAO.crearFactura(factura3);
+        facturaDAO.crearFactura(factura4);
+        facturaDAO.crearFactura(factura5);
+        facturaDAO.crearFactura(factura6);
+        facturaDAO.crearFactura(factura7);
+        facturaDAO.crearFactura(factura8);
+        facturaDAO.crearFactura(factura9);
+        facturaDAO.crearFactura(factura10);
+        //Pago
+        Pago pago1 = new Pago(1, factura1, new BigDecimal("3000"), LocalDateTime.now(), "nada");
+        Pago pago2 = new Pago(2, factura2, new BigDecimal("5000"), LocalDateTime.now(), "algo");
+        Pago pago3 = new Pago(3, factura3, new BigDecimal("2000"), LocalDateTime.now(), "nada");
+        Pago pago4 = new Pago(4, factura4, new BigDecimal("4000"), LocalDateTime.now(), "algo");
+        Pago pago5 = new Pago(5, factura5, new BigDecimal("10000"), LocalDateTime.now(), "nada");
+        Pago pago6 = new Pago(6, factura6, new BigDecimal("15000"), LocalDateTime.now(), "algo");
+        Pago pago7 = new Pago(7, factura7, new BigDecimal("9000"), LocalDateTime.now(), "nada");
+        Pago pago8 = new Pago(8, factura8, new BigDecimal("15500"), LocalDateTime.now(), "algo");
+        Pago pago9 = new Pago(9, factura9, new BigDecimal("10000"), LocalDateTime.now(), "nada");
+        Pago pago10 = new Pago(10, factura10, new BigDecimal("7000"), LocalDateTime.now(), "algo");
+        pagoDAO.crearPago(pago1);
+        pagoDAO.crearPago(pago2);
+        pagoDAO.crearPago(pago3);
+        pagoDAO.crearPago(pago4);
+        pagoDAO.crearPago(pago5);
+        pagoDAO.crearPago(pago6);
+        pagoDAO.crearPago(pago7);
+        pagoDAO.crearPago(pago8);
+        pagoDAO.crearPago(pago9);
+        pagoDAO.crearPago(pago10);
         //Cliente
         Cliente cliente = new Cliente(1, "Carlos", "Perez", "3834123456", "Valle Viejo", new ArrayList<>(), new ArrayList<>());
         Cliente cliente1 = new Cliente(2, "Maria", "Carrizo", "3834654321", "Achachay", new ArrayList<>(), new ArrayList<>());
@@ -385,16 +422,16 @@ public class ReparacionDAOImplTest {
         LocalDateTime fecha11 = LocalDateTime.of(2024, 8, 7, 16, 58);
         LocalDateTime fecha12 = LocalDateTime.of(2024, 8, 30, 18, 14);
         LocalDateTime fecha0 = LocalDateTime.of(1900, 1, 1, 0, 0);
-        Reparacion reparacion1 = new Reparacion(1, new BigDecimal("20000"), "Rota la tapa", fecha3, fecha4, pagado, categoria, cliente, estado, tecnico); 
-        Reparacion reparacion2 = new Reparacion(2, new BigDecimal("18000"), "Color plateado", fecha4, fecha5, pagado1, categoria1, cliente1, estado1, tecnico1); 
-        Reparacion reparacion3 = new Reparacion(3, new BigDecimal("80000"), "no gira", fecha5, fecha0, pagado2, categoria2, cliente2, estado2, tecnico2); 
-        Reparacion reparacion4 = new Reparacion(4, new BigDecimal("9000"), "", fecha6, fecha7, pagado, categoria3, cliente3, estado3, tecnico1); 
-        Reparacion reparacion5 = new Reparacion(5, new BigDecimal("9000"), "pierde por manguera", fecha7, fecha7, pagado, categoria, cliente4, estado4, tecnico); 
-        Reparacion reparacion6 = new Reparacion(6, new BigDecimal("15000"), "no tiene gas", fecha8, fecha0, pagado2, categoria, cliente2, estado5, tecnico); 
-        Reparacion reparacion7 = new Reparacion(7, new BigDecimal("10000"), "no enfria", fecha9, fecha10, pagado2, categoria, cliente4, estado6, tecnico); 
-        Reparacion reparacion8 = new Reparacion(8, new BigDecimal("10000"), "", fecha10, fecha11, pagado, categoria, cliente2, estado7, tecnico2); 
-        Reparacion reparacion9 = new Reparacion(9, new BigDecimal("6000"), "no cierra la tapa", fecha11, fecha0, pagado2, categoria, cliente, estado8, tecnico1); 
-        Reparacion reparacion10 = new Reparacion(10, new BigDecimal("15000"), "plaqueta dañada", fecha12, fecha0, pagado1, categoria, cliente8, estado1, tecnico2);
+        Reparacion reparacion1 = new Reparacion(1, new BigDecimal("20000"), "Rota la tapa", fecha3, fecha4, factura1, categoria, cliente, estado, tecnico); 
+        Reparacion reparacion2 = new Reparacion(2, new BigDecimal("18000"), "Color plateado", fecha4, fecha5, factura2, categoria1, cliente1, estado1, tecnico1); 
+        Reparacion reparacion3 = new Reparacion(3, new BigDecimal("80000"), "no gira", fecha5, fecha0, factura3, categoria2, cliente2, estado2, tecnico2); 
+        Reparacion reparacion4 = new Reparacion(4, new BigDecimal("9000"), "", fecha6, fecha7, factura4, categoria3, cliente3, estado3, tecnico1); 
+        Reparacion reparacion5 = new Reparacion(5, new BigDecimal("9000"), "pierde por manguera", fecha7, fecha7, factura5, categoria, cliente4, estado4, tecnico); 
+        Reparacion reparacion6 = new Reparacion(6, new BigDecimal("15000"), "no tiene gas", fecha8, fecha0, factura6, categoria, cliente2, estado5, tecnico); 
+        Reparacion reparacion7 = new Reparacion(7, new BigDecimal("10000"), "no enfria", fecha9, fecha10, factura7, categoria, cliente4, estado6, tecnico); 
+        Reparacion reparacion8 = new Reparacion(8, new BigDecimal("10000"), "", fecha10, fecha11, factura8, categoria, cliente2, estado7, tecnico2); 
+        Reparacion reparacion9 = new Reparacion(9, new BigDecimal("6000"), "no cierra la tapa", fecha11, fecha0, factura9, categoria, cliente, estado8, tecnico1); 
+        Reparacion reparacion10 = new Reparacion(10, new BigDecimal("15000"), "plaqueta dañada", fecha12, fecha0, factura10, categoria, cliente8, estado1, tecnico2);
         
         //ListaRepuestos Reparacion
         List<Repuesto> listaRepuestos0 = new ArrayList<>();
@@ -491,7 +528,7 @@ public class ReparacionDAOImplTest {
         assertEquals("Sin tapa", reparacion.getDetalles());
     }
     //Eliminar utiliza metodo cascada
-    /* 
+    /*
     @Test
     public void pruebaEliminarReparacion() throws SQLException{
         pruebaCrearReparacion();

@@ -27,9 +27,10 @@ public class ClienteDAOImplTest {
     private static UbicacionDAOImpl ubicacionDAO;
     private static CategoriaDAOImpl categoriaDAO;
     private static EstadoDAOImpl estadoDAO;
-    private static PagadoDAOImpl pagadoDAO;
     private static ClienteDAOImpl clienteDAO;
     private static TecnicoDAOImpl tecnicoDAO;
+    private static FacturaDAOImpl facturaDAO;
+    private static PagoDAOImpl pagoDAO;
     private static RepuestoDAOImpl repuestoDAO;
     private static PrecioDAOImpl precioDAO;
     private static ReparacionDAOImpl reparacionDAO;
@@ -49,9 +50,10 @@ public class ClienteDAOImplTest {
         ubicacionDAO = new UbicacionDAOImpl(connection);
         categoriaDAO = new CategoriaDAOImpl(connection);
         estadoDAO = new EstadoDAOImpl(connection);
-        pagadoDAO = new PagadoDAOImpl(connection);
         clienteDAO = new ClienteDAOImpl(connection);
         tecnicoDAO = new TecnicoDAOImpl(connection);
+        facturaDAO = new FacturaDAOImpl(connection);
+        pagoDAO = new PagoDAOImpl(connection);
         repuestoDAO = new RepuestoDAOImpl(connection);
         precioDAO = new PrecioDAOImpl(connection);
         reparacionDAO = new ReparacionDAOImpl(connection);
@@ -77,6 +79,8 @@ public class ClienteDAOImplTest {
         configuracion.crearTablaPagado();
         configuracion.crearTablaCliente();
         configuracion.crearTablaTecnico();
+        configuracion.crearTablaFactura();
+        configuracion.crearTablaPago();
         configuracion.crearTablaVenta();
         configuracion.crearTablaRepuesto();
         configuracion.crearTablaPrecio();
@@ -96,6 +100,8 @@ public class ClienteDAOImplTest {
         configuracion.eliminarTablaRepuesto();
         configuracion.eliminarTablaVenta();
         configuracion.eliminarTablaTecnico();
+        configuracion.eliminarTablaPago();
+        configuracion.eliminarTablaFactura();
         configuracion.eliminarTablaCliente();
         configuracion.eliminarTablaPagado();
         configuracion.eliminarTablaEstado();
@@ -116,6 +122,8 @@ public class ClienteDAOImplTest {
         configuracion.eliminarTablaRepuesto();
         configuracion.eliminarTablaVenta();
         configuracion.eliminarTablaTecnico();
+        configuracion.eliminarTablaPago();
+        configuracion.eliminarTablaFactura();
         configuracion.eliminarTablaCliente();
         configuracion.eliminarTablaPagado();
         configuracion.eliminarTablaEstado();

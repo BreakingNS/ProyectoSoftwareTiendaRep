@@ -25,7 +25,7 @@ public class ReparacionTest {
         assertEquals(detalles, rep.getDetalles());
         assertEquals(fecha_ingreso, rep.getFecha_ingreso());
         assertEquals(fecha_devolucion, rep.getFecha_devolucion());
-        assertEquals(null, rep.getPagado());
+        assertEquals(null, rep.getFactura());
         assertEquals(categoria, rep.getCategoria());
         assertEquals(null, rep.getCliente());
         assertEquals(null, rep.getTecnico());

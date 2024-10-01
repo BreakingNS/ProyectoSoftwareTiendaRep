@@ -14,7 +14,6 @@ C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\model\Prec
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\dao\impl\CategoriaDAOImplTest.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\service\CategoriaServiceTest.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\service\ClienteServiceTest.java
-C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\dao\impl\PagadoDAOImplTest.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\dao\impl\ReparacionDAOImplTest.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\model\TecnicoTest.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\service\RepuestoServiceTest.java
@@ -24,13 +23,12 @@ C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\app\Proyec
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\service\ModeloServiceTest.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\dao\impl\ModeloDAOImplTest.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\dao\impl\ReparacionRepuestoDAOImplTest.java
+C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\dao\impl\FacturaDAOImplTest.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\model\EstadoTest.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\model\RepuestoTest.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\dao\impl\UbicacionDAOImplTest.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\dao\impl\VentaRepuestoDAOImplTest.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\model\NombreRepuestoTest.java
-C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\service\PagadoServiceTest.java
-C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\model\PagadoTest.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\model\ReparacionTest.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\model\VentaTest.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\service\PrecioServiceTest.java
@@ -39,4 +37,5 @@ C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\model\Cate
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\service\TecnicoServiceTest.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\service\EstadoServiceTest.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\dao\impl\ClienteDAOImplTest.java
+C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\dao\impl\PagoDAOImplTest.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\test\java\model\UbicacionTest.java

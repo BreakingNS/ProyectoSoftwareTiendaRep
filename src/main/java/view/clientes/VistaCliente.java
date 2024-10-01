@@ -431,7 +431,7 @@ public class VistaCliente extends javax.swing.JFrame {
         };
         
         //Ponemos titulos a las columnas
-        String titulos[] = {"Id", "Nombre", "Apellido", "Telefono", "Domicilio"};
+        String titulos[] = {"Nombre", "Apellido", "Telefono", "Domicilio"};
         modeloTabla.setColumnIdentifiers(titulos);
         
         //Traer Clientes desde la base de datos
@@ -441,7 +441,7 @@ public class VistaCliente extends javax.swing.JFrame {
         if(listaClientes != null){
             System.out.println("tamaño de la lista: " + listaClientes.size());
             for(Cliente cliente : listaClientes){
-                Object[] objeto = {cliente.getId_cliente(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono(), cliente.getDomicilio()};
+                Object[] objeto = {cliente.getNombre(), cliente.getApellido(), cliente.getTelefono(), cliente.getDomicilio()};
                 
                 modeloTabla.addRow(objeto);
             }
@@ -460,14 +460,14 @@ public class VistaCliente extends javax.swing.JFrame {
         };
         
         //Ponemos titulos a las columnas
-        String titulos[] = {"Id", "Nombre", "Apellido", "Telefono", "Domicilio"};
+        String titulos[] = {"Nombre", "Apellido", "Telefono", "Domicilio"};
         modeloTabla.setColumnIdentifiers(titulos);
         
         //Setear los datos en la tabla
         if(listaClientes != null){
             System.out.println("tamaño de la lista: " + listaClientes.size());
             for(Cliente cliente : listaClientes){
-                Object[] objeto = {cliente.getId_cliente(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono(), cliente.getDomicilio()};
+                Object[] objeto = {cliente.getNombre(), cliente.getApellido(), cliente.getTelefono(), cliente.getDomicilio()};
                 
                 modeloTabla.addRow(objeto);
             }

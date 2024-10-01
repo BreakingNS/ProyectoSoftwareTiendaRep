@@ -9,7 +9,7 @@ public class Reparacion {
     private String detalles;
     private LocalDateTime fecha_ingreso;
     private LocalDateTime fecha_devolucion;
-    private Pagado pagado;
+    private Factura factura;
     private Categoria categoria;
     private Cliente cliente;
     private Estado estado;
@@ -18,13 +18,13 @@ public class Reparacion {
     public Reparacion() {
     }
 
-    public Reparacion(int id_reparacion, BigDecimal costo, String detalles, LocalDateTime fecha_ingreso, LocalDateTime fecha_devolucion, Pagado pagado, Categoria categoria, Cliente cliente, Estado estado, Tecnico tecnico) {
+    public Reparacion(int id_reparacion, BigDecimal costo, String detalles, LocalDateTime fecha_ingreso, LocalDateTime fecha_devolucion, Factura factura, Categoria categoria, Cliente cliente, Estado estado, Tecnico tecnico) {
         this.id_reparacion = id_reparacion;
         this.costo = costo;
         this.detalles = detalles;
         this.fecha_ingreso = fecha_ingreso;
         this.fecha_devolucion = fecha_devolucion;
-        this.pagado = pagado;
+        this.factura = factura;
         this.categoria = categoria;
         this.cliente = cliente;
         this.estado = estado;
@@ -51,8 +51,8 @@ public class Reparacion {
         return fecha_devolucion;
     }
 
-    public Pagado getPagado() {
-        return pagado;
+    public Factura getFactura() {
+        return factura;
     }
 
     public Categoria getCategoria() {
@@ -91,8 +91,8 @@ public class Reparacion {
         this.fecha_devolucion = fecha_devolucion;
     }
 
-    public void setPagado(Pagado pagado) {
-        this.pagado = pagado;
+    public void setFactura(Factura factura) {
+        this.factura = factura;
     }
 
     public void setCategoria(Categoria categoria) {

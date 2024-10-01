@@ -27,6 +27,11 @@ import dao.impl.TecnicoDAOImpl;
 import dao.impl.UbicacionDAOImpl;
 import dao.impl.VentaDAOImpl;
 import dao.impl.VentaRepuestoDAOImpl;
+import java.awt.Dimension;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import javax.swing.JFrame;
 import service.CategoriaService;
@@ -143,10 +148,11 @@ public class ProyectoSoftwareTiendaRep {
                 ventaController,
                 reparacionController
         );
-        //app.setSize(1280, 720);
+        
         app.setResizable(false);
         app.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         app.setVisible(true);
+        //app.setLocation(-8, 0);
         app.setLocationRelativeTo(null);
     }
 }

@@ -21,6 +21,7 @@ view\clientes\VistaCliente$1.class
 view\clientes\VistaCliente$17.class
 view\marca\VistaMarcas.class
 view\clientes\EditarCliente$1.class
+view\ventas\EditarVenta$30.class
 dao\interfaces\UbicacionDAO.class
 view\estado\VistaEstados$8.class
 view\reparaciones\AltaReparacion$13.class
@@ -45,6 +46,7 @@ view\App.class
 view\nombreRepuesto\AltaNombreRepuesto$3.class
 view\modelo\EditarModelo.class
 dao\interfaces\NombreRepuestoDAO.class
+dao\interfaces\PagoDAO.class
 dao\impl\ClienteDAOImpl.class
 view\repuestos\AltaRepuesto$1.class
 reloj\RelojEnTiempoReal.class
@@ -55,6 +57,7 @@ view\clientes\VistaCliente$6.class
 config\BackupDataBase.class
 view\nombreRepuesto\EditarNombreRepuesto$4.class
 controller\ReparacionController.class
+service\PagoService.class
 view\estado\VistaEstados$3.class
 view\reparaciones\AltaReparacion$18.class
 view\repuestos\VistaRepuestos$2.class
@@ -65,6 +68,7 @@ view\reparaciones\AltaReparacion$2.class
 view\ventas\AltaVenta$17.class
 view\marca\VistaMarcas$5.class
 view\tecnico\AltaTecnico$2.class
+dao\impl\FacturaDAOImpl.class
 view\administrador\VistaBD$8.class
 model\Marca.class
 view\App$32.class
@@ -88,6 +92,7 @@ view\repuestos\EditarRepuesto$7.class
 view\repuestos\ActualizarStock.class
 view\clientes\VistaCliente$10.class
 view\tecnico\EditarTecnico$2.class
+view\ventas\EditarVenta$27.class
 view\ventas\VistaVentas$8.class
 view\App$28.class
 view\repuestos\AltaRepuesto$4.class
@@ -121,6 +126,7 @@ dao\interfaces\EstadoDAO.class
 view\repuestos\VistaRepuestos$18.class
 view\ubicacion\EditarUbicacion.class
 controller\prueba.class
+view\ventas\EditarVenta$29.class
 view\marca\VistaMarcas$8.class
 view\ventas\EditarVenta$11.class
 view\marca\AltaMarca$2.class
@@ -134,11 +140,15 @@ view\repuestos\AltaRepuesto$3.class
 view\ventas\EditarVenta$1.class
 view\categoria\AltaCategoria$4.class
 view\tecnico\VistaTecnico$16.class
+view\ventas\AltaVenta$33.class
 view\ventas\AltaVenta$2.class
 view\ventas\AltaVenta$26.class
+dao\interfaces\FacturaDAO.class
 view\repuestos\VistaRepuestos$16.class
 view\modelo\EditarModelo$1.class
+view\reparaciones\AltaReparacion$28.class
 dao\interfaces\VentaRepuestoDAO.class
+model\Factura.class
 view\repuestos\VistaRepuestos$6.class
 view\ubicacion\VistaUbicacion.class
 app\ProyectoSoftwareTiendaRep.class
@@ -167,7 +177,6 @@ view\ventas\AltaVenta$21.class
 view\categoria\AltaCategoria$5.class
 view\categoria\EditarCategoria$4.class
 view\categoria\VistaCategorias$8.class
-model\Pagado.class
 model\Estado.class
 view\estado\EditarEstado$2.class
 config\NumerosSoloDocumentFilter.class
@@ -183,8 +192,10 @@ view\repuestos\ActualizarPrecio$3.class
 view\ubicacion\EditarUbicacion$5.class
 view\repuestos\AltaRepuesto$2.class
 view\estado\AltaEstado.class
+view\ventas\EditarVenta$26.class
 view\categoria\EditarCategoria$5.class
 view\categoria\VistaCategorias$7.class
+view\reparaciones\AltaReparacion$27.class
 view\estado\AltaEstado$4.class
 view\estado\EditarEstado$4.class
 view\categoria\VistaCategorias$9.class
@@ -198,11 +209,11 @@ view\repuestos\ActualizarPrecio$4.class
 view\repuestos\VistaRepuestos$12.class
 view\modelo\VistaModelo$7.class
 dao\impl\ModeloDAOImpl.class
+view\ventas\EditarVenta$25.class
 view\ventas\AltaVenta$24.class
 view\tecnico\VistaTecnico$12.class
 controller\RepuestoController.class
 view\ubicacion\VistaUbicacion$9.class
-dao\interfaces\PagadoDAO.class
 dao\interfaces\ReparacionRepuestoDAO.class
 service\PrecioService.class
 view\estado\AltaEstado$1.class
@@ -211,6 +222,7 @@ service\CategoriaService.class
 view\clientes\VistaCliente.class
 view\ventas\AltaVenta$27.class
 view\ubicacion\VistaUbicacion$6.class
+view\ventas\AltaVenta$32.class
 view\modelo\AltaModelo.class
 view\estado\VistaEstados.class
 view\categoria\AltaCategoria$2.class
@@ -218,18 +230,20 @@ view\repuestos\ActualizarPrecio$6.class
 view\ventas\AltaVenta$25.class
 view\repuestos\VistaRepuestos$5.class
 view\modelo\VistaModelo$9.class
+view\ventas\EditarVenta$24.class
 view\ventas\EditarVenta$18.class
 view\repuestos\VistaRepuestos$10.class
 dao\impl\TecnicoDAOImpl.class
 view\reparaciones\VistaReparaciones$11.class
 controller\ClienteController.class
 controller\TecnicoController.class
+view\ventas\AltaVenta$31.class
 view\estado\AltaEstado$2.class
 view\tecnico\VistaTecnico$15.class
 view\administrador\VistaBD.class
 view\ventas\AltaVenta$19.class
-service\PagadoService.class
 view\ventas\VistaVentas.class
+view\reparaciones\AltaReparacion$26.class
 view\ubicacion\VistaUbicacion$7.class
 view\modelo\VistaModelo$8.class
 view\repuestos\VistaRepuestos$4.class
@@ -257,6 +271,7 @@ view\clientes\AltaCliente.class
 view\estado\VistaEstados$2.class
 view\marca\EditarMarca$4.class
 view\ventas\AltaVenta$16.class
+dao\impl\PagoDAOImpl.class
 view\categoria\VistaCategorias$5.class
 view\reparaciones\AltaReparacion.class
 view\marca\AltaMarca$3.class
@@ -269,6 +284,7 @@ view\tecnico\EditarTecnico.class
 view\modelo\EditarModelo$4.class
 view\ubicacion\VistaUbicacion$10.class
 view\repuestos\EditarRepuesto$3.class
+service\FacturaService.class
 view\reparaciones\AltaReparacion$25.class
 view\ventas\EditarVenta$4.class
 view\nombreRepuesto\EditarNombreRepuesto$5.class
@@ -306,6 +322,7 @@ view\modelo\EditarModelo$2.class
 view\nombreRepuesto\VistaNombreRepuesto$3.class
 view\reparaciones\AltaReparacion$14.class
 view\modelo\AltaModelo$1.class
+controller\FacturaController.class
 view\marca\VistaMarcas$9.class
 view\modelo\VistaModelo$4.class
 view\ventas\EditarVenta$12.class
@@ -336,6 +353,7 @@ view\modelo\VistaModelo$2.class
 view\modelo\AltaModelo$3.class
 view\nombreRepuesto\VistaNombreRepuesto$1.class
 view\tecnico\VistaTecnico$2.class
+controller\PagoController.class
 view\reparaciones\AltaReparacion$6.class
 dao\interfaces\MarcaDAO.class
 view\tecnico\EditarTecnico$3.class
@@ -345,6 +363,7 @@ view\repuestos\ActualizarStock$5.class
 view\clientes\VistaCliente$11.class
 view\marca\EditarMarca$2.class
 view\repuestos\EditarRepuesto$6.class
+view\ventas\EditarVenta$28.class
 controller\CategoriaController.class
 dao\interfaces\ModeloDAO.class
 service\NombreRepuestoService.class
@@ -436,7 +455,6 @@ view\clientes\VistaCliente$2.class
 view\clientes\EditarCliente$5.class
 dao\interfaces\ClienteDAO.class
 view\clientes\VistaCliente$16.class
-dao\impl\PagadoDAOImpl.class
 view\clientes\EditarCliente.class
 view\clientes\VistaCliente$19.class
 model\ReparacionRepuesto.class
@@ -451,6 +469,7 @@ view\tecnico\VistaTecnico$8.class
 view\reparaciones\VistaReparaciones$8.class
 view\categoria\VistaCategorias.class
 view\tecnico\AltaTecnico$3.class
+model\Pago.class
 view\tecnico\VistaTecnico$5.class
 view\nombreRepuesto\AltaNombreRepuesto$2.class
 view\App$17.class
