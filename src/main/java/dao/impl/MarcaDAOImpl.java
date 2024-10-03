@@ -19,10 +19,10 @@ public class MarcaDAOImpl implements MarcaDAO{
     private final String SENTENCIA_OBTENER_MARCAS_ORDENADA_POR_NOMBRE = "SELECT * FROM TiendaLocal.marca ORDER BY nombre_marca ASC";
     private final String SENTENCIA_OBTENER_MARCAS_ORDENADA_POR_ID = "SELECT * FROM TiendaLocal.marca ORDER BY id_marca ASC";
     private final String SENTENCIA_OBTENER_MARCA = "SELECT * FROM TiendaLocal.marca WHERE id_marca = ?";
-    private final String SENTENCIA_OBTENER_MARCA_POR_NOMBRE = "SELECT * FROM TiendaLocal.marca WHERE nombre_marca = ?";
-    private final String SENTENCIA_CREAR_MARCA = "INSERT INTO TiendaLocal.marca (nombre_marca) VALUES ( ? )";
-    private final String SENTENCIA_ACTUALIZAR_MARCA = "UPDATE TiendaLocal.marca SET nombre_marca = ? WHERE id_marca = ?";
-    private final String SENTENCIA_EXISTE_MARCA = "SELECT nombre_marca FROM TiendaLocal.marca WHERE nombre_marca = ?";
+    private final String SENTENCIA_OBTENER_MARCA_POR_NOMBRE = "SELECT * FROM TiendaLocal.marca WHERE nombre_marca = UPPER(?)";
+    private final String SENTENCIA_CREAR_MARCA = "INSERT INTO TiendaLocal.marca (nombre_marca) VALUES ( UPPER(?) )";
+    private final String SENTENCIA_ACTUALIZAR_MARCA = "UPDATE TiendaLocal.marca SET nombre_marca = UPPER(?) WHERE id_marca = ?";
+    private final String SENTENCIA_EXISTE_MARCA = "SELECT nombre_marca FROM TiendaLocal.marca WHERE nombre_marca = UPPER(?)";
     
     public MarcaDAOImpl(Connection connection) {
         this.connection = connection;

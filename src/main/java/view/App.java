@@ -1,13 +1,17 @@
 package view;
 
 import config.BackupDataBase;
+import static config.BackupDataBase.cleanOldBackups;
+import static config.BackupDataBase.exportBackup;
 import config.ConexionDataBase;
 import controller.CategoriaController;
 import controller.ClienteController;
 import controller.EstadoController;
+import controller.FacturaController;
 import controller.MarcaController;
 import controller.ModeloController;
 import controller.NombreRepuestoController;
+import controller.PagoController;
 import controller.ReparacionController;
 import controller.RepuestoController;
 import controller.TecnicoController;
@@ -17,6 +21,10 @@ import dao.impl.MarcaDAOImpl;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
+import java.time.LocalDateTime;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -52,12 +60,15 @@ public class App extends javax.swing.JFrame {
     private CategoriaController categoriaController;
     private EstadoController estadoController;
     private TecnicoController tecnicoController;
+    private FacturaController facturaController;
+    private PagoController pagoController;
     
     private ClienteController clienteController;
     private RepuestoController repuestoController;
     private VentaController ventaController;
     private ReparacionController reparacionController;
     
+    private ScheduledExecutorService scheduler;
     
     public App(Connection connection, 
             ConexionDataBase conexionDataBase, 
@@ -71,8 +82,9 @@ public class App extends javax.swing.JFrame {
             CategoriaController categoriaController,
             EstadoController estadoController,
             VentaController ventaController,
-            ReparacionController reparacionController
-            
+            ReparacionController reparacionController,
+            FacturaController facturaController,
+            PagoController pagoController
             ) {
         this.connection = connection;
         this.conexionDataBase = conexionDataBase;
@@ -83,12 +95,22 @@ public class App extends javax.swing.JFrame {
         this.categoriaController = categoriaController;
         this.estadoController = estadoController;
         this.tecnicoController = tecnicoController;
+        this.facturaController = facturaController;
+        this.pagoController = pagoController;
         
         this.clienteController = clienteController;
         this.repuestoController = repuestoController;
         this.ventaController = ventaController;
         this.reparacionController = reparacionController;
         
+        // Programar backup automático cada 1 hora
+        scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.scheduleAtFixedRate(() -> {
+            String backupFilePath = "C:\\Users\\BreakingNS\\Documents\\BASES DE DATOS H2" + "\\backup_" + System.currentTimeMillis() + ".sql";
+            exportBackup(backupFilePath);
+            cleanOldBackups(); // Limpiar copias antiguas después de cada backup
+            System.out.println("Copia de seguridad realizada con éxito! (Una hora de uso del programa)" + LocalDateTime.now());
+        }, 0, 1, TimeUnit.HOURS);
         
         initComponents();
         configurarEventos();
@@ -98,9 +120,6 @@ public class App extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuBar2 = new javax.swing.JMenuBar();
-        jMenu4 = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         btnRepuestos = new javax.swing.JButton();
@@ -127,12 +146,6 @@ public class App extends javax.swing.JFrame {
         menuIngresoAdmin = new javax.swing.JMenuItem();
         menuCerrarAdmin = new javax.swing.JMenuItem();
         menuConfigBD = new javax.swing.JMenuItem();
-
-        jMenu4.setText("File");
-        jMenuBar2.add(jMenu4);
-
-        jMenu5.setText("Edit");
-        jMenuBar2.add(jMenu5);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -184,31 +197,32 @@ public class App extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(42, 42, 42)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(194, 194, 194)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(272, 272, 272)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnRepuestos, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnReparaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(420, 420, 420)))
-                .addGap(265, 265, 265))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(194, 194, 194)
-                .addComponent(jLabel1)
-                .addContainerGap(196, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btnClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(42, 42, 42)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnRepuestos, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnReparaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(420, 420, 420)))))
+                .addContainerGap(172, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(58, 58, 58)
                 .addComponent(jLabel1)
-                .addGap(136, 136, 136)
+                .addGap(102, 102, 102)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRepuestos, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -218,7 +232,7 @@ public class App extends javax.swing.JFrame {
                     .addComponent(btnReparaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(167, Short.MAX_VALUE))
+                .addContainerGap(189, Short.MAX_VALUE))
         );
 
         jMenu3.setText("Nuevo      ");
@@ -368,11 +382,21 @@ public class App extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(0, 1588, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(0, 800, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
 
         pack();
@@ -385,7 +409,8 @@ public class App extends javax.swing.JFrame {
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
-        alta.setLocationRelativeTo(null);
+        //alta.setLocationRelativeTo(null);
+        alta.setLocation(-8, 0);
 
         alta.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -397,12 +422,13 @@ public class App extends javax.swing.JFrame {
 
     private void btnRepuestosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRepuestosActionPerformed
         setVisible(false);
-        VistaReparaciones alta = new VistaReparaciones(reparacionController, ventaController, repuestoController, clienteController, estadoController);
+        VistaReparaciones alta = new VistaReparaciones(reparacionController, ventaController, repuestoController, clienteController, estadoController, facturaController, pagoController);
         //alta.setSize(600, 400);
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
-        alta.setLocationRelativeTo(null);
+        alta.setLocation(-8, 0);
+        //alta.setLocationRelativeTo(null);
 
         alta.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -419,8 +445,9 @@ public class App extends javax.swing.JFrame {
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
-        alta.setLocationRelativeTo(null);
-
+        //alta.setLocationRelativeTo(null);
+        alta.setLocation(-8, 0);
+        
         alta.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
@@ -431,12 +458,13 @@ public class App extends javax.swing.JFrame {
 
     private void btnReparacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReparacionesActionPerformed
         setVisible(false);
-        AltaReparacion alta = new AltaReparacion(reparacionController, ventaController, repuestoController, clienteController, estadoController);
+        AltaReparacion alta = new AltaReparacion(reparacionController, ventaController, repuestoController, clienteController, estadoController, facturaController, pagoController);
         //alta.setSize(600, 400);
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
-        alta.setLocationRelativeTo(null);
+        //alta.setLocationRelativeTo(null);
+        alta.setLocation(-8, 0);
 
         alta.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -448,14 +476,36 @@ public class App extends javax.swing.JFrame {
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         int opcion = JOptionPane.showConfirmDialog(this, 
-                "¿Está seguro de que desea salir?", 
-                "Confirmar salida", 
-                JOptionPane.YES_NO_OPTION, 
-                JOptionPane.QUESTION_MESSAGE);
+            "¿Está seguro de que desea salir?", 
+            "Confirmar salida", 
+            JOptionPane.YES_NO_OPTION, 
+            JOptionPane.QUESTION_MESSAGE);
 
         if (opcion == JOptionPane.YES_OPTION) {
+            System.out.println("entro1");
+
+            // Realizar la copia de seguridad al salir
+            String backupFilePath = "C:\\Users\\BreakingNS\\Documents\\BASES DE DATOS H2" + "\\backup_shutdown_" + System.currentTimeMillis() + ".sql";
+            exportBackup(backupFilePath);
+            System.out.println("Copia de seguridad realizada con éxito! (Cierre del programa)" + LocalDateTime.now());
+
+            // Cerrar la conexión y el scheduler antes de salir
             conexionDataBase.cerrarConexion(connection);
+
+            // Asegúrate de que el scheduler se detenga antes de salir
+            scheduler.shutdown();
+            try {
+                // Esperar a que se completen las tareas pendientes
+                if (!scheduler.awaitTermination(5, TimeUnit.SECONDS)) {
+                    scheduler.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                scheduler.shutdownNow();
+            }
+
+            System.out.println("salio1");
             dispose();
+            System.exit(0); // Asegúrate de salir del programa
         }
     }//GEN-LAST:event_btnSalirActionPerformed
 
@@ -679,11 +729,8 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JMenuItem menuCategoria;
     private javax.swing.JMenuItem menuCerrarAdmin;
@@ -712,4 +759,5 @@ public class App extends javax.swing.JFrame {
             }
         });
     }
+
 }

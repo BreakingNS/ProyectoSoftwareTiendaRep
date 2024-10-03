@@ -21,6 +21,7 @@ public class PagoDAOImpl implements PagoDAO{
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_PAGO = "DELETE FROM TiendaLocal.pago WHERE id_pago = ?";
     private final String SENTENCIA_OBTENER_PAGOS = "SELECT * FROM TiendaLocal.pago ORDER BY id_pago ASC";
+    private final String SENTENCIA_OBTENER_PAGOS_POR_ID_FACTURA = "SELECT * FROM TiendaLocal.pago WHERE id_factura = ?";
     private final String SENTENCIA_OBTENER_PAGO = "SELECT * FROM TiendaLocal.pago WHERE id_pago = ?";
     private final String SENTENCIA_CREAR_PAGO = "INSERT INTO TiendaLocal.pago (id_factura, montoAbonado, fechaPago, detalle) VALUES ( ? , ? , ? , ? )";
     private final String SENTENCIA_ACTUALIZAR_PAGO = "UPDATE TiendaLocal.pago SET id_factura = ?, montoAbonado = ?, fechaPago = ?, detalle = ? WHERE id_pago = ?";
@@ -132,5 +133,37 @@ public class PagoDAOImpl implements PagoDAO{
             Logger.getLogger(PrecioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
+    @Override
+    public List<Pago> obtenerPagosPorIdFactura(int id_factura) {
+        List<Pago> listaPagos = new ArrayList<>();
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_PAGOS_POR_ID_FACTURA);
+            preparedStatement.setInt(1, id_factura);
+            ResultSet pago_Resultado = preparedStatement.executeQuery();
+            
+            while (pago_Resultado.next()){
+                Timestamp fechaPrecio = pago_Resultado.getTimestamp("fechaPago");
+                LocalDateTime fechaLocal = fechaPrecio.toLocalDateTime();
+                
+                int idPago = pago_Resultado.getInt("id_pago");
+                int idFactura = pago_Resultado.getInt("id_factura");
+                String detalle = pago_Resultado.getString("detalle");
+                BigDecimal montoAbonado = pago_Resultado.getBigDecimal("montoAbonado");
+                
+                FacturaDAOImpl facturaDAO = new FacturaDAOImpl(connection);
+                Factura factura = facturaDAO.obtenerFactura(idFactura);
+                
+                Pago pago = new Pago(idPago, factura, montoAbonado, fechaLocal, detalle);
+                
+                listaPagos.add(pago);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(MarcaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return listaPagos;
+    }
 }

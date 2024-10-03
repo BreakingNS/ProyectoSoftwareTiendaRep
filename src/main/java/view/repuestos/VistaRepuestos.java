@@ -1,6 +1,7 @@
 package view.repuestos;
 
 import controller.RepuestoController;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -16,6 +17,7 @@ import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import model.Categoria;
 import model.Marca;
 import model.Modelo;
@@ -137,7 +139,7 @@ public class VistaRepuestos extends javax.swing.JFrame {
             }
         });
 
-        tablaRepuestos.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        tablaRepuestos.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tablaRepuestos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -146,6 +148,7 @@ public class VistaRepuestos extends javax.swing.JFrame {
 
             }
         ));
+        tablaRepuestos.setRowHeight(24);
         jScrollPane1.setViewportView(tablaRepuestos);
 
         txtCodigo.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -341,24 +344,25 @@ public class VistaRepuestos extends javax.swing.JFrame {
         if(tablaRepuestos.getRowCount() > 0){
             if(tablaRepuestos.getSelectedRow()!=-1){
                 
-                int idRepuesto = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 0)));
-                String comboNombreRep = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 1));
-                String comboMarcaa = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 2));
-                String comboModeloo = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 3));
-                String comboCategoriaa = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 4));
-                String textoCodigo = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 5));
-                String comboUbicacionn = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 6));
-                int stock = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 7)));
-                BigDecimal precio = new BigDecimal(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 8).toString());
+                String codigo = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 0));
+                String nombreRep = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 1));
+                String marca = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 2));
+                String modelo = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 3));
+                String categoria = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 4));
+                String ubicacion = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 5));
+                int stock = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 6)));
+                BigDecimal precio = new BigDecimal(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 7).toString());
+                int idRepuesto = repuestoController.obtenerIdPorCodigo(codigo);
+                
                 
                 this.setEnabled(false);
                 EditarRepuesto alta = new EditarRepuesto(idRepuesto, 
-                        comboNombreRep, 
-                        comboMarcaa, 
-                        comboCategoriaa, 
-                        comboUbicacionn, 
-                        comboModeloo, 
-                        textoCodigo,
+                        nombreRep, 
+                        marca, 
+                        categoria, 
+                        ubicacion, 
+                        modelo, 
+                        codigo,
                         stock, 
                         precio,
                         repuestoController);
@@ -423,14 +427,14 @@ public class VistaRepuestos extends javax.swing.JFrame {
         if(tablaRepuestos.getRowCount() > 0){
             if(tablaRepuestos.getSelectedRow()!=-1){
                 
-                int idRepuesto = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 0)));
+                String codigo = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 0));
                 String nombreRep = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 1));
                 String marca = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 2));
                 String modelo = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 3));
                 String categoria = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 4));
-                String codigo = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 5));
-                int stock = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 7)));
-                BigDecimal precio = new BigDecimal(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 8).toString());
+                int stock = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 6)));
+                BigDecimal precio = new BigDecimal(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 7).toString());
+                int idRepuesto = repuestoController.obtenerIdPorCodigo(codigo);
                 
                 this.setEnabled(false);
                 ActualizarPrecio alta = new ActualizarPrecio(idRepuesto, 
@@ -466,14 +470,14 @@ public class VistaRepuestos extends javax.swing.JFrame {
         if(tablaRepuestos.getRowCount() > 0){
             if(tablaRepuestos.getSelectedRow()!=-1){
                 
-                int idRepuesto = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 0)));
+                String codigo = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 0));
                 String nombreRep = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 1));
                 String marca = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 2));
                 String modelo = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 3));
                 String categoria = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 4));
-                String codigo = String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 5));
-                int stock = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 7)));
-                BigDecimal precio = new BigDecimal(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 8).toString());
+                int stock = Integer.parseInt(String.valueOf(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 6)));
+                BigDecimal precio = new BigDecimal(tablaRepuestos.getValueAt(tablaRepuestos.getSelectedRow(), 7).toString());
+                int idRepuesto = repuestoController.obtenerIdPorCodigo(codigo);
                 
                 this.setEnabled(false);
                 ActualizarStock alta = new ActualizarStock(idRepuesto, 
@@ -548,6 +552,9 @@ public class VistaRepuestos extends javax.swing.JFrame {
         String titulos[] = {"Codigo", "Nombre Repuesto", "Marca", "Modelo", "Categoria", "Ubicacion", "Stock", "Precio"};
         modeloTabla.setColumnIdentifiers(titulos);
         
+        JTableHeader header = tablaRepuestos.getTableHeader();
+        header.setFont(new Font("Arial", Font.ITALIC, 16)); // Cambia "Arial" y 16 por la fuente y tamaño deseados
+        
         //Traer Repuestos desde la base de datos
         List<Repuesto> listaRepuestos = repuestoController.listarRepuestos();
         
@@ -569,6 +576,15 @@ public class VistaRepuestos extends javax.swing.JFrame {
         }
         
         tablaRepuestos.setModel(modeloTabla);
+        
+        tablaRepuestos.getColumnModel().getColumn(0).setPreferredWidth(100); // ID más pequeño
+        tablaRepuestos.getColumnModel().getColumn(1).setPreferredWidth(200); // Nombre más grande
+        tablaRepuestos.getColumnModel().getColumn(2).setPreferredWidth(200); // Apellido
+        tablaRepuestos.getColumnModel().getColumn(3).setPreferredWidth(200); // Teléfono
+        tablaRepuestos.getColumnModel().getColumn(4).setPreferredWidth(350); // Domicilio
+        tablaRepuestos.getColumnModel().getColumn(5).setPreferredWidth(200); // Domicilio
+        tablaRepuestos.getColumnModel().getColumn(6).setPreferredWidth(100); // Domicilio
+        tablaRepuestos.getColumnModel().getColumn(7).setPreferredWidth(200); // Domicilio
     }
     
     private void cargarTablaBusqueda(List<Repuesto> listaRepuestos){
@@ -613,6 +629,15 @@ public class VistaRepuestos extends javax.swing.JFrame {
 
         // Asignar el modelo a la tabla
         tablaRepuestos.setModel(modeloTabla);
+        
+        tablaRepuestos.getColumnModel().getColumn(0).setPreferredWidth(100); // ID más pequeño
+        tablaRepuestos.getColumnModel().getColumn(1).setPreferredWidth(200); // Nombre más grande
+        tablaRepuestos.getColumnModel().getColumn(2).setPreferredWidth(200); // Apellido
+        tablaRepuestos.getColumnModel().getColumn(3).setPreferredWidth(200); // Teléfono
+        tablaRepuestos.getColumnModel().getColumn(4).setPreferredWidth(350); // Domicilio
+        tablaRepuestos.getColumnModel().getColumn(5).setPreferredWidth(200); // Domicilio
+        tablaRepuestos.getColumnModel().getColumn(6).setPreferredWidth(100); // Domicilio
+        tablaRepuestos.getColumnModel().getColumn(7).setPreferredWidth(200); // Domicilio
     }
 
     private void configurarEventos() {

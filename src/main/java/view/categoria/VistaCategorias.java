@@ -86,7 +86,7 @@ public class VistaCategorias extends javax.swing.JFrame {
             }
         });
 
-        tablaCategorias.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        tablaCategorias.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tablaCategorias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -95,6 +95,7 @@ public class VistaCategorias extends javax.swing.JFrame {
 
             }
         ));
+        tablaCategorias.setRowHeight(24);
         jScrollPane1.setViewportView(tablaCategorias);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

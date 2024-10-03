@@ -14,14 +14,14 @@ import model.NombreRepuesto;
 public class NombreRepuestoDAOImpl implements NombreRepuestoDAO{
     
     private Connection connection = null; 
-    private final String SENTENCIA_CREAR_NOMBREREP = "INSERT INTO TiendaLocal.nombrerepuesto (nombre_repuesto) VALUES ( ? )";
+    private final String SENTENCIA_CREAR_NOMBREREP = "INSERT INTO TiendaLocal.nombrerepuesto (nombre_repuesto) VALUES (UPPER(?))";
     private final String SENTENCIA_OBTENER_NOMBRESREP_ORDENADO_POR_ID = "SELECT * FROM TiendaLocal.nombrerepuesto ORDER BY id_nombrerepuesto ASC";
     private final String SENTENCIA_OBTENER_NOMBRESREP_ORDENADO_POR_NOMBRE = "SELECT * FROM TiendaLocal.nombrerepuesto ORDER BY nombre_repuesto ASC";
     private final String SENTENCIA_OBTENER_NOMBREREP = "SELECT * FROM TiendaLocal.nombrerepuesto WHERE id_nombrerepuesto = ?";
-    private final String SENTENCIA_OBTENER_NOMBREREP_POR_NOMBRE = "SELECT * FROM TiendaLocal.nombrerepuesto WHERE nombre_repuesto = ?";
-    private final String SENTENCIA_ACTUALIZAR_NOMBREREP = "UPDATE TiendaLocal.nombrerepuesto SET nombre_repuesto = ? WHERE id_nombrerepuesto = ?";
+    private final String SENTENCIA_OBTENER_NOMBREREP_POR_NOMBRE = "SELECT * FROM TiendaLocal.nombrerepuesto WHERE nombre_repuesto = UPPER(?)";
+    private final String SENTENCIA_ACTUALIZAR_NOMBREREP = "UPDATE TiendaLocal.nombrerepuesto SET nombre_repuesto = UPPER(?) WHERE id_nombrerepuesto = ?";
     private final String SENTENCIA_ELIMINAR_NOMBREREP = "DELETE FROM TiendaLocal.nombrerepuesto WHERE id_nombrerepuesto = ?";
-    private final String SENTENCIA_EXISTE_NOMBREREP = "SELECT nombre_repuesto FROM TiendaLocal.nombrerepuesto WHERE nombre_repuesto = ?";
+    private final String SENTENCIA_EXISTE_NOMBREREP = "SELECT nombre_repuesto FROM TiendaLocal.nombrerepuesto WHERE nombre_repuesto = UPPER(?)";
     
     public NombreRepuestoDAOImpl(Connection connection) {
         this.connection = connection;

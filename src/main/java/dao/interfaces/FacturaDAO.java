@@ -9,4 +9,5 @@ public interface FacturaDAO {
     public Factura obtenerFactura(int id);
     public void actualizarFactura(Factura factura);
     public void eliminarFactura(int id);
+    public Factura obtenerUltimaFactura();
 }

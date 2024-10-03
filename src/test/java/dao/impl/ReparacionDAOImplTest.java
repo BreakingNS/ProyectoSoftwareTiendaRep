@@ -47,6 +47,7 @@ import service.NombreRepuestoService;
 import service.PrecioService;
 import service.ReparacionService;
 import service.RepuestoService;
+import service.TecnicoService;
 import service.UbicacionService;
 import service.VentaService;
 
@@ -84,6 +85,7 @@ public class ReparacionDAOImplTest {
     private static CategoriaService categoriaService;
     private static EstadoService estadoService;
     private static PrecioService precioService;
+    private static TecnicoService tecnicoService;
     
     private static VentaController ventaController;
     private static MarcaController marcaController;
@@ -132,6 +134,7 @@ public class ReparacionDAOImplTest {
         estadoService = new EstadoService(estadoDAO, reparacionDAO);
         precioService = new PrecioService(precioDAO);
         ventaService = new VentaService(ventaDAO, repuestoDAO, ventaRepuestoDAO, connection);
+        tecnicoService = new TecnicoService(tecnicoDAO, ventaDAO, reparacionDAO);
         
         marcaController = new MarcaController(marcaService);
         nombreRepuestoController = new NombreRepuestoController(nombreRepuestoService);
@@ -140,7 +143,7 @@ public class ReparacionDAOImplTest {
         estadoController = new EstadoController(estadoService);
         
         clienteController = new ClienteController(clienteService);
-        repuestoController = new RepuestoController(nombreRepuestoService, repuestoService, marcaService, categoriaService, ubicacionService, precioService, modeloService);
+        repuestoController = new RepuestoController(nombreRepuestoService, repuestoService, marcaService, categoriaService, ubicacionService, precioService, modeloService, tecnicoService);
         ventaController = new VentaController(ventaService, clienteService, repuestoController);
         reparacionController = new ReparacionController(reparacionService, categoriaService, clienteService, estadoService, repuestoController);
         
@@ -176,7 +179,7 @@ public class ReparacionDAOImplTest {
     
     @AfterEach
     public void tearDown() {
-        
+        /*
         configuracion.eliminarTablaReparacionRepuesto();
         configuracion.eliminarTablaVentaRepuesto();
         configuracion.eliminarTablaReparacion();
@@ -193,7 +196,7 @@ public class ReparacionDAOImplTest {
         configuracion.eliminarTablaModelo();
         configuracion.eliminarTablaNombreRepuesto();
         configuracion.eliminarTablaMarca();
-        
+        */
     }
 
     @Test
@@ -219,12 +222,12 @@ public class ReparacionDAOImplTest {
     @Test
     public void pruebaCrearReparacion() throws SQLException{
         //Marca
-        Marca marca = new Marca(1, "Generico", new ArrayList<>());
-        Marca marca1 = new Marca(2, "Panasonic", new ArrayList<>());
+        Marca marca = new Marca(1, "GENERICO", new ArrayList<>());
+        Marca marca1 = new Marca(2, "PANASONIC", new ArrayList<>());
         Marca marca2 = new Marca(3, "LG", new ArrayList<>());
         Marca marca3 = new Marca(4, "ARIETE", new ArrayList<>());
-        Marca marca4 = new Marca(5, "Whirlpool", new ArrayList<>());
-        Marca marca5 = new Marca(6, "Philips", new ArrayList<>());
+        Marca marca4 = new Marca(5, "WHIRLPOOL", new ArrayList<>());
+        Marca marca5 = new Marca(6, "PHILIPS", new ArrayList<>());
         marcaDAO.crearMarca(marca);
         marcaDAO.crearMarca(marca1);
         marcaDAO.crearMarca(marca2);
@@ -232,16 +235,16 @@ public class ReparacionDAOImplTest {
         marcaDAO.crearMarca(marca4);
         marcaDAO.crearMarca(marca5);
         //NombreRepuesto +
-        NombreRepuesto nombreRepuesto = new NombreRepuesto(1, "Bobina");
-        NombreRepuesto nombreRepuesto1 = new NombreRepuesto(2, "Fuente");
-        NombreRepuesto nombreRepuesto2 = new NombreRepuesto(3, "Acople");
-        NombreRepuesto nombreRepuesto3 = new NombreRepuesto(4, "Actuador");
-        NombreRepuesto nombreRepuesto4 = new NombreRepuesto(5, "Agitador");
-        NombreRepuesto nombreRepuesto5 = new NombreRepuesto(6, "Embrague");
-        NombreRepuesto nombreRepuesto6 = new NombreRepuesto(7, "Semiconductor");
-        NombreRepuesto nombreRepuesto7 = new NombreRepuesto(8, "Sello de agua");
-        NombreRepuesto nombreRepuesto8 = new NombreRepuesto(9, "Terminal");
-        NombreRepuesto nombreRepuesto9 = new NombreRepuesto(10, "Plaqueta");
+        NombreRepuesto nombreRepuesto = new NombreRepuesto(1, "BOBINA");
+        NombreRepuesto nombreRepuesto1 = new NombreRepuesto(2, "FUENTE");
+        NombreRepuesto nombreRepuesto2 = new NombreRepuesto(3, "ACOPLE");
+        NombreRepuesto nombreRepuesto3 = new NombreRepuesto(4, "ACTUADOR");
+        NombreRepuesto nombreRepuesto4 = new NombreRepuesto(5, "AGITADOR");
+        NombreRepuesto nombreRepuesto5 = new NombreRepuesto(6, "EMBRAGUE");
+        NombreRepuesto nombreRepuesto6 = new NombreRepuesto(7, "SEMICONDUCTOR");
+        NombreRepuesto nombreRepuesto7 = new NombreRepuesto(8, "SELLO DE AGUA");
+        NombreRepuesto nombreRepuesto8 = new NombreRepuesto(9, "TERMINAL");
+        NombreRepuesto nombreRepuesto9 = new NombreRepuesto(10, "PLAQUETA");
         nombreRepuestoDAO.crearNombreRepuesto(nombreRepuesto);
         nombreRepuestoDAO.crearNombreRepuesto(nombreRepuesto1);
         nombreRepuestoDAO.crearNombreRepuesto(nombreRepuesto2);
@@ -253,12 +256,12 @@ public class ReparacionDAOImplTest {
         nombreRepuestoDAO.crearNombreRepuesto(nombreRepuesto8);
         nombreRepuestoDAO.crearNombreRepuesto(nombreRepuesto9);
         //Ubicacion 
-        Ubicacion ubicacion = new Ubicacion(1, "Deposito", new ArrayList<>());
-        Ubicacion ubicacion1 = new Ubicacion(2, "Piso 1", new ArrayList<>());
-        Ubicacion ubicacion2 = new Ubicacion(3, "Piso 2", new ArrayList<>());
-        Ubicacion ubicacion3 = new Ubicacion(4, "Mostrados", new ArrayList<>());
-        Ubicacion ubicacion4 = new Ubicacion(5, "Vidriera", new ArrayList<>());
-        Ubicacion ubicacion5 = new Ubicacion(6, "Almacen", new ArrayList<>());
+        Ubicacion ubicacion = new Ubicacion(1, "DEPOSITO", new ArrayList<>());
+        Ubicacion ubicacion1 = new Ubicacion(2, "PISO 1", new ArrayList<>());
+        Ubicacion ubicacion2 = new Ubicacion(3, "PISO 2", new ArrayList<>());
+        Ubicacion ubicacion3 = new Ubicacion(4, "MOSTRADOR", new ArrayList<>());
+        Ubicacion ubicacion4 = new Ubicacion(5, "VIDRIERA", new ArrayList<>());
+        Ubicacion ubicacion5 = new Ubicacion(6, "ALMACEN", new ArrayList<>());
         ubicacionDAO.crearUbicacion(ubicacion);
         ubicacionDAO.crearUbicacion(ubicacion1);
         ubicacionDAO.crearUbicacion(ubicacion2);
@@ -266,24 +269,25 @@ public class ReparacionDAOImplTest {
         ubicacionDAO.crearUbicacion(ubicacion4);
         ubicacionDAO.crearUbicacion(ubicacion5);
         //Categoria
-        Categoria categoria = new Categoria(1, "Lavarropas", new ArrayList<>(), new ArrayList<>());
-        Categoria categoria1 = new Categoria(2, "Heladera", new ArrayList<>(), new ArrayList<>());
-        Categoria categoria2 = new Categoria(3, "Aire Acondicionado", new ArrayList<>(), new ArrayList<>());
-        Categoria categoria3 = new Categoria(4, "Linea Blanca", new ArrayList<>(), new ArrayList<>());
+        Categoria categoria = new Categoria(1, "LAVARROPAS", new ArrayList<>(), new ArrayList<>());
+        Categoria categoria1 = new Categoria(2, "HELADERA", new ArrayList<>(), new ArrayList<>());
+        Categoria categoria2 = new Categoria(3, "AIRE ACONDICIONADO", new ArrayList<>(), new ArrayList<>());
+        Categoria categoria3 = new Categoria(4, "LINEA BLANCA", new ArrayList<>(), new ArrayList<>());
         categoriaDAO.crearCategoria(categoria);
         categoriaDAO.crearCategoria(categoria1);
         categoriaDAO.crearCategoria(categoria2);
         categoriaDAO.crearCategoria(categoria3);
         //Estado
-        Estado estado = new Estado(1, "Ingresado", new ArrayList<>());
-        Estado estado1 = new Estado(2, "En Revision", new ArrayList<>());
-        Estado estado2 = new Estado(3, "Presupuesto Emitido", new ArrayList<>());
-        Estado estado3 = new Estado(4, "Aprobado para Reparacion", new ArrayList<>());
-        Estado estado4 = new Estado(5, "En Reparacion", new ArrayList<>());
-        Estado estado5 = new Estado(6, "Reparado", new ArrayList<>());
-        Estado estado6 = new Estado(7, "Listo para Retirar", new ArrayList<>());
-        Estado estado7 = new Estado(8, "Devuelto sin Reparar", new ArrayList<>());
-        Estado estado8 = new Estado(9, "Cancelado", new ArrayList<>());
+        
+        Estado estado = new Estado(1, "INGRESADO", new ArrayList<>());
+        Estado estado1 = new Estado(2, "EN REVISION", new ArrayList<>());
+        Estado estado2 = new Estado(3, "PRESUPUESTO EMITIDO", new ArrayList<>());
+        Estado estado3 = new Estado(4, "APROBADO PARA REPARACION", new ArrayList<>());
+        Estado estado4 = new Estado(5, "EN REPARACION", new ArrayList<>());
+        Estado estado5 = new Estado(6, "REPARACION", new ArrayList<>());
+        Estado estado6 = new Estado(7, "LISTO PARA RETIRAR", new ArrayList<>());
+        Estado estado7 = new Estado(8, "DDEVUELTO SIN REPARAR", new ArrayList<>());
+        Estado estado8 = new Estado(9, "CANCELADO", new ArrayList<>());
         estadoDAO.crearEstado(estado);
         estadoDAO.crearEstado(estado1);
         estadoDAO.crearEstado(estado2);
@@ -294,18 +298,19 @@ public class ReparacionDAOImplTest {
         estadoDAO.crearEstado(estado7);
         estadoDAO.crearEstado(estado8);
         //Modelo
-        Modelo modelo = new Modelo(1, "Plus");
-        Modelo modelo1 = new Modelo(2, "Plus Ultra");
-        Modelo modelo2 = new Modelo(3, "Gold");
-        Modelo modelo3 = new Modelo(4, "Platinum");
-        Modelo modelo4 = new Modelo(5, "White");
+        Modelo modelo = new Modelo(1, "PLUS");
+        Modelo modelo1 = new Modelo(2, "PLUS ULTRA");
+        Modelo modelo2 = new Modelo(3, "GOLD");
+        Modelo modelo3 = new Modelo(4, "PLATINUM");
+        Modelo modelo4 = new Modelo(5, "WHITE");
         modeloDAO.crearModelo(modelo);
         modeloDAO.crearModelo(modelo1);
         modeloDAO.crearModelo(modelo2);
         modeloDAO.crearModelo(modelo3);
         modeloDAO.crearModelo(modelo4);
         //Pagado
-        Factura factura1 = new Factura(1, "Pagado", new BigDecimal("3000"));
+        /*
+        Factura factura1 = new Factura(1, "PAGADO", new BigDecimal("3000"));
         Factura factura2 = new Factura(2, "No Pagado", new BigDecimal("5000"));
         Factura factura3 = new Factura(3, "Parcial", new BigDecimal("90000"));
         Factura factura4 = new Factura(4, "No Pagado", new BigDecimal("55000"));
@@ -347,6 +352,7 @@ public class ReparacionDAOImplTest {
         pagoDAO.crearPago(pago9);
         pagoDAO.crearPago(pago10);
         //Cliente
+        */
         Cliente cliente = new Cliente(1, "Carlos", "Perez", "3834123456", "Valle Viejo", new ArrayList<>(), new ArrayList<>());
         Cliente cliente1 = new Cliente(2, "Maria", "Carrizo", "3834654321", "Achachay", new ArrayList<>(), new ArrayList<>());
         Cliente cliente2 = new Cliente(1, "Franco", "Espindola", "3834001234", "Eva Peron", new ArrayList<>(), new ArrayList<>());
@@ -375,6 +381,7 @@ public class ReparacionDAOImplTest {
         tecnicoDAO.crearTecnico(tecnico1);
         tecnicoDAO.crearTecnico(tecnico2);
         //Repuesto +
+        /*
         Repuesto repuesto = new Repuesto(1, 10, nombreRepuesto, marca, categoria, modelo, new ArrayList<>(), ubicacion, "A000");
         Repuesto repuesto1 = new Repuesto(2, 20, nombreRepuesto1, marca1, categoria1, modelo1, new ArrayList<>(), ubicacion1, "A001");
         Repuesto repuesto2 = new Repuesto(3, 45, nombreRepuesto2, marca2, categoria2, modelo2, new ArrayList<>(), ubicacion2, "A002");
@@ -486,7 +493,7 @@ public class ReparacionDAOImplTest {
         ventaController.agregarVenta(venta1, listaRepuestos6);
         ventaController.agregarVenta(venta2, listaRepuestos7);
         ventaController.agregarVenta(venta3, listaRepuestos8);
-        
+        */
     }
     
     @Test

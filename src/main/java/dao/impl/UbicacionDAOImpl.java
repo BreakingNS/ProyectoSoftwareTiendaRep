@@ -14,13 +14,13 @@ import model.Ubicacion;
 public class UbicacionDAOImpl implements UbicacionDAO{
 
     private Connection connection = null; 
-    private final String SENTENCIA_CREAR_UBICACION = "INSERT INTO TiendaLocal.ubicacion (nombre_ubicacion) VALUES ( ? )";
+    private final String SENTENCIA_CREAR_UBICACION = "INSERT INTO TiendaLocal.ubicacion (nombre_ubicacion) VALUES ( UPPER(?) )";
     private final String SENTENCIA_OBTENER_UBICACIONES = "SELECT * FROM TiendaLocal.ubicacion ORDER BY nombre_ubicacion ASC";
     private final String SENTENCIA_OBTENER_UBICACION = "SELECT * FROM TiendaLocal.ubicacion WHERE id_ubicacion = ?";
-    private final String SENTENCIA_OBTENER_UBICACION_POR_NOMBRE = "SELECT * FROM TiendaLocal.ubicacion WHERE nombre_ubicacion = ?";
-    private final String SENTENCIA_ACTUALIZAR_UBICACION = "UPDATE TiendaLocal.ubicacion SET nombre_ubicacion = ? WHERE id_ubicacion = ?";
+    private final String SENTENCIA_OBTENER_UBICACION_POR_NOMBRE = "SELECT * FROM TiendaLocal.ubicacion WHERE nombre_ubicacion = UPPER(?)";
+    private final String SENTENCIA_ACTUALIZAR_UBICACION = "UPDATE TiendaLocal.ubicacion SET nombre_ubicacion = UPPER(?) WHERE id_ubicacion = ?";
     private final String SENTENCIA_ELIMINAR_UBICACION = "DELETE FROM TiendaLocal.ubicacion WHERE id_ubicacion = ?";
-    private final String SENTENCIA_EXISTE_UBICACION = "SELECT nombre_ubicacion FROM TiendaLocal.ubicacion WHERE nombre_ubicacion = ?";
+    private final String SENTENCIA_EXISTE_UBICACION = "SELECT nombre_ubicacion FROM TiendaLocal.ubicacion WHERE nombre_ubicacion = UPPER(?)";
     
     public UbicacionDAOImpl(Connection connection) {
         this.connection = connection;

@@ -42,4 +42,8 @@ public class FacturaController {
     public void eliminarFactura(int id){
         facturaService.eliminarFacturaPorId(id);
     }
+
+    public Factura obtenerUltimaFactura() {
+        return facturaService.obtenerUltimaFactura(); 
+    }
 }

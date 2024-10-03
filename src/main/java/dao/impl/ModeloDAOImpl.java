@@ -19,10 +19,10 @@ public class ModeloDAOImpl implements ModeloDAO{
     private final String SENTENCIA_ELIMINAR_MODELO = "DELETE FROM TiendaLocal.modelo WHERE id_modelo = ?";
     private final String SENTENCIA_OBTENER_MODELOS = "SELECT * FROM TiendaLocal.modelo";
     private final String SENTENCIA_OBTENER_MODELO = "SELECT * FROM TiendaLocal.modelo WHERE id_modelo = ?";
-    private final String SENTENCIA_OBTENER_MODELO_POR_NOMBRE = "SELECT * FROM TiendaLocal.modelo WHERE nombre_modelo = ?";
-    private final String SENTENCIA_CREAR_MODELO = "INSERT INTO TiendaLocal.modelo (nombre_modelo) VALUES ( ? )";
-    private final String SENTENCIA_ACTUALIZAR_MODELO = "UPDATE TiendaLocal.modelo SET nombre_modelo = ? WHERE id_modelo = ?";
-    private final String SENTENCIA_EXISTE_MODELO = "SELECT nombre_modelo FROM TiendaLocal.modelo WHERE nombre_modelo = ?";
+    private final String SENTENCIA_OBTENER_MODELO_POR_NOMBRE = "SELECT * FROM TiendaLocal.modelo WHERE nombre_modelo = UPPER(?)";
+    private final String SENTENCIA_CREAR_MODELO = "INSERT INTO TiendaLocal.modelo (nombre_modelo) VALUES ( UPPER(?) )";
+    private final String SENTENCIA_ACTUALIZAR_MODELO = "UPDATE TiendaLocal.modelo SET nombre_modelo = UPPER(?) WHERE id_modelo = ?";
+    private final String SENTENCIA_EXISTE_MODELO = "SELECT nombre_modelo FROM TiendaLocal.modelo WHERE nombre_modelo = UPPER(?)";
     
     public ModeloDAOImpl(Connection connection) {
         this.connection = connection;

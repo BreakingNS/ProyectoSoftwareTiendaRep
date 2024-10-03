@@ -18,8 +18,9 @@ public class FacturaDAOImpl implements FacturaDAO{
     private final String SENTENCIA_ELIMINAR_FACTURA = "DELETE FROM TiendaLocal.factura WHERE id_factura = ?";
     private final String SENTENCIA_OBTENER_FACTURAS = "SELECT * FROM TiendaLocal.factura ORDER BY id_factura ASC";
     private final String SENTENCIA_OBTENER_FACTURA = "SELECT * FROM TiendaLocal.factura WHERE id_factura = ?";
+    private final String SENTENCIA_OBTENER_ULTIMA_FACTURA = "SELECT * FROM tiendalocal.factura WHERE id_factura = (SELECT MAX(id_factura) FROM tiendalocal.factura);";
     private final String SENTENCIA_CREAR_FACTURA = "INSERT INTO TiendaLocal.factura (estado, montoTotal) VALUES ( ? , ? )";
-    private final String SENTENCIA_ACTUALIZAR_FACTURA = "UPDATE TiendaLocal.factura SET estado = ?, nombre_factura = ? WHERE id_factura = ?";
+    private final String SENTENCIA_ACTUALIZAR_FACTURA = "UPDATE TiendaLocal.factura SET estado = ?, montoTotal = ? WHERE id_factura = ?";
 
     public FacturaDAOImpl(Connection connection) {
         this.connection = connection;
@@ -69,7 +70,8 @@ public class FacturaDAOImpl implements FacturaDAO{
         ResultSet factura_Resultado = null;
         
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_FACTURAS);
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_FACTURA);
+            preparedStatement.setInt(1, id);
             factura_Resultado = preparedStatement.executeQuery();
             
             if(factura_Resultado.next()){
@@ -89,7 +91,7 @@ public class FacturaDAOImpl implements FacturaDAO{
 
     @Override
     public void actualizarFactura(Factura factura) {
-        try { //UPDATE TiendaLocal.precio SET fechaPrecio = ? , valor = ? , id_repuesto = ? WHERE id_precio = ?
+        try { //UPDATE TiendaLocal.factura SET estado = ?, montoTotal = ? WHERE id_factura = ?
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_FACTURA);
             preparedStatement.setString(1, factura.getEstado());
             preparedStatement.setBigDecimal(2, factura.getMontoTotal());
@@ -109,6 +111,30 @@ public class FacturaDAOImpl implements FacturaDAO{
         } catch (SQLException ex) {
             Logger.getLogger(PrecioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public Factura obtenerUltimaFactura() {
+        Factura factura = null;
+        ResultSet factura_Resultado = null;
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_ULTIMA_FACTURA);
+            factura_Resultado = preparedStatement.executeQuery();
+            
+            if(factura_Resultado.next()){
+                int id = factura_Resultado.getInt("id_factura");
+                String estado = factura_Resultado.getString("estado");
+                BigDecimal montoTotal = factura_Resultado.getBigDecimal("montoTotal");
+                
+                factura = new Factura(id, estado, montoTotal);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(MarcaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return factura;
     }
     
 }

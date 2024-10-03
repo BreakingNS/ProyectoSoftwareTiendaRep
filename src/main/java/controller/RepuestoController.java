@@ -14,6 +14,7 @@ import model.Modelo;
 import model.NombreRepuesto;
 import model.Precio;
 import model.Repuesto;
+import model.Tecnico;
 import model.Ubicacion;
 import service.CategoriaService;
 import service.MarcaService;
@@ -22,6 +23,7 @@ import service.NombreRepuestoService;
 import service.PrecioService;
 import service.RepuestoService;
 import service.RepuestoService;
+import service.TecnicoService;
 import service.UbicacionService;
 
 public class RepuestoController {
@@ -33,6 +35,7 @@ public class RepuestoController {
     private final PrecioService precioService;
     private final NombreRepuestoService nombreRepuestoService;
     private final ModeloService modeloService;
+    private final TecnicoService tecnicoService;
 
     public RepuestoController(NombreRepuestoService nombreRepuestoService,
             RepuestoService repuestoService,
@@ -40,7 +43,8 @@ public class RepuestoController {
             CategoriaService categoriaService, 
             UbicacionService ubicacionService, 
             PrecioService precioService,
-            ModeloService modeloService) {
+            ModeloService modeloService,
+            TecnicoService tecnicoService) {
         this.repuestoService = repuestoService;
         this.marcaService = marcaService;
         this.categoriaService = categoriaService;
@@ -48,6 +52,7 @@ public class RepuestoController {
         this.precioService = precioService;
         this.nombreRepuestoService = nombreRepuestoService;
         this.modeloService = modeloService;
+        this.tecnicoService = tecnicoService;
     }
     
     public void agregarRepuesto(String nombreRepuesto, 
@@ -183,6 +188,9 @@ public class RepuestoController {
         return modeloService.listarModelos();
     }
 
+    public List<Tecnico> retornarTecnicos() {
+        return tecnicoService.listarTecnicos();
+    }
     
     public List<Repuesto> busquedaDeRepuesto(String nombreMarca, String nombreCategoria, String nombreNombreRepuesto, String nombreUbicacion, String nombreModelo, String codigo) {
 
@@ -260,5 +268,11 @@ public class RepuestoController {
     public void actualizarPrecioDeRepuesto(Repuesto repuesto, BigDecimal precio) {
         repuestoService.actualizarPrecio(repuesto, precio);
     }
+
+    public int obtenerIdPorCodigo(String codigo) {
+        return repuestoService.obtenerIdPorCodigo(codigo);
+    }
+
+    
 
 }

@@ -47,7 +47,7 @@ public class VistaEstados extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 48)); // NOI18N
         jLabel1.setText("MODELO VISTA ESTADOS");
 
-        tablaEstados.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        tablaEstados.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tablaEstados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -56,6 +56,7 @@ public class VistaEstados extends javax.swing.JFrame {
 
             }
         ));
+        tablaEstados.setRowHeight(24);
         jScrollPane1.setViewportView(tablaEstados);
 
         btnAgregar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N

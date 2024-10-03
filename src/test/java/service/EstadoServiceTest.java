@@ -89,6 +89,8 @@ public class EstadoServiceTest {
     private static CategoriaService categoriaService;
     private static EstadoService estadoService;
     private static PrecioService precioService;
+    private static TecnicoService tecnicoService;
+
     
     private static ClienteController clienteController;
     private static RepuestoController repuestoController;
@@ -125,6 +127,7 @@ public class EstadoServiceTest {
         reparacionRepuestoDAO = new ReparacionRepuestoDAOImpl(connection);
         ventaRepuestoDAO = new VentaRepuestoDAOImpl(connection);
         reparacionService = new ReparacionService(reparacionDAO, repuestoDAO, reparacionRepuestoDAO, connection);
+        tecnicoService = new TecnicoService(tecnicoDAO, ventaDAO, reparacionDAO);
         
         clienteService = new ClienteService(clienteDAO, ventaDAO, reparacionDAO);
         repuestoService = new RepuestoService(repuestoDAO, precioDAO);
@@ -143,7 +146,7 @@ public class EstadoServiceTest {
         categoriaController = new CategoriaController(categoriaService);
         estadoController = new EstadoController(estadoService);
         clienteController = new ClienteController(clienteService);
-        repuestoController = new RepuestoController(nombreRepuestoService, repuestoService, marcaService, categoriaService, ubicacionService, precioService, modeloService);
+        repuestoController = new RepuestoController(nombreRepuestoService, repuestoService, marcaService, categoriaService, ubicacionService, precioService, modeloService, tecnicoService);
         ventaController = new VentaController(ventaService, clienteService, repuestoController);
         reparacionController = new ReparacionController(reparacionService, categoriaService, clienteService, estadoService, repuestoController);
         

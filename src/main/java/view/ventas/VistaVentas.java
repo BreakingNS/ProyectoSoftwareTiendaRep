@@ -140,7 +140,7 @@ public class VistaVentas extends javax.swing.JFrame {
             }
         });
 
-        tablaVentas.setFont(new java.awt.Font("Dialog", 0, 16)); // NOI18N
+        tablaVentas.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tablaVentas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -149,10 +149,10 @@ public class VistaVentas extends javax.swing.JFrame {
 
             }
         ));
-        tablaVentas.setRowHeight(20);
+        tablaVentas.setRowHeight(24);
         jScrollPane1.setViewportView(tablaVentas);
 
-        tablaDetalleVenta.setFont(new java.awt.Font("Dialog", 0, 16)); // NOI18N
+        tablaDetalleVenta.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tablaDetalleVenta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -161,7 +161,7 @@ public class VistaVentas extends javax.swing.JFrame {
 
             }
         ));
-        tablaDetalleVenta.setRowHeight(20);
+        tablaDetalleVenta.setRowHeight(24);
         jScrollPane2.setViewportView(tablaDetalleVenta);
 
         jLabel8.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -580,14 +580,16 @@ public class VistaVentas extends javax.swing.JFrame {
             int idRepuesto = repuesto.getId_repuesto();
             String nombreRepuesto = repuesto.getNombreRepuesto().getNombre_repuesto();
             String marca = repuesto.getMarca().getNombre_marca();
+            String modelo = repuesto.getModelo().getNombre_modelo();
             String categoria = repuesto.getCategoria().getNombre_categoria();
+            String codigo = repuesto.getCodigo();
             
             Precio precioEnFechaVenta = ventaController.obtenerPrecioRepuestoPorFechaVenta(idVenta, repuesto); // Precio del repuesto en la fecha de venta
             
             String precio = precioEnFechaVenta.getValor().toString();
             
             // Agregar cada repuesto como una fila en la tabla
-            modeloVentaDetalles.addRow(new Object[]{idRepuesto, nombreRepuesto, marca, categoria, precio});
+            modeloVentaDetalles.addRow(new Object[]{idRepuesto, nombreRepuesto, marca, modelo, categoria, codigo, precio});
         }
         
         Venta venta = ventaController.obtenerVentaPorId(idVenta);

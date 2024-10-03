@@ -49,6 +49,7 @@ public class ReparacionDAOImpl implements ReparacionDAO{
             preparedStatement.setBigDecimal(1, reparacion.getCosto());
             preparedStatement.setString(2, reparacion.getDetalles());
             preparedStatement.setTimestamp(3, java.sql.Timestamp.valueOf(reparacion.getFecha_ingreso()));
+            
             if(reparacion.getFecha_devolucion().equals(LocalDateTime.of(1900, 1, 1, 0, 0))){
                 preparedStatement.setNull(4, java.sql.Types.TIMESTAMP);
             }
@@ -60,7 +61,13 @@ public class ReparacionDAOImpl implements ReparacionDAO{
             preparedStatement.setInt(6, reparacion.getCategoria().getId_categoria());
             preparedStatement.setInt(7, reparacion.getCliente().getId_cliente());
             preparedStatement.setInt(8, reparacion.getEstado().getId_estado());
-            preparedStatement.setInt(9, reparacion.getTecnico().getId_tecnico());
+            if(reparacion.getTecnico().getId_tecnico()==0){
+                preparedStatement.setNull(9, java.sql.Types.INTEGER);
+            }
+            else{
+                preparedStatement.setInt(9, reparacion.getTecnico().getId_tecnico());
+            }
+            
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ReparacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -110,6 +117,11 @@ public class ReparacionDAOImpl implements ReparacionDAO{
                 Cliente cliente = clienteDAO.obtenerCliente(id_cliente);
                 Estado estado = estadoDAO.obtenerEstado(id_estado);
                 Tecnico tecnico = tecnicoDAO.obtenerTecnico(id_tecnico);
+                
+                System.out.println("------------");
+                System.out.println("id factura : " + factura.getId_factura());
+                System.out.println("estado : " + factura.getEstado());
+                System.out.println("monto final : " + factura.getMontoTotal());
                 
                 Reparacion reparacion = new Reparacion(id_reparacion, costo, detalles, fecha_ingreso, fecha_devolucion, factura, categoria, cliente, estado, tecnico);
                 

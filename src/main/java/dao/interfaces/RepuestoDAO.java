@@ -13,4 +13,5 @@ public interface RepuestoDAO {
     public int obtenerUltimoIdRepuesto();
     public List<Repuesto> obtenerRepuestosPorIdVenta(int id);
     public List<Repuesto> obtenerRepuestosPorIdReparacion(int idReparacion);
+    public int obtenerIdPorCodigo(String codigo);
 }

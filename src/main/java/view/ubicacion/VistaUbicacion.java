@@ -45,7 +45,7 @@ public class VistaUbicacion extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 48)); // NOI18N
         jLabel1.setText("MODELO VISTA UBICACIONES");
 
-        tablaUbicaciones.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        tablaUbicaciones.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tablaUbicaciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -54,6 +54,7 @@ public class VistaUbicacion extends javax.swing.JFrame {
 
             }
         ));
+        tablaUbicaciones.setRowHeight(24);
         jScrollPane1.setViewportView(tablaUbicaciones);
 
         btnEditar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N

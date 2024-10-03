@@ -18,9 +18,9 @@ public class EstadoDAOImpl implements EstadoDAO{
     private final String SENTENCIA_ELIMINAR_ESTADO = "DELETE FROM TiendaLocal.estado WHERE id_estado = ?";
     private final String SENTENCIA_OBTENER_ESTADOS = "SELECT * FROM TiendaLocal.estado ORDER BY id_estado ASC";
     private final String SENTENCIA_OBTENER_ESTADO = "SELECT * FROM TiendaLocal.estado WHERE id_estado = ?";
-    private final String SENTENCIA_CREAR_ESTADO = "INSERT INTO TiendaLocal.estado (nombre_estado) VALUES ( ? )";
-    private final String SENTENCIA_ACTUALIZAR_ESTADO = "UPDATE TiendaLocal.estado SET nombre_estado = ? WHERE id_estado = ?";
-    private final String SENTENCIA_EXISTE_ESTADO = "SELECT nombre_estado FROM TiendaLocal.estado WHERE nombre_estado = ?";
+    private final String SENTENCIA_CREAR_ESTADO = "INSERT INTO TiendaLocal.estado (nombre_estado) VALUES ( UPPER(?) )";
+    private final String SENTENCIA_ACTUALIZAR_ESTADO = "UPDATE TiendaLocal.estado SET nombre_estado = UPPER(?) WHERE id_estado = ?";
+    private final String SENTENCIA_EXISTE_ESTADO = "SELECT nombre_estado FROM TiendaLocal.estado WHERE nombre_estado = UPPER(?)";
 
     public EstadoDAOImpl(Connection connection) {
         this.connection = connection;

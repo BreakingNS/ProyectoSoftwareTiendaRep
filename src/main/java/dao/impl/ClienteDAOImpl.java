@@ -26,8 +26,8 @@ public class ClienteDAOImpl implements ClienteDAO{
             "AND UPPER(apellido) LIKE ? " +
             "AND UPPER(telefono) LIKE ? " +
             "AND UPPER(domicilio) LIKE ? ";
-    private final String SENTENCIA_CREAR_CLIENTE = "INSERT INTO TiendaLocal.cliente (nombre, apellido, telefono, domicilio) VALUES ( ? , ? , ?, ? )";
-    private final String SENTENCIA_ACTUALIZAR_CLIENTE = "UPDATE TiendaLocal.cliente SET nombre = ?, apellido = ?, telefono = ?, domicilio = ? WHERE id_cliente = ?";
+    private final String SENTENCIA_CREAR_CLIENTE = "INSERT INTO TiendaLocal.cliente (nombre, apellido, telefono, domicilio) VALUES ( UPPER(?) , UPPER(?) , ?, UPPER(?) )";
+    private final String SENTENCIA_ACTUALIZAR_CLIENTE = "UPDATE TiendaLocal.cliente SET nombre = UPPER(?), apellido = UPPER(?), telefono = ?, domicilio = UPPER(?) WHERE id_cliente = ?";
 
     public ClienteDAOImpl(Connection connection) {
         this.connection = connection;

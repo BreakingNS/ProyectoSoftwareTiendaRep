@@ -2,9 +2,13 @@ package view.reparaciones;
 
 import controller.ClienteController;
 import controller.EstadoController;
+import controller.FacturaController;
+import controller.PagoController;
 import controller.ReparacionController;
 import controller.RepuestoController;
 import controller.VentaController;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -14,13 +18,18 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JTable;
 import javax.swing.KeyStroke;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.Cliente;
+import model.Factura;
+import model.Pago;
 import model.Reparacion;
 import model.Repuesto;
 import model.Venta;
@@ -32,17 +41,23 @@ public class VistaReparaciones extends javax.swing.JFrame {
     private final RepuestoController repuestoController; 
     private final ClienteController clienteController; 
     private final EstadoController estadoController;
+    private final FacturaController facturaController; 
+    private final PagoController pagoController;
     
     public VistaReparaciones(ReparacionController reparacionController, 
             VentaController ventaController, 
             RepuestoController repuestoController, 
             ClienteController clienteController,
-            EstadoController estadoController) {
+            EstadoController estadoController,
+            FacturaController facturaController,
+            PagoController pagoController) {
         this.reparacionController = reparacionController;
         this.ventaController = ventaController;
         this.repuestoController = repuestoController;
         this.clienteController = clienteController;
         this.estadoController = estadoController;
+        this.facturaController = facturaController;
+        this.pagoController = pagoController;
         
         initComponents();
         //cargarComboBoxes();
@@ -63,7 +78,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         btnAgregar = new javax.swing.JButton();
-        btnEditar = new javax.swing.JButton();
+        btnActualizarPago = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
@@ -86,6 +101,11 @@ public class VistaReparaciones extends javax.swing.JFrame {
         lblCostoTotal = new javax.swing.JLabel();
         lblTotalRepuestos = new javax.swing.JLabel();
         lblPagado = new javax.swing.JLabel();
+        btnEditar = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tablaDetallePagos = new javax.swing.JTable();
+        lblIdVenta2 = new javax.swing.JLabel();
+        lblTecnico = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -118,11 +138,11 @@ public class VistaReparaciones extends javax.swing.JFrame {
             }
         });
 
-        btnEditar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnEditar.setText("EDITAR");
-        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+        btnActualizarPago.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        btnActualizarPago.setText("ACTUALIZAR PAGO");
+        btnActualizarPago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarActionPerformed(evt);
+                btnActualizarPagoActionPerformed(evt);
             }
         });
 
@@ -159,6 +179,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
 
             }
         ));
+        tablaReparaciones.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tablaReparaciones);
 
         tablaDetalleReparacion.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
@@ -213,11 +234,36 @@ public class VistaReparaciones extends javax.swing.JFrame {
         lblCostoTotal.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         lblCostoTotal.setText("Costo: $0                 ");
 
-        lblTotalRepuestos.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        lblTotalRepuestos.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         lblTotalRepuestos.setText("Total Repuestos: $0             ");
 
         lblPagado.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         lblPagado.setText("Pagado:     ");
+
+        btnEditar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        btnEditar.setText("EDITAR");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+
+        tablaDetallePagos.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        tablaDetallePagos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane3.setViewportView(tablaDetallePagos);
+
+        lblIdVenta2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        lblIdVenta2.setText("Lista de Pagos:                  ");
+
+        lblTecnico.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        lblTecnico.setText("Tecnico:                              ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -227,14 +273,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(204, 204, 204)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(56, 56, 56)
@@ -244,50 +283,73 @@ public class VistaReparaciones extends javax.swing.JFrame {
                                 .addGap(104, 104, 104)
                                 .addComponent(jLabel6)
                                 .addGap(103, 103, 103)
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jLabel7))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(363, 363, 363)
+                                .addComponent(jLabel1)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblIdVenta1)
-                                    .addComponent(jLabel8)
-                                    .addComponent(lblTotalRepuestos))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblFechaDevolucion)
-                                    .addComponent(lblFechaIngreso)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(lblPrecioFinal4)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 816, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 816, Short.MAX_VALUE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblIdVenta2)
+                                            .addComponent(lblIdVenta1)
+                                            .addComponent(jLabel8)
+                                            .addComponent(lblTotalRepuestos))
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblFechaIngreso)
                                             .addComponent(lblIdReparacion)
-                                            .addComponent(lblCategoria))
+                                            .addComponent(lblCategoria)
+                                            .addComponent(lblFechaDevolucion)))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(18, 18, 18)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(lblTelefono)
-                                            .addComponent(lblCliente)))
-                                    .addComponent(lblCostoTotal)
-                                    .addComponent(lblManoDeObra)
-                                    .addComponent(lblPagado, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)))
+                                            .addComponent(lblCliente)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(lblPrecioFinal4)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(lblCostoTotal)
+                                                    .addComponent(lblManoDeObra)
+                                                    .addComponent(lblPagado, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(lblTecnico))))
+                                .addGap(18, 18, 18)))
+                        .addGap(48, 48, 48)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(31, Short.MAX_VALUE))
+                            .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnActualizarPago, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(45, 45, 45))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addGap(4, 4, 4)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(jLabel2)
+                        .addGap(4, 4, 4))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel4)
@@ -299,49 +361,61 @@ public class VistaReparaciones extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
+                        .addComponent(btnActualizarPago, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblManoDeObra))
-                        .addGap(22, 22, 22))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(3, 3, 3))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(lblIdReparacion)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblCategoria)
+                                        .addGap(0, 0, 0)
+                                        .addComponent(lblFechaIngreso)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblFechaDevolucion)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblCliente)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblTelefono)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblTecnico)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblPrecioFinal4))
+                                        .addGap(12, 12, 12)
+                                        .addComponent(lblPagado)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblTotalRepuestos)
+                                        .addGap(11, 11, 11)
+                                        .addComponent(lblIdVenta2)
+                                        .addGap(96, 96, 96)))
+                                .addComponent(lblManoDeObra)
+                                .addGap(2, 2, 2)
+                                .addComponent(lblCostoTotal))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel8)
-                                .addGap(12, 12, 12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(lblIdVenta1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblIdReparacion)
-                                    .addComponent(lblCliente))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblCategoria)
-                                    .addComponent(lblTelefono))
-                                .addComponent(lblFechaIngreso)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblFechaDevolucion)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblPrecioFinal4))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblPagado)
-                                .addGap(38, 38, 38)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCostoTotal)
-                            .addComponent(lblTotalRepuestos))
-                        .addGap(0, 21, Short.MAX_VALUE))))
+                                .addGap(226, 226, 226)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(19, 19, 19))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -359,8 +433,8 @@ public class VistaReparaciones extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        
-        AltaReparacion alta = new AltaReparacion(reparacionController, ventaController, repuestoController, clienteController, estadoController);
+        setVisible(false);
+        AltaReparacion alta = new AltaReparacion(reparacionController, ventaController, repuestoController, clienteController, estadoController, facturaController, pagoController);
         //alta.setSize(600, 400);
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -370,33 +444,50 @@ public class VistaReparaciones extends javax.swing.JFrame {
         alta.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
+                setVisible(true);
                 cargarTablas(); // Actualiza la tabla después de cerrar AltaVenta.
             }
         });
         
     }//GEN-LAST:event_btnAgregarActionPerformed
 
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        /*
-        if(tablaVentas.getRowCount() > 0){
-            if(tablaVentas.getSelectedRow()!=-1){
+    private void btnActualizarPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarPagoActionPerformed
+        
+        if(tablaReparaciones.getRowCount() > 0){
+            if(tablaReparaciones.getSelectedRow()!=-1){
 
-                int idVenta = Integer.parseInt(String.valueOf(tablaVentas.getValueAt(tablaVentas.getSelectedRow(), 0)));
-                String comboNombreRep = String.valueOf(tablaVentas.getValueAt(tablaVentas.getSelectedRow(), 1));
-                String comboMarca = String.valueOf(tablaVentas.getValueAt(tablaVentas.getSelectedRow(), 2));
-                String comboCategoria = String.valueOf(tablaVentas.getValueAt(tablaVentas.getSelectedRow(), 3));
-                String comboUbicacion = String.valueOf(tablaVentas.getValueAt(tablaVentas.getSelectedRow(), 4));
-                int stock = Integer.parseInt(String.valueOf(tablaVentas.getValueAt(tablaVentas.getSelectedRow(), 5)));
-                BigDecimal precio = new BigDecimal(tablaVentas.getValueAt(tablaVentas.getSelectedRow(), 6).toString());
+                int idReparacion = Integer.parseInt(String.valueOf(tablaReparaciones.getValueAt(tablaReparaciones.getSelectedRow(), 0)));
+                Reparacion reparacion = reparacionController.obtenerReparacionPorId(idReparacion);
+                Factura factura = facturaController.obtenerFacturaPorId(reparacion.getFactura().getId_factura());
+                
+                BigDecimal precioFinal = BigDecimal.ZERO;
+                List<Repuesto> listaRepuestos = new ArrayList<>();
+                BigDecimal costoTotal = reparacion.getCosto();
+                
+                DefaultTableModel modelo = (DefaultTableModel) tablaDetalleReparacion.getModel();
+                int rowCount = modelo.getRowCount();
 
-                EditarVenta alta = new EditarVenta(idVenta,
-                    comboNombreRep,
-                    comboMarca,
-                    comboCategoria,
-                    comboUbicacion,
-                    stock,
-                    precio,
-                    ventaController);
+                for (int i = 0; i < rowCount; i++) {
+                    int idRepuesto = (int) modelo.getValueAt(i, 0);
+
+                    Repuesto repuesto = repuestoController.obtenerRepuestoPorId(idRepuesto);
+                    precioFinal = precioFinal.add(repuesto.getListaPrecios().get(repuesto.getListaPrecios().size()-1).getValor());
+
+                    listaRepuestos.add(repuesto);
+                }
+                
+
+                int idFactura = reparacion.getFactura().getId_factura();
+                
+                
+                ActualizarPago alta = new ActualizarPago(facturaController, 
+                        reparacionController, 
+                        pagoController, 
+                        idFactura, 
+                        precioFinal, 
+                        costoTotal, 
+                        reparacion, 
+                        listaRepuestos);
                 //alta.setSize(600, 400);
                 alta.setResizable(false);
                 alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -406,14 +497,14 @@ public class VistaReparaciones extends javax.swing.JFrame {
                 alta.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosed(java.awt.event.WindowEvent e) {
-                        cargarTabla(); // Actualiza la tabla después de cerrar AltaVenta.
+                        cargarTablas(); // Actualiza la tabla después de cerrar AltaVenta.
                     }
                 });
 
             }
         }
-        */
-    }//GEN-LAST:event_btnEditarActionPerformed
+        
+    }//GEN-LAST:event_btnActualizarPagoActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         cargarTablas();
@@ -451,8 +542,13 @@ public class VistaReparaciones extends javax.swing.JFrame {
         cargarTablas();
     }//GEN-LAST:event_formWindowOpened
 
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnActualizarPago;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnEditar;
@@ -468,6 +564,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel lblCategoria;
     private javax.swing.JLabel lblCliente;
@@ -476,11 +573,14 @@ public class VistaReparaciones extends javax.swing.JFrame {
     private javax.swing.JLabel lblFechaIngreso;
     private javax.swing.JLabel lblIdReparacion;
     private javax.swing.JLabel lblIdVenta1;
+    private javax.swing.JLabel lblIdVenta2;
     private javax.swing.JLabel lblManoDeObra;
     private javax.swing.JLabel lblPagado;
     private javax.swing.JLabel lblPrecioFinal4;
+    private javax.swing.JLabel lblTecnico;
     private javax.swing.JLabel lblTelefono;
     private javax.swing.JLabel lblTotalRepuestos;
+    private javax.swing.JTable tablaDetallePagos;
     private javax.swing.JTable tablaDetalleReparacion;
     private javax.swing.JTable tablaReparaciones;
     private javax.swing.JTextArea txtAreaDetalles;
@@ -497,11 +597,20 @@ public class VistaReparaciones extends javax.swing.JFrame {
         };
         
         //Ponemos titulos a las columnas
-        String titulosReparaciones[] = {"Id", "Categoria", "Cliente", "Telefono", "Fecha Ingreso", "Fecha Devolucion", "Costo", "Pagado", "Estado"};
+        String titulosReparaciones[] = {"Id", "Categoria", "Cliente", "Telefono", "Fecha Ingreso", "Fecha Devolucion", "Costo", "Pagado", "Restante", "Tecnico", "Estado"};
         modeloTablaReparaciones.setColumnIdentifiers(titulosReparaciones);
         
         //Traer Ventas desde la base de datos
         List<Reparacion> listaReparaciones = reparacionController.listarReparaciones();
+        
+        for(Reparacion reparacion : listaReparaciones){
+            System.out.println("------------------------------------");
+            System.out.println("Reparacion: " + reparacion.getId_reparacion());
+            System.out.println("id factura : " + reparacion.getFactura().getId_factura());
+            System.out.println("montoTotal : " + reparacion.getFactura().getMontoTotal());
+            System.out.println("pagado: " + reparacion.getFactura().getEstado());
+        }
+        
         
         //Setear los datos en la tabla
         if(listaReparaciones != null){
@@ -520,13 +629,24 @@ public class VistaReparaciones extends javax.swing.JFrame {
                     fechaDevolucion = reparacion.getFecha_devolucion().format(formatoDias);
                 }        
                 
-                String pagado;
-                /*
-                if(reparacion.getPagado() == true){
-                    pagado = "SI";
+                
+                BigDecimal restante = BigDecimal.ZERO;
+                BigDecimal pagosRealizados = BigDecimal.ZERO;
+                List<Pago> listaPagos = pagoController.obtenerPagosPorIdFactura(reparacion.getFactura().getId_factura());
+                
+                for(Pago pago : listaPagos){
+                    pagosRealizados = pagosRealizados.add(pago.getMontoAbonado());
+                }
+                
+                restante = (reparacion.getFactura().getMontoTotal().subtract(pagosRealizados));
+                
+                String nombreTecnico;
+                
+                if(reparacion.getTecnico()!=null){
+                    nombreTecnico = reparacion.getTecnico().getApellido_tecnico().concat(" " + reparacion.getTecnico().getNombre_tecnico());
                 }
                 else{
-                    pagado = "NO";
+                    nombreTecnico = "NO SELECCIONADO";
                 }
                 
                 Object[] objeto = { 
@@ -537,17 +657,52 @@ public class VistaReparaciones extends javax.swing.JFrame {
                     fechaIngreso,
                     fechaDevolucion,
                     reparacion.getCosto(),
-                    pagado,
+                    reparacion.getFactura().getEstado(),
+                    restante,
+                    nombreTecnico,
                     reparacion.getEstado().getNombre_estado()
                 };
 
-                modeloTablaReparaciones.addRow(objeto);*/
+                modeloTablaReparaciones.addRow(objeto);
             }
         }
         
         tablaReparaciones.setModel(modeloTablaReparaciones);
         
-        //Hacemos que la tabla no sea editable
+        // Renderer personalizado para cambiar el color de fondo
+        tablaReparaciones.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                // Cambiar el color de fondo según el valor del String solo si no está seleccionada
+                if (isSelected) {
+                    cell.setBackground(table.getSelectionBackground()); // Color de selección
+                    cell.setForeground(table.getSelectionForeground()); // Color de texto al seleccionar
+                } else {
+                    String estado = value.toString();
+                    switch (estado) {
+                        case "SI":
+                            cell.setBackground(Color.GREEN);
+                            break;
+                        case "PARCIAL":
+                            cell.setBackground(Color.YELLOW);
+                            break;
+                        case "NO":
+                            cell.setBackground(Color.RED);
+                            break;
+                        default:
+                            cell.setBackground(Color.WHITE); // Color por defecto
+                            break;
+                    }
+                    cell.setForeground(Color.BLACK); // Color de texto por defecto
+                }
+
+                return cell;
+            }
+        });
+        
+        //Tabla Detalles Repuestos
         DefaultTableModel modeloTablaSeleccion = new DefaultTableModel(){
             @Override
             public boolean isCellEditable(int row, int column){
@@ -561,6 +716,19 @@ public class VistaReparaciones extends javax.swing.JFrame {
         
         tablaDetalleReparacion.setModel(modeloTablaSeleccion);
         
+        //Tabla Detalles Pagos
+        DefaultTableModel modeloTablaPagos = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
+        
+        //Ponemos titulos a las columnas
+        String titulosPagos[] = {"Id", "Monto Abonado", "Fecha Pago", "Detalle"};
+        modeloTablaPagos.setColumnIdentifiers(titulosPagos);
+        
+        tablaDetallePagos.setModel(modeloTablaPagos);
     }
     
     private void configurarEventos() {
@@ -573,6 +741,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
                 btnAtras.doClick(); // Simula un clic en btnAtras
             }
         });
+        
         //Seleccionar Repuesto doble click
         tablaReparaciones.addMouseListener(new MouseAdapter() {
             @Override
@@ -580,6 +749,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
                 int filaSeleccionada = tablaReparaciones.getSelectedRow();
                 if (filaSeleccionada != -1) {
                     agregarRepuestoSeleccionado(filaSeleccionada); // Método para agregar a la tabla de seleccionados
+                    agregarPagosSeleccionado(filaSeleccionada);
                 }
             }
         });
@@ -660,6 +830,12 @@ public class VistaReparaciones extends javax.swing.JFrame {
         txtAreaDetalles.setText(reparacion.getDetalles());
         lblCliente.setText("Cliente: " + reparacion.getCliente().getApellido().concat(" " + reparacion.getCliente().getNombre()));
         lblTelefono.setText("Telefono: " + reparacion.getCliente().getTelefono());
+        if(reparacion.getTecnico()!=null){
+            lblTecnico.setText("Tecnico: " + reparacion.getTecnico().getApellido_tecnico() + " " + reparacion.getTecnico().getNombre_tecnico());
+        }
+        else{
+            lblTecnico.setText("Tecnico: NO SELECCIONADO");
+        }
         
         BigDecimal TotalRepuestos = BigDecimal.ZERO;
         
@@ -668,18 +844,34 @@ public class VistaReparaciones extends javax.swing.JFrame {
         }
         
         lblTotalRepuestos.setText("Total Repuestos: $" + TotalRepuestos);
-        /*
-        if(reparacion.getPagado() == true){
-            lblPagado.setText("Pagado: SI");
-        }
-        else{
-            lblPagado.setText("Pagado: NO");
-        }
-        */
         
         lblManoDeObra.setText("Mano de Obra: $" + reparacion.getCosto().subtract(TotalRepuestos));
         
         lblCostoTotal.setText("Costo: $" + reparacion.getCosto());
         
+    }
+    
+    private void agregarPagosSeleccionado(int filaSeleccionada){
+        DefaultTableModel modeloReparaciones = (DefaultTableModel) tablaReparaciones.getModel();
+        DefaultTableModel modeloPagos = (DefaultTableModel) tablaDetallePagos.getModel();
+        
+        // Obtener datos de la fila seleccionada
+        int idReparacion = (int) modeloReparaciones.getValueAt(filaSeleccionada, 0); // Por ejemplo, columna 0 es ID
+        Reparacion reparacion = reparacionController.obtenerReparacionPorId(idReparacion);
+        
+        List<Pago> listaPagos = pagoController.obtenerPagosPorIdFactura(reparacion.getFactura().getId_factura());
+        
+        modeloPagos.setRowCount(0);
+        for (Pago pago : listaPagos) {
+            int idPago = pago.getId_pago();
+            BigDecimal montoAbonado = pago.getMontoAbonado();
+            
+            DateTimeFormatter formatoDiasHoras = DateTimeFormatter.ofPattern("dd-MM-yyyy' 'HH:mm");
+            String fecha = pago.getFechaPago().format(formatoDiasHoras);
+
+            String detalle = pago.getDetalle();
+            
+            modeloPagos.addRow(new Object[]{idPago, montoAbonado, fecha, detalle});
+        }
     }
 }

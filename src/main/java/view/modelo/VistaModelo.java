@@ -87,7 +87,7 @@ public class VistaModelo extends javax.swing.JFrame {
             }
         });
 
-        tablaModelos.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        tablaModelos.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tablaModelos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -96,6 +96,8 @@ public class VistaModelo extends javax.swing.JFrame {
 
             }
         ));
+        tablaModelos.setRowHeight(24);
+        tablaModelos.setRowSelectionAllowed(false);
         jScrollPane1.setViewportView(tablaModelos);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

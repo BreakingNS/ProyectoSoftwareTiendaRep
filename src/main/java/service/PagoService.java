@@ -30,4 +30,8 @@ public class PagoService {
     public void eliminarPagoPorId(int id){
         pagoDAO.eliminarPago(id);
     }
+
+    public List<Pago> obtenerPagosPorIdFactura(int id_factura) {
+        return pagoDAO.obtenerPagosPorIdFactura(id_factura);
+    }
 }

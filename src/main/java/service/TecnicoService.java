@@ -25,12 +25,13 @@ public class TecnicoService {
     
     public List<Tecnico> listarTecnicos() {
         List<Tecnico> listaTecnicos = tecnicoDAO.obtenerTecnicos();
-        
         List<Reparacion> listaReparacionesAuxiliar = reparacionDAO.obtenerReparaciones();
         for(Tecnico tec : listaTecnicos){
             for(Reparacion rep : listaReparacionesAuxiliar){
-                if(rep.getTecnico().getId_tecnico() == (tec.getId_tecnico())){
-                    tec.getListaReparaciones().add(rep);
+                if(rep.getTecnico()!=null){
+                    if(rep.getTecnico().getId_tecnico() == (tec.getId_tecnico())){
+                        tec.getListaReparaciones().add(rep);
+                    }
                 }
             }
         }

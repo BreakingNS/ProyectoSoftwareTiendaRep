@@ -10,4 +10,5 @@ public interface PagoDAO {
     public Pago obtenerPago(int id);
     public void actualizarPago(Pago pago);
     public void eliminarPago(int id);
+    public List<Pago> obtenerPagosPorIdFactura(int id_factura);
 }

@@ -37,8 +37,7 @@ public class ReparacionController {
     }
     
     public List<Reparacion> listarReparaciones(){
-        List<Reparacion> listaReparacions= reparacionService.listarReparaciones();
-        return listaReparacions;
+        return reparacionService.listarReparaciones();
     }
     /*
     public void obtenerRepuestosPorIdReparacion(int id) {

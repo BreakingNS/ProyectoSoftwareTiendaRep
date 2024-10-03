@@ -25,8 +25,8 @@ public class TecnicoDAOImpl implements TecnicoDAO{
             "AND UPPER(apellido_tecnico) LIKE ? " +
             "AND UPPER(telefono_tecnico) LIKE ? " +
             "AND UPPER(domicilio_tecnico) LIKE ? ";
-    private final String SENTENCIA_CREAR_TECNICO = "INSERT INTO TiendaLocal.tecnico (nombre_tecnico, apellido_tecnico, telefono_tecnico, domicilio_tecnico) VALUES ( ? , ? , ?, ? )";
-    private final String SENTENCIA_ACTUALIZAR_TECNICO = "UPDATE TiendaLocal.tecnico SET nombre_tecnico = ?, apellido_tecnico = ?, telefono_tecnico = ?, domicilio_tecnico = ? WHERE id_tecnico = ?";
+    private final String SENTENCIA_CREAR_TECNICO = "INSERT INTO TiendaLocal.tecnico (nombre_tecnico, apellido_tecnico, telefono_tecnico, domicilio_tecnico) VALUES ( UPPER(?) , UPPER(?) , ?, UPPER(?) )";
+    private final String SENTENCIA_ACTUALIZAR_TECNICO = "UPDATE TiendaLocal.tecnico SET nombre_tecnico = UPPER(?), apellido_tecnico = UPPER(?), telefono_tecnico = ?, domicilio_tecnico = UPPER(?) WHERE id_tecnico = ?";
 
     public TecnicoDAOImpl(Connection connection) {
         this.connection = connection;

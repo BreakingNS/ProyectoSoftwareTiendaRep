@@ -44,4 +44,8 @@ public class PagoController {
     public void eliminarPago(int id){
         pagoService.eliminarPagoPorId(id);
     }
+
+    public List<Pago> obtenerPagosPorIdFactura(int id_factura) {
+        return pagoService.obtenerPagosPorIdFactura(id_factura);
+    }
 }

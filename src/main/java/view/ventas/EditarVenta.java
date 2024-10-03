@@ -153,6 +153,7 @@ public class EditarVenta extends javax.swing.JFrame {
             }
         });
 
+        tablaRepuestosSeleccionados.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tablaRepuestosSeleccionados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -164,8 +165,10 @@ public class EditarVenta extends javax.swing.JFrame {
 
             }
         ));
+        tablaRepuestosSeleccionados.setRowHeight(24);
         jScrollPane1.setViewportView(tablaRepuestosSeleccionados);
 
+        tablaRepuestos.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tablaRepuestos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -177,8 +180,10 @@ public class EditarVenta extends javax.swing.JFrame {
 
             }
         ));
+        tablaRepuestos.setRowHeight(24);
         jScrollPane2.setViewportView(tablaRepuestos);
 
+        tablaClientes.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tablaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -190,6 +195,7 @@ public class EditarVenta extends javax.swing.JFrame {
 
             }
         ));
+        tablaClientes.setRowHeight(24);
         jScrollPane3.setViewportView(tablaClientes);
 
         btnEliminar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N

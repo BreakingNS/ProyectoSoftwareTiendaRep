@@ -87,4 +87,8 @@ public class RepuestoService {
         precioDAO.crearPrecio(precioNuevo);
     }
 
+    public int obtenerIdPorCodigo(String codigo) {
+        return repuestoDAO.obtenerIdPorCodigo(codigo);
+    }
+
 }

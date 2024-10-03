@@ -19,6 +19,7 @@ import view.marca.VistaMarcas;
 public class VistaCliente extends javax.swing.JFrame {
     
     private final ClienteController clienteController;
+    private int id_cliente;
     
     public VistaCliente(ClienteController clienteController, Connection connection) {
         this.clienteController = clienteController;
@@ -61,7 +62,7 @@ public class VistaCliente extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 48)); // NOI18N
         jLabel1.setText("MODELO VISTA CLIENTES");
 
-        tablaClientes.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        tablaClientes.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tablaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -70,6 +71,7 @@ public class VistaCliente extends javax.swing.JFrame {
 
             }
         ));
+        tablaClientes.setRowHeight(24);
         jScrollPane1.setViewportView(tablaClientes);
 
         btnEditar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
@@ -431,8 +433,10 @@ public class VistaCliente extends javax.swing.JFrame {
         };
         
         //Ponemos titulos a las columnas
-        String titulos[] = {"Nombre", "Apellido", "Telefono", "Domicilio"};
+        String titulos[] = {"Id", "Nombre", "Apellido", "Telefono", "Domicilio"};
         modeloTabla.setColumnIdentifiers(titulos);
+        
+        
         
         //Traer Clientes desde la base de datos
         List<Cliente> listaClientes = clienteController.listarClientes();
@@ -441,13 +445,19 @@ public class VistaCliente extends javax.swing.JFrame {
         if(listaClientes != null){
             System.out.println("tamaño de la lista: " + listaClientes.size());
             for(Cliente cliente : listaClientes){
-                Object[] objeto = {cliente.getNombre(), cliente.getApellido(), cliente.getTelefono(), cliente.getDomicilio()};
+                Object[] objeto = {cliente.getId_cliente(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono(), cliente.getDomicilio()};
                 
                 modeloTabla.addRow(objeto);
             }
         }
 
         tablaClientes.setModel(modeloTabla);
+        
+        tablaClientes.getColumnModel().getColumn(0).setPreferredWidth(50); // ID más pequeño
+        tablaClientes.getColumnModel().getColumn(1).setPreferredWidth(200); // Nombre más grande
+        tablaClientes.getColumnModel().getColumn(2).setPreferredWidth(200); // Apellido
+        tablaClientes.getColumnModel().getColumn(3).setPreferredWidth(200); // Teléfono
+        tablaClientes.getColumnModel().getColumn(4).setPreferredWidth(400); // Domicilio
     }
     
     private void cargarTablaBusqueda(List<Cliente> listaClientes){
@@ -460,14 +470,14 @@ public class VistaCliente extends javax.swing.JFrame {
         };
         
         //Ponemos titulos a las columnas
-        String titulos[] = {"Nombre", "Apellido", "Telefono", "Domicilio"};
+        String titulos[] = {"Id", "Nombre", "Apellido", "Telefono", "Domicilio"};
         modeloTabla.setColumnIdentifiers(titulos);
         
         //Setear los datos en la tabla
         if(listaClientes != null){
             System.out.println("tamaño de la lista: " + listaClientes.size());
             for(Cliente cliente : listaClientes){
-                Object[] objeto = {cliente.getNombre(), cliente.getApellido(), cliente.getTelefono(), cliente.getDomicilio()};
+                Object[] objeto = {cliente.getId_cliente(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono(), cliente.getDomicilio()};
                 
                 modeloTabla.addRow(objeto);
             }

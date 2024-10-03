@@ -18,10 +18,10 @@ public class CategoriaDAOImpl implements CategoriaDAO{
     private final String SENTENCIA_OBTENER_CATEGORIAS_ORDENADOS_POR_ID = "SELECT * FROM TiendaLocal.categoria ORDER BY id_categoria ASC";
     private final String SENTENCIA_OBTENER_CATEGORIAS_ORDENADOS_POR_NOMBRE = "SELECT * FROM TiendaLocal.categoria ORDER BY nombre_categoria ASC";
     private final String SENTENCIA_OBTENER_CATEGORIA = "SELECT * FROM TiendaLocal.categoria WHERE id_categoria = ? ";
-    private final String SENTENCIA_OBTENER_CATEGORIA_POR_NOMBRE = "SELECT * FROM TiendaLocal.categoria WHERE nombre_categoria = ? ";
-    private final String SENTENCIA_CREAR_CATEGORIA = "INSERT INTO TiendaLocal.categoria (nombre_categoria) VALUES ( ? )";
-    private final String SENTENCIA_ACTUALIZAR_CATEGORIA = "UPDATE TiendaLocal.categoria SET nombre_categoria = ? WHERE id_categoria = ?";
-    private final String SENTENCIA_EXISTE_CATEGORIA = "SELECT nombre_categoria FROM TiendaLocal.categoria WHERE nombre_categoria = ? ";
+    private final String SENTENCIA_OBTENER_CATEGORIA_POR_NOMBRE = "SELECT * FROM TiendaLocal.categoria WHERE nombre_categoria = UPPER(?) ";
+    private final String SENTENCIA_CREAR_CATEGORIA = "INSERT INTO TiendaLocal.categoria (nombre_categoria) VALUES ( UPPER(?) )";
+    private final String SENTENCIA_ACTUALIZAR_CATEGORIA = "UPDATE TiendaLocal.categoria SET nombre_categoria = UPPER(?) WHERE id_categoria = ?";
+    private final String SENTENCIA_EXISTE_CATEGORIA = "SELECT nombre_categoria FROM TiendaLocal.categoria WHERE nombre_categoria = UPPER(?) ";
     
     public CategoriaDAOImpl(Connection connection) {
         this.connection = connection;

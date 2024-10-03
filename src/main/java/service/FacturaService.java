@@ -30,5 +30,9 @@ public class FacturaService {
     public void eliminarFacturaPorId(int id){
         facturaDAO.eliminarFactura(id);
     }
+
+    public Factura obtenerUltimaFactura() {
+        return facturaDAO.obtenerUltimaFactura();
+    }
     
 }

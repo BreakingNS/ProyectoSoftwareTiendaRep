@@ -60,7 +60,7 @@ public class VistaTecnico extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 48)); // NOI18N
         jLabel1.setText("MODELO VISTA TECNICOS");
 
-        tablaTecnicos.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        tablaTecnicos.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tablaTecnicos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -69,6 +69,7 @@ public class VistaTecnico extends javax.swing.JFrame {
 
             }
         ));
+        tablaTecnicos.setRowHeight(24);
         jScrollPane1.setViewportView(tablaTecnicos);
 
         btnEditar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N

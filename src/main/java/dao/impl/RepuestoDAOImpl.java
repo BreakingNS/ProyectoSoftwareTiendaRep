@@ -33,6 +33,8 @@ public class RepuestoDAOImpl implements RepuestoDAO{
             "DELETE FROM TiendaLocal.repuesto WHERE id_repuesto = ?";
     private final String SENTENCIA_OBTENER_REPUESTOS = 
             "SELECT * FROM TiendaLocal.repuesto ORDER BY id_repuesto ASC";
+    private final String SENTENCIA_OBTENER_ID_POR_CODIGO = 
+            "SELECT id_repuesto FROM TiendaLocal.repuesto WHERE codigo = UPPER(?)";
     private final String SENTENCIA_OBTENER_REPUESTOS_POR_ID_VENTA = 
             "SELECT * FROM TiendaLocal.venta_repuesto WHERE id_venta = ? ORDER BY id_repuesto ASC";
     private final String SENTENCIA_OBTENER_REPUESTOS_POR_ID_REPARACION = 
@@ -70,9 +72,9 @@ public class RepuestoDAOImpl implements RepuestoDAO{
                 + "r.id_ubicacion;";
 
     private final String SENTENCIA_CREAR_REPUESTO = 
-            "INSERT INTO TiendaLocal.repuesto (stock, codigo, id_nombrerepuesto, id_marca, id_categoria, id_modelo, id_ubicacion) VALUES ( ? , ? , ? , ? , ? , ? , ? )";
+            "INSERT INTO TiendaLocal.repuesto (stock, codigo, id_nombrerepuesto, id_marca, id_categoria, id_modelo, id_ubicacion) VALUES ( ? , UPPER(?) , ? , ? , ? , ? , ? )";
     private final String SENTENCIA_ACTUALIZAR_REPUESTO = 
-            "UPDATE TiendaLocal.repuesto SET stock = ?, codigo = ?, id_nombrerepuesto = ?, id_marca = ?, id_categoria = ?, id_modelo = ?, id_ubicacion = ? WHERE id_repuesto = ?";
+            "UPDATE TiendaLocal.repuesto SET stock = ?, codigo = UPPER(?), id_nombrerepuesto = ?, id_marca = ?, id_categoria = ?, id_modelo = ?, id_ubicacion = ? WHERE id_repuesto = ?";
 
     public RepuestoDAOImpl(Connection connection) {
         this.connection = connection;
@@ -386,5 +388,26 @@ public class RepuestoDAOImpl implements RepuestoDAO{
         return listaRepuestos;
     }
 
-
+    @Override
+    public int obtenerIdPorCodigo(String codigo) {
+        int idReparacion = 0;
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_ID_POR_CODIGO);
+            preparedStatement.setString(1, codigo);
+            ResultSet repuesto_Resultado = preparedStatement.executeQuery();
+            
+            if(repuesto_Resultado.next()){
+                idReparacion = repuesto_Resultado.getInt("id_repuesto");
+            }       
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        System.out.println("Codigo: " + codigo);
+        System.out.println("idRepuesto: " + idReparacion);
+        
+        return idReparacion;
+    }
 }

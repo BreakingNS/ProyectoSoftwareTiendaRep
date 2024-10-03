@@ -48,7 +48,7 @@ public class VistaMarcas extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 48)); // NOI18N
         jLabel1.setText("MODELO VISTA MARCAS");
 
-        tablaMarcas.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        tablaMarcas.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tablaMarcas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -57,6 +57,7 @@ public class VistaMarcas extends javax.swing.JFrame {
 
             }
         ));
+        tablaMarcas.setRowHeight(24);
         jScrollPane1.setViewportView(tablaMarcas);
 
         btnEditar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N

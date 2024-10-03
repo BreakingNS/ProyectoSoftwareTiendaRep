@@ -1,24 +1,33 @@
 package view.nombreRepuesto;
 
 import controller.NombreRepuestoController;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.AbstractAction;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import model.NombreRepuesto;
+import styles.EstiloBoton;
 
 public class VistaNombreRepuesto extends javax.swing.JFrame {
     
     private final NombreRepuestoController nombreRepuestoController;
+    //private final EstiloBotonFallado estiloBtn;
     
     public VistaNombreRepuesto(NombreRepuestoController nombreRepuestoController) {
+        //estiloBtn = new EstiloBotonFallado();
+        
         this.nombreRepuestoController = nombreRepuestoController;
         initComponents();
+        modificacionDeComponentes();
         configurarEventos();
     }
 
@@ -46,7 +55,7 @@ public class VistaNombreRepuesto extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 48)); // NOI18N
         jLabel1.setText("MODELO VISTA NOMB-REP");
 
-        tablaNombreRepuestos.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        tablaNombreRepuestos.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tablaNombreRepuestos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -55,6 +64,7 @@ public class VistaNombreRepuesto extends javax.swing.JFrame {
 
             }
         ));
+        tablaNombreRepuestos.setRowHeight(24);
         jScrollPane1.setViewportView(tablaNombreRepuestos);
 
         btnEditar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
@@ -305,5 +315,16 @@ public class VistaNombreRepuesto extends javax.swing.JFrame {
                 btnAtras.doClick(); // Simula un clic en btnAtras
             }
         });
+    }
+
+    private void modificacionDeComponentes() {
+        /*
+
+        EstiloBoton.aplicarEstiloGris(btnActualizar);
+        EstiloBoton.aplicarEstiloGris(btnAgregar);
+        EstiloBoton.aplicarEstiloGris(btnEliminar);
+        EstiloBoton.aplicarEstiloGris(btnEditar);
+
+        */
     }
 }
