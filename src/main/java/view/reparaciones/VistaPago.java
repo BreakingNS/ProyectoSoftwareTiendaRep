@@ -1,5 +1,6 @@
 package view.reparaciones;
 
+import config.NumerosSoloDocumentFilter;
 import controller.FacturaController;
 import controller.PagoController;
 import controller.ReparacionController;
@@ -16,6 +17,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
+import javax.swing.text.AbstractDocument;
 import model.Factura;
 import model.Reparacion;
 import model.Repuesto;
@@ -272,9 +274,6 @@ public class VistaPago extends javax.swing.JFrame {
         facturaController.agregarFactura(estado, costoTotal);
         Factura factura = facturaController.obtenerUltimaFactura();
 
-        System.out.println("Id obtenido: " + factura.getId_factura());
-        System.out.println("elegido: " + estado);
-
         if(estado.equals("PARCIAL")){
             montoAbonado = new BigDecimal(txtParcial.getText());
         }
@@ -286,15 +285,25 @@ public class VistaPago extends javax.swing.JFrame {
         
         reparacion.setFactura(factura);
         
+        if(estado.equals("PARCIAL")){
+            if(montoAbonado == costoTotal) {
+                JOptionPane.showMessageDialog(null, "Seleccione 'SI' para realizar pago total.", "Error", JOptionPane.ERROR_MESSAGE);
+            } 
+            else if (montoAbonado.compareTo(new BigDecimal("1")) < 0 || (montoAbonado.compareTo(costoTotal) > 0)) {
+                JOptionPane.showMessageDialog(null, "Ingrese un monto correcto.", "Error", JOptionPane.ERROR_MESSAGE);
+            } 
+        }else{
+            try {
+                reparacionController.agregarReparacion(reparacion, listaRepuestos);
+                JOptionPane.showMessageDialog(null, "Carga realizada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } catch (SQLException ex) {
+                Logger.getLogger(VistaPago.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-        try {
-            reparacionController.agregarReparacion(reparacion, listaRepuestos);
-            JOptionPane.showMessageDialog(null, "Carga realizada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        } catch (SQLException ex) {
-            Logger.getLogger(VistaPago.class.getName()).log(Level.SEVERE, null, ex);
+            dispose();
         }
         
-        dispose();
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
@@ -344,6 +353,9 @@ public class VistaPago extends javax.swing.JFrame {
     
     private void configurarEventos() {
         txtParcial.setEnabled(false);
+        
+        NumerosSoloDocumentFilter filter = new NumerosSoloDocumentFilter(15);
+        ((AbstractDocument) txtParcial.getDocument()).setDocumentFilter(filter);
         
         radioBtnPARCIAL.addActionListener(e -> {
             txtParcial.setEnabled(radioBtnPARCIAL.isSelected());  // Habilita o deshabilita según la selección

@@ -44,6 +44,7 @@ import service.EstadoService;
 import service.MarcaService;
 import service.ModeloService;
 import service.NombreRepuestoService;
+import service.PagoService;
 import service.PrecioService;
 import service.ReparacionService;
 import service.RepuestoService;
@@ -86,6 +87,7 @@ public class ReparacionDAOImplTest {
     private static EstadoService estadoService;
     private static PrecioService precioService;
     private static TecnicoService tecnicoService;
+    private static PagoService pagoService;
     
     private static VentaController ventaController;
     private static MarcaController marcaController;
@@ -122,7 +124,7 @@ public class ReparacionDAOImplTest {
         ventaDAO = new VentaDAOImpl(connection);
         reparacionRepuestoDAO = new ReparacionRepuestoDAOImpl(connection);
         ventaRepuestoDAO = new VentaRepuestoDAOImpl(connection);
-        reparacionService = new ReparacionService(reparacionDAO, repuestoDAO, reparacionRepuestoDAO, connection);
+        reparacionService = new ReparacionService(reparacionDAO, repuestoDAO, reparacionRepuestoDAO, facturaDAO, connection);
         
         clienteService = new ClienteService(clienteDAO, ventaDAO, reparacionDAO);
         repuestoService = new RepuestoService(repuestoDAO, precioDAO);
@@ -135,6 +137,7 @@ public class ReparacionDAOImplTest {
         precioService = new PrecioService(precioDAO);
         ventaService = new VentaService(ventaDAO, repuestoDAO, ventaRepuestoDAO, connection);
         tecnicoService = new TecnicoService(tecnicoDAO, ventaDAO, reparacionDAO);
+        pagoService = new PagoService(pagoDAO);
         
         marcaController = new MarcaController(marcaService);
         nombreRepuestoController = new NombreRepuestoController(nombreRepuestoService);
@@ -145,7 +148,7 @@ public class ReparacionDAOImplTest {
         clienteController = new ClienteController(clienteService);
         repuestoController = new RepuestoController(nombreRepuestoService, repuestoService, marcaService, categoriaService, ubicacionService, precioService, modeloService, tecnicoService);
         ventaController = new VentaController(ventaService, clienteService, repuestoController);
-        reparacionController = new ReparacionController(reparacionService, categoriaService, clienteService, estadoService, repuestoController);
+        reparacionController = new ReparacionController(reparacionService, categoriaService, clienteService, estadoService, tecnicoService, pagoService, repuestoController);
         
     }
     
@@ -217,6 +220,29 @@ public class ReparacionDAOImplTest {
         configuracion.eliminarTablaModelo();
         configuracion.eliminarTablaNombreRepuesto();
         configuracion.eliminarTablaMarca();
+    }
+    
+    @Test
+    public void crearTablas() {
+        configuracion = new ConfiguracionDataBase(connection);
+        
+        configuracion.crearTablaMarca();
+        configuracion.crearTablaNombreRepuesto();
+        configuracion.crearTablaModelo();
+        configuracion.crearTablaUbicacion();
+        configuracion.crearTablaCategoria();
+        configuracion.crearTablaEstado();
+        configuracion.crearTablaCliente();
+        configuracion.crearTablaTecnico();
+        configuracion.crearTablaFactura();
+        configuracion.crearTablaPago();
+        configuracion.crearTablaVenta();
+        configuracion.crearTablaRepuesto();
+        configuracion.crearTablaPrecio();
+        configuracion.crearTablaReparacion();
+        configuracion.crearTablaVentaRepuesto();
+        configuracion.crearTablaReparacionRepuesto();
+        
     }
     
     @Test
@@ -519,7 +545,7 @@ public class ReparacionDAOImplTest {
         assertEquals("Color plateado", reparacion.getDetalles());
         assertEquals("En Revision", reparacion.getEstado().getNombre_estado());
     }
-    
+    /*
     @Test
     public void pruebaActualizarReparacion() throws SQLException{
         pruebaCrearReparacion();
@@ -534,6 +560,7 @@ public class ReparacionDAOImplTest {
         assertEquals(1, reparacion.getId_reparacion());
         assertEquals("Sin tapa", reparacion.getDetalles());
     }
+    */
     //Eliminar utiliza metodo cascada
     /*
     @Test

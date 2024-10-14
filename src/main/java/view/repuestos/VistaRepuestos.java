@@ -1,6 +1,8 @@
 package view.repuestos;
 
 import controller.RepuestoController;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,9 +15,11 @@ import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import model.Categoria;
@@ -556,11 +560,10 @@ public class VistaRepuestos extends javax.swing.JFrame {
         header.setFont(new Font("Arial", Font.ITALIC, 16)); // Cambia "Arial" y 16 por la fuente y tamaño deseados
         
         //Traer Repuestos desde la base de datos
-        List<Repuesto> listaRepuestos = repuestoController.listarRepuestos();
+        List<Repuesto> listaRepuestos = repuestoController.listarRepuestosOrdenadoPorStock();
         
         //Setear los datos en la tabla
         if(listaRepuestos != null){
-            System.out.println("tamaño de la lista: " + listaRepuestos.size());
             for(Repuesto repuesto : listaRepuestos){
                 Object[] objeto = {repuesto.getCodigo(),
                     repuesto.getNombreRepuesto().getNombre_repuesto(), 
@@ -584,61 +587,47 @@ public class VistaRepuestos extends javax.swing.JFrame {
         tablaRepuestos.getColumnModel().getColumn(4).setPreferredWidth(350); // Domicilio
         tablaRepuestos.getColumnModel().getColumn(5).setPreferredWidth(200); // Domicilio
         tablaRepuestos.getColumnModel().getColumn(6).setPreferredWidth(100); // Domicilio
-        tablaRepuestos.getColumnModel().getColumn(7).setPreferredWidth(200); // Domicilio
-    }
-    
-    private void cargarTablaBusqueda(List<Repuesto> listaRepuestos){
-        // Hacemos que la tabla no sea editable
-        DefaultTableModel modeloTabla = new DefaultTableModel() {
+        tablaRepuestos.getColumnModel().getColumn(7).setPreferredWidth(200); // Domicilio        
+        
+        tablaRepuestos.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-        // Ponemos títulos a las columnas
-        String[] titulos = {"Codigo", "Nombre Repuesto", "Marca", "Modelo", "Categoria", "Ubicacion", "Stock", "Precio"};
-        modeloTabla.setColumnIdentifiers(titulos);
+                // Cambiar el color de fondo solo para la columna "Stock" (índice 6)
+                if (column == 6) { // La columna de "Stock" es la 6
+                    if (isSelected) {
+                        cell.setBackground(table.getSelectionBackground()); // Color de selección
+                        cell.setForeground(table.getSelectionForeground()); // Color de texto al seleccionar
+                    } else {
+                        int stock = Integer.parseInt(value.toString());
 
-        // Setear los datos en la tabla
-        if (listaRepuestos != null) {
-            System.out.println("Tamaño de la lista: " + listaRepuestos.size());
-            for (Repuesto repuesto : listaRepuestos) {
-                // Asegurarse de que la lista de precios no esté vacía
-                List<Precio> listaPrecios = repuesto.getListaPrecios();
-                Object precio = "No disponible"; // Valor predeterminado si la lista está vacía
-
-                if (listaPrecios != null && !listaPrecios.isEmpty()) {
-                    precio = listaPrecios.get(listaPrecios.size() - 1).getValor();
+                        // Aplicar color según el valor de stock
+                        if (stock > 20) {
+                            cell.setBackground(Color.GREEN); // Mucho stock
+                        } else if (stock <= 20 && stock > 10) {
+                            cell.setBackground(Color.YELLOW); // Stock medio
+                        } else {
+                            cell.setBackground(Color.RED); // Poco stock
+                        }
+                        cell.setForeground(Color.BLACK); // Asegurarse de que el texto sea legible
+                    }
+                } else {
+                    // Para otras columnas, usa el color predeterminado
+                    if (isSelected) {
+                        cell.setBackground(table.getSelectionBackground());
+                        cell.setForeground(table.getSelectionForeground());
+                    } else {
+                        cell.setBackground(Color.WHITE); // Fondo predeterminado
+                        cell.setForeground(Color.BLACK); // Texto predeterminado
+                    }
                 }
 
-                // Asegurarse de que los métodos no devuelvan null
-                Object[] objeto = {
-                    repuesto.getCodigo(),
-                    repuesto.getNombreRepuesto() != null ? repuesto.getNombreRepuesto().getNombre_repuesto() : "Desconocido",
-                    repuesto.getMarca() != null ? repuesto.getMarca().getNombre_marca() : "Desconocido",
-                    repuesto.getModelo() != null ? repuesto.getModelo().getNombre_modelo() : "Desconocido",
-                    repuesto.getCategoria() != null ? repuesto.getCategoria().getNombre_categoria() : "Desconocido",
-                    repuesto.getUbicacion() != null ? repuesto.getUbicacion().getNombre_ubicacion() : "Desconocido",
-                    repuesto.getStock(),
-                    precio
-                };
-                modeloTabla.addRow(objeto);
+                return cell;
             }
-        }
-
-        // Asignar el modelo a la tabla
-        tablaRepuestos.setModel(modeloTabla);
-        
-        tablaRepuestos.getColumnModel().getColumn(0).setPreferredWidth(100); // ID más pequeño
-        tablaRepuestos.getColumnModel().getColumn(1).setPreferredWidth(200); // Nombre más grande
-        tablaRepuestos.getColumnModel().getColumn(2).setPreferredWidth(200); // Apellido
-        tablaRepuestos.getColumnModel().getColumn(3).setPreferredWidth(200); // Teléfono
-        tablaRepuestos.getColumnModel().getColumn(4).setPreferredWidth(350); // Domicilio
-        tablaRepuestos.getColumnModel().getColumn(5).setPreferredWidth(200); // Domicilio
-        tablaRepuestos.getColumnModel().getColumn(6).setPreferredWidth(100); // Domicilio
-        tablaRepuestos.getColumnModel().getColumn(7).setPreferredWidth(200); // Domicilio
+        });
     }
+
 
     private void configurarEventos() {
         btnEliminar.setEnabled(false); // Deshabilita el botón inicialmente.
@@ -736,6 +725,59 @@ public class VistaRepuestos extends javax.swing.JFrame {
         System.out.println("comienzo carga de busqueda");
         
         cargarTablaBusqueda(listaRepuestos);
+    }
+    
+    private void cargarTablaBusqueda(List<Repuesto> listaRepuestos){
+        // Hacemos que la tabla no sea editable
+        DefaultTableModel modeloTabla = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        // Ponemos títulos a las columnas
+        String[] titulos = {"Codigo", "Nombre Repuesto", "Marca", "Modelo", "Categoria", "Ubicacion", "Stock", "Precio"};
+        modeloTabla.setColumnIdentifiers(titulos);
+
+        // Setear los datos en la tabla
+        if (listaRepuestos != null) {
+            System.out.println("Tamaño de la lista: " + listaRepuestos.size());
+            for (Repuesto repuesto : listaRepuestos) {
+                // Asegurarse de que la lista de precios no esté vacía
+                List<Precio> listaPrecios = repuesto.getListaPrecios();
+                Object precio = "No disponible"; // Valor predeterminado si la lista está vacía
+
+                if (listaPrecios != null && !listaPrecios.isEmpty()) {
+                    precio = listaPrecios.get(listaPrecios.size() - 1).getValor();
+                }
+
+                // Asegurarse de que los métodos no devuelvan null
+                Object[] objeto = {
+                    repuesto.getCodigo(),
+                    repuesto.getNombreRepuesto() != null ? repuesto.getNombreRepuesto().getNombre_repuesto() : "Desconocido",
+                    repuesto.getMarca() != null ? repuesto.getMarca().getNombre_marca() : "Desconocido",
+                    repuesto.getModelo() != null ? repuesto.getModelo().getNombre_modelo() : "Desconocido",
+                    repuesto.getCategoria() != null ? repuesto.getCategoria().getNombre_categoria() : "Desconocido",
+                    repuesto.getUbicacion() != null ? repuesto.getUbicacion().getNombre_ubicacion() : "Desconocido",
+                    repuesto.getStock(),
+                    precio
+                };
+                modeloTabla.addRow(objeto);
+            }
+        }
+
+        // Asignar el modelo a la tabla
+        tablaRepuestos.setModel(modeloTabla);
+        
+        tablaRepuestos.getColumnModel().getColumn(0).setPreferredWidth(100); // ID más pequeño
+        tablaRepuestos.getColumnModel().getColumn(1).setPreferredWidth(200); // Nombre más grande
+        tablaRepuestos.getColumnModel().getColumn(2).setPreferredWidth(200); // Apellido
+        tablaRepuestos.getColumnModel().getColumn(3).setPreferredWidth(200); // Teléfono
+        tablaRepuestos.getColumnModel().getColumn(4).setPreferredWidth(350); // Domicilio
+        tablaRepuestos.getColumnModel().getColumn(5).setPreferredWidth(200); // Domicilio
+        tablaRepuestos.getColumnModel().getColumn(6).setPreferredWidth(100); // Domicilio
+        tablaRepuestos.getColumnModel().getColumn(7).setPreferredWidth(200); // Domicilio
     }
     
     private void cargarComboBoxes(){

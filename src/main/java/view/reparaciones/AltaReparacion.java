@@ -1,22 +1,23 @@
 package view.reparaciones;
 
+import config.NumerosSoloDocumentFilter;
 import controller.ClienteController;
 import controller.EstadoController;
 import controller.FacturaController;
 import controller.PagoController;
 import controller.ReparacionController;
 import controller.RepuestoController;
-import controller.TecnicoController;
 import controller.VentaController;
-import dao.impl.EstadoDAOImpl;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
-import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,20 +28,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.text.AbstractDocument;
 import model.Categoria;
 import model.Cliente;
 import model.Estado;
-import model.Factura;
 import model.Marca;
 import model.Modelo;
 import model.NombreRepuesto;
@@ -49,8 +51,7 @@ import model.Reparacion;
 import model.Repuesto;
 import model.Tecnico;
 import model.Ubicacion;
-import service.EstadoService;
-import service.ReparacionService;
+import view.clientes.AltaCliente;
 
 public class AltaReparacion extends javax.swing.JFrame {
 
@@ -61,6 +62,8 @@ public class AltaReparacion extends javax.swing.JFrame {
     private final EstadoController estadoController;
     private final FacturaController facturaController;
     private final PagoController pagoController;
+    
+    private final List<Repuesto> listaRepuestos;
     
     private BigDecimal totalRepuesto = BigDecimal.ZERO;
     private BigDecimal costoManoDeObra = BigDecimal.ZERO;
@@ -82,6 +85,8 @@ public class AltaReparacion extends javax.swing.JFrame {
         this.facturaController = facturaController;
         this.pagoController = pagoController;
         
+        listaRepuestos = repuestoController.listarRepuestosOrdenadoPorStock();
+        
         initComponents();
         cargarComboBoxes();
         configurarEventos();
@@ -98,7 +103,6 @@ public class AltaReparacion extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         lblCliente = new javax.swing.JLabel();
         btnAtras = new javax.swing.JButton();
-        btnLimpiarTodo = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaRepuestosSeleccionados = new javax.swing.JTable();
@@ -166,7 +170,7 @@ public class AltaReparacion extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         jLabel6.setText("Buscar Repuesto:");
 
-        lblCliente.setFont(new java.awt.Font("Dialog", 0, 36)); // NOI18N
+        lblCliente.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         lblCliente.setText("Cliente: ...                     ");
 
         btnAtras.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
@@ -174,14 +178,6 @@ public class AltaReparacion extends javax.swing.JFrame {
         btnAtras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAtrasActionPerformed(evt);
-            }
-        });
-
-        btnLimpiarTodo.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnLimpiarTodo.setText("LIMPIAR");
-        btnLimpiarTodo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLimpiarTodoActionPerformed(evt);
             }
         });
 
@@ -193,6 +189,7 @@ public class AltaReparacion extends javax.swing.JFrame {
             }
         });
 
+        tablaRepuestosSeleccionados.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tablaRepuestosSeleccionados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -204,8 +201,10 @@ public class AltaReparacion extends javax.swing.JFrame {
 
             }
         ));
+        tablaRepuestosSeleccionados.setRowHeight(24);
         jScrollPane1.setViewportView(tablaRepuestosSeleccionados);
 
+        tablaRepuestos.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tablaRepuestos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -217,8 +216,10 @@ public class AltaReparacion extends javax.swing.JFrame {
 
             }
         ));
+        tablaRepuestos.setRowHeight(24);
         jScrollPane2.setViewportView(tablaRepuestos);
 
+        tablaClientes.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tablaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -230,6 +231,7 @@ public class AltaReparacion extends javax.swing.JFrame {
 
             }
         ));
+        tablaClientes.setRowHeight(24);
         jScrollPane3.setViewportView(tablaClientes);
 
         btnEliminar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
@@ -360,10 +362,16 @@ public class AltaReparacion extends javax.swing.JFrame {
         lblCosto1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         lblCosto1.setText("Costo Total:");
 
+        txtCosto.setEditable(false);
         txtCosto.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
 
         jButton1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jButton1.setText("NUEVO CLIENTE");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         lblDetalles1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         lblDetalles1.setText("Detalles: ");
@@ -414,51 +422,51 @@ public class AltaReparacion extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(54, 54, 54)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel8)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 722, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnCheckR, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(comboNombreRepuesto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel3))
-                                    .addGap(18, 18, 18)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(comboMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel12))
-                                    .addGap(18, 18, 18)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(comboModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel16))
-                                    .addGap(18, 18, 18)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel5))
-                                    .addGap(18, 18, 18)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel13)
-                                        .addComponent(comboUbicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addComponent(jLabel6))
-                            .addGap(18, 18, 18)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel17)
-                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnLimpiarFiltroR, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel8)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 722, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 775, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(67, 67, 67)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(btnCheckR, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(comboNombreRepuesto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(comboMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel12))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(comboModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel16))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel13)
+                                    .addComponent(comboUbicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel6))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel17)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnLimpiarFiltroR, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(lblFechaDevolucion)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -467,11 +475,11 @@ public class AltaReparacion extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(lblCategoria)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(comboCategoria2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(comboCategoria2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(lblEstado)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(comboEstado2, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(comboEstado2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(lblFechaIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(lblDetalles2)
@@ -489,18 +497,18 @@ public class AltaReparacion extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(lblCosto)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtManoDeObra, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
+                                        .addComponent(txtManoDeObra, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(lblCosto1)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(lblCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel14)
                                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -517,21 +525,19 @@ public class AltaReparacion extends javax.swing.JFrame {
                                     .addComponent(jLabel15)
                                     .addComponent(txtDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnLimpiarFiltroC, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 26, Short.MAX_VALUE))))
+                                .addComponent(btnLimpiarFiltroC, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(613, 613, 613)
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(533, 533, 533)
-                        .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnLimpiarTodo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(532, 532, 532)
+                        .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(147, 147, 147)
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 522, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -580,8 +586,7 @@ public class AltaReparacion extends javax.swing.JFrame {
                                 .addGap(54, 54, 54)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(comboMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(comboNombreRepuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnLimpiarFiltroR, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(comboNombreRepuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel16)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
@@ -597,8 +602,10 @@ public class AltaReparacion extends javax.swing.JFrame {
                                         .addComponent(comboUbicacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel17)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnLimpiarFiltroR, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnCheckR, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -610,15 +617,19 @@ public class AltaReparacion extends javax.swing.JFrame {
                             .addComponent(lblEstado)
                             .addComponent(comboEstado2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblFechaIngreso)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblFechaDevolucion)
-                            .addComponent(comboFechaDevolucion1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblFechaIngreso)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblFechaDevolucion)
+                                    .addComponent(comboFechaDevolucion1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblDetalles2)
-                            .addComponent(comboTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(comboTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblDetalles2))
+                        .addGap(6, 6, 6)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(45, 45, 45)
@@ -630,24 +641,21 @@ public class AltaReparacion extends javax.swing.JFrame {
                                     .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(lblCosto1)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
+                                .addGap(2, 2, 2)
                                 .addComponent(lblDetalles1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblTotal)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLimpiarTodo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -668,38 +676,10 @@ public class AltaReparacion extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnAtrasActionPerformed
 
-    private void btnLimpiarTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarTodoActionPerformed
-        /*
-        comboCategoria.setSelectedItem("-");
-        comboMarca.setSelectedItem("-");
-        comboNombreRepuesto.setSelectedItem("-");
-        comboUbicacion.setSelectedItem("-");
-        comboModelo.setSelectedItem("-");
-        txtCodigo.setText("");
-        
-        txtNombre.setText("");
-        txtApellido.setText("");
-        txtTelefono.setText("");
-        txtDomicilio.setText("");
-        
-        DefaultTableModel modeloRepuestosSeleccionados = (DefaultTableModel) tablaRepuestosSeleccionados.getModel();
-
-        for (int i = modeloRepuestosSeleccionados.getRowCount() - 1; i >= 0; i--) {
-            modeloRepuestosSeleccionados.removeRow(i);
-        }
-
-        calcularTotalVenta(modeloRepuestosSeleccionados);
-
-        lblFechaIngreso.setText("Nombre: ");
-        lblFechaDevolucion.setText("Apellido: ");
-        lblEstado.setText("Telefono: ");
-        lblDomicilio.setText("Domicilio: ");
-        */
-    }//GEN-LAST:event_btnLimpiarTodoActionPerformed
-
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         
-        List<Repuesto> listaRepuestos = new ArrayList<>();
+        List<Repuesto> listaRepuestosSeleccionados = new ArrayList<>();
+        
         //Cliente
         int idCliente = 0;
         BigDecimal precioFinal= BigDecimal.ZERO;
@@ -712,18 +692,21 @@ public class AltaReparacion extends javax.swing.JFrame {
         Cliente cliente = clienteController.obtenerClientePorId(idCliente);
         
         //Repuestos Seleccionados
-        DefaultTableModel modelo = (DefaultTableModel) tablaRepuestosSeleccionados.getModel();
-        int rowCount = modelo.getRowCount();
+                
+        if(tablaRepuestosSeleccionados.getRowCount() != 0){
+            DefaultTableModel modelo = (DefaultTableModel) tablaRepuestosSeleccionados.getModel();
+            int rowCount = modelo.getRowCount();
 
-        for (int i = 0; i < rowCount; i++) {
-            int idRepuesto = (int) modelo.getValueAt(i, 0);
+            for (int i = 0; i < rowCount; i++) {
+                int idRepuesto = (int) modelo.getValueAt(i, 0);
 
-            Repuesto repuesto = repuestoController.obtenerRepuestoPorId(idRepuesto);
-            precioFinal = precioFinal.add(repuesto.getListaPrecios().get(repuesto.getListaPrecios().size()-1).getValor());
+                Repuesto repuesto = repuestoController.obtenerRepuestoPorId(idRepuesto);
+                precioFinal = precioFinal.add(repuesto.getListaPrecios().get(repuesto.getListaPrecios().size()-1).getValor());
 
-            listaRepuestos.add(repuesto);
+                listaRepuestosSeleccionados.add(repuesto);
+            }
         }
-        
+                
         //Reparacion
         
         LocalDateTime ahora = LocalDateTime.now();
@@ -741,7 +724,7 @@ public class AltaReparacion extends javax.swing.JFrame {
                 break;
             }
         }
-        
+                
         String estadoObtenido = comboEstado2.getSelectedItem().toString();
         List<Estado> listaEstados = estadoController.listarEstados();
         for(Estado est : listaEstados){
@@ -753,11 +736,9 @@ public class AltaReparacion extends javax.swing.JFrame {
         
         List<Tecnico> listaTecnicos = repuestoController.retornarTecnicos();
         if(comboTecnico.getSelectedItem().equals(" - ")){
-            System.out.println("entro 1");
             tecnicoSeleccionado = null;
         }
         else{
-            System.out.println("entro 2");
             for(Tecnico tec : listaTecnicos){
                 if((tec.getApellido_tecnico() + " " + tec.getNombre_tecnico()).equals(comboTecnico.getSelectedItem().toString())){
                     tecnicoSeleccionado = tec;
@@ -765,9 +746,6 @@ public class AltaReparacion extends javax.swing.JFrame {
                 }
             }
         }
-        
-        System.out.println("Tecnico id: " + tecnicoSeleccionado.getId_tecnico());
-        System.out.println("Tecnico seleccionado: " + tecnicoSeleccionado.getApellido_tecnico());
         
         LocalDateTime fechaIngresoObtenida = ahora;
         String fechaDevolucionObtenida = comboFechaDevolucion1.getSelectedItem().toString();
@@ -783,18 +761,10 @@ public class AltaReparacion extends javax.swing.JFrame {
         
         LocalDateTime fechaIngreso = fechaIngresoAhora.truncatedTo(ChronoUnit.SECONDS);
 
-        System.out.println("Costo total: " + costoTotal);
-        System.out.println("Detalles: " + detalles);
-        System.out.println("fecha ing: " + fechaIngreso);
-        System.out.println("fecha deb: " + fechaDevolucion);
-        System.out.println("categoria: " + categoriaSeleccionada.getNombre_categoria());
-        System.out.println("cliente: " + cliente.getApellido() + " " + cliente.getNombre());
-        System.out.println("estado: " + estadoSeleccionado.getNombre_estado());
-        
         Reparacion reparacion = new Reparacion(1, costoTotal, detalles, fechaIngreso, fechaDevolucion, null, categoriaSeleccionada, cliente, estadoSeleccionado, tecnicoSeleccionado);
         
         this.setEnabled(false);
-        VistaPago alta = new VistaPago(facturaController, reparacionController, pagoController, precioFinal, costoTotal, reparacion, listaRepuestos);
+        VistaPago alta = new VistaPago(facturaController, reparacionController, pagoController, precioFinal, costoTotal, reparacion, listaRepuestosSeleccionados);
         //alta.setSize(600, 400);
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -816,11 +786,11 @@ public class AltaReparacion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnLimpiarFiltroCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarFiltroCActionPerformed
-        /*
+        
         txtNombre.setText("");
         txtApellido.setText("");
         txtTelefono.setText("");
-        */
+        txtDomicilio.setText("");
     }//GEN-LAST:event_btnLimpiarFiltroCActionPerformed
 
     private void txtNombreFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNombreFocusGained
@@ -845,7 +815,12 @@ public class AltaReparacion extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTelefonoActionPerformed
     private void btnLimpiarFiltroRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarFiltroRActionPerformed
-        // TODO add your handling code here:
+        comboCategoria.setSelectedItem("-");
+        comboMarca.setSelectedItem("-");
+        comboNombreRepuesto.setSelectedItem("-");
+        comboUbicacion.setSelectedItem("-");
+        comboModelo.setSelectedItem("-");
+        txtCodigo.setText("");
     }//GEN-LAST:event_btnLimpiarFiltroRActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -872,6 +847,27 @@ public class AltaReparacion extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoFocusLost
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.setEnabled(false);
+        AltaCliente alta = new AltaCliente(clienteController);
+        //alta.setSize(600, 400);
+        alta.setResizable(false);
+        alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        alta.setVisible(true);
+        alta.setLocationRelativeTo(null);
+        
+        alta.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                AltaReparacion.this.setEnabled(true);
+                AltaReparacion.this.setState(JFrame.NORMAL);  
+                AltaReparacion.this.toFront();                
+                AltaReparacion.this.requestFocus();  
+                cargarTablaClientes(); // Actualiza la tabla después de cerrar AltaCliente.
+            }
+        });
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnCheckR;
@@ -879,7 +875,6 @@ public class AltaReparacion extends javax.swing.JFrame {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiarFiltroC;
     private javax.swing.JButton btnLimpiarFiltroR;
-    private javax.swing.JButton btnLimpiarTodo;
     private javax.swing.JComboBox<String> comboCategoria;
     private javax.swing.JComboBox<String> comboCategoria2;
     private javax.swing.JComboBox<String> comboEstado2;
@@ -935,71 +930,134 @@ public class AltaReparacion extends javax.swing.JFrame {
     private void cargarTablas(){
         
         //Tabla Repuestos
+        cargarTablaRepuestos();
+        
+        //Tabla Clientes
+        cargarTablaClientes();
+        
+        //Tabla RepuestosSeleccionados
+        cargarTablaRepuestosSeleccionados();
+        
+        JTableHeader header = tablaClientes.getTableHeader();
+        JTableHeader header1 = tablaRepuestos.getTableHeader();
+        JTableHeader header2 = tablaRepuestosSeleccionados.getTableHeader();
+        header.setFont(new Font("Arial", Font.ITALIC, 16)); // Cambia "Arial" y 16 por la fuente y tamaño deseados
+        header1.setFont(new Font("Arial", Font.ITALIC, 16)); // Cambia "Arial" y 16 por la fuente y tamaño deseados
+        header2.setFont(new Font("Arial", Font.ITALIC, 16)); // Cambia "Arial" y 16 por la fuente y tamaño deseados
+        
+    }
+    
+    private void cargarTablaRepuestos(){
+        //Tabla Repuestos
         DefaultTableModel modeloTabla = new DefaultTableModel(){
             @Override
             public boolean isCellEditable(int row, int column){
                 return false;
             }
         };
-
-        String titulos[] = {"Id", "Nombre Repuesto", "Marca", "Categoria", "Ubicacion", "Stock", "Precio"};
+        
+        String titulos[] = {"Id", "Nombre Repuesto", "Codigo", "Marca", "Modelo",  "Categoria", "Ubicacion", "Stock", "Precio"};
         modeloTabla.setColumnIdentifiers(titulos);
-
-        List<Repuesto> listaRepuestos = repuestoController.listarRepuestos();
-
+        
         if(listaRepuestos != null){
-            System.out.println("tamaño de la lista: " + listaRepuestos.size());
             for(Repuesto repuesto : listaRepuestos){
                 Object[] objeto = {repuesto.getId_repuesto(), 
-                    repuesto.getNombreRepuesto().getNombre_repuesto(), 
+                    repuesto.getNombreRepuesto().getNombre_repuesto(),
+                    repuesto.getCodigo(),
                     repuesto.getMarca().getNombre_marca(), 
+                    repuesto.getModelo().getNombre_modelo(),
                     repuesto.getCategoria().getNombre_categoria(), 
-                    repuesto.getUbicacion().getNombre_ubicacion(), 
+                    repuesto.getUbicacion().getNombre_ubicacion(),
                     repuesto.getStock(), 
                     repuesto.getListaPrecios().get((repuesto.getListaPrecios().size()) - 1).getValor()
                 };
                 modeloTabla.addRow(objeto);
             }
         }
+        
         tablaRepuestos.setModel(modeloTabla);
         
-        //Tabla Clientes
+        tablaRepuestos.getColumnModel().getColumn(0).setPreferredWidth(30);
+        tablaRepuestos.getColumnModel().getColumn(7).setPreferredWidth(30);
+        
+        tablaRepuestos.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                // Cambiar el color de fondo solo para la columna "Stock" (índice 6)
+                if (column == 7) { // La columna de "Stock" es la 6
+                    if (isSelected) {
+                        cell.setBackground(table.getSelectionBackground()); // Color de selección
+                        cell.setForeground(table.getSelectionForeground()); // Color de texto al seleccionar
+                    } else {
+                        int stock = Integer.parseInt(value.toString());
+
+                        // Aplicar color según el valor de stock
+                        if (stock > 20) {
+                            cell.setBackground(Color.GREEN); // Mucho stock
+                        } else if (stock <= 20 && stock > 10) {
+                            cell.setBackground(Color.YELLOW); // Stock medio
+                        } else {
+                            cell.setBackground(Color.RED); // Poco stock
+                        }
+                        cell.setForeground(Color.BLACK); // Asegurarse de que el texto sea legible
+                    }
+                } else {
+                    // Para otras columnas, usa el color predeterminado
+                    if (isSelected) {
+                        cell.setBackground(table.getSelectionBackground());
+                        cell.setForeground(table.getSelectionForeground());
+                    } else {
+                        cell.setBackground(Color.WHITE); // Fondo predeterminado
+                        cell.setForeground(Color.BLACK); // Texto predeterminado
+                    }
+                }
+
+                return cell;
+            }
+        });
+    }
+    
+    private void cargarTablaClientes(){
         DefaultTableModel modeloTabla1 = new DefaultTableModel(){
             @Override
             public boolean isCellEditable(int row, int column){
                 return false;
             }
         };
-
-        String titulos1[] = {"Id", "Nombre", "Apellido", "Telefono"};
+        
+        String titulos1[] = {"Id", "Nombre", "Apellido", "Telefono", "Domicilio"};
         modeloTabla1.setColumnIdentifiers(titulos1);
 
         List<Cliente> listaClientes = clienteController.listarClientes();
         
         if(listaClientes != null){
-            System.out.println("tamaño de la lista: " + listaClientes.size());
             for(Cliente cliente : listaClientes){
-                Object[] objeto = {cliente.getId_cliente(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono()};
+                Object[] objeto = {cliente.getId_cliente(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono(), cliente.getDomicilio()};
                 
                 modeloTabla1.addRow(objeto);
             }
         }
 
         tablaClientes.setModel(modeloTabla1);
-        
-        //Tabla RepuestosSeleccionados
-        DefaultTableModel modeloTabla2 = new DefaultTableModel(){
+    }
+    
+    private void cargarTablaRepuestosSeleccionados(){
+        DefaultTableModel modeloTabla2 = new DefaultTableModel() {
             @Override
-            public boolean isCellEditable(int row, int column){
+            public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
         
-        String titulos2[] = {"Id", "Nombre Repuesto", "Marca", "Categoria", "Stock", "Precio"};
+        String[] titulos2 = {"Id", "Nombre Repuesto", "Codigo", "Marca", "Modelo", "Categoria", "Precio"};
         modeloTabla2.setColumnIdentifiers(titulos2);
         
         tablaRepuestosSeleccionados.setModel(modeloTabla2);
-
+        
+        tablaRepuestosSeleccionados.getColumnModel().getColumn(0).setPreferredWidth(20);
+        tablaRepuestosSeleccionados.getColumnModel().getColumn(5).setPreferredWidth(100);
     }
     
     private void configurarListeners() {
@@ -1008,7 +1066,7 @@ public class AltaReparacion extends javax.swing.JFrame {
         ActionListener comboListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                buscarYActualizarTablaRepuestos(); // Actualiza la tabla cuando seleccionas una opción en los ComboBox
+                buscarYActualizarTablaRepuestos(); // Actualiza la tabla cuando seleccionas una opciÃ³n en los ComboBox
             }
         };
         
@@ -1026,7 +1084,7 @@ public class AltaReparacion extends javax.swing.JFrame {
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                // Este método no se usa en la mayoría de las implementaciones de DocumentListener
+                // Este mÃ©todo no se usa en la mayorÃ­a de las implementaciones de DocumentListener
             }
         };
         
@@ -1035,10 +1093,14 @@ public class AltaReparacion extends javax.swing.JFrame {
         comboCategoria.addActionListener(comboListener);
         comboNombreRepuesto.addActionListener(comboListener);
         comboUbicacion.addActionListener(comboListener);
+        comboModelo.addActionListener(comboListener);
+        
+        // Agrega DocumentListener a los JTextField
+        txtCodigo.getDocument().addDocumentListener(docListener);
         
         DocumentListener docListener1 = new DocumentListener() {
             private void actualizarEstadoBoton() {
-                // No es necesario si eliminas el botón
+                // No es necesario si eliminas el botÃ³n
             }
 
             @Override
@@ -1053,7 +1115,7 @@ public class AltaReparacion extends javax.swing.JFrame {
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                // Este método no se usa en la mayoría de las implementaciones de DocumentListener
+                // Este mÃ©todo no se usa en la mayorÃ­a de las implementaciones de DocumentListener
                 // pero puedes incluir la llamada si necesitas manejar cambios en el documento
             }
         };
@@ -1061,6 +1123,66 @@ public class AltaReparacion extends javax.swing.JFrame {
         txtNombre.getDocument().addDocumentListener(docListener1);
         txtApellido.getDocument().addDocumentListener(docListener1);
         txtTelefono.getDocument().addDocumentListener(docListener1);
+        txtDomicilio.getDocument().addDocumentListener(docListener1);
+        
+        NumerosSoloDocumentFilter filter = new NumerosSoloDocumentFilter(15);
+        ((AbstractDocument) txtTelefono.getDocument()).setDocumentFilter(filter);
+        
+        // ---------- Desabilitar btnGuardar
+        
+        btnGuardar.setEnabled(false); // Deshabilita el botón inicialmente.
+
+        DocumentListener docBtnListener = new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                actualizarEstadoBoton();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                actualizarEstadoBoton();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                actualizarEstadoBoton();
+            }
+        };
+
+        // Listener para detectar selección en tablaClientes
+        tablaClientes.getSelectionModel().addListSelectionListener(e -> actualizarEstadoBoton());
+
+        // Listener para cambios en tablaRepuestosSeleccionados
+        tablaRepuestosSeleccionados.getModel().addTableModelListener(e -> actualizarEstadoBoton());
+
+        // Agregar un ListSelectionListener para tablaRepuestosSeleccionados
+        tablaRepuestosSeleccionados.getSelectionModel().addListSelectionListener(e -> actualizarEstadoBoton());
+        
+        //Habilitar el boton despues de
+        
+        tablaClientes.getSelectionModel().addListSelectionListener(e -> {
+            actualizarEstadoBoton(); // Llamar al método cada vez que cambias el cliente
+        });
+
+        // Listener para seleccionar repuestos
+        btnCheckR.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int filaSeleccionada = tablaRepuestos.getSelectedRow();
+                if (filaSeleccionada != -1) {
+                    agregarRepuestoSeleccionado(filaSeleccionada);
+                    actualizarEstadoBoton();
+                }
+            }
+        });
+
+        // Listener en combo boxes
+        comboCategoria2.addActionListener(e -> actualizarEstadoBoton());
+        comboEstado2.addActionListener(e -> actualizarEstadoBoton());
+        
+        
+        // Listener para el campo txtManoDeObra
+        txtManoDeObra.getDocument().addDocumentListener(docBtnListener);
         
         // Configurar el DocumentListener para el costoTotal
         txtManoDeObra.getDocument().addDocumentListener(new DocumentListener() {
@@ -1082,19 +1204,35 @@ public class AltaReparacion extends javax.swing.JFrame {
             // Método para actualizar el valor de la variable
             private void actualizarValor() {
                 try {
-                    // Obtener el texto del JTextField y convertirlo a BigDecimal
-                    costoManoDeObra = new BigDecimal(txtManoDeObra.getText());
+                    // Verificar si el campo de texto está vacío
+                    String texto = txtManoDeObra.getText().trim();
+                    if (texto.isEmpty()) {
+                        costoManoDeObra = BigDecimal.ZERO; // Valor por defecto si está vacío
+                    } else {
+                        // Obtener el texto del JTextField y convertirlo a BigDecimal
+                        costoManoDeObra = new BigDecimal(texto);
+                    }
                     calcularValorTotal();
                 } catch (NumberFormatException e) {
                     // Manejar caso en que el texto no sea un número válido
-                    costoManoDeObra = BigDecimal.ZERO; // Valor por defecto
+                    costoManoDeObra = BigDecimal.ZERO; // Valor por defecto si no es válido
+                    calcularValorTotal();
                 }
-
-                // Aquí puedes hacer lo que necesites con el valor actualizado
-                // Por ejemplo, actualizar otros campos, cálculos, etc.
             }
         });
+        
     }
+    
+    private void actualizarEstadoBoton() {
+        boolean clienteSeleccionado = tablaClientes.getSelectedRow() != -1; // Verifica si hay fila seleccionada en tablaClientes
+        boolean categoriaSeleccionada = !comboCategoria2.getSelectedItem().toString().equals(" - "); // Verifica que la categoría no sea " - "
+        boolean estadoSeleccionado = !comboEstado2.getSelectedItem().toString().equals(" - "); // Verifica que el estado no sea " - "
+        boolean manoDeObraDeclarada = !txtManoDeObra.getText().isEmpty();
+        
+        // Habilita el botón solo si todas las condiciones son verdaderas
+        btnGuardar.setEnabled(clienteSeleccionado && categoriaSeleccionada && estadoSeleccionado && manoDeObraDeclarada);
+    }
+
     
     public void calcularValorTotal(){
         costoTotal = totalRepuesto.add(costoManoDeObra) ;
@@ -1111,7 +1249,7 @@ public class AltaReparacion extends javax.swing.JFrame {
                 btnAtras.doClick(); // Simula un clic en btnAtras
             }
         });
-        
+                
         //Seleccionar Repuesto doble click
         tablaRepuestos.addMouseListener(new MouseAdapter() {
             @Override
@@ -1119,18 +1257,19 @@ public class AltaReparacion extends javax.swing.JFrame {
                 if (e.getClickCount() == 2) {
                     int filaSeleccionada = tablaRepuestos.getSelectedRow();
                     if (filaSeleccionada != -1) {
-                        agregarRepuestoSeleccionado(filaSeleccionada); // Método para agregar a la tabla de seleccionados
+                        agregarRepuestoSeleccionado(filaSeleccionada); // MÃ©todo para agregar a la tabla de seleccionados
                     }
                 }
             }
         });
-        //Seleccionar Repuesto con boton
+        // En el botón de selección
         btnCheckR.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int filaSeleccionada = tablaRepuestos.getSelectedRow();
                 if (filaSeleccionada != -1) {
                     agregarRepuestoSeleccionado(filaSeleccionada);
+                    actualizarEstadoBoton(); // Llamar al método después de agregar el repuesto
                 }
             }
         });
@@ -1250,15 +1389,15 @@ public class AltaReparacion extends javax.swing.JFrame {
         for (i = 0; i < 14; i++) {
             Date fecha = cal.getTime();
 
-            String fechaFormateada = formato.format(fecha); // Formatear la fecha
-            //comboFechaIngreso2.addItem(fechaFormateada);
-            comboFechaDevolucion1.addItem(fechaFormateada);
+            // Verifica si es domingo
+            if (cal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+                String fechaFormateada = formato.format(fecha);
+                comboFechaDevolucion1.addItem(fechaFormateada);
+            }
 
-            System.out.println(fechaFormateada); // Para verificar en la consola
             cal.add(Calendar.DAY_OF_MONTH, 1); // Incrementar un día
         }
         
-        System.out.println("fin carga comboboxes");
     }
     
     
@@ -1268,21 +1407,28 @@ public class AltaReparacion extends javax.swing.JFrame {
         String categoriaSeleccionada = (comboCategoria.getSelectedItem() != null) ? comboCategoria.getSelectedItem().toString() : "-";
         String nombreRepuestoSeleccionado = (comboNombreRepuesto.getSelectedItem() != null) ? comboNombreRepuesto.getSelectedItem().toString() : "-";
         String ubicacionSeleccionada = (comboUbicacion.getSelectedItem() != null) ? comboUbicacion.getSelectedItem().toString() : "-";
-
-        System.out.println("comienzo carga de busqueda");
-        /*
-        List<Repuesto> listaRepuestos = repuestoController.busquedaDeRepuesto(
-                marcaSeleccionada, 
+        String modeloSeleccionada = (comboModelo.getSelectedItem() != null) ? comboModelo.getSelectedItem().toString() : "-";
+        
+        String codigo = "";
+        
+        if (!txtCodigo.getText().isEmpty()) {
+            codigo = txtCodigo.getText();
+        }
+                
+        List<Repuesto> listaRepuestosFiltrados = repuestoController.busquedaDeRepuesto(marcaSeleccionada, 
                 categoriaSeleccionada, 
                 nombreRepuestoSeleccionado, 
                 ubicacionSeleccionada, 
-                1, 
-                1);
+                modeloSeleccionada, 
+                codigo);
         
-        cargarTablaBusquedaRepuestos(listaRepuestos);*/
+        cargarTablaBusquedaRepuestos(listaRepuestosFiltrados);
+        
+        tablaRepuestos.getColumnModel().getColumn(0).setPreferredWidth(30);
+        tablaRepuestos.getColumnModel().getColumn(7).setPreferredWidth(30);
     }
     
-    private void cargarTablaBusquedaRepuestos(List<Repuesto> listaRepuestos){
+    private void cargarTablaBusquedaRepuestos(List<Repuesto> listaRepuestosFiltrados){
         //Repuestos
         DefaultTableModel modeloTabla = new DefaultTableModel() {
             @Override
@@ -1291,12 +1437,11 @@ public class AltaReparacion extends javax.swing.JFrame {
             }
         };
 
-        String[] titulos = {"Id", "Nombre Repuesto", "Marca", "Categoria", "Ubicacion", "Stock", "Precio"};
+        String[] titulos = {"Id", "Nombre Repuesto", "Codigo", "Marca", "Modelo",  "Categoria", "Ubicacion", "Stock", "Precio"};
         modeloTabla.setColumnIdentifiers(titulos);
 
-        if (listaRepuestos != null) {
-            System.out.println("Tamaño de la lista: " + listaRepuestos.size());
-            for (Repuesto repuesto : listaRepuestos) {
+        if (listaRepuestosFiltrados != null) {
+            for (Repuesto repuesto : listaRepuestosFiltrados) {
                 // Asegurarse de que la lista de precios no esté vacía
                 List<Precio> listaPrecios = repuesto.getListaPrecios();
                 Object precio = "No disponible"; // Valor predeterminado si la lista está vacía
@@ -1304,14 +1449,24 @@ public class AltaReparacion extends javax.swing.JFrame {
                 if (listaPrecios != null && !listaPrecios.isEmpty()) {
                     precio = listaPrecios.get(listaPrecios.size() - 1).getValor();
                 }
-
+                
+                int stockBuscado = 0;
+                
+                for(Repuesto rep : listaRepuestos){
+                    if(rep.getId_repuesto() == repuesto.getId_repuesto()){
+                        stockBuscado = rep.getStock();
+                    }
+                }
+                
                 Object[] objeto = {
                     repuesto.getId_repuesto(),
                     repuesto.getNombreRepuesto() != null ? repuesto.getNombreRepuesto().getNombre_repuesto() : "Desconocido",
+                    repuesto.getCodigo(),
                     repuesto.getMarca() != null ? repuesto.getMarca().getNombre_marca() : "Desconocido",
+                    repuesto.getModelo()!= null ? repuesto.getModelo().getNombre_modelo(): "Desconocido",
                     repuesto.getCategoria() != null ? repuesto.getCategoria().getNombre_categoria() : "Desconocido",
                     repuesto.getUbicacion() != null ? repuesto.getUbicacion().getNombre_ubicacion() : "Desconocido",
-                    repuesto.getStock(),
+                    stockBuscado,
                     precio
                 };
                 modeloTabla.addRow(objeto);
@@ -1326,37 +1481,68 @@ public class AltaReparacion extends javax.swing.JFrame {
         DefaultTableModel modeloRepuestosSeleccionados = (DefaultTableModel) tablaRepuestosSeleccionados.getModel();
         
         // Obtener datos de la fila seleccionada
-        Object idRepuesto = modeloRepuestos.getValueAt(filaSeleccionada, 0); // Por ejemplo, columna 0 es ID
-        Object nombreRepuesto = modeloRepuestos.getValueAt(filaSeleccionada, 1); // Columna 1 es Nombre
-        Object marca = modeloRepuestos.getValueAt(filaSeleccionada, 2); // Columna 2 es Marca
-        Object categoria = modeloRepuestos.getValueAt(filaSeleccionada, 3); // Columna 3 es Categoría
-        Object stock = modeloRepuestos.getValueAt(filaSeleccionada, 5); // Columna 5 es Stock
-        Object precio = modeloRepuestos.getValueAt(filaSeleccionada, 6);
+        Object idRepuesto = modeloRepuestos.getValueAt(filaSeleccionada, 0);
+        Object nombreRepuesto = modeloRepuestos.getValueAt(filaSeleccionada, 1); 
+        Object marca = modeloRepuestos.getValueAt(filaSeleccionada, 2);
+        Object modelo = modeloRepuestos.getValueAt(filaSeleccionada, 3);
+        Object categoria = modeloRepuestos.getValueAt(filaSeleccionada, 4);
+        Object codigo = modeloRepuestos.getValueAt(filaSeleccionada, 5);
+        Object precio = modeloRepuestos.getValueAt(filaSeleccionada, 8);
         if (precio == null || precio.toString().isEmpty()) {
             precio = BigDecimal.ZERO; // Valor predeterminado si el precio es nulo
         }
-
-        // Agregar los datos a la tabla de repuestos seleccionados
-        modeloRepuestosSeleccionados.addRow(new Object[]{idRepuesto, nombreRepuesto, marca, categoria, stock, precio});
         
-        calcularTotalVenta(modeloRepuestosSeleccionados);
+        for(Repuesto rep : listaRepuestos){
+            if(rep.getId_repuesto() == (int) idRepuesto){
+                if(rep.getStock() != 0){
+                    // Agregar los datos a la tabla de repuestos seleccionados
+                    modeloRepuestosSeleccionados.addRow(new Object[]{idRepuesto, nombreRepuesto, marca, modelo, categoria, codigo, precio});
+
+                    //Actualizar Stock del repuesto en listaRepuestos (Quitar 1)
+                    rep.setStock(rep.getStock() - 1);  
+
+                    calcularTotalReparacion(modeloRepuestosSeleccionados);
+                    
+                    tablaRepuestosSeleccionados.getColumnModel().getColumn(0).setPreferredWidth(20);
+                    tablaRepuestosSeleccionados.getColumnModel().getColumn(5).setPreferredWidth(100);
+
+                }else{
+                    JOptionPane.showMessageDialog(null, "No hay mas stock del producto.", "Error", JOptionPane.WARNING_MESSAGE);
+                    cargarTablaRepuestos();
+                }
+            }
+        }
+        
+        cargarTablaRepuestos();
         
     }
     
     private void eliminarRepuestoSeleccionado(int filaSeleccionada) {
         DefaultTableModel modeloRepuestosSeleccionados = (DefaultTableModel) tablaRepuestosSeleccionados.getModel();
-
-        // Elimina los datos a la tabla de repuestos seleccionados
-        modeloRepuestosSeleccionados.removeRow(filaSeleccionada);
         
-        calcularTotalVenta(modeloRepuestosSeleccionados);
+        Object idRepuesto = modeloRepuestosSeleccionados.getValueAt(filaSeleccionada, 0);
+        
+        for(Repuesto rep : listaRepuestos){
+            if(rep.getId_repuesto() == (int) idRepuesto){
+                // Elimina los datos a la tabla de repuestos seleccionados
+                modeloRepuestosSeleccionados.removeRow(filaSeleccionada);
+
+                rep.setStock(rep.getStock() + 1);  
+
+                calcularTotalReparacion(modeloRepuestosSeleccionados);
+                
+                cargarTablaRepuestos();
+                
+                break;
+            }
+        }
     }
     
-    private void calcularTotalVenta(DefaultTableModel modeloRepuestosSeleccionados){
+    private void calcularTotalReparacion(DefaultTableModel modeloRepuestosSeleccionados){
         BigDecimal total = BigDecimal.ZERO;
         
         for (int i = 0; i < modeloRepuestosSeleccionados.getRowCount(); i++) {
-            BigDecimal precioTot = new BigDecimal(modeloRepuestosSeleccionados.getValueAt(i, 5).toString());
+            BigDecimal precioTot = new BigDecimal(modeloRepuestosSeleccionados.getValueAt(i, 6).toString());
             total = total.add(precioTot); // Sumar el precio al total
         }
         
@@ -1373,13 +1559,15 @@ public class AltaReparacion extends javax.swing.JFrame {
     }
 
     
+    
     private void buscarYActualizarTablaClientes() {
         String nombre = txtNombre.getText();
         String apellido = txtApellido.getText();
         String telefono = txtTelefono.getText();
-        /*
-        List<Cliente> listaClientes = clienteController.busquedaDeCliente(nombre, apellido, telefono);
-        cargarTablaBusquedaClientes(listaClientes);*/
+        String domicilio = txtDomicilio.getText();
+        
+        List<Cliente> listaClientes = clienteController.busquedaDeCliente(nombre, apellido, telefono, domicilio);
+        cargarTablaBusquedaClientes(listaClientes);
     }
     
     private void cargarTablaBusquedaClientes(List<Cliente> listaClientes){
@@ -1392,14 +1580,13 @@ public class AltaReparacion extends javax.swing.JFrame {
         };
         
         //Ponemos titulos a las columnas
-        String titulos[] = {"Id", "Nombre", "Apellido", "Telefono"};
+        String titulos[] = {"Id", "Nombre", "Apellido", "Telefono", "Domicilio"};
         modeloTabla.setColumnIdentifiers(titulos);
         
         //Setear los datos en la tabla
         if(listaClientes != null){
-            System.out.println("tamaño de la lista: " + listaClientes.size());
             for(Cliente cliente : listaClientes){
-                Object[] objeto = {cliente.getId_cliente(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono()};
+                Object[] objeto = {cliente.getId_cliente(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono(), cliente.getDomicilio()};
                 
                 modeloTabla.addRow(objeto);
             }

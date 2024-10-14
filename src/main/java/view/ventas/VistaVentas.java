@@ -5,6 +5,7 @@ import controller.ClienteController;
 import controller.RepuestoController;
 import controller.VentaController;
 import controller.VentaController;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -25,6 +26,7 @@ import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.text.AbstractDocument;
 import model.Categoria;
 import model.Marca;
@@ -83,6 +85,7 @@ public class VistaVentas extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         btnBuscar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -101,7 +104,7 @@ public class VistaVentas extends javax.swing.JFrame {
         jLabel4.setText("Fecha Venta: ");
 
         btnAgregar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnAgregar.setText("AGREGAR");
+        btnAgregar.setText("AGREGAR VENTA");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarActionPerformed(evt);
@@ -109,15 +112,15 @@ public class VistaVentas extends javax.swing.JFrame {
         });
 
         btnEditar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnEditar.setText("EDITAR");
+        btnEditar.setText("EDITAR VENTA");
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarActionPerformed(evt);
             }
         });
 
-        btnActualizar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnActualizar.setText("ACTUALIZAR");
+        btnActualizar.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        btnActualizar.setText("ACTUALIZAR TABLA");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarActionPerformed(evt);
@@ -125,7 +128,7 @@ public class VistaVentas extends javax.swing.JFrame {
         });
 
         btnEliminar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnEliminar.setText("ELIMINAR");
+        btnEliminar.setText("ELIMINAR VENTA");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
@@ -214,6 +217,14 @@ public class VistaVentas extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jButton1.setText("LIMPIAR");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -239,7 +250,9 @@ public class VistaVentas extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(37, 37, 37)
-                                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(403, 403, 403)
@@ -290,7 +303,8 @@ public class VistaVentas extends javax.swing.JFrame {
                     .addComponent(txtMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel5)
-                    .addComponent(btnBuscar))
+                    .addComponent(btnBuscar)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -441,6 +455,13 @@ public class VistaVentas extends javax.swing.JFrame {
         buscarYActualizarTabla();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        txtAnio.setText("");
+        txtDia.setText("");
+        txtMes.setText("");
+        btnActualizar.doClick();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnAgregar;
@@ -448,6 +469,7 @@ public class VistaVentas extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
@@ -491,9 +513,11 @@ public class VistaVentas extends javax.swing.JFrame {
         };
         
         //Ponemos titulos a las columnas
-        String titulos[] = {"Id", "Cantidad", "Fecha Venta", "Precio Final", "Cliente"};
+        String titulos[] = {"Id", "Cliente", "Cantidad", "Precio Final", "Fecha Venta"};
         modeloTabla.setColumnIdentifiers(titulos);
 
+        
+        
         //Setear los datos en la tabla
         if(listaVentas != null){
             
@@ -505,10 +529,10 @@ public class VistaVentas extends javax.swing.JFrame {
                 String fechaIngreso = venta.getFecha_venta().format(formatoDiasHoras);
                 
                 Object[] objeto = {venta.getId_venta(),
+                    venta.getCliente().getApellido().concat(" " + venta.getCliente().getNombre()),
                     venta.getCantidad(),
-                    fechaIngreso,
                     venta.getPrecioFinal(), 
-                    venta.getCliente().getApellido() 
+                    fechaIngreso,
                 };
                 
                 modeloTabla.addRow(objeto);
@@ -516,6 +540,12 @@ public class VistaVentas extends javax.swing.JFrame {
         }
 
         tablaVentas.setModel(modeloTabla);
+        
+        tablaVentas.getColumnModel().getColumn(0).setPreferredWidth(50);
+        tablaVentas.getColumnModel().getColumn(1).setPreferredWidth(250);
+        tablaVentas.getColumnModel().getColumn(2).setPreferredWidth(50);
+        tablaVentas.getColumnModel().getColumn(3).setPreferredWidth(200);
+        tablaVentas.getColumnModel().getColumn(4).setPreferredWidth(250);
         
         //Hacemos que la tabla no sea editable
         DefaultTableModel modeloTabla1 = new DefaultTableModel(){
@@ -526,10 +556,24 @@ public class VistaVentas extends javax.swing.JFrame {
         };
         
         //Ponemos titulos a las columnas
-        String titulos1[] = {"Id", "Repuesto", "Marca", "Modelo", "Categoria", "Codigo", "Precio"};
+        String titulos1[] = {"Id", "Repuesto", "Codigo", "Marca", "Modelo", "Categoria", "Precio"};
         modeloTabla1.setColumnIdentifiers(titulos1);
         
+        JTableHeader header1 = tablaDetalleVenta.getTableHeader();
+        JTableHeader header2 = tablaVentas.getTableHeader();
+        header1.setFont(new Font("Arial", Font.ITALIC, 16)); // Cambia "Arial" y 16 por la fuente y tamaño deseados
+        header2.setFont(new Font("Arial", Font.ITALIC, 16)); // Cambia "Arial" y 16 por la fuente y tamaño deseados    
+        
         tablaDetalleVenta.setModel(modeloTabla1);
+        
+        tablaDetalleVenta.getColumnModel().getColumn(0).setPreferredWidth(50);
+        tablaDetalleVenta.getColumnModel().getColumn(1).setPreferredWidth(150);
+        tablaDetalleVenta.getColumnModel().getColumn(2).setPreferredWidth(100);
+        tablaDetalleVenta.getColumnModel().getColumn(3).setPreferredWidth(150);
+        tablaDetalleVenta.getColumnModel().getColumn(4).setPreferredWidth(200);
+        tablaDetalleVenta.getColumnModel().getColumn(5).setPreferredWidth(200);
+        tablaDetalleVenta.getColumnModel().getColumn(6).setPreferredWidth(150);
+        
     }
 
     private void configurarEventos() {
@@ -589,7 +633,7 @@ public class VistaVentas extends javax.swing.JFrame {
             String precio = precioEnFechaVenta.getValor().toString();
             
             // Agregar cada repuesto como una fila en la tabla
-            modeloVentaDetalles.addRow(new Object[]{idRepuesto, nombreRepuesto, marca, modelo, categoria, codigo, precio});
+            modeloVentaDetalles.addRow(new Object[]{idRepuesto, nombreRepuesto, codigo, marca, modelo, categoria, precio});
         }
         
         Venta venta = ventaController.obtenerVentaPorId(idVenta);

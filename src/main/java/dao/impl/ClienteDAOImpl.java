@@ -19,6 +19,7 @@ public class ClienteDAOImpl implements ClienteDAO{
     private final String SENTENCIA_ELIMINAR_CLIENTE = "DELETE FROM TiendaLocal.cliente WHERE id_cliente = ?";
     private final String SENTENCIA_OBTENER_CLIENTES = "SELECT * FROM TiendaLocal.cliente ORDER BY id_cliente ASC";
     private final String SENTENCIA_OBTENER_CLIENTE = "SELECT * FROM TiendaLocal.cliente WHERE id_cliente = ?";
+    private final String SENTENCIA_OBTENER_CLIENTE_POR_NOMBRE = "SELECT * FROM TiendaLocal.cliente WHERE nombre LIKE ? AND apellido LIKE ?";
     private final String SENTENCIA_BUSQUEDA_DE_CLIENTE = 
             "SELECT * " + 
             "FROM TiendaLocal.cliente " +
@@ -146,6 +147,36 @@ public class ClienteDAOImpl implements ClienteDAO{
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_CLIENTE);
             preparedStatement.setInt(1, id);
+            cliente_Resultado = preparedStatement.executeQuery();
+            
+            if(cliente_Resultado.next()){
+                int idCliente = cliente_Resultado.getInt("id_cliente");
+                String nombreCliente = cliente_Resultado.getString("nombre");
+                String apellidoCliente = cliente_Resultado.getString("apellido");
+                String telefonoCliente = cliente_Resultado.getString("telefono");
+                String domicilioCliente = cliente_Resultado.getString("domicilio");
+                
+                List<Venta> listaVentas = new ArrayList<>();
+                List<Reparacion> listaReparaciones = new ArrayList<>();
+                
+                cliente = new Cliente(idCliente, nombreCliente, apellidoCliente, telefonoCliente, domicilioCliente, listaVentas, listaReparaciones);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return cliente;
+    }
+
+    @Override
+    public Cliente obtenerClientePorNombre(String nombreEncontrado, String apellidoEncontrado) {
+        Cliente cliente = null;
+        ResultSet cliente_Resultado = null;
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_CLIENTE_POR_NOMBRE);
+            preparedStatement.setString(1, "%" + nombreEncontrado + "%");
+            preparedStatement.setString(2, "%" + apellidoEncontrado + "%");
             cliente_Resultado = preparedStatement.executeQuery();
             
             if(cliente_Resultado.next()){

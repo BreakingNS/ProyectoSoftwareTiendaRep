@@ -17,6 +17,7 @@ public class EstadoDAOImpl implements EstadoDAO{
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_ESTADO = "DELETE FROM TiendaLocal.estado WHERE id_estado = ?";
     private final String SENTENCIA_OBTENER_ESTADOS = "SELECT * FROM TiendaLocal.estado ORDER BY id_estado ASC";
+    private final String SENTENCIA_OBTENER_ESTADOS_POR_NOMBRE = "SELECT * FROM TiendaLocal.estado WHERE nombre_estado = ?";
     private final String SENTENCIA_OBTENER_ESTADO = "SELECT * FROM TiendaLocal.estado WHERE id_estado = ?";
     private final String SENTENCIA_CREAR_ESTADO = "INSERT INTO TiendaLocal.estado (nombre_estado) VALUES ( UPPER(?) )";
     private final String SENTENCIA_ACTUALIZAR_ESTADO = "UPDATE TiendaLocal.estado SET nombre_estado = UPPER(?) WHERE id_estado = ?";
@@ -137,5 +138,30 @@ public class EstadoDAOImpl implements EstadoDAO{
         }
         
         return false;
+    }
+
+    @Override
+    public Estado obtenerEstadosPorNombre(String estadoSeleccionado) {
+        Estado estado = null;
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_ESTADOS_POR_NOMBRE);
+            preparedStatement.setString(1, estadoSeleccionado);
+            ResultSet estado_Resultado = preparedStatement.executeQuery();
+            
+            if (estado_Resultado.next()){
+                String nombreEstado = estado_Resultado.getString("nombre_estado");
+                int idCategoria = estado_Resultado.getInt("id_estado");
+                
+                ReparacionDAOImpl reparacionDAO = new ReparacionDAOImpl(connection);
+                List<Reparacion> listaReparaciones = reparacionDAO.obtenerReparaciones();
+
+                estado = new Estado(idCategoria, nombreEstado, listaReparaciones);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EstadoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return estado;
     }
 }

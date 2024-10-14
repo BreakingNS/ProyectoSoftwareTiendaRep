@@ -1,5 +1,6 @@
 package view.clientes;
 
+import config.NumerosSoloDocumentFilter;
 import controller.ClienteController;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -10,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.AbstractDocument;
 
 public class AltaCliente extends javax.swing.JFrame {
     
@@ -243,6 +245,9 @@ public class AltaCliente extends javax.swing.JFrame {
         txtApellido.getDocument().addDocumentListener(docListener);
         txtTelefono.getDocument().addDocumentListener(docListener);
         txtDomicilio.getDocument().addDocumentListener(docListener);
+        
+        NumerosSoloDocumentFilter filter = new NumerosSoloDocumentFilter(15);
+        ((AbstractDocument) txtTelefono.getDocument()).setDocumentFilter(filter);
         
         // Configura el mapeo de la tecla Enter para activar btnGuardar
         String enterKey = "ENTER";

@@ -1,5 +1,6 @@
 package view.repuestos;
 
+import config.NumerosSoloDocumentFilter;
 import controller.RepuestoController;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -10,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.AbstractDocument;
 import model.Repuesto;
 
 public class ActualizarPrecio extends javax.swing.JFrame {
@@ -265,11 +267,15 @@ public class ActualizarPrecio extends javax.swing.JFrame {
         
         Repuesto repuesto = repuestoController.obtenerRepuestoPorId(idRepuesto);
         BigDecimal precioNuevo = new BigDecimal(txtPrecio.getText());
-        System.out.println("10");
-        repuestoController.actualizarPrecioDeRepuesto(repuesto, precioNuevo);
-        System.out.println("100");
-        JOptionPane.showMessageDialog(null, "Actualizacion de Precio realizada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        dispose();
+        
+        if(precioNuevo.equals(BigDecimal.ZERO)){
+            JOptionPane.showMessageDialog(null, "Numero ingresado invalido, verifique el mismo.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            repuestoController.actualizarPrecioDeRepuesto(repuesto, precioNuevo);
+            JOptionPane.showMessageDialog(null, "Actualizacion de Precio realizada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+        }
         
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -336,6 +342,9 @@ public class ActualizarPrecio extends javax.swing.JFrame {
 
         // Agrega el DocumentListener a los JTextField
         txtPrecio.getDocument().addDocumentListener(docListener);
+        
+        NumerosSoloDocumentFilter filter = new NumerosSoloDocumentFilter(15);
+        ((AbstractDocument) txtPrecio.getDocument()).setDocumentFilter(filter);
 
         // Configura el mapeo de la tecla Enter para activar btnGuardar
         String enterKey = "ENTER";

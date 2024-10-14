@@ -90,16 +90,17 @@ public class EstadoServiceTest {
     private static EstadoService estadoService;
     private static PrecioService precioService;
     private static TecnicoService tecnicoService;
-
+    private static PagoService pagoService;
     
-    private static ClienteController clienteController;
-    private static RepuestoController repuestoController;
+    private static VentaController ventaController;
     private static MarcaController marcaController;
     private static NombreRepuestoController nombreRepuestoController;
     private static UbicacionController ubicacionController;
-    private static CategoriaController categoriaController;
     private static EstadoController estadoController;
-    private static VentaController ventaController;
+    
+    private static CategoriaController categoriaController;
+    private static ClienteController clienteController;
+    private static RepuestoController repuestoController;
     private static ReparacionController reparacionController;
     
     public EstadoServiceTest() {
@@ -126,8 +127,7 @@ public class EstadoServiceTest {
         ventaDAO = new VentaDAOImpl(connection);
         reparacionRepuestoDAO = new ReparacionRepuestoDAOImpl(connection);
         ventaRepuestoDAO = new VentaRepuestoDAOImpl(connection);
-        reparacionService = new ReparacionService(reparacionDAO, repuestoDAO, reparacionRepuestoDAO, connection);
-        tecnicoService = new TecnicoService(tecnicoDAO, ventaDAO, reparacionDAO);
+        reparacionService = new ReparacionService(reparacionDAO, repuestoDAO, reparacionRepuestoDAO, facturaDAO, connection);
         
         clienteService = new ClienteService(clienteDAO, ventaDAO, reparacionDAO);
         repuestoService = new RepuestoService(repuestoDAO, precioDAO);
@@ -139,16 +139,19 @@ public class EstadoServiceTest {
         estadoService = new EstadoService(estadoDAO, reparacionDAO);
         precioService = new PrecioService(precioDAO);
         ventaService = new VentaService(ventaDAO, repuestoDAO, ventaRepuestoDAO, connection);
+        tecnicoService = new TecnicoService(tecnicoDAO, ventaDAO, reparacionDAO);
+        pagoService = new PagoService(pagoDAO);
         
         marcaController = new MarcaController(marcaService);
         nombreRepuestoController = new NombreRepuestoController(nombreRepuestoService);
         ubicacionController = new UbicacionController(ubicacionService);
         categoriaController = new CategoriaController(categoriaService);
         estadoController = new EstadoController(estadoService);
+        
         clienteController = new ClienteController(clienteService);
         repuestoController = new RepuestoController(nombreRepuestoService, repuestoService, marcaService, categoriaService, ubicacionService, precioService, modeloService, tecnicoService);
         ventaController = new VentaController(ventaService, clienteService, repuestoController);
-        reparacionController = new ReparacionController(reparacionService, categoriaService, clienteService, estadoService, repuestoController);
+        reparacionController = new ReparacionController(reparacionService, categoriaService, clienteService, estadoService, tecnicoService, pagoService, repuestoController);
         
     }
     

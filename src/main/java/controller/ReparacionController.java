@@ -1,15 +1,28 @@
 package controller;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import model.Categoria;
+import model.Cliente;
 import model.Estado;
+import model.Marca;
+import model.Modelo;
+import model.NombreRepuesto;
+import model.Pago;
 import model.Repuesto;
 import model.Reparacion;
+import model.Tecnico;
+import model.Ubicacion;
 import service.CategoriaService;
 import service.ClienteService;
 import service.EstadoService;
+import service.PagoService;
 import service.ReparacionService;
 import service.ReparacionService;
+import service.TecnicoService;
 
 public class ReparacionController {
     
@@ -17,22 +30,30 @@ public class ReparacionController {
     private final CategoriaService categoriaService;
     private final ClienteService clienteService;
     private final EstadoService estadoService;
+    private final PagoService pagoService;
+    private final TecnicoService tecnicoService; 
+    
     private final RepuestoController repuestoController;
-    
-    
+        
     public ReparacionController(ReparacionService reparacionService,
             CategoriaService categoriaService, 
             ClienteService clienteService, 
             EstadoService estadoService, 
-            RepuestoController repuestoController){
+            TecnicoService tecnicoService,
+            PagoService pagoService,
+            RepuestoController repuestoController
+            ){
         this.reparacionService= reparacionService;
         this.categoriaService = categoriaService;
         this.clienteService = clienteService;
         this.estadoService = estadoService;
+        this.pagoService = pagoService;
+        this.tecnicoService = tecnicoService;
+        
         this.repuestoController = repuestoController;
     }
     
-    public void agregarReparacion(Reparacion reparacion, List<Repuesto> listaRepuestos) throws SQLException{
+    public void agregarReparacion(Reparacion reparacion, List<Repuesto> listaRepuestos) throws SQLException{        
         reparacionService.agregarReparacion(reparacion, listaRepuestos);
     }
     
@@ -56,24 +77,11 @@ public class ReparacionController {
         return listaReparacions;
     }
     */
-    /*
-    public void editarReparacion(int idReparacion, String nombreMarca, String nombreCategoria, String nombreNombreReparacion, String nombreUbicacion, int stock, int precio){
-        Marca marcaEdit = marcaService.obtenerMarcaPorNombre(nombreMarca);
-        Categoria categoriaEdit = categoriaService.obtenerCategoriaPorNombre(nombreCategoria);
-        NombreReparacion nombreReparacionEdit = nombreReparacionService.obtenerNombreReparacionPorNombre(nombreNombreReparacion);
-        Ubicacion ubicacionEdit = ubicacionService.obtenerUbicacionPorNombre(nombreUbicacion);
-        
-        Reparacion reparacion = new Reparacion(idReparacion, stock, nombreReparacionEdit, marcaEdit, categoriaEdit, new ArrayList<>(), ubicacionEdit);
-        reparacionService.editarReparacionPorId(reparacion);
-        
-        BigDecimal precioBig = new BigDecimal(precio);
-        List<Precio> listaPreciosDeReparacion = precioService.obtenerPrecioPorIdReparacion(reparacion.getId_reparacion());
-        if(listaPreciosDeReparacion.get(listaPreciosDeReparacion.size() - 1).getValor() != precioBig){
-            Precio precioNuevo = new Precio(1, reparacion, new Date(), precioBig);
-            precioService.agregarPrecio(precioNuevo);
-        }
-    }
     
+    public void editarReparacionSoloEstado(Reparacion reparacion){
+        reparacionService.editarReparacionSoloEstado(reparacion);
+    }
+    /*
     
     public void eliminarReparacion(int id){
         precioService.eliminarPreciosPorIdReparacion(id);
@@ -166,6 +174,110 @@ public class ReparacionController {
         return reparacionService.obtenerReparacionPorId(idReparacion);
     }
 
+    public List<Reparacion> listarReparacionesOrdenadasPorFechaActual() {
+        return reparacionService.listarReparacionesOrdenadasPorFechaActual();
+    }
+
+    public List<Reparacion> busquedaDeReparacion(String categoriaSeleccionada, 
+            /*String pagadoSeleccionado, */
+            String estadoSeleccionado, 
+            String tecnicoSeleccionado, 
+            String clienteSeleccionado) {
+        
+        Categoria categoriaNuevo;
+        Cliente clienteNuevo;
+        Estado estadoNuevo;
+        Tecnico tecnicoNuevo;
+        
+        if(!categoriaSeleccionada.equals("-")){
+            categoriaNuevo = categoriaService.obtenerCategoriaPorNombre(categoriaSeleccionada);
+        }
+        else{
+            categoriaNuevo = new Categoria(0, ("-"), new ArrayList<>(), new ArrayList<>());
+        }
+        
+        if(!clienteSeleccionado.equals("")){
+            clienteNuevo = clienteService.obtenerClientePorId(Integer.parseInt(clienteSeleccionado));
+        }
+        else{
+            clienteNuevo = new Cliente(0, "-", "-", "-", "-", new ArrayList<>(), new ArrayList<>());
+        }
+        
+        if(!estadoSeleccionado.equals("-")){
+            estadoNuevo = estadoService.obtenerEstadoPorNombre(estadoSeleccionado);
+        }
+        else{
+            estadoNuevo = new Estado(0, "-", new ArrayList<>());
+        }
+        
+        if(!tecnicoSeleccionado.equals("-")){
+            tecnicoNuevo = tecnicoService.obtenerTecnicoPorNombre(tecnicoSeleccionado);
+        }
+        else{
+            tecnicoNuevo = new Tecnico(0, "-", "-", "-", "-", new ArrayList<>());
+        }
+        
+        
+        Reparacion reparacion = new Reparacion(0, 
+                BigDecimal.ZERO, 
+                "", 
+                LocalDateTime.MIN, 
+                LocalDateTime.MIN, 
+                null, 
+                categoriaNuevo, 
+                clienteNuevo, 
+                estadoNuevo, 
+                tecnicoNuevo);
+        
+        /*
+        System.out.println("nombrerep : " + repuesto.getNombreRepuesto().getNombre_repuesto());
+        System.out.println("marca: " + repuesto.getMarca().getNombre_marca());
+        System.out.println("categ: " + repuesto.getCategoria().getNombre_categoria());
+        System.out.println("ubi: " + repuesto.getUbicacion().getNombre_ubicacion());
+        System.out.println("modelo: " + repuesto.getModelo().getNombre_modelo());
+        System.out.println("codigo: " + repuesto.getCodigo());
+        */
+        
+        List<Reparacion> listaReparaciones = reparacionService.busquedaDeReparacion(reparacion/*, pagadoNuevo*/);
+        /*
+        for(Repuesto rep : listaRepuestos){
+            rep.setListaPrecios(precioService.obtenerPrecioPorIdRepuesto(rep.getId_repuesto()));
+        }
+        */
+        return listaReparaciones;
+    }
+
+    public List<Categoria> retornarCategorias(){
+        return categoriaService.listarCategoriasOrdenadasPorId();
+    }
+    
+    public List<String> retornarPagos(){
+        return pagoService.listarPagos();
+    }
+    
+    public List<Estado> retornarEstados(){
+        return estadoService.listarEstados();
+    }
+
+    public List<Tecnico> retornarTecnicos() {
+        return tecnicoService.listarTecnicos();
+    }
+
+    public void editarReparacionSoloTecnico(Reparacion reparacion) {
+        reparacionService.editarReparacionSoloTecnico(reparacion);
+    }
+
+    public void editarReparacionCompleta(Reparacion reparacion, List<Repuesto> listaRepuestosSeleccionadosFinal) throws SQLException {
+        reparacionService.editarReparacionCompleta(reparacion, listaRepuestosSeleccionadosFinal);
+    }
+
+    public void editarReparacion(Reparacion reparacion) {
+        reparacionService.editarReparacion(reparacion);
+    }
+
+    public void eliminarReparacion(int idReparacion) throws SQLException {
+        reparacionService.eliminarReparacion(idReparacion);
+    }
 
 }
 

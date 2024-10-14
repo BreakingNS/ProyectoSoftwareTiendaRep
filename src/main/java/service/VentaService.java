@@ -95,7 +95,9 @@ public class VentaService {
             
             ventaDAO.eliminarVenta(id);
             
-            aumentarStockPorLista(listaRepuestosEliminar);
+            if(!listaRepuestosEliminar.isEmpty()){
+                aumentarStockPorLista(listaRepuestosEliminar);
+            }
             
             connection.commit();
 
@@ -137,12 +139,12 @@ public class VentaService {
         
         Venta venta = ventaDAO.obtenerVenta(idVenta);
         List<Precio> listaPrecios = repuesto.getListaPrecios();
-        
+        System.out.println("aca llega");
         Precio precioActualizado = listaPrecios.stream()
         .filter(precio -> !precio.getFechaPrecio().isAfter(venta.getFecha_venta())) // Filtra precios anteriores o iguales a la fecha de venta
         .max(Comparator.comparing(Precio::getFechaPrecio))              // Encuentra el precio con la fecha más reciente
         .orElse(null); // Maneja el caso si no hay precio válido
-        
+        System.out.println("aca tambien");
         return precioActualizado;
     }
 

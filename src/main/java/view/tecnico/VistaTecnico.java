@@ -1,5 +1,6 @@
 package view.tecnico;
 
+import config.NumerosSoloDocumentFilter;
 import controller.TecnicoController;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -13,6 +14,7 @@ import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.AbstractDocument;
 import model.Tecnico;
 
 public class VistaTecnico extends javax.swing.JFrame {
@@ -450,6 +452,12 @@ public class VistaTecnico extends javax.swing.JFrame {
         }
 
         tablaTecnicos.setModel(modeloTabla);
+        
+        tablaTecnicos.getColumnModel().getColumn(0).setPreferredWidth(50); // ID más pequeño
+        tablaTecnicos.getColumnModel().getColumn(1).setPreferredWidth(150); // Nombre más grande
+        tablaTecnicos.getColumnModel().getColumn(2).setPreferredWidth(150); // Apellido
+        tablaTecnicos.getColumnModel().getColumn(3).setPreferredWidth(150); // Teléfono
+        tablaTecnicos.getColumnModel().getColumn(4).setPreferredWidth(500); // Domicilio
     }
     
     private void cargarTablaBusqueda(List<Tecnico> listaTecnicos){
@@ -476,6 +484,12 @@ public class VistaTecnico extends javax.swing.JFrame {
         }
 
         tablaTecnicos.setModel(modeloTabla);
+        
+        tablaTecnicos.getColumnModel().getColumn(0).setPreferredWidth(50); // ID más pequeño
+        tablaTecnicos.getColumnModel().getColumn(1).setPreferredWidth(150); // Nombre más grande
+        tablaTecnicos.getColumnModel().getColumn(2).setPreferredWidth(150); // Apellido
+        tablaTecnicos.getColumnModel().getColumn(3).setPreferredWidth(150); // Teléfono
+        tablaTecnicos.getColumnModel().getColumn(4).setPreferredWidth(500); // Domicilio
     }
     
     private void configurarEventos() {
@@ -544,6 +558,9 @@ public class VistaTecnico extends javax.swing.JFrame {
         txtApellido.getDocument().addDocumentListener(docListener);
         txtTelefono.getDocument().addDocumentListener(docListener);
         txtDomicilio.getDocument().addDocumentListener(docListener);
+        
+        NumerosSoloDocumentFilter filter = new NumerosSoloDocumentFilter(15);
+        ((AbstractDocument) txtTelefono.getDocument()).setDocumentFilter(filter);
     }
 
 }

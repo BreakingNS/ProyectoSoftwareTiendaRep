@@ -56,4 +56,8 @@ public class EstadoService {
     public boolean existeEstado(String nombre) {   
         return estadoDAO.existeEstado(nombre);
     }
+
+    public Estado obtenerEstadoPorNombre(String estadoSeleccionado) {
+        return estadoDAO.obtenerEstadosPorNombre(estadoSeleccionado);
+    }
 }

@@ -1,5 +1,6 @@
 package view.reparaciones;
 
+import config.NumerosSoloDocumentFilter;
 import controller.FacturaController;
 import controller.PagoController;
 import controller.ReparacionController;
@@ -16,6 +17,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
+import javax.swing.text.AbstractDocument;
 import model.Factura;
 import model.Pago;
 import model.Reparacion;
@@ -309,14 +311,9 @@ public class ActualizarPago extends javax.swing.JFrame {
         
         pagoController.agregarPago(factura, montoAbonado, LocalDateTime.now(), detalle);
         
-        System.out.println("total pagos: " + totalPagos);
-        System.out.println("estado factura: " + factura.getEstado());
         
         if(!totalPagos.equals(0) || !factura.getEstado().equals(pagado)){
-            System.out.println("ENTRA");
             facturaController.editarFactura(idFactura, pagado, costoTotal);
-        }else{
-            System.out.println("NO ENTRA");
         }
         
         //------
@@ -378,6 +375,9 @@ public class ActualizarPago extends javax.swing.JFrame {
     
     private void configurarEventos() {
         txtParcial.setEnabled(true);
+        
+        NumerosSoloDocumentFilter filter = new NumerosSoloDocumentFilter(15);
+        ((AbstractDocument) txtParcial.getDocument()).setDocumentFilter(filter);
         
         radioBtnPARCIAL.addActionListener(e -> {
             txtParcial.setEnabled(radioBtnPARCIAL.isSelected());  // Habilita o deshabilita según la selección

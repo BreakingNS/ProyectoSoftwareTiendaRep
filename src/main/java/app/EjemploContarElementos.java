@@ -1,3 +1,4 @@
+/*
 package app;
 
 import java.util.Arrays;
@@ -30,3 +31,4 @@ public class EjemploContarElementos {
         }
     }
 }
+*/

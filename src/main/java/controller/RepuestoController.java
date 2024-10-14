@@ -115,8 +115,7 @@ public class RepuestoController {
     }
     
     public List<Repuesto> listarRepuestos(){
-        List<Repuesto> listaRepuestos= repuestoService.listarRepuestos();
-        return listaRepuestos;
+        return repuestoService.listarRepuestos();
     }
 
     
@@ -271,6 +270,10 @@ public class RepuestoController {
 
     public int obtenerIdPorCodigo(String codigo) {
         return repuestoService.obtenerIdPorCodigo(codigo);
+    }
+
+    public List<Repuesto> listarRepuestosOrdenadoPorStock() {
+        return repuestoService.listarRepuestosOrdenadoPorStock();
     }
 
     

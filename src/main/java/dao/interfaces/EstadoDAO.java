@@ -10,4 +10,5 @@ public interface EstadoDAO {
     public void actualizarEstado(Estado estado);
     public void eliminarEstado(int id);
     public boolean existeEstado(String nombre);
+    public Estado obtenerEstadosPorNombre(String estadoSeleccionado);
 }

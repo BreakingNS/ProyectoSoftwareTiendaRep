@@ -1,6 +1,8 @@
 package view.clientes;
 
+import config.NumerosSoloDocumentFilter;
 import controller.ClienteController;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
@@ -13,6 +15,8 @@ import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.text.AbstractDocument;
 import model.Cliente;
 import view.marca.VistaMarcas;
 
@@ -436,7 +440,8 @@ public class VistaCliente extends javax.swing.JFrame {
         String titulos[] = {"Id", "Nombre", "Apellido", "Telefono", "Domicilio"};
         modeloTabla.setColumnIdentifiers(titulos);
         
-        
+        JTableHeader header1 = tablaClientes.getTableHeader();
+        header1.setFont(new Font("Arial", Font.ITALIC, 16)); // Cambia "Arial" y 16 por la fuente y tamaño deseados
         
         //Traer Clientes desde la base de datos
         List<Cliente> listaClientes = clienteController.listarClientes();
@@ -454,10 +459,10 @@ public class VistaCliente extends javax.swing.JFrame {
         tablaClientes.setModel(modeloTabla);
         
         tablaClientes.getColumnModel().getColumn(0).setPreferredWidth(50); // ID más pequeño
-        tablaClientes.getColumnModel().getColumn(1).setPreferredWidth(200); // Nombre más grande
-        tablaClientes.getColumnModel().getColumn(2).setPreferredWidth(200); // Apellido
-        tablaClientes.getColumnModel().getColumn(3).setPreferredWidth(200); // Teléfono
-        tablaClientes.getColumnModel().getColumn(4).setPreferredWidth(400); // Domicilio
+        tablaClientes.getColumnModel().getColumn(1).setPreferredWidth(150); // Nombre más grande
+        tablaClientes.getColumnModel().getColumn(2).setPreferredWidth(150); // Apellido
+        tablaClientes.getColumnModel().getColumn(3).setPreferredWidth(150); // Teléfono
+        tablaClientes.getColumnModel().getColumn(4).setPreferredWidth(500); // Domicilio
     }
     
     private void cargarTablaBusqueda(List<Cliente> listaClientes){
@@ -484,6 +489,12 @@ public class VistaCliente extends javax.swing.JFrame {
         }
 
         tablaClientes.setModel(modeloTabla);
+        
+        tablaClientes.getColumnModel().getColumn(0).setPreferredWidth(50); // ID más pequeño
+        tablaClientes.getColumnModel().getColumn(1).setPreferredWidth(150); // Nombre más grande
+        tablaClientes.getColumnModel().getColumn(2).setPreferredWidth(150); // Apellido
+        tablaClientes.getColumnModel().getColumn(3).setPreferredWidth(150); // Teléfono
+        tablaClientes.getColumnModel().getColumn(4).setPreferredWidth(500); // Domicilio
     }
     
     private void configurarEventos() {
@@ -552,6 +563,9 @@ public class VistaCliente extends javax.swing.JFrame {
         txtApellido.getDocument().addDocumentListener(docListener);
         txtTelefono.getDocument().addDocumentListener(docListener);
         txtDomicilio.getDocument().addDocumentListener(docListener);
+        
+        NumerosSoloDocumentFilter filter = new NumerosSoloDocumentFilter(15);
+        ((AbstractDocument) txtTelefono.getDocument()).setDocumentFilter(filter);
     }
 
 }

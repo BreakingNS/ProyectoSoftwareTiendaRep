@@ -317,5 +317,25 @@ public class ReparacionRepuestoDAOImpl implements ReparacionRepuestoDAO{
 
         return listaReparacionRepuesto;
     }
-
+    
+    @Override
+    public void actualizarReparacionRepuesto(int id_reparacion, int id_repuesto, int nuevaCantidad) {
+        String sql = "UPDATE TiendaLocal.Reparacion_Repuesto " +
+                     "SET cantidad_repuestos = ? " +
+                     "WHERE id_reparacion = ? AND id_repuesto = ?";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, nuevaCantidad);
+            stmt.setInt(2, id_reparacion);
+            stmt.setInt(3, id_repuesto);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            try {
+                // Manejar excepciones adecuadamente
+                throw new SQLException("Error al actualizar la cantidad de repuestos", e);
+            } catch (SQLException ex) {
+                Logger.getLogger(ReparacionRepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 }

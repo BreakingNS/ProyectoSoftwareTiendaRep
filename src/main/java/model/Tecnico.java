@@ -70,5 +70,8 @@ public class Tecnico {
         this.listaReparaciones = listaReparaciones;
     }
 
-    
+    @Override
+    public String toString() {
+        return this.nombre_tecnico;
+    }
 }

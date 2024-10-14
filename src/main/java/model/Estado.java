@@ -40,5 +40,8 @@ public class Estado {
         this.listaReparaciones = listaReparaciones;
     }
 
-    
+    @Override
+    public String toString() {
+        return this.nombre_estado;
+    }
 }

@@ -3,6 +3,7 @@ package service;
 import dao.interfaces.CategoriaDAO;
 import dao.interfaces.ReparacionDAO;
 import dao.interfaces.RepuestoDAO;
+import java.util.ArrayList;
 import java.util.List;
 import model.Categoria;
 import model.Reparacion;
@@ -36,14 +37,15 @@ public class CategoriaService {
         }
         
         List<Reparacion> listaReparacionesAuxiliar = reparacionDAO.obtenerReparaciones();
-
+        
         for(Categoria mar : listaCategorias){
             for(Reparacion rep : listaReparacionesAuxiliar){
-                if(rep.getCategoria().getId_categoria() == (mar.getId_categoria())){
+                if(rep.getCategoria() != null && rep.getCategoria().getId_categoria() == mar.getId_categoria()){
                     mar.getListaReparaciones().add(rep);
                 }
             }
         }
+
         
         return listaCategorias;
     }
@@ -106,7 +108,17 @@ public class CategoriaService {
     }
     
     public Categoria obtenerCategoriaPorNombre(String nombre){
-        return categoriaDAO.obtenerCategoriaPorNombre(nombre);
+        List<Categoria> listaCategorias = categoriaDAO.obtenerCategoriasOrdenadasPorId();
+        Categoria retorno = null;
+        
+        for(Categoria cat : listaCategorias){
+            if(cat.getNombre_categoria().equals(nombre)){
+                retorno = cat;
+                break;
+            }
+        }
+        
+        return retorno;
     }
 
 }

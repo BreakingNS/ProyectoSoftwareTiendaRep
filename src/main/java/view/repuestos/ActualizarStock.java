@@ -1,5 +1,6 @@
 package view.repuestos;
 
+import config.NumerosSoloDocumentFilter;
 import controller.RepuestoController;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.AbstractDocument;
 import model.Repuesto;
 
 public class ActualizarStock extends javax.swing.JFrame {
@@ -379,6 +381,9 @@ public class ActualizarStock extends javax.swing.JFrame {
 
         // Agrega el DocumentListener a los JTextField
         txtStockNuevo.getDocument().addDocumentListener(docListener);
+        
+        NumerosSoloDocumentFilter filter = new NumerosSoloDocumentFilter(15);
+        ((AbstractDocument) txtStockNuevo.getDocument()).setDocumentFilter(filter);
 
         // Configura el mapeo de la tecla Enter para activar btnGuardar
         String enterKey = "ENTER";

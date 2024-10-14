@@ -2,22 +2,25 @@ package view.administrador;
 
 import config.BackupDataBase;
 import config.RestoreDataBase;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
 public class VistaBD extends javax.swing.JFrame {
 
-    public VistaBD() {
+    private final Connection connection;
+    
+    public VistaBD(Connection connection) {
+        this.connection = connection;
         initComponents();
         configurarEventos();
     }
@@ -101,8 +104,8 @@ public class VistaBD extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(56, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(35, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -112,11 +115,11 @@ public class VistaBD extends javax.swing.JFrame {
                             .addComponent(btnExportar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())
+                            .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(72, 72, 72))))
+                        .addGap(66, 66, 66)))
+                .addGap(27, 27, 27))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -143,9 +146,7 @@ public class VistaBD extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 38, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,22 +157,14 @@ public class VistaBD extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportarActionPerformed
-        int selectedRow = tablaSchemas.getSelectedRow();
+        int selectedRow = this.tablaSchemas.getSelectedRow();
         if (selectedRow != -1) {
-            String fileName = (String) tablaSchemas.getValueAt(selectedRow, 0); // Obtener el nombre del archivo desde la columna 0
+            String fileName = (String)this.tablaSchemas.getValueAt(selectedRow, 0);
             System.out.println("Archivo seleccionado para importar: " + fileName);
-
-            // Ruta completa del archivo seleccionado
             String filePath = "C:\\Users\\BreakingNS\\Documents\\BASES DE DATOS H2\\" + fileName;
-
-            // Borrar base de datos
             RestoreDataBase.clearDatabase();
-            
-            // Llamar el método para importar el archivo a la BD H2
             RestoreDataBase.importBackup(filePath);
-            
-            JOptionPane.showMessageDialog(null, "Base de Datos IMPORTADA correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
+            JOptionPane.showMessageDialog((Component)null, "Base de Datos IMPORTADA correctamente.", "Éxito", 1);
         } else {
             System.out.println("Por favor, selecciona un archivo para importar.");
         }
@@ -181,8 +174,8 @@ public class VistaBD extends javax.swing.JFrame {
         String fileName = JOptionPane.showInputDialog("Ingresa el nombre para el backup:");
         if (fileName != null && !fileName.trim().isEmpty()) {
             String filePath = "C:\\Users\\BreakingNS\\Documents\\BASES DE DATOS H2\\" + fileName + ".sql";
-            BackupDataBase.exportBackup(filePath);
-            JOptionPane.showMessageDialog(null, "Base de Datos EXPORTADA correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            BackupDataBase.exportBackup(filePath, this.jPanel1);
+            JOptionPane.showMessageDialog((Component)null, "Base de Datos EXPORTADA correctamente.", "Éxito", 1);
         }
 
     }//GEN-LAST:event_btnExportarActionPerformed
@@ -250,15 +243,15 @@ public class VistaBD extends javax.swing.JFrame {
     }
     
     private void cargarTabla() {
+        
         File folder = new File("C:\\Users\\BreakingNS\\Documents\\BASES DE DATOS H2");
-
+        
         if (folder.exists() && folder.isDirectory()) {
-            File[] backups = folder.listFiles((dir, name) -> name.endsWith(".sql"));
-
-            DefaultTableModel model = (DefaultTableModel) tablaSchemas.getModel();
-            model.setRowCount(0); // Limpiar la tabla antes de agregar filas
-
-            // Añadir columnas si no están ya en el modelo
+            File[] backups = folder.listFiles((dir, name) -> {
+                return name.endsWith(".sql");
+            });
+            DefaultTableModel model = (DefaultTableModel)this.tablaSchemas.getModel();
+            model.setRowCount(0);
             if (model.getColumnCount() == 0) {
                 model.addColumn("Backup");
                 model.addColumn("Fecha de Modificación");
@@ -266,12 +259,13 @@ public class VistaBD extends javax.swing.JFrame {
 
             if (backups != null && backups.length > 0) {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                for (File backup : backups) {
-                    // Obtener la fecha de modificación del archivo
-                    String lastModified = sdf.format(new Date(backup.lastModified()));
+                File[] var5 = backups;
+                int var6 = backups.length;
 
-                    // Agregar el nombre del archivo y la fecha de modificación a la tabla
-                    model.addRow(new Object[]{backup.getName(), lastModified});
+            for(int var7 = 0; var7 < var6; ++var7) {
+                File backup = var5[var7];
+                String lastModified = sdf.format(new Date(backup.lastModified()));
+                model.addRow(new Object[]{backup.getName(), lastModified});
                 }
             }
         }

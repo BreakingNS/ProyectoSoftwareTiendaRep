@@ -1,5 +1,8 @@
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\service\NombreRepuestoService.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\reloj\RelojEnTiempoReal.java
+C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\reparaciones\AltaReparacionVIEJO.java
+C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\reparaciones\ActualizarPago.java
+C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\reparaciones\SeleccionarCliente.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\service\UbicacionService.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\interfaces\ReparacionDAO.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\administrador\VistaBD.java
@@ -35,6 +38,7 @@ C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\model\Pago
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\clientes\EditarCliente.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\repuestos\EditarRepuesto.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\App.java
+C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\reparaciones\ActualizarEstado.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\service\RepuestoService.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\service\EstadoService.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\app\EjemploContarElementos.java
@@ -59,6 +63,7 @@ C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\repar
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\controller\MarcaController.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\model\Modelo.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\model\Categoria.java
+C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\reparaciones\ActualizarRepuestos.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\model\Reparacion.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\impl\ClienteDAOImpl.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\impl\FacturaDAOImpl.java
@@ -84,6 +89,7 @@ C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\ubica
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\controller\PagoController.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\config\ConfiguracionDataBase.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\controller\prueba.java
+C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\styles\EstiloBotonFallado.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\estado\VistaEstados.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\modelo\VistaModelo.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\impl\ReparacionDAOImpl.java
@@ -108,9 +114,11 @@ C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\venta
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\interfaces\EstadoDAO.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\interfaces\RepuestoDAO.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\impl\RepuestoDAOImpl.java
-C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\config\ScriptRunner.java
+C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\model\Configurar.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\estado\AltaEstado.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\controller\ClienteController.java
+C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\styles\EstiloBoton.java
+C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\reparaciones\ActualizarTecnico.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\dao\interfaces\ReparacionRepuestoDAO.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\service\FacturaService.java
 C:\Users\BreakingNS\Documents\ProyectoSoftwareTiendaRep\src\main\java\view\reparaciones\VistaReparaciones.java

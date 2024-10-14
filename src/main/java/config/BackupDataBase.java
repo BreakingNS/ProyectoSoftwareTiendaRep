@@ -6,79 +6,98 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.util.Arrays;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class BackupDataBase {
-    private static final String url = "jdbc:h2:~/test"; // Cambia la URL según tu configuración
-    private static final String user = "sa";
-    private static final String password = "";
-    private static final String BACKUP_DIR = "C:\\Users\\BreakingNS\\Documents\\BASES DE DATOS H2"; // Cambia la ruta según sea necesario
-    private static final int MAX_BACKUPS = 50; // Máximo de copias de seguridad
+   private static final String url = "jdbc:h2:~/test";
+   private static final String user = "sa";
+   private static final String password = "";
+   private static final String BACKUP_DIR = "C:\\Users\\BreakingNS\\Documents\\BASES DE DATOS H2";
+   private static final int MAX_BACKUPS = 50;
 
-    public static void showBackupMessage(String message) {
-    EventQueue.invokeLater(() -> {
-        JOptionPane optionPane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION);
-        JDialog dialog = optionPane.createDialog("Backup Completado");
-        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        dialog.setVisible(true);
+   public static void showBackupMessage(String message, JPanel jPanel1) {
+      EventQueue.invokeLater(() -> {
+         JOptionPane optionPane = new JOptionPane(message, 1, -1);
+         JDialog dialog = optionPane.createDialog("Backup Completado");
+         dialog.setDefaultCloseOperation(2);
+         Timer timer = new Timer(10000, (e) -> {
+            dialog.dispose();
+         });
+         timer.setRepeats(false);
+         timer.start();
+         dialog.setLocation(jPanel1.getWidth() - dialog.getWidth(), 0);
+         dialog.setVisible(true);
+      });
+   }
 
-        // Cerrar el diálogo después de 5 segundos
-        new Timer(5, e -> {
-            dialog.dispose(); // Cierra el diálogo
-        }).start();
-    });
-}
+   public static void exportBackup(String filePath, JPanel jPanel1) {
+      try {
+         Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
 
-    
-    public static void exportBackup(String filePath) {
-        try (Connection conn = DriverManager.getConnection(url, user, password);
-             Statement stmt = conn.createStatement()) {
-            String backupQuery = "SCRIPT TO '" + filePath + "'";
-            stmt.execute(backupQuery);
-            showBackupMessage("Backup completado en: " + filePath);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+         try {
+            Statement stmt = conn.createStatement();
 
-    public static void cleanOldBackups() {
-        File backupDir = new File(BACKUP_DIR);
-        File[] backups = backupDir.listFiles((dir, name) -> name.endsWith(".sql"));
+            try {
+               String backupQuery = "SCRIPT TO '" + filePath + "'";
+               stmt.execute(backupQuery);
+               showBackupMessage("Backup de Base de Datos completado!", jPanel1);
+            } catch (Throwable var8) {
+               if (stmt != null) {
+                  try {
+                     stmt.close();
+                  } catch (Throwable var7) {
+                     var8.addSuppressed(var7);
+                  }
+               }
 
-        if (backups != null && backups.length > MAX_BACKUPS) {
-            // Ordenar por fecha de modificación y eliminar los más antiguos
-            Arrays.sort(backups, (a, b) -> Long.compare(a.lastModified(), b.lastModified()));
-            for (int i = 0; i < backups.length - MAX_BACKUPS; i++) {
-                if (backups[i].delete()) {
-                    System.out.println("Backup eliminado: " + backups[i].getName());
-                } else {
-                    System.out.println("No se pudo eliminar: " + backups[i].getName());
-                }
+               throw var8;
             }
-        }
-    }
 
-    public static void main(String[] args) {
-        // Programar backup automático cada 1 hora
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(() -> {
-            String backupFilePath = BACKUP_DIR + "\\backup_" + System.currentTimeMillis() + ".sql";
-            exportBackup(backupFilePath);
-            cleanOldBackups(); // Limpiar copias antiguas después de cada backup
-            System.out.println("Copia de seguridad realizada con exito! (Una hora de uso del programa)");
-        }, 0, 60, TimeUnit.SECONDS);
+            if (stmt != null) {
+               stmt.close();
+            }
+         } catch (Throwable var9) {
+            if (conn != null) {
+               try {
+                  conn.close();
+               } catch (Throwable var6) {
+                  var9.addSuppressed(var6);
+               }
+            }
 
-        // Shutdown hook para hacer backup al cerrar la aplicación
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            String backupFilePath = BACKUP_DIR + "\\backup_shutdown_" + System.currentTimeMillis() + ".sql";
-            exportBackup(backupFilePath);
-            cleanOldBackups(); // Limpiar copias antiguas también al cerrar
-            System.out.println("Copia de seguridad realizada con exito! (Cierre del programa)");
-        }));
-    }
+            throw var9;
+         }
+
+         if (conn != null) {
+            conn.close();
+         }
+      } catch (Exception var10) {
+         var10.printStackTrace();
+      }
+
+   }
+
+   public static void cleanOldBackups() {
+      File backupDir = new File("C:\\Users\\BreakingNS\\Documents\\BASES DE DATOS H2");
+      File[] backups = backupDir.listFiles((dir, name) -> {
+         return name.endsWith(".sql");
+      });
+      if (backups != null && backups.length > 50) {
+         Arrays.sort(backups, (a, b) -> {
+            return Long.compare(a.lastModified(), b.lastModified());
+         });
+
+         for(int i = 0; i < backups.length - 50; ++i) {
+            if (backups[i].delete()) {
+               System.out.println("Backup eliminado: " + backups[i].getName());
+            } else {
+               System.out.println("No se pudo eliminar: " + backups[i].getName());
+            }
+         }
+      }
+
+   }
 }

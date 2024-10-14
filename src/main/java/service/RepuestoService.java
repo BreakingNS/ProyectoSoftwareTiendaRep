@@ -60,8 +60,6 @@ public class RepuestoService {
         repuestoDAO.eliminarRepuesto(id);
     }
     
-    
-
     public int obtenerUltimoIdRepuesto() {
         return repuestoDAO.obtenerUltimoIdRepuesto();
     }
@@ -89,6 +87,20 @@ public class RepuestoService {
 
     public int obtenerIdPorCodigo(String codigo) {
         return repuestoDAO.obtenerIdPorCodigo(codigo);
+    }
+
+    public List<Repuesto> listarRepuestosOrdenadoPorStock() {
+        List<Precio> listaPreciosAuxiliar = precioDAO.obtenerPrecios();
+        List<Repuesto> listaRepuesto = repuestoDAO.listarRepuestosOrdenadoPorStock();
+        for(Repuesto rep : listaRepuesto){
+            for(Precio pre : listaPreciosAuxiliar){
+                if((pre.getRepuesto().getId_repuesto()) == rep.getId_repuesto()){
+                    rep.getListaPrecios().add(pre);
+                }
+            }
+        }
+        
+        return listaRepuesto;
     }
 
 }

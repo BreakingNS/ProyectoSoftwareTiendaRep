@@ -37,6 +37,8 @@ public class RepuestoDAOImpl implements RepuestoDAO{
             "SELECT id_repuesto FROM TiendaLocal.repuesto WHERE codigo = UPPER(?)";
     private final String SENTENCIA_OBTENER_REPUESTOS_POR_ID_VENTA = 
             "SELECT * FROM TiendaLocal.venta_repuesto WHERE id_venta = ? ORDER BY id_repuesto ASC";
+    private final String SENTENCIA_OBTENER_REPUESTOS_ORDENADO_POR_STOCK = 
+            "SELECT * FROM TiendaLocal.repuesto ORDER BY stock ASC";
     private final String SENTENCIA_OBTENER_REPUESTOS_POR_ID_REPARACION = 
             "SELECT * FROM TiendaLocal.reparacion_repuesto WHERE id_reparacion = ? ORDER BY id_repuesto ASC";
     private final String SENTENCIA_OBTENER_REPUESTO = 
@@ -69,7 +71,8 @@ public class RepuestoDAOImpl implements RepuestoDAO{
                 + "r.id_marca, "
                 + "r.id_modelo, "
                 + "r.id_categoria,"
-                + "r.id_ubicacion;";
+                + "r.id_ubicacion "
+            + " ORDER BY r.stock ASC";
 
     private final String SENTENCIA_CREAR_REPUESTO = 
             "INSERT INTO TiendaLocal.repuesto (stock, codigo, id_nombrerepuesto, id_marca, id_categoria, id_modelo, id_ubicacion) VALUES ( ? , UPPER(?) , ? , ? , ? , ? , ? )";
@@ -404,10 +407,52 @@ public class RepuestoDAOImpl implements RepuestoDAO{
         } catch (SQLException ex) {
             Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        /*
         System.out.println("Codigo: " + codigo);
         System.out.println("idRepuesto: " + idReparacion);
-        
+        */
         return idReparacion;
+    }
+
+    @Override
+    public List<Repuesto> listarRepuestosOrdenadoPorStock() {
+        List<Repuesto> listaRepuestos = new ArrayList<>();
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_REPUESTOS_ORDENADO_POR_STOCK);
+            ResultSet repuesto_Resultado = preparedStatement.executeQuery();
+            
+            while(repuesto_Resultado.next()){
+                int idRepuesto = repuesto_Resultado.getInt("id_repuesto");
+                int stock = repuesto_Resultado.getInt("stock");
+                String codigo = repuesto_Resultado.getString("codigo");
+                int idNombreRepuesto = repuesto_Resultado.getInt("id_nombrerepuesto");
+                int idMarca = repuesto_Resultado.getInt("id_marca");
+                int idCategoria = repuesto_Resultado.getInt("id_categoria");
+                int idModelo = repuesto_Resultado.getInt("id_modelo");
+                int idUbicacion = repuesto_Resultado.getInt("id_ubicacion");
+                
+                NombreRepuestoDAOImpl nombreRepuestoDAO = new NombreRepuestoDAOImpl(connection);
+                MarcaDAOImpl marcaDAO = new MarcaDAOImpl(connection);
+                CategoriaDAOImpl categoriaDAO = new CategoriaDAOImpl(connection);
+                ModeloDAOImpl modeloDAO = new ModeloDAOImpl(connection);
+                UbicacionDAOImpl ubicacionDAO = new UbicacionDAOImpl(connection);
+                
+                NombreRepuesto nombreRepuesto = nombreRepuestoDAO.obtenerNombreRepuesto(idNombreRepuesto);
+                Marca marca = marcaDAO.obtenerMarca(idMarca);
+                Categoria categoria = categoriaDAO.obtenerCategoria(idCategoria);
+                Modelo modelo = modeloDAO.obtenerModelo(idModelo);
+                List<Precio> listaPrecios = new ArrayList<>();
+                Ubicacion ubicacion = ubicacionDAO.obtenerUbicacion(idUbicacion);
+                
+                Repuesto repuesto = new Repuesto(idRepuesto, stock, nombreRepuesto, marca, categoria, modelo, listaPrecios, ubicacion, codigo);
+                
+                listaRepuestos.add(repuesto);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return listaRepuestos;
     }
 }

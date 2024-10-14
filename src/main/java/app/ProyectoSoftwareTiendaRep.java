@@ -1,7 +1,5 @@
 package app;
 
-import static config.BackupDataBase.cleanOldBackups;
-import static config.BackupDataBase.exportBackup;
 import config.ConexionDataBase;
 import config.ConfiguracionDataBase;
 import controller.CategoriaController;
@@ -33,17 +31,12 @@ import dao.impl.TecnicoDAOImpl;
 import dao.impl.UbicacionDAOImpl;
 import dao.impl.VentaDAOImpl;
 import dao.impl.VentaRepuestoDAOImpl;
-import java.awt.Dimension;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.SocketImpl;
 import java.sql.Connection;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
+import javax.swing.JOptionPane;
 import service.CategoriaService;
 import service.ClienteService;
 import service.EstadoService;
@@ -59,6 +52,7 @@ import service.TecnicoService;
 import service.UbicacionService;
 import service.VentaService;
 import view.App;
+
 
 public class ProyectoSoftwareTiendaRep {
     
@@ -113,7 +107,21 @@ public class ProyectoSoftwareTiendaRep {
     private static ReparacionController reparacionController;
     private static TecnicoController tecnicoController;
     
-    public static void main(String[] args) throws ClassNotFoundException {  
+    private static final int PORT = 9999; // Puerto arbitrario para chequear
+
+    public static void main(String[] args) throws ClassNotFoundException {
+        // Chequeo para ver si el programa ya está en ejecución
+        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
+            // Si llegamos aquí, significa que el puerto está disponible
+            iniciarAplicacion();  // Método que contiene tu lógica principal
+        } catch (IOException e) {
+            // Si hay una excepción, significa que el puerto ya está en uso, lo que indica que la app ya está corriendo
+            JOptionPane.showMessageDialog(null, "EL PROGRAMA YA ESTÁ EN EJECUCIÓN", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            System.exit(0); // Terminar el programa si ya está en ejecución
+        }
+    }
+    
+    private static void iniciarAplicacion() throws ClassNotFoundException {
         conexionDataBase = new ConexionDataBase();
         connection = conexionDataBase.getConexionDBH2();
         
@@ -134,7 +142,6 @@ public class ProyectoSoftwareTiendaRep {
         facturaDAO = new FacturaDAOImpl(connection);
         pagoDAO = new PagoDAOImpl(connection);
         
-        
         clienteService = new ClienteService(clienteDAO, ventaDAO, reparacionDAO);
         repuestoService = new RepuestoService(repuestoDAO, precioDAO);
         marcaService = new MarcaService(marcaDAO, repuestoDAO);
@@ -145,11 +152,10 @@ public class ProyectoSoftwareTiendaRep {
         estadoService = new EstadoService(estadoDAO, reparacionDAO);
         precioService = new PrecioService(precioDAO);
         ventaService = new VentaService(ventaDAO, repuestoDAO, ventaRepuestoDAO, connection);
-        reparacionService = new ReparacionService(reparacionDAO, repuestoDAO, reparacionRepuestoDAO, connection);
+        reparacionService = new ReparacionService(reparacionDAO, repuestoDAO, reparacionRepuestoDAO, facturaDAO, connection);
         tecnicoService = new TecnicoService(tecnicoDAO, ventaDAO, reparacionDAO);
         facturaService = new FacturaService(facturaDAO);
         pagoService = new PagoService(pagoDAO);
-        
         
         marcaController = new MarcaController(marcaService);
         nombreRepuestoController = new NombreRepuestoController(nombreRepuestoService);
@@ -163,7 +169,7 @@ public class ProyectoSoftwareTiendaRep {
         clienteController = new ClienteController(clienteService);
         repuestoController = new RepuestoController(nombreRepuestoService, repuestoService, marcaService, categoriaService, ubicacionService, precioService, modeloService, tecnicoService);
         ventaController = new VentaController(ventaService, clienteService, repuestoController);
-        reparacionController = new ReparacionController(reparacionService, categoriaService, clienteService, estadoService, repuestoController);
+        reparacionController = new ReparacionController(reparacionService, categoriaService, clienteService, estadoService, tecnicoService, pagoService, repuestoController);
         tecnicoController = new TecnicoController(tecnicoService);
         
         App app = new App(connection, 
@@ -187,6 +193,6 @@ public class ProyectoSoftwareTiendaRep {
         app.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         app.setVisible(true);
         app.setLocation(-8, 0);
-        //app.setLocationRelativeTo(null);
     }
 }
+

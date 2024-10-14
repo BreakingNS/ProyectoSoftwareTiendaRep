@@ -43,8 +43,10 @@ public class TecnicoService {
         Tecnico tecnico = tecnicoDAO.obtenerTecnico(id);
         List<Reparacion> listaReparacionesAuxiliar = reparacionDAO.obtenerReparaciones();
         for(Reparacion rep : listaReparacionesAuxiliar){
-            if(rep.getTecnico().getId_tecnico() == (tecnico.getId_tecnico())){
-                tecnico.getListaReparaciones().add(rep);
+            if(rep.getTecnico() != null){
+                if(rep.getTecnico().getId_tecnico() == (tecnico.getId_tecnico())){
+                    tecnico.getListaReparaciones().add(rep);
+                }
             }
         }
         
@@ -91,4 +93,24 @@ public class TecnicoService {
     }
     
     //Reportes Tecnicos
+
+    public Tecnico obtenerTecnicoPorNombre(String tecnicoSeleccionado) {
+        String[] partes = tecnicoSeleccionado.split(" ");
+
+        String apellido = partes[0];
+        String nombre = partes[1];
+        
+        List<Tecnico> listaTecnicos = tecnicoDAO.obtenerTecnicos();
+        Tecnico tecnico = null;
+        
+        for(Tecnico tec : listaTecnicos){
+            if(tec.getApellido_tecnico().equals(apellido) && tec.getNombre_tecnico().equals(nombre)){
+                tecnico = tec;
+                break;
+            }
+        }
+        
+        
+        return tecnico;
+    }
 }

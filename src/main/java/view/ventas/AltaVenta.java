@@ -1,8 +1,12 @@
 package view.ventas;
 
+import config.NumerosSoloDocumentFilter;
 import controller.ClienteController;
 import controller.RepuestoController;
 import controller.VentaController;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -12,7 +16,6 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,10 +23,14 @@ import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.text.AbstractDocument;
 import model.Categoria;
 import model.Cliente;
 import model.Marca;
@@ -34,18 +41,20 @@ import model.Repuesto;
 import model.Ubicacion;
 import model.Venta;
 import view.clientes.AltaCliente;
-import view.clientes.VistaCliente;
 
 public class AltaVenta extends javax.swing.JFrame {
 
-    private VentaController ventaController;
-    private RepuestoController repuestoController;
-    private ClienteController clienteController;
+    private final VentaController ventaController;
+    private final RepuestoController repuestoController;
+    private final ClienteController clienteController;
+    
+    private final List<Repuesto> listaRepuestos;
     
     public AltaVenta(VentaController ventaController, RepuestoController repuestoController, ClienteController clienteController) {
         this.ventaController = ventaController;
         this.repuestoController = repuestoController;
         this.clienteController = clienteController;
+        listaRepuestos = repuestoController.listarRepuestosOrdenadoPorStock();
         initComponents();
         cargarComboBoxes();
         configurarEventos();
@@ -62,7 +71,6 @@ public class AltaVenta extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         btnAtras = new javax.swing.JButton();
-        btnLimpiarTodo = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaRepuestosSeleccionados = new javax.swing.JTable();
@@ -139,16 +147,8 @@ public class AltaVenta extends javax.swing.JFrame {
             }
         });
 
-        btnLimpiarTodo.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnLimpiarTodo.setText("LIMPIAR");
-        btnLimpiarTodo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLimpiarTodoActionPerformed(evt);
-            }
-        });
-
         btnGuardar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnGuardar.setText("GUARDAR");
+        btnGuardar.setText("CREAR VENTA");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
@@ -446,18 +446,15 @@ public class AltaVenta extends javax.swing.JFrame {
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(136, 136, 136))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(601, 601, 601)
-                        .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnLimpiarTodo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(717, 717, 717)
-                        .addComponent(jLabel1)))
+                .addGap(717, 717, 717)
+                .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(308, 308, 308)
+                .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(403, 403, 403))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -538,11 +535,10 @@ public class AltaVenta extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addComponent(btnCheckR, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(355, 355, 355))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnLimpiarTodo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(20, 20, 20))))
         );
 
@@ -563,36 +559,6 @@ public class AltaVenta extends javax.swing.JFrame {
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         dispose();
     }//GEN-LAST:event_btnAtrasActionPerformed
-
-    private void btnLimpiarTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarTodoActionPerformed
-        
-        comboCategoria.setSelectedItem("-");
-        comboMarca.setSelectedItem("-");
-        comboNombreRepuesto.setSelectedItem("-");
-        comboUbicacion.setSelectedItem("-");
-        comboModelo.setSelectedItem("-");
-        txtCodigo.setText("");
-        
-        txtNombre.setText("");
-        txtApellido.setText("");
-        txtTelefono.setText("");
-        txtDomicilio.setText("");
-        
-        DefaultTableModel modeloRepuestosSeleccionados = (DefaultTableModel) tablaRepuestosSeleccionados.getModel();
-        DefaultTableModel modeloClienteSeleccionado = (DefaultTableModel) tablaClientes.getModel();
-        modeloClienteSeleccionado.fireTableDataChanged();
-        
-        for (int i = modeloRepuestosSeleccionados.getRowCount() - 1; i >= 0; i--) {
-            modeloRepuestosSeleccionados.removeRow(i);
-        }
-
-        calcularTotalVenta(modeloRepuestosSeleccionados);
-        
-        lblNombre.setText("Nombre: ");
-        lblApellido.setText("Apellido: ");
-        lblDomicilio.setText("Telefono: ");
-        lblDomicilio.setText("Domicilio: ");
-    }//GEN-LAST:event_btnLimpiarTodoActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         
@@ -735,7 +701,6 @@ public class AltaVenta extends javax.swing.JFrame {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiarFiltroC;
     private javax.swing.JButton btnLimpiarFiltroR;
-    private javax.swing.JButton btnLimpiarTodo;
     private javax.swing.JButton btnNuevoCli;
     private javax.swing.JComboBox<String> comboCategoria;
     private javax.swing.JComboBox<String> comboMarca;
@@ -778,36 +743,7 @@ public class AltaVenta extends javax.swing.JFrame {
 
     private void cargarTablas(){
         //Tabla Repuestos
-        DefaultTableModel modeloTabla = new DefaultTableModel(){
-            @Override
-            public boolean isCellEditable(int row, int column){
-                return false;
-            }
-        };
-
-        String titulos[] = {"Id", "Nombre Repuesto", "Marca", "Modelo",  "Categoria", "Ubicacion", "Codigo", "Stock", "Precio"};
-        modeloTabla.setColumnIdentifiers(titulos);
-
-        List<Repuesto> listaRepuestos = repuestoController.listarRepuestos();
-        
-        if(listaRepuestos != null){
-            System.out.println("tamaño de la lista: " + listaRepuestos.size());
-            for(Repuesto repuesto : listaRepuestos){
-                Object[] objeto = {repuesto.getId_repuesto(), 
-                    repuesto.getNombreRepuesto().getNombre_repuesto(), 
-                    repuesto.getMarca().getNombre_marca(), 
-                    repuesto.getModelo().getNombre_modelo(),
-                    repuesto.getCategoria().getNombre_categoria(), 
-                    repuesto.getUbicacion().getNombre_ubicacion(), 
-                    repuesto.getCodigo(),
-                    repuesto.getStock(), 
-                    repuesto.getListaPrecios().get((repuesto.getListaPrecios().size()) - 1).getValor()
-                };
-                modeloTabla.addRow(objeto);
-            }
-        }
-        
-        tablaRepuestos.setModel(modeloTabla);
+        cargarTablaRepuestos();
         
         //Tabla Clientes
         cargarTablaClientes();
@@ -820,10 +756,91 @@ public class AltaVenta extends javax.swing.JFrame {
             }
         };
 
-        String titulos2[] = {"Id", "Nombre Repuesto", "Marca", "Modelo", "Categoria", "Codigo", "Precio"};
+        String titulos2[] = {"Id", "Nombre Repuesto", "Codigo", "Marca", "Modelo", "Categoria", "Precio"};
         modeloTabla2.setColumnIdentifiers(titulos2);
        
         tablaRepuestosSeleccionados.setModel(modeloTabla2);
+        
+        JTableHeader header = tablaRepuestos.getTableHeader();
+        JTableHeader header1 = tablaRepuestosSeleccionados.getTableHeader();
+        JTableHeader header2 = tablaClientes.getTableHeader();
+        header.setFont(new Font("Arial", Font.ITALIC, 16)); // Cambia "Arial" y 16 por la fuente y tamaño deseados
+        header1.setFont(new Font("Arial", Font.ITALIC, 16)); // Cambia "Arial" y 16 por la fuente y tamaño deseados
+        header2.setFont(new Font("Arial", Font.ITALIC, 16)); // Cambia "Arial" y 16 por la fuente y tamaño deseados
+        
+    }
+    
+    private void cargarTablaRepuestos(){
+        //Tabla Repuestos
+        DefaultTableModel modeloTabla = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
+
+        String titulos[] = {"Id", "Nombre Repuesto", "Codigo", "Marca", "Modelo",  "Categoria", "Ubicacion", "Stock", "Precio"};
+        modeloTabla.setColumnIdentifiers(titulos);
+        
+        if(listaRepuestos != null){
+            System.out.println("tamaño de la lista: " + listaRepuestos.size());
+            for(Repuesto repuesto : listaRepuestos){
+                Object[] objeto = {repuesto.getId_repuesto(), 
+                    repuesto.getNombreRepuesto().getNombre_repuesto(),
+                    repuesto.getCodigo(),
+                    repuesto.getMarca().getNombre_marca(), 
+                    repuesto.getModelo().getNombre_modelo(),
+                    repuesto.getCategoria().getNombre_categoria(), 
+                    repuesto.getUbicacion().getNombre_ubicacion(),
+                    repuesto.getStock(), 
+                    repuesto.getListaPrecios().get((repuesto.getListaPrecios().size()) - 1).getValor()
+                };
+                modeloTabla.addRow(objeto);
+            }
+        }
+        
+        tablaRepuestos.setModel(modeloTabla);
+        
+        tablaRepuestos.getColumnModel().getColumn(0).setPreferredWidth(30);
+        tablaRepuestos.getColumnModel().getColumn(7).setPreferredWidth(30);
+        
+        tablaRepuestos.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                // Cambiar el color de fondo solo para la columna "Stock" (índice 6)
+                if (column == 7) { // La columna de "Stock" es la 6
+                    if (isSelected) {
+                        cell.setBackground(table.getSelectionBackground()); // Color de selección
+                        cell.setForeground(table.getSelectionForeground()); // Color de texto al seleccionar
+                    } else {
+                        int stock = Integer.parseInt(value.toString());
+
+                        // Aplicar color según el valor de stock
+                        if (stock > 20) {
+                            cell.setBackground(Color.GREEN); // Mucho stock
+                        } else if (stock <= 20 && stock > 10) {
+                            cell.setBackground(Color.YELLOW); // Stock medio
+                        } else {
+                            cell.setBackground(Color.RED); // Poco stock
+                        }
+                        cell.setForeground(Color.BLACK); // Asegurarse de que el texto sea legible
+                    }
+                } else {
+                    // Para otras columnas, usa el color predeterminado
+                    if (isSelected) {
+                        cell.setBackground(table.getSelectionBackground());
+                        cell.setForeground(table.getSelectionForeground());
+                    } else {
+                        cell.setBackground(Color.WHITE); // Fondo predeterminado
+                        cell.setForeground(Color.BLACK); // Texto predeterminado
+                    }
+                }
+
+                return cell;
+            }
+        });
     }
     
     private void cargarTablaClientes() {
@@ -914,6 +931,9 @@ public class AltaVenta extends javax.swing.JFrame {
         txtApellido.getDocument().addDocumentListener(docListener1);
         txtTelefono.getDocument().addDocumentListener(docListener1);
         txtDomicilio.getDocument().addDocumentListener(docListener1);
+        
+        NumerosSoloDocumentFilter filter = new NumerosSoloDocumentFilter(15);
+        ((AbstractDocument) txtTelefono.getDocument()).setDocumentFilter(filter);
         
         // ---------- Desabilitar btnGuardar
         
@@ -1077,17 +1097,21 @@ public class AltaVenta extends javax.swing.JFrame {
         
         System.out.println("comienzo carga de busqueda");
         
-        List<Repuesto> listaRepuestos = repuestoController.busquedaDeRepuesto(marcaSeleccionada, 
+        List<Repuesto> listaRepuestosFiltrados = repuestoController.busquedaDeRepuesto(marcaSeleccionada, 
                 categoriaSeleccionada, 
                 nombreRepuestoSeleccionado, 
                 ubicacionSeleccionada, 
                 modeloSeleccionada, 
                 codigo);
         
-        cargarTablaBusquedaRepuestos(listaRepuestos);
+        cargarTablaBusquedaRepuestos(listaRepuestosFiltrados);
+        
+        tablaRepuestos.getColumnModel().getColumn(0).setPreferredWidth(30);
+        tablaRepuestos.getColumnModel().getColumn(7).setPreferredWidth(30);
+        
     }
     
-    private void cargarTablaBusquedaRepuestos(List<Repuesto> listaRepuestos){
+    private void cargarTablaBusquedaRepuestos(List<Repuesto> listaRepuestosFiltrados){
         //Repuestos
         DefaultTableModel modeloTabla = new DefaultTableModel() {
             @Override
@@ -1096,12 +1120,12 @@ public class AltaVenta extends javax.swing.JFrame {
             }
         };
 
-        String[] titulos = {"Id", "Nombre Repuesto", "Marca", "Modelo",  "Categoria", "Ubicacion", "Codigo", "Stock", "Precio"};
+        String[] titulos = {"Id", "Nombre Repuesto", "Codigo", "Marca", "Modelo",  "Categoria", "Ubicacion", "Stock", "Precio"};
         modeloTabla.setColumnIdentifiers(titulos);
 
-        if (listaRepuestos != null) {
-            System.out.println("Tamaño de la lista: " + listaRepuestos.size());
-            for (Repuesto repuesto : listaRepuestos) {
+        if (listaRepuestosFiltrados != null) {
+            System.out.println("Tamaño de la lista: " + listaRepuestosFiltrados.size());
+            for (Repuesto repuesto : listaRepuestosFiltrados) {
                 // Asegurarse de que la lista de precios no esté vacía
                 List<Precio> listaPrecios = repuesto.getListaPrecios();
                 Object precio = "No disponible"; // Valor predeterminado si la lista está vacía
@@ -1109,16 +1133,24 @@ public class AltaVenta extends javax.swing.JFrame {
                 if (listaPrecios != null && !listaPrecios.isEmpty()) {
                     precio = listaPrecios.get(listaPrecios.size() - 1).getValor();
                 }
-
+                
+                int stockBuscado = 0;
+                
+                for(Repuesto rep : listaRepuestos){
+                    if(rep.getId_repuesto() == repuesto.getId_repuesto()){
+                        stockBuscado = rep.getStock();
+                    }
+                }
+                
                 Object[] objeto = {
                     repuesto.getId_repuesto(),
                     repuesto.getNombreRepuesto() != null ? repuesto.getNombreRepuesto().getNombre_repuesto() : "Desconocido",
+                    repuesto.getCodigo(),
                     repuesto.getMarca() != null ? repuesto.getMarca().getNombre_marca() : "Desconocido",
                     repuesto.getModelo()!= null ? repuesto.getModelo().getNombre_modelo(): "Desconocido",
                     repuesto.getCategoria() != null ? repuesto.getCategoria().getNombre_categoria() : "Desconocido",
-                    repuesto.getCodigo(),
                     repuesto.getUbicacion() != null ? repuesto.getUbicacion().getNombre_ubicacion() : "Desconocido",
-                    repuesto.getStock(),
+                    stockBuscado,
                     precio
                 };
                 modeloTabla.addRow(objeto);
@@ -1131,7 +1163,7 @@ public class AltaVenta extends javax.swing.JFrame {
     private void agregarRepuestoSeleccionado(int filaSeleccionada) {
         DefaultTableModel modeloRepuestos = (DefaultTableModel) tablaRepuestos.getModel();
         DefaultTableModel modeloRepuestosSeleccionados = (DefaultTableModel) tablaRepuestosSeleccionados.getModel();
-
+        
         // Obtener datos de la fila seleccionada
         Object idRepuesto = modeloRepuestos.getValueAt(filaSeleccionada, 0);
         Object nombreRepuesto = modeloRepuestos.getValueAt(filaSeleccionada, 1); 
@@ -1143,21 +1175,47 @@ public class AltaVenta extends javax.swing.JFrame {
         if (precio == null || precio.toString().isEmpty()) {
             precio = BigDecimal.ZERO; // Valor predeterminado si el precio es nulo
         }
-
-        // Agregar los datos a la tabla de repuestos seleccionados
-        modeloRepuestosSeleccionados.addRow(new Object[]{idRepuesto, nombreRepuesto, marca, modelo, categoria, codigo, precio});
-
-        calcularTotalVenta(modeloRepuestosSeleccionados);
         
+        for(Repuesto rep : listaRepuestos){
+            if(rep.getId_repuesto() == (int) idRepuesto){
+                if(rep.getStock() != 0){
+                    // Agregar los datos a la tabla de repuestos seleccionados
+                    modeloRepuestosSeleccionados.addRow(new Object[]{idRepuesto, nombreRepuesto, marca, modelo, categoria, codigo, precio});
+
+                    //Actualizar Stock del repuesto en listaRepuestos (Quitar 1)
+                    rep.setStock(rep.getStock() - 1);  
+
+                    calcularTotalVenta(modeloRepuestosSeleccionados);
+
+                    tablaRepuestosSeleccionados.getColumnModel().getColumn(0).setPreferredWidth(20);
+                }else{
+                    JOptionPane.showMessageDialog(null, "No hay mas stock del producto.", "Error", JOptionPane.WARNING_MESSAGE);
+                    cargarTablaRepuestos();
+                }
+            }
+        }
+        cargarTablaRepuestos();
     }
     
     private void eliminarRepuestoSeleccionado(int filaSeleccionada) {
         DefaultTableModel modeloRepuestosSeleccionados = (DefaultTableModel) tablaRepuestosSeleccionados.getModel();
-
-        // Elimina los datos a la tabla de repuestos seleccionados
-        modeloRepuestosSeleccionados.removeRow(filaSeleccionada);
         
-        calcularTotalVenta(modeloRepuestosSeleccionados);
+        Object idRepuesto = modeloRepuestosSeleccionados.getValueAt(filaSeleccionada, 0);
+        
+        for(Repuesto rep : listaRepuestos){
+            if(rep.getId_repuesto() == (int) idRepuesto){
+                // Elimina los datos a la tabla de repuestos seleccionados
+                modeloRepuestosSeleccionados.removeRow(filaSeleccionada);
+
+                rep.setStock(rep.getStock() + 1);  
+
+                calcularTotalVenta(modeloRepuestosSeleccionados);
+                
+                cargarTablaRepuestos();
+                
+                break;
+            }
+        }
     }
     
     private void calcularTotalVenta(DefaultTableModel modeloRepuestosSeleccionados){

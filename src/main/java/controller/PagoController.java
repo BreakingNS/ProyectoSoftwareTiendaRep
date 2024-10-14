@@ -18,12 +18,12 @@ public class PagoController {
         Pago pago = new Pago(0, factura, montoAbonado, fechaPago, detalle);
         pagoService.agregarPago(pago);
     }
-    
+    /*
     public List<Pago> listarPagosOrdenado(){
-        List<Pago> listaPagos= pagoService.listarPagos();
+        List<Pago> listaPagos = pagoService.listarPagos();
         return listaPagos;
     }
-    
+    */
     public Pago obtenerPagoPorId(int id){
         Pago pago = pagoService.obtenerPagoPorId(id);
         return pago;

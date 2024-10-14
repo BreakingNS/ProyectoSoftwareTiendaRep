@@ -14,6 +14,7 @@ public interface ReparacionRepuestoDAO {
     public void actualizarAgregarReparacionRepuestoPorReparacion(int id_reparacion, List<Repuesto> listaRepuesto);
     //Permite agregar nuevos repuestos a una reparacion, lo cual es útil para actualizar la relación sin eliminar las existentes.
     public void actualizarEliminarReparacionRepuestoPorRepuesto(int id_reparacion, List<Repuesto> listaRepuesto);
+    public void actualizarReparacionRepuesto(int id_reparacion, int id_repuesto, int nuevaCantidad);
     //Está destinado a eliminar relaciones específicas de repuestos asociados a una reparacion.
     public void eliminarReparacionRepuesto(int id_reparacion, int id_repuesto);
     //Correcto para eliminar una relación específica entre una reparacion y un repuesto.

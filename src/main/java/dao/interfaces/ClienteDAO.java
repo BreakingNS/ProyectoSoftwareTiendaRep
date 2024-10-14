@@ -10,4 +10,5 @@ public interface ClienteDAO {
     public List<Cliente> buscarCliente(Cliente cliente);
     public void actualizarCliente(Cliente cliente);
     public void eliminarCliente(int id);
+    public Cliente obtenerClientePorNombre(String nombreEncontrado, String apellidoEncontrado);
 }
