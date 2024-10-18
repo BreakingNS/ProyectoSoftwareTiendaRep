@@ -96,6 +96,7 @@ public class VistaCategorias extends javax.swing.JFrame {
             }
         ));
         tablaCategorias.setRowHeight(24);
+        tablaCategorias.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tablaCategorias);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -156,6 +157,7 @@ public class VistaCategorias extends javax.swing.JFrame {
         this.setEnabled(false);
         AltaCategoria alta = new AltaCategoria(categoriaController);
         //alta.setSize(600, 400);
+        alta.setTitle("Software ElectroClima");
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
@@ -183,6 +185,7 @@ public class VistaCategorias extends javax.swing.JFrame {
                 this.setEnabled(false);
                 EditarCategoria alta = new EditarCategoria(idCategoria, categoriaController);
                 //alta.setSize(600, 400);
+                alta.setTitle("Software ElectroClima");
                 alta.setResizable(false);
                 alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 alta.setVisible(true);
@@ -263,13 +266,13 @@ public class VistaCategorias extends javax.swing.JFrame {
         modeloTabla.setColumnIdentifiers(titulos);
         
         //Traer Categorias desde la base de datos
-        List<Categoria> listaCategorias = categoriaController.listarCategoriasOrdenadasPorId();
+        List<Categoria> listaCategorias = categoriaController.listarCategoriasOrdenadasPorNombre();
         
-        System.out.println("TAMAÑO LISTA: " + listaCategorias.size());
+        //System.out.println("TAMAÑO LISTA: " + listaCategorias.size());
         
         //Setear los datos en la tabla
         if(listaCategorias != null){
-            System.out.println("tamaño de la lista: " + listaCategorias.size());
+            //System.out.println("tamaño de la lista: " + listaCategorias.size());
             for(Categoria categoria : listaCategorias){
                 Object[] objeto = {categoria.getId_categoria(), categoria.getNombre_categoria()};
                 

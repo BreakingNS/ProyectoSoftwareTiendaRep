@@ -4,7 +4,9 @@ import dao.interfaces.NombreRepuestoDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -14,14 +16,14 @@ import model.NombreRepuesto;
 public class NombreRepuestoDAOImpl implements NombreRepuestoDAO{
     
     private Connection connection = null; 
-    private final String SENTENCIA_CREAR_NOMBREREP = "INSERT INTO TiendaLocal.nombrerepuesto (NOMBRE_RESPUESTO) VALUES (UPPER(?))";
+    private final String SENTENCIA_CREAR_NOMBREREP = "INSERT INTO TiendaLocal.nombrerepuesto (NOMBRE_REPUESTO) VALUES (UPPER(?))";
     private final String SENTENCIA_OBTENER_NOMBRESREP_ORDENADO_POR_ID = "SELECT * FROM TiendaLocal.nombrerepuesto ORDER BY id_nombrerepuesto ASC";
     private final String SENTENCIA_OBTENER_NOMBRESREP_ORDENADO_POR_NOMBRE = "SELECT * FROM TiendaLocal.nombrerepuesto ORDER BY nombre_repuesto ASC";
     private final String SENTENCIA_OBTENER_NOMBREREP = "SELECT * FROM TiendaLocal.nombrerepuesto WHERE id_nombrerepuesto = ?";
     private final String SENTENCIA_OBTENER_NOMBREREP_POR_NOMBRE = "SELECT * FROM TiendaLocal.nombrerepuesto WHERE nombre_repuesto = UPPER(?)";
     private final String SENTENCIA_ACTUALIZAR_NOMBREREP = "UPDATE TiendaLocal.nombrerepuesto SET nombre_repuesto = UPPER(?) WHERE id_nombrerepuesto = ?";
     private final String SENTENCIA_ELIMINAR_NOMBREREP = "DELETE FROM TiendaLocal.nombrerepuesto WHERE id_nombrerepuesto = ?";
-    private final String SENTENCIA_EXISTE_NOMBREREP = "SELECT NOMBRE_RESPUESTO FROM TiendaLocal.nombrerepuesto WHERE UPPER(NOMBRE_RESPUESTO) = UPPER(?)";
+    private final String SENTENCIA_EXISTE_NOMBREREP = "SELECT NOMBRE_REPUESTO FROM TiendaLocal.nombrerepuesto WHERE UPPER(NOMBRE_REPUESTO) = UPPER(?)";
     
     public NombreRepuestoDAOImpl(Connection connection) {
         this.connection = connection;
@@ -40,32 +42,32 @@ public class NombreRepuestoDAOImpl implements NombreRepuestoDAO{
     
     @Override
     public List<NombreRepuesto> obtenerNombreRepuestosOrdenadorPorId() {
-        List<NombreRepuesto> listaNombresRespuestos = new ArrayList<>();
+        List<NombreRepuesto> listaNombresRepuestos = new ArrayList<>();
         
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_NOMBRESREP_ORDENADO_POR_ID);
             ResultSet nombrerepuesto_Resultado = preparedStatement.executeQuery();
             
             while(nombrerepuesto_Resultado.next()){
-                String nombre_Repuesto = nombrerepuesto_Resultado.getString("NOMBRE_RESPUESTO");
-                int idNombreRepuesto = nombrerepuesto_Resultado.getInt("ID_NOMBREREPUESTO");
+                String nombre_Repuesto = nombrerepuesto_Resultado.getString("nombre_repuesto");
+                int idNombreRepuesto = nombrerepuesto_Resultado.getInt("id_nombrerepuesto");
 
                 NombreRepuesto nombreRepuesto = new NombreRepuesto(idNombreRepuesto, nombre_Repuesto);
 
-                listaNombresRespuestos.add(nombreRepuesto);
+                listaNombresRepuestos.add(nombreRepuesto);
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(NombreRepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return listaNombresRespuestos;
+        return listaNombresRepuestos;
     }
 
     @Override
     public List<NombreRepuesto> obtenerNombreRepuestosOrdenadorPorNombre() {
         
-    List<NombreRepuesto> listaNombresRespuestos = new ArrayList<>();
+    List<NombreRepuesto> listaNombresRepuestos = new ArrayList<>();
         
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_NOMBRESREP_ORDENADO_POR_NOMBRE);
@@ -77,13 +79,13 @@ public class NombreRepuestoDAOImpl implements NombreRepuestoDAO{
                 
                 NombreRepuesto nombreRepuesto = new NombreRepuesto(idNombreRepuesto, nombre_Repuesto);
                 
-                listaNombresRespuestos.add(nombreRepuesto);
+                listaNombresRepuestos.add(nombreRepuesto);
             }
         } catch (SQLException ex) {
             Logger.getLogger(NombreRepuestoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return listaNombresRespuestos;}
+        return listaNombresRepuestos;}
 
     @Override
     public void actualizarNombreRepuesto(NombreRepuesto nombreRepuesto) {

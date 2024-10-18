@@ -43,7 +43,7 @@ public class VistaUbicacion extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 48)); // NOI18N
-        jLabel1.setText("MODELO VISTA UBICACIONES");
+        jLabel1.setText("UBICACIONES");
 
         tablaUbicaciones.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tablaUbicaciones.setModel(new javax.swing.table.DefaultTableModel(
@@ -55,6 +55,7 @@ public class VistaUbicacion extends javax.swing.JFrame {
             }
         ));
         tablaUbicaciones.setRowHeight(24);
+        tablaUbicaciones.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tablaUbicaciones);
 
         btnEditar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
@@ -103,25 +104,26 @@ public class VistaUbicacion extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(48, 48, 48)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(54, Short.MAX_VALUE))
+                    .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(57, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(225, 225, 225))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addGap(29, 29, 29)
                 .addComponent(jLabel1)
-                .addGap(33, 33, 33)
+                .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -162,6 +164,7 @@ public class VistaUbicacion extends javax.swing.JFrame {
                 this.setEnabled(false);
                 EditarUbicacion alta = new EditarUbicacion(idUbicacion, ubicacionController);
                 //alta.setSize(600, 400);
+                alta.setTitle("Software ElectroClima");
                 alta.setResizable(false);
                 alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 alta.setVisible(true);
@@ -195,6 +198,7 @@ public class VistaUbicacion extends javax.swing.JFrame {
         this.setEnabled(false);
         AltaUbicacion alta = new AltaUbicacion(ubicacionController);
         //alta.setSize(600, 400);
+        alta.setTitle("Software ElectroClima");
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
@@ -268,11 +272,11 @@ public class VistaUbicacion extends javax.swing.JFrame {
         modeloTabla.setColumnIdentifiers(titulos);
         
         //Traer Ubicaciones desde la base de datos
-        List<Ubicacion> listaUbicaciones = ubicacionController.listarUbicaciones();
+        List<Ubicacion> listaUbicaciones = ubicacionController.listarUbicacionesPorNombre();
         
         //Setear los datos en la tabla
         if(listaUbicaciones != null){
-            System.out.println("tamaño de la lista: " + listaUbicaciones.size());
+            //System.out.println("tamaño de la lista: " + listaUbicaciones.size());
             for(Ubicacion ubicacion : listaUbicaciones){
                 Object[] objeto = {ubicacion.getId_ubicacion(), ubicacion.getNombre_ubicacion()};
                 

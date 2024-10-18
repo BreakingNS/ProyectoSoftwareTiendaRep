@@ -15,7 +15,8 @@ public class UbicacionDAOImpl implements UbicacionDAO{
 
     private Connection connection = null; 
     private final String SENTENCIA_CREAR_UBICACION = "INSERT INTO TiendaLocal.ubicacion (nombre_ubicacion) VALUES ( UPPER(?) )";
-    private final String SENTENCIA_OBTENER_UBICACIONES = "SELECT * FROM TiendaLocal.ubicacion ORDER BY nombre_ubicacion ASC";
+    private final String SENTENCIA_OBTENER_UBICACIONES = "SELECT * FROM TiendaLocal.ubicacion";
+    private final String SENTENCIA_OBTENER_UBICACIONES_ORDENADO_POR_NOMBRE = "SELECT * FROM TiendaLocal.ubicacion ORDER BY nombre_ubicacion ASC";
     private final String SENTENCIA_OBTENER_UBICACION = "SELECT * FROM TiendaLocal.ubicacion WHERE id_ubicacion = ?";
     private final String SENTENCIA_OBTENER_UBICACION_POR_NOMBRE = "SELECT * FROM TiendaLocal.ubicacion WHERE nombre_ubicacion = UPPER(?)";
     private final String SENTENCIA_ACTUALIZAR_UBICACION = "UPDATE TiendaLocal.ubicacion SET nombre_ubicacion = UPPER(?) WHERE id_ubicacion = ?";
@@ -158,5 +159,28 @@ public class UbicacionDAOImpl implements UbicacionDAO{
         }
         
         return ubicacion;
+    }
+
+    @Override
+    public List<Ubicacion> obtenerUbicacionesPorNombre() {
+        List<Ubicacion> listaUbicaciones = new ArrayList<>();
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_UBICACIONES_ORDENADO_POR_NOMBRE);
+            ResultSet ubicacion_Resultado = preparedStatement.executeQuery();
+            
+            while(ubicacion_Resultado.next()){
+                String nombreUbicacion = ubicacion_Resultado.getString("nombre_ubicacion");
+                int idUbicacion = ubicacion_Resultado.getInt("id_ubicacion");
+                
+                Ubicacion ubicacion = new Ubicacion(idUbicacion, nombreUbicacion, new ArrayList<>());
+                
+                listaUbicaciones.add(ubicacion);
+            }            
+        } catch (SQLException ex) {
+            Logger.getLogger(UbicacionDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return listaUbicaciones;
     }
 }

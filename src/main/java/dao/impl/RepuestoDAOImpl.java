@@ -32,15 +32,15 @@ public class RepuestoDAOImpl implements RepuestoDAO{
     private final String SENTENCIA_ELIMINAR_REPUESTO = 
             "DELETE FROM TiendaLocal.repuesto WHERE id_repuesto = ?";
     private final String SENTENCIA_OBTENER_REPUESTOS = 
-            "SELECT * FROM TiendaLocal.repuesto ORDER BY id_repuesto ASC";
+            "SELECT * FROM TiendaLocal.repuesto ORDER BY id_repuesto ASC LIMIT 100";
     private final String SENTENCIA_OBTENER_ID_POR_CODIGO = 
             "SELECT id_repuesto FROM TiendaLocal.repuesto WHERE codigo = UPPER(?)";
     private final String SENTENCIA_OBTENER_REPUESTOS_POR_ID_VENTA = 
-            "SELECT * FROM TiendaLocal.venta_repuesto WHERE id_venta = ? ORDER BY id_repuesto ASC";
+            "SELECT * FROM TiendaLocal.venta_repuesto WHERE id_venta = ? ORDER BY id_repuesto ASC LIMIT 100";
     private final String SENTENCIA_OBTENER_REPUESTOS_ORDENADO_POR_STOCK = 
-            "SELECT * FROM TiendaLocal.repuesto ORDER BY stock ASC";
+            "SELECT * FROM TiendaLocal.repuesto ORDER BY stock ASC LIMIT 100";
     private final String SENTENCIA_OBTENER_REPUESTOS_POR_ID_REPARACION = 
-            "SELECT * FROM TiendaLocal.reparacion_repuesto WHERE id_reparacion = ? ORDER BY id_repuesto ASC";
+            "SELECT * FROM TiendaLocal.reparacion_repuesto WHERE id_reparacion = ? ORDER BY id_repuesto ASC LIMIT 100";
     private final String SENTENCIA_OBTENER_REPUESTO = 
             "SELECT * FROM TiendaLocal.repuesto WHERE id_repuesto = ?";
     private final String SENTENCIA_OBTENER_ULTIMO_ID = 

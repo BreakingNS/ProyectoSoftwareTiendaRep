@@ -133,7 +133,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 48)); // NOI18N
-        jLabel1.setText("MODELO VISTA REPARACIONES");
+        jLabel1.setText("REPARACIONES");
 
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabel2.setText("Buscar:");
@@ -201,6 +201,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
             }
         ));
         tablaDetalleReparacion.setRowHeight(20);
+        tablaDetalleReparacion.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(tablaDetalleReparacion);
 
         jLabel8.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
@@ -337,32 +338,25 @@ public class VistaReparaciones extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
                             .addComponent(jLabel3)
                             .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSeleccionarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(comboTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(219, 219, 219)
-                                .addComponent(jLabel1)
-                                .addGap(0, 60, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7)
-                                    .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addComponent(btnSeleccionarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(comboTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(comboEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnLimpiarBusqueda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                .addComponent(comboEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnLimpiarBusqueda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -391,7 +385,13 @@ public class VistaReparaciones extends javax.swing.JFrame {
                             .addComponent(lblManoDeObra)
                             .addComponent(lblPagado, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblCategoria))
-                        .addGap(18, 18, 18)))
+                        .addGap(18, 18, 18))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(278, 278, 278)))
                 .addGap(48, 48, 48)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -409,13 +409,10 @@ public class VistaReparaciones extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(jLabel2))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)))
+                .addGap(9, 9, 9)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -518,6 +515,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
         setVisible(false);
         AltaReparacion alta = new AltaReparacion(reparacionController, ventaController, repuestoController, clienteController, estadoController, facturaController, pagoController);
         //alta.setSize(600, 400);
+        alta.setTitle("Software ElectroClima");
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
@@ -616,7 +614,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
                 
 
                 int idFactura = reparacion.getFactura().getId_factura();
-                
+                /*
                 System.out.println("\n--------------------0");
                 System.out.println("id reparacion: " + reparacion.getId_reparacion());
                 System.out.println("cliente: " + reparacion.getCliente().getApellido().concat(" " + reparacion.getCliente().getNombre()));
@@ -628,7 +626,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
                 System.out.println("id factura: " + reparacion.getFactura().getId_factura());
                 System.out.println("monto total: " + reparacion.getFactura().getMontoTotal());
                 System.out.println("estado: " + reparacion.getFactura().getEstado());
-                
+                */
                 this.setEnabled(false);
                 ActualizarPago alta = new ActualizarPago(facturaController, 
                         reparacionController, 
@@ -639,6 +637,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
                         reparacion, 
                         listaRepuestos);
                 //alta.setSize(600, 400);
+                alta.setTitle("Software ElectroClima");
                 alta.setResizable(false);
                 alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 alta.setVisible(true);
@@ -690,6 +689,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
                 this.setEnabled(false);
                 ActualizarTecnico alta = new ActualizarTecnico(reparacionController, reparacion);
                 //alta.setSize(600, 400);
+                alta.setTitle("Software ElectroClima");
                 alta.setResizable(false);
                 alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 alta.setVisible(true);
@@ -722,6 +722,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
                 this.setEnabled(false);
                 ActualizarEstado alta = new ActualizarEstado(reparacionController, reparacion);
                 //alta.setSize(600, 400);
+                alta.setTitle("Software ElectroClima");
                 alta.setResizable(false);
                 alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 alta.setVisible(true);
@@ -747,6 +748,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
     private void btnSeleccionarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarClienteActionPerformed
         SeleccionarCliente alta = new SeleccionarCliente(this, clienteController);
         //alta.setSize(600, 400);
+        alta.setTitle("Software ElectroClima");
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
@@ -778,6 +780,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
                 setVisible(false);
                 ActualizarRepuestos alta = new ActualizarRepuestos(reparacionController, ventaController, repuestoController, clienteController, estadoController, facturaController, pagoController, listaRepuestos, reparacion);
                 //alta.setSize(600, 400);
+                alta.setTitle("Software ElectroClima");
                 alta.setResizable(false);
                 alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 alta.setVisible(true);
@@ -921,7 +924,7 @@ public class VistaReparaciones extends javax.swing.JFrame {
         String titulosReparaciones[] = {"Id", "Categoria", "Cliente", "Telefono", "Fecha Ingreso", "Fecha Devolucion", "Costo", "Pagado", "Restante", "Tecnico", "Estado"};
         modeloTablaReparaciones.setColumnIdentifiers(titulosReparaciones);
         
-        System.out.println("POR CARGAR TABLA ... ");
+        //System.out.println("POR CARGAR TABLA ... ");
         
         //Setear los datos en la tabla
         if(listaReparaciones != null){
@@ -958,10 +961,10 @@ public class VistaReparaciones extends javax.swing.JFrame {
                 else{
                     nombreTecnico = "NO SELECCIONADO";
                 }
-                
+                /*
                 System.out.println("ID REPARACION: " + reparacion.getId_reparacion());
                 System.out.println("CATEGORIA: " + reparacion.getCategoria().getNombre_categoria());
-                
+                */
                 Object[] objeto = { 
                     reparacion.getId_reparacion(),
                     reparacion.getCategoria().getNombre_categoria(), 

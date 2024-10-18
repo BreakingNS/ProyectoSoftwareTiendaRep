@@ -1,5 +1,4 @@
 view\ventas\EditarVenta$16.class
-view\reparaciones\AltaReparacionVIEJO$20.class
 view\ventas\AltaVenta$5.class
 view\App$39.class
 view\ventas\AltaVenta$10.class
@@ -50,7 +49,6 @@ view\marca\EditarMarca$5.class
 view\reparaciones\ActualizarRepuestos$3.class
 view\App$34.class
 view\ventas\AltaVenta$28.class
-view\reparaciones\AltaReparacionVIEJO$5.class
 view\repuestos\ActualizarStock$1.class
 view\App.class
 view\reparaciones\SeleccionarCliente$13.class
@@ -103,19 +101,17 @@ view\reparaciones\VistaReparaciones$16.class
 view\clientes\VistaCliente$8.class
 controller\ModeloController.class
 view\reparaciones\ActualizarRepuestos$25.class
-view\reparaciones\AltaReparacionVIEJO$27.class
 view\reparaciones\VistaReparaciones$2.class
 service\EstadoService.class
 view\App$6.class
 view\tecnico\VistaTecnico$3.class
-view\reparaciones\AltaReparacionVIEJO$17.class
+app\SoftwareElectroClima.class
 view\ubicacion\EditarUbicacion$1.class
 view\repuestos\EditarRepuesto$7.class
 view\repuestos\ActualizarStock.class
 view\clientes\VistaCliente$10.class
 view\tecnico\EditarTecnico$2.class
 view\ventas\EditarVenta$27.class
-view\reparaciones\AltaReparacionVIEJO$31.class
 view\ventas\VistaVentas$8.class
 view\App$28.class
 styles\EstiloBoton.class
@@ -135,13 +131,10 @@ view\reparaciones\VistaPago$7.class
 view\categoria\VistaCategorias$4.class
 view\marca\VistaMarcas$7.class
 view\ventas\AltaVenta$7.class
-view\reparaciones\AltaReparacionVIEJO$25.class
-view\reparaciones\AltaReparacionVIEJO$19.class
 view\reparaciones\VistaReparaciones$21.class
 view\reparaciones\SeleccionarCliente$9.class
 view\modelo\EditarModelo$3.class
 view\reparaciones\AltaReparacion$16.class
-view\reparaciones\AltaReparacionVIEJO$2.class
 view\ventas\EditarVenta$3.class
 view\reparaciones\AltaReparacion$21.class
 view\ventas\VistaVentas$6.class
@@ -152,7 +145,6 @@ view\App$3.class
 view\clientes\VistaCliente$12.class
 view\categoria\EditarCategoria$2.class
 view\tecnico\VistaTecnico$1.class
-view\reparaciones\AltaReparacionVIEJO.class
 view\reparaciones\VistaReparaciones$22.class
 view\modelo\VistaModelo$1.class
 view\modelo\AltaModelo$4.class
@@ -169,7 +161,6 @@ view\marca\AltaMarca$2.class
 view\reparaciones\AltaReparacion$15.class
 controller\MarcaController.class
 view\ubicacion\VistaUbicacion$8.class
-view\reparaciones\AltaReparacionVIEJO$3.class
 config\ConfiguracionDataBase.class
 view\App$29.class
 view\administrador\VistaBD$4.class
@@ -178,7 +169,6 @@ view\repuestos\AltaRepuesto$3.class
 view\reparaciones\ActualizarRepuestos.class
 view\ventas\EditarVenta$1.class
 view\categoria\AltaCategoria$4.class
-view\reparaciones\AltaReparacionVIEJO$30.class
 view\tecnico\VistaTecnico$16.class
 view\ventas\AltaVenta$33.class
 view\ventas\AltaVenta$2.class
@@ -186,7 +176,6 @@ view\ventas\AltaVenta$26.class
 dao\interfaces\FacturaDAO.class
 view\reparaciones\SeleccionarCliente$4.class
 view\App$36.class
-view\reparaciones\AltaReparacionVIEJO$9.class
 view\repuestos\VistaRepuestos$16.class
 view\modelo\EditarModelo$1.class
 view\reparaciones\AltaReparacion$28.class
@@ -194,7 +183,6 @@ dao\interfaces\VentaRepuestoDAO.class
 model\Factura.class
 view\repuestos\VistaRepuestos$6.class
 view\ubicacion\VistaUbicacion.class
-app\ProyectoSoftwareTiendaRep.class
 view\repuestos\ActualizarPrecio$2.class
 view\estado\EditarEstado$3.class
 view\ventas\EditarVenta$13.class
@@ -221,7 +209,6 @@ model\Categoria.class
 view\ventas\AltaVenta$21.class
 view\categoria\AltaCategoria$5.class
 view\reparaciones\ActualizarTecnico$2.class
-view\reparaciones\AltaReparacionVIEJO$29.class
 view\reparaciones\AltaReparacion$29.class
 view\categoria\EditarCategoria$4.class
 view\reparaciones\VistaPago$4.class
@@ -234,14 +221,12 @@ view\tecnico\VistaTecnico$17.class
 view\ventas\EditarVenta$20.class
 service\UbicacionService.class
 view\tecnico\VistaTecnico$10.class
-view\reparaciones\AltaReparacionVIEJO$4.class
 view\reparaciones\ActualizarTecnico$1.class
 view\reparaciones\AltaReparacion$23.class
 view\tecnico\EditarTecnico$6.class
 view\ventas\VistaVentas$3.class
 view\App$35.class
 view\repuestos\ActualizarPrecio$3.class
-view\reparaciones\AltaReparacionVIEJO$28.class
 view\reparaciones\VistaPago$5.class
 view\ubicacion\EditarUbicacion$5.class
 view\reparaciones\SeleccionarCliente$14.class
@@ -265,7 +250,6 @@ view\ventas\VistaVentas$2.class
 view\repuestos\ActualizarPrecio$4.class
 view\repuestos\VistaRepuestos$12.class
 view\modelo\VistaModelo$7.class
-view\reparaciones\AltaReparacionVIEJO$7.class
 view\reparaciones\VistaPago$1.class
 dao\impl\ModeloDAOImpl.class
 view\ventas\EditarVenta$25.class
@@ -288,7 +272,6 @@ view\estado\VistaEstados.class
 view\categoria\AltaCategoria$2.class
 view\repuestos\ActualizarPrecio$6.class
 view\ventas\AltaVenta$25.class
-view\reparaciones\AltaReparacionVIEJO$8.class
 view\repuestos\VistaRepuestos$5.class
 view\App$37.class
 view\modelo\VistaModelo$9.class
@@ -348,7 +331,6 @@ view\categoria\VistaCategorias$5.class
 view\reparaciones\AltaReparacion.class
 view\marca\AltaMarca$3.class
 view\reparaciones\VistaReparaciones$1.class
-view\reparaciones\AltaReparacionVIEJO$26.class
 view\ventas\EditarVenta$10.class
 view\tecnico\VistaTecnico$19.class
 view\marca\AltaMarca.class
@@ -356,14 +338,12 @@ view\reparaciones\SeleccionarCliente$1.class
 view\reparaciones\SeleccionarCliente$12.class
 view\reparaciones\VistaReparaciones$12.class
 view\App$33.class
-view\reparaciones\AltaReparacionVIEJO$6.class
 view\repuestos\VistaRepuestos$19.class
 view\tecnico\EditarTecnico.class
 view\modelo\EditarModelo$4.class
 view\reparaciones\ActualizarRepuestos$26.class
 view\ubicacion\VistaUbicacion$10.class
 view\reparaciones\ActualizarRepuestos$2.class
-view\reparaciones\AltaReparacionVIEJO$18.class
 view\repuestos\EditarRepuesto$3.class
 service\FacturaService.class
 view\reparaciones\AltaReparacion$25.class
@@ -390,7 +370,6 @@ model\Reparacion.class
 view\ventas\AltaVenta$29.class
 service\RepuestoService.class
 view\reparaciones\ActualizarPago$3.class
-view\reparaciones\AltaReparacionVIEJO$21.class
 view\repuestos\VistaRepuestos$14.class
 view\ubicacion\VistaUbicacion$4.class
 view\reparaciones\SeleccionarCliente$6.class
@@ -451,7 +430,6 @@ view\reparaciones\AltaReparacion$6.class
 dao\interfaces\MarcaDAO.class
 view\tecnico\EditarTecnico$3.class
 view\App$27.class
-view\reparaciones\AltaReparacionVIEJO$1.class
 view\ventas\VistaVentas$7.class
 view\repuestos\ActualizarStock$5.class
 view\clientes\VistaCliente$11.class
@@ -473,7 +451,6 @@ view\ventas\EditarVenta$2.class
 view\ventas\AltaVenta$14.class
 view\clientes\AltaCliente$6.class
 view\marca\EditarMarca$1.class
-view\reparaciones\AltaReparacionVIEJO$24.class
 view\ventas\AltaVenta$6.class
 view\administrador\VistaBD$5.class
 view\reparaciones\ActualizarRepuestos$32.class
@@ -483,7 +460,6 @@ view\repuestos\EditarRepuesto$5.class
 view\ubicacion\EditarUbicacion$2.class
 view\clientes\VistaCliente$9.class
 service\MarcaService.class
-view\reparaciones\AltaReparacionVIEJO$10.class
 view\reparaciones\AltaReparacion$10.class
 view\reparaciones\AltaReparacion$4.class
 view\marca\VistaMarcas$2.class
@@ -517,7 +493,6 @@ view\ventas\EditarVenta.class
 view\ventas\EditarVenta$7.class
 view\modelo\VistaModelo$10.class
 view\nombreRepuesto\VistaNombreRepuesto$5.class
-view\reparaciones\AltaReparacionVIEJO$23.class
 view\reparaciones\ActualizarRepuestos$5.class
 view\ventas\VistaVentas$10.class
 view\estado\VistaEstados$4.class
@@ -530,11 +505,9 @@ view\tecnico\VistaTecnico$9.class
 view\ventas\AltaVenta.class
 view\ventas\EditarVenta$6.class
 model\Configurar.class
-view\reparaciones\AltaReparacionVIEJO$15.class
 view\reparaciones\ActualizarRepuestos$30.class
 view\marca\VistaMarcas$10.class
 view\nombreRepuesto\VistaNombreRepuesto$4.class
-view\reparaciones\AltaReparacionVIEJO$22.class
 view\clientes\EditarCliente$4.class
 view\clientes\VistaCliente$14.class
 view\reparaciones\AltaReparacion$3.class
@@ -542,7 +515,6 @@ view\categoria\VistaCategorias$1.class
 dao\impl\UbicacionDAOImpl.class
 view\App$11.class
 view\reparaciones\VistaReparaciones$19.class
-view\reparaciones\AltaReparacionVIEJO$16.class
 view\App$23.class
 view\reparaciones\ActualizarRepuestos$24.class
 view\categoria\EditarCategoria.class
@@ -574,7 +546,6 @@ view\clientes\VistaCliente$16.class
 view\clientes\EditarCliente.class
 view\reparaciones\VistaReparaciones$26.class
 view\reparaciones\ActualizarRepuestos$18.class
-view\reparaciones\AltaReparacionVIEJO$14.class
 view\clientes\VistaCliente$19.class
 model\ReparacionRepuesto.class
 view\nombreRepuesto\VistaNombreRepuesto$9.class
@@ -589,7 +560,6 @@ view\ventas\VistaVentas$11.class
 view\tecnico\VistaTecnico$8.class
 view\reparaciones\ActualizarRepuestos$22.class
 view\reparaciones\VistaReparaciones$8.class
-view\reparaciones\AltaReparacionVIEJO$11.class
 view\ventas\VistaVentas$14.class
 view\categoria\VistaCategorias.class
 view\tecnico\AltaTecnico$3.class
@@ -610,7 +580,6 @@ view\estado\VistaEstados$7.class
 view\clientes\VistaCliente$3.class
 model\Precio.class
 view\tecnico\VistaTecnico$6.class
-view\reparaciones\AltaReparacionVIEJO$12.class
 view\reparaciones\ActualizarRepuestos$6.class
 view\App$21.class
 view\nombreRepuesto\EditarNombreRepuesto$1.class
@@ -625,8 +594,8 @@ dao\impl\PrecioDAOImpl.class
 view\reparaciones\ActualizarRepuestos$16.class
 view\nombreRepuesto\AltaNombreRepuesto$1.class
 view\nombreRepuesto\VistaNombreRepuesto$7.class
-view\reparaciones\AltaReparacionVIEJO$13.class
 view\ubicacion\AltaUbicacion.class
+app\TerminosYCondiciones.class
 view\estado\VistaEstados$6.class
 view\nombreRepuesto\AltaNombreRepuesto.class
 view\categoria\AltaCategoria.class

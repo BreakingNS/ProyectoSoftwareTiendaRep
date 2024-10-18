@@ -71,6 +71,7 @@ public class VistaBD extends javax.swing.JFrame {
 
             }
         ));
+        tablaSchemas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tablaSchemas);
 
         btnEliminar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
@@ -161,7 +162,7 @@ public class VistaBD extends javax.swing.JFrame {
         if (selectedRow != -1) {
             String fileName = (String)this.tablaSchemas.getValueAt(selectedRow, 0);
             System.out.println("Archivo seleccionado para importar: " + fileName);
-            String filePath = "C:\\Users\\BreakingNS\\Documents\\BASES DE DATOS H2\\" + fileName;
+            String filePath = "C:\\BASES DE DATOS H2\\" + fileName;
             RestoreDataBase.clearDatabase();
             RestoreDataBase.importBackup(filePath);
             JOptionPane.showMessageDialog((Component)null, "Base de Datos IMPORTADA correctamente.", "Éxito", 1);
@@ -173,7 +174,7 @@ public class VistaBD extends javax.swing.JFrame {
     private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
         String fileName = JOptionPane.showInputDialog("Ingresa el nombre para el backup:");
         if (fileName != null && !fileName.trim().isEmpty()) {
-            String filePath = "C:\\Users\\BreakingNS\\Documents\\BASES DE DATOS H2\\" + fileName + ".sql";
+            String filePath = "C:\\BASES DE DATOS H2\\" + fileName + ".sql";
             BackupDataBase.exportBackup(filePath, this.jPanel1);
             JOptionPane.showMessageDialog((Component)null, "Base de Datos EXPORTADA correctamente.", "Éxito", 1);
         }
@@ -244,7 +245,7 @@ public class VistaBD extends javax.swing.JFrame {
     
     private void cargarTabla() {
         
-        File folder = new File("C:\\Users\\BreakingNS\\Documents\\BASES DE DATOS H2");
+        File folder = new File("C:\\BASES DE DATOS H2");
         
         if (folder.exists() && folder.isDirectory()) {
             File[] backups = folder.listFiles((dir, name) -> {

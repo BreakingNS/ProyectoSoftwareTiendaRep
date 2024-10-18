@@ -267,8 +267,8 @@ public class ReparacionController {
         reparacionService.editarReparacionSoloTecnico(reparacion);
     }
 
-    public void editarReparacionCompleta(Reparacion reparacion, List<Repuesto> listaRepuestosSeleccionadosFinal) throws SQLException {
-        reparacionService.editarReparacionCompleta(reparacion, listaRepuestosSeleccionadosFinal);
+    public void editarReparacionCompleta(Reparacion reparacion, List<Repuesto> listaRepuestosSeleccionadosVIEJA, List<Repuesto> listaRepuestosSeleccionadosNUEVA) throws SQLException {
+        reparacionService.editarReparacionCompleta(reparacion, listaRepuestosSeleccionadosVIEJA, listaRepuestosSeleccionadosNUEVA);
     }
 
     public void editarReparacion(Reparacion reparacion) {

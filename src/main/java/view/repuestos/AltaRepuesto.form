@@ -56,7 +56,7 @@
                           <Component id="btnGuardar" min="-2" pref="150" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
@@ -68,19 +68,19 @@
                               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="comboCategoria" min="-2" pref="210" max="-2" attributes="0"/>
-                              <Component id="comboModelo" min="-2" pref="210" max="-2" attributes="0"/>
-                              <Component id="comboUbicacion" alignment="0" min="-2" pref="210" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="txtCodigo" alignment="0" min="-2" pref="210" max="-2" attributes="0"/>
                               <Component id="txtStock" alignment="0" min="-2" pref="210" max="-2" attributes="0"/>
                               <Component id="txtPrecio" alignment="0" min="-2" pref="210" max="-2" attributes="0"/>
-                              <Component id="comboMarca" min="-2" pref="210" max="-2" attributes="0"/>
-                              <Component id="comboNombreRepuesto" min="-2" pref="210" max="-2" attributes="0"/>
+                              <Component id="comboNombreRepuesto" alignment="0" pref="330" max="32767" attributes="0"/>
+                              <Component id="comboMarca" alignment="0" max="32767" attributes="0"/>
+                              <Component id="comboModelo" alignment="0" max="32767" attributes="0"/>
+                              <Component id="comboCategoria" alignment="0" max="32767" attributes="0"/>
+                              <Component id="comboUbicacion" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace pref="57" max="32767" attributes="0"/>
+                  <EmptySpace pref="37" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

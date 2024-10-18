@@ -117,7 +117,7 @@ public class App extends javax.swing.JFrame {
         // Programar backup automático cada 1 hora
         this.scheduler = Executors.newScheduledThreadPool(1);
         this.scheduler.scheduleAtFixedRate(() -> {
-           String backupFilePath = "C:\\Users\\BreakingNS\\Documents\\BASES DE DATOS H2\\backup_" + System.currentTimeMillis() + ".sql";
+           String backupFilePath = "C:\\BASES DE DATOS H2\\backup_" + System.currentTimeMillis() + ".sql";
            BackupDataBase.exportBackup(backupFilePath, this.jPanel1);
            BackupDataBase.cleanOldBackups();
            System.out.println("Copia de seguridad realizada con éxito! (Una hora de uso del programa)" + LocalDateTime.now());
@@ -166,7 +166,7 @@ public class App extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 36)); // NOI18N
-        jLabel1.setText("Programa Local de Reparacion de Electrodomesticos y Venta de Repuestos");
+        jLabel1.setText("Software ElectroClima");
 
         btnRepuestos.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         btnRepuestos.setText("LISTA DE REPARACIONES");
@@ -221,6 +221,7 @@ public class App extends javax.swing.JFrame {
             }
         ));
         tablaReparaciones.setRowHeight(20);
+        tablaReparaciones.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tablaReparaciones);
 
         tablaRepuestos.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -236,6 +237,7 @@ public class App extends javax.swing.JFrame {
             }
         ));
         tablaRepuestos.setRowHeight(24);
+        tablaRepuestos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(tablaRepuestos);
 
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
@@ -260,24 +262,24 @@ public class App extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(126, 126, 126)
                         .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel3)
                     .addComponent(jLabel2)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1112, Short.MAX_VALUE)
                     .addComponent(jScrollPane2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 265, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(125, 125, 125))
+                .addGap(604, 604, 604))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(27, 27, 27)
                 .addComponent(jLabel1)
-                .addGap(33, 33, 33)
+                .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -448,6 +450,7 @@ public class App extends javax.swing.JFrame {
         setVisible(false);
         VistaVentas alta = new VistaVentas(ventaController, repuestoController, clienteController);
         //alta.setSize(600, 400);
+        alta.setTitle("Software ElectroClima");
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
@@ -467,6 +470,7 @@ public class App extends javax.swing.JFrame {
         setVisible(false);
         VistaReparaciones alta = new VistaReparaciones(reparacionController, ventaController, repuestoController, clienteController, estadoController, facturaController, pagoController);
         //alta.setSize(600, 400);
+        alta.setTitle("Software ElectroClima");
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
@@ -486,6 +490,7 @@ public class App extends javax.swing.JFrame {
         setVisible(false);
         AltaVenta alta = new AltaVenta(ventaController, repuestoController, clienteController);
         //alta.setSize(600, 400);
+        alta.setTitle("Software ElectroClima");
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
@@ -505,6 +510,7 @@ public class App extends javax.swing.JFrame {
         setVisible(false);
         AltaReparacion alta = new AltaReparacion(reparacionController, ventaController, repuestoController, clienteController, estadoController, facturaController, pagoController);
         //alta.setSize(600, 400);
+        alta.setTitle("Software ElectroClima");
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
@@ -528,10 +534,10 @@ public class App extends javax.swing.JFrame {
             JOptionPane.QUESTION_MESSAGE);
 
         if (opcion == JOptionPane.YES_OPTION) {
-            System.out.println("entro1");
+            //System.out.println("entro1");
 
             // Realizar la copia de seguridad al salir
-            String backupFilePath = "C:\\Users\\BreakingNS\\Documents\\BASES DE DATOS H2" + "\\backup_shutdown_" + System.currentTimeMillis() + ".sql";
+            String backupFilePath = "C:\\BASES DE DATOS H2" + "\\backup_shutdown_" + System.currentTimeMillis() + ".sql";
             BackupDataBase.exportBackup(backupFilePath, this.jPanel1);
             System.out.println("Copia de seguridad realizada con éxito! (Cierre del programa)" + LocalDateTime.now());
 
@@ -549,7 +555,7 @@ public class App extends javax.swing.JFrame {
                 scheduler.shutdownNow();
             }
 
-            System.out.println("salio1");
+            //System.out.println("salio1");
             dispose();
             System.exit(0); // Asegúrate de salir del programa
         }
@@ -561,6 +567,7 @@ public class App extends javax.swing.JFrame {
         this.setVisible(false); // Oculta la ventana actual
         VistaMarcas alta = new VistaMarcas(marcaController);
         //alta.setSize(1280, 720);
+        alta.setTitle("Software ElectroClima");
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
@@ -580,6 +587,7 @@ public class App extends javax.swing.JFrame {
         VistaNombreRepuesto alta = new VistaNombreRepuesto(nombreRepuestoController);
         //alta.setSize(1280, 720);
         //alta.setTitle("Alta NombreRepuesto");
+        alta.setTitle("Software ElectroClima");
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
@@ -598,6 +606,7 @@ public class App extends javax.swing.JFrame {
         this.setVisible(false); // Oculta la ventana actual
         VistaUbicacion alta = new VistaUbicacion(ubicacionController);
         //alta.setSize(1280, 720);
+        alta.setTitle("Software ElectroClima");
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
@@ -616,6 +625,7 @@ public class App extends javax.swing.JFrame {
         this.setVisible(false); // Oculta la ventana actual
         VistaCategorias alta = new VistaCategorias(categoriaController);
         //alta.setSize(1280, 720);
+        alta.setTitle("Software ElectroClima");
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
@@ -634,6 +644,7 @@ public class App extends javax.swing.JFrame {
         this.setVisible(false); // Oculta la ventana actual
         VistaEstados alta = new VistaEstados(estadoController);
         //alta.setSize(1280, 720);
+        alta.setTitle("Software ElectroClima");
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
@@ -652,6 +663,7 @@ public class App extends javax.swing.JFrame {
         this.setVisible(false); // Oculta la ventana actual
         VistaCliente alta = new VistaCliente(clienteController, connection);
         //alta.setSize(1280, 720);
+        alta.setTitle("Software ElectroClima");
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
@@ -670,6 +682,7 @@ public class App extends javax.swing.JFrame {
         this.setVisible(false); // Oculta la ventana actual
         VistaRepuestos alta = new VistaRepuestos(repuestoController);
         //alta.setSize(1280, 720);
+        alta.setTitle("Software ElectroClima");
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
@@ -688,6 +701,7 @@ public class App extends javax.swing.JFrame {
         this.setVisible(false); // Oculta la ventana actual
         AltaCliente alta = new AltaCliente(clienteController);
         //alta.setSize(1280, 720);
+        alta.setTitle("Software ElectroClima");
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
@@ -706,6 +720,7 @@ public class App extends javax.swing.JFrame {
         this.setVisible(false); // Oculta la ventana actual
         AltaRepuesto alta = new AltaRepuesto(repuestoController);
         //alta.setSize(1280, 720);
+        alta.setTitle("Software ElectroClima");
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
@@ -724,6 +739,7 @@ public class App extends javax.swing.JFrame {
         this.setVisible(false); // Oculta la ventana actual
         VistaModelo alta = new VistaModelo(modeloController);
         //alta.setSize(1280, 720);
+        alta.setTitle("Software ElectroClima");
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
@@ -742,6 +758,7 @@ public class App extends javax.swing.JFrame {
         this.setVisible(false); // Oculta la ventana actual
         VistaTecnico alta = new VistaTecnico(tecnicoController, connection);
         //alta.setSize(1280, 720);
+        alta.setTitle("Software ElectroClima");
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
@@ -760,6 +777,7 @@ public class App extends javax.swing.JFrame {
         this.setVisible(false); // Oculta la ventana actual
         VistaBD alta = new VistaBD(connection);
         //alta.setSize(1280, 720);
+        alta.setTitle("Software ElectroClima");
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);

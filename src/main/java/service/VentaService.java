@@ -38,7 +38,8 @@ public class VentaService {
             ventaDAO.crearVenta(venta);
             
             List<Venta> listaVentas= ventaDAO.obtenerVentas();
-            venta = listaVentas.get(listaVentas.size()-1);
+            venta = listaVentas.get(listaVentas.size() - 1);
+            //System.out.println("IDVenta: " + venta.getId_venta());
             
             Map<Repuesto, Integer> contador = new HashMap<>();
             
@@ -50,7 +51,7 @@ public class VentaService {
                 Repuesto repuesto = entry.getKey();
                 int cantidad = entry.getValue();
                 
-                System.out.println("Repuesto: " + repuesto.getNombreRepuesto().getNombre_repuesto() + ". Cantidad: " + cantidad );
+                //System.out.println("Repuesto: " + repuesto.getNombreRepuesto().getNombre_repuesto() + ". Cantidad: " + cantidad );
                 
                 VentaRepuestoDAO.crearVentaRepuesto(venta.getId_venta(), repuesto.getId_repuesto(), cantidad);
             }
@@ -139,18 +140,16 @@ public class VentaService {
         
         Venta venta = ventaDAO.obtenerVenta(idVenta);
         List<Precio> listaPrecios = repuesto.getListaPrecios();
-        System.out.println("aca llega");
         Precio precioActualizado = listaPrecios.stream()
         .filter(precio -> !precio.getFechaPrecio().isAfter(venta.getFecha_venta())) // Filtra precios anteriores o iguales a la fecha de venta
         .max(Comparator.comparing(Precio::getFechaPrecio))              // Encuentra el precio con la fecha más reciente
         .orElse(null); // Maneja el caso si no hay precio válido
-        System.out.println("aca tambien");
         return precioActualizado;
     }
 
     public List<Venta> busquedaDeVentas(int dia, int mes, int anio) {
         
-        System.out.println(dia + " " + mes + " " + anio);
+        //System.out.println(dia + " " + mes + " " + anio);
         
         LocalDateTime fechaBuscar = LocalDateTime.of(anio, mes, dia, 0, 0);
         
@@ -181,7 +180,13 @@ public class VentaService {
         try {
             // Realizar operaciones de la transacción
             List<Venta> listaVentas= ventaDAO.obtenerVentas();
-            venta = listaVentas.get(listaVentas.size()-1);
+            
+            for(Venta ven : listaVentas){
+                if(ven.getId_venta() == venta.getId_venta()){
+                    venta = ven;
+                    break;
+                }
+            }
             
             Map<Repuesto, Integer> contador = new HashMap<>();
             
@@ -193,7 +198,7 @@ public class VentaService {
                 Repuesto repuesto = entry.getKey();
                 int cantidad = entry.getValue();
                 
-                System.out.println("Repuesto: " + repuesto.getNombreRepuesto().getNombre_repuesto() + ". Cantidad: " + cantidad );
+                //System.out.println("Repuesto: " + repuesto.getNombreRepuesto().getNombre_repuesto() + ". Cantidad: " + cantidad );
                 
                 VentaRepuestoDAO.crearVentaRepuesto(venta.getId_venta(), repuesto.getId_repuesto(), cantidad);
             }
@@ -218,10 +223,13 @@ public class VentaService {
         boolean autoCommitState = connection.getAutoCommit(); // Guardar el estado original
         connection.setAutoCommit(false); // Desactivar auto-commit
         try {
-            List<Venta> listaVentas= ventaDAO.obtenerVentas();
-            venta = listaVentas.get(listaVentas.size()-1);
-            
+            List<Venta> listaVentas = ventaDAO.obtenerVentas();
+            venta = listaVentas.get(venta.getId_venta());
+            // Eliminar los repuestos existentes de la venta antes de agregar los nuevos
+            VentaRepuestoDAO.eliminarVentaRepuestoPorVenta(venta.getId_venta());
+
             Map<Repuesto, Integer> contador = new HashMap<>();
+
             
             for(Repuesto repuesto : listaRepuestos){
                 contador.put(repuesto, contador.getOrDefault(repuesto, 0) + 1);
@@ -231,7 +239,7 @@ public class VentaService {
                 Repuesto repuesto = entry.getKey();
                 int cantidad = entry.getValue();
                 
-                System.out.println("Repuesto: " + repuesto.getNombreRepuesto().getNombre_repuesto() + ". Cantidad: " + cantidad );
+                //System.out.println("Repuesto: " + repuesto.getNombreRepuesto().getNombre_repuesto() + ". Cantidad: " + cantidad );
                 
                 VentaRepuestoDAO.crearVentaRepuesto(venta.getId_venta(), repuesto.getId_repuesto(), cantidad);
             }

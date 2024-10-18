@@ -269,40 +269,62 @@ public class VistaPago extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
         String estado = group.getSelection().getActionCommand();
-        BigDecimal montoAbonado = costoTotal;
+        BigDecimal montoAbonado = BigDecimal.ZERO;  // Inicializamos a 0
 
+        // Se agrega la factura con el estado y el costo total
         facturaController.agregarFactura(estado, costoTotal);
         Factura factura = facturaController.obtenerUltimaFactura();
 
-        if(estado.equals("PARCIAL")){
+        // Si el estado es "PARCIAL", se obtiene el monto abonado del campo de texto
+        if (estado.equals("PARCIAL")) {
             montoAbonado = new BigDecimal(txtParcial.getText());
+        } else if (estado.equals("SI")) {
+            montoAbonado = costoTotal;  // Pago total
         }
-        else if(estado.equals("NO")){
-            montoAbonado = BigDecimal.ZERO;
-        }
+        
+        String detalle = txtDetalle.getText();
+        
+        // Agregar el pago correspondiente
+        pagoController.agregarPago(factura, montoAbonado, LocalDateTime.now(), detalle);
 
-        pagoController.agregarPago(factura, montoAbonado, LocalDateTime.now(), txtDetalle.getSelectedText());
-        
+        // Asociar la factura a la reparación
         reparacion.setFactura(factura);
-        
-        if(estado.equals("PARCIAL")){
-            if(montoAbonado == costoTotal) {
+
+        if (estado.equals("PARCIAL")) {
+            // Validaciones para el pago parcial
+            if (montoAbonado.compareTo(costoTotal) == 0) {
                 JOptionPane.showMessageDialog(null, "Seleccione 'SI' para realizar pago total.", "Error", JOptionPane.ERROR_MESSAGE);
-            } 
-            else if (montoAbonado.compareTo(new BigDecimal("1")) < 0 || (montoAbonado.compareTo(costoTotal) > 0)) {
+            } else if (montoAbonado.compareTo(BigDecimal.ZERO) <= 0 || montoAbonado.compareTo(costoTotal) > 0) {
                 JOptionPane.showMessageDialog(null, "Ingrese un monto correcto.", "Error", JOptionPane.ERROR_MESSAGE);
-            } 
-        }else{
+            } else {
+                // Guardar la reparación para el pago parcial
+                try {
+                    reparacionController.agregarReparacion(reparacion, listaRepuestos);
+                    JOptionPane.showMessageDialog(null, "Carga realizada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                } catch (SQLException ex) {
+                    Logger.getLogger(VistaPago.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                dispose();
+            }
+        } else if (estado.equals("NO")) {
+            // Guardar la reparación cuando el pago es "NO"
+            try {
+                reparacionController.agregarReparacion(reparacion, listaRepuestos);
+                JOptionPane.showMessageDialog(null, "Carga realizada correctamente, total pendiente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } catch (SQLException ex) {
+                Logger.getLogger(VistaPago.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            dispose();  // Cierra la ventana
+        } else if (estado.equals("SI")) {
+            // Guardar la reparación cuando el pago es "SI"
             try {
                 reparacionController.agregarReparacion(reparacion, listaRepuestos);
                 JOptionPane.showMessageDialog(null, "Carga realizada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } catch (SQLException ex) {
                 Logger.getLogger(VistaPago.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-            dispose();
+            dispose();  // Cierra la ventana
         }
-        
 
     }//GEN-LAST:event_btnGuardarActionPerformed
 

@@ -72,7 +72,8 @@ public class ActualizarRepuestos extends javax.swing.JFrame {
     private final PagoController pagoController;
     
     private final List<Repuesto> listaRepuestos;
-    private final List<Repuesto> listaRepuestosSeleccionados;
+    private final List<Repuesto> listaRepuestosSeleccionadosVIEJA;
+    private final List<Repuesto> listaRepuestosSeleccionadosNUEVA;
     private final Reparacion reparacionSeleccionado;
     
     private BigDecimal costoTotalRepuesto = BigDecimal.ZERO;
@@ -86,11 +87,12 @@ public class ActualizarRepuestos extends javax.swing.JFrame {
             EstadoController estadoController, 
             FacturaController facturaController, 
             PagoController pagoController,
-            List<Repuesto> listaRepuestosSeleccionados,
+            List<Repuesto> listaRepuestosSeleccionadosVIEJA,
             Reparacion reparacionSeleccionado
     ) {
         this.reparacionSeleccionado = reparacionSeleccionado;
-        this.listaRepuestosSeleccionados = listaRepuestosSeleccionados;
+        this.listaRepuestosSeleccionadosVIEJA = listaRepuestosSeleccionadosVIEJA;
+        this.listaRepuestosSeleccionadosNUEVA = new ArrayList<>();
         this.reparacionController = reparacionController;
         this.ventaController = ventaController;
         this.repuestoController = repuestoController;
@@ -216,6 +218,8 @@ public class ActualizarRepuestos extends javax.swing.JFrame {
             }
         ));
         tablaRepuestosSeleccionados.setRowHeight(24);
+        tablaRepuestosSeleccionados.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tablaRepuestosSeleccionados.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tablaRepuestosSeleccionados);
 
         tablaRepuestos.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -231,6 +235,8 @@ public class ActualizarRepuestos extends javax.swing.JFrame {
             }
         ));
         tablaRepuestos.setRowHeight(24);
+        tablaRepuestos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tablaRepuestos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(tablaRepuestos);
 
         tablaClientes.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -246,6 +252,8 @@ public class ActualizarRepuestos extends javax.swing.JFrame {
             }
         ));
         tablaClientes.setRowHeight(24);
+        tablaClientes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tablaClientes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane3.setViewportView(tablaClientes);
 
         btnEliminar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
@@ -696,8 +704,6 @@ public class ActualizarRepuestos extends javax.swing.JFrame {
     
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         
-        List<Repuesto> listaRepuestosSeleccionadosFinal = new ArrayList<>();
-        
         //Cliente
         int idCliente = 0;
         BigDecimal precioFinal= BigDecimal.ZERO;
@@ -721,7 +727,7 @@ public class ActualizarRepuestos extends javax.swing.JFrame {
                 Repuesto repuesto = repuestoController.obtenerRepuestoPorId(idRepuesto);
                 precioFinal = precioFinal.add(repuesto.getListaPrecios().get(repuesto.getListaPrecios().size()-1).getValor());
 
-                listaRepuestosSeleccionadosFinal.add(repuesto);
+                listaRepuestosSeleccionadosNUEVA.add(repuesto);
             }
         }
                 
@@ -802,7 +808,7 @@ public class ActualizarRepuestos extends javax.swing.JFrame {
         */
         int i = 0;
         /*
-        for(Repuesto repuesto : listaRepuestosSeleccionadosFinal){
+        for(Repuesto repuesto : listaRepuestosSeleccionadosVIEJAFinal){
             System.out.println("\n-------Repu " + i);
             System.out.println("id repuesto: " + repuesto.getId_repuesto());
             System.out.println("nombre: " + repuesto.getNombreRepuesto());
@@ -811,7 +817,7 @@ public class ActualizarRepuestos extends javax.swing.JFrame {
         */
         //EDITAR REPARACION
         try {
-            reparacionController.editarReparacionCompleta(reparacion, listaRepuestosSeleccionadosFinal);
+            reparacionController.editarReparacionCompleta(reparacion, listaRepuestosSeleccionadosVIEJA, listaRepuestosSeleccionadosNUEVA);
             JOptionPane.showMessageDialog(null, "Carga realizada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             Logger.getLogger(VistaPago.class.getName()).log(Level.SEVERE, null, ex);
@@ -821,7 +827,7 @@ public class ActualizarRepuestos extends javax.swing.JFrame {
         
         
         /*
-        List<Repuesto> listaRepuestosSeleccionadosFinal = new ArrayList<>();
+        List<Repuesto> listaRepuestosSeleccionadosVIEJAFinal = new ArrayList<>();
 
         //Cliente
         int idCliente = 0;
@@ -846,7 +852,7 @@ public class ActualizarRepuestos extends javax.swing.JFrame {
                 Repuesto repuesto = repuestoController.obtenerRepuestoPorId(idRepuesto);
                 precioFinal = precioFinal.add(repuesto.getListaPrecios().get(repuesto.getListaPrecios().size()-1).getValor());
 
-                listaRepuestosSeleccionadosFinal.add(repuesto);
+                listaRepuestosSeleccionadosVIEJAFinal.add(repuesto);
             }
         }
 
@@ -907,7 +913,7 @@ public class ActualizarRepuestos extends javax.swing.JFrame {
         Reparacion reparacion = new Reparacion(1, costoTotal, detalles, fechaIngreso, fechaDevolucion, reparacionSeleccionado.getFactura(), categoriaSeleccionada, cliente, estadoSeleccionado, tecnicoSeleccionado);
 
         try {
-            reparacionController.editarReparacionCompleta(reparacion, listaRepuestosSeleccionadosFinal);
+            reparacionController.editarReparacionCompleta(reparacion, listaRepuestosSeleccionadosVIEJAFinal);
         } catch (SQLException ex) {
             Logger.getLogger(ActualizarRepuestos.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1198,8 +1204,8 @@ public class ActualizarRepuestos extends javax.swing.JFrame {
         String[] titulos2 = {"Id", "Nombre Repuesto", "Codigo", "Marca", "Modelo", "Categoria", "Precio"};
         modeloTabla2.setColumnIdentifiers(titulos2);
         
-        if(listaRepuestosSeleccionados != null){
-            for(Repuesto repuesto : listaRepuestosSeleccionados){
+        if(listaRepuestosSeleccionadosVIEJA != null){
+            for(Repuesto repuesto : listaRepuestosSeleccionadosVIEJA){
                 Object[] objeto = {repuesto.getId_repuesto(), 
                     repuesto.getNombreRepuesto().getNombre_repuesto(),
                     repuesto.getCodigo(),

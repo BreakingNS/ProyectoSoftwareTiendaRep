@@ -126,14 +126,29 @@ public class ActualizarTecnico extends javax.swing.JFrame {
         Tecnico tecnicoNuevo = null;
         List<Tecnico> listaTecnicos = reparacionController.retornarTecnicos();
         
+        System.out.println("Cantidad de tecnicos en lista: " + listaTecnicos.size());
+        
+        for(Tecnico tec : listaTecnicos){
+            System.out.println("-------------");
+            System.out.println("Id Tecnico: " + tec.getId_tecnico());
+            System.out.println("apellido: " + tec.getApellido_tecnico());
+            System.out.println("cantidad de reparaciones: " + tec.getListaReparaciones().size());
+        }
+        
+        
+        
         if(!nombreTecnico.equals("-")){
             String[] partes = nombreTecnico.split(" ");
 
             String apellido = partes[0];
             String nombre = partes[1];
-
+            
+            System.out.println("nombre cortado: " + nombre);
+            System.out.println("apellido cortado: " + apellido);
+            
             for(Tecnico tec : listaTecnicos){
-                if(tec.getApellido_tecnico().equals(apellido) && tec.getNombre_tecnico().equals(nombre)){
+                if((tec.getApellido_tecnico().concat(" " + tec.getNombre_tecnico())).equals(nombreTecnico)){
+                //if(tec.getApellido_tecnico().equals(apellido) && tec.getNombre_tecnico().equals(nombre)){
                     tecnicoNuevo = tec;
                     break;
                 }
@@ -141,6 +156,8 @@ public class ActualizarTecnico extends javax.swing.JFrame {
         }else{
             tecnicoNuevo = new Tecnico(0, "-", "_", "-", "_", new ArrayList<>());
         }
+        
+        System.out.println("id tecnico: " + tecnicoNuevo.getId_tecnico());
         
         reparacion.setTecnico(tecnicoNuevo);
 

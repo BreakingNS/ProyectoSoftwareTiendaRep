@@ -17,7 +17,7 @@ public class ClienteDAOImpl implements ClienteDAO{
     
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_CLIENTE = "DELETE FROM TiendaLocal.cliente WHERE id_cliente = ?";
-    private final String SENTENCIA_OBTENER_CLIENTES = "SELECT * FROM TiendaLocal.cliente ORDER BY id_cliente ASC";
+    private final String SENTENCIA_OBTENER_CLIENTES = "SELECT * FROM TiendaLocal.cliente ORDER BY apellido ASC";
     private final String SENTENCIA_OBTENER_CLIENTE = "SELECT * FROM TiendaLocal.cliente WHERE id_cliente = ?";
     private final String SENTENCIA_OBTENER_CLIENTE_POR_NOMBRE = "SELECT * FROM TiendaLocal.cliente WHERE nombre LIKE ? AND apellido LIKE ?";
     private final String SENTENCIA_BUSQUEDA_DE_CLIENTE = 
@@ -26,7 +26,8 @@ public class ClienteDAOImpl implements ClienteDAO{
             "WHERE UPPER(nombre) LIKE ? " +
             "AND UPPER(apellido) LIKE ? " +
             "AND UPPER(telefono) LIKE ? " +
-            "AND UPPER(domicilio) LIKE ? ";
+            "AND UPPER(domicilio) LIKE ? "
+            + "ORDER BY apellido ASC";
     private final String SENTENCIA_CREAR_CLIENTE = "INSERT INTO TiendaLocal.cliente (nombre, apellido, telefono, domicilio) VALUES ( UPPER(?) , UPPER(?) , ?, UPPER(?) )";
     private final String SENTENCIA_ACTUALIZAR_CLIENTE = "UPDATE TiendaLocal.cliente SET nombre = UPPER(?), apellido = UPPER(?), telefono = ?, domicilio = UPPER(?) WHERE id_cliente = ?";
 

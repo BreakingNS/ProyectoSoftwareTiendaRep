@@ -1,0 +1,28 @@
+TÉRMINOS Y CONDICIONES DE USO DEL SOFTWARE ELECTROCLIMA
+1. ACEPTACIÓN DE LOS TÉRMINOS
+Al instalar, copiar, acceder o utilizar el Software ElectroClima (en adelante, el "Software"), usted acepta todos los términos y condiciones establecidos en este documento (en adelante, los "Términos"). Si no está de acuerdo con estos Términos, debe abstenerse de instalar, copiar, acceder o utilizar el Software de cualquier manera.
+2. LICENCIA DE USO
+2.1. Licencia Otorgada: El desarrollador otorga al usuario una licencia no exclusiva, no transferible y revocable para usar el Software con el fin de gestionar el control de stock, venta de repuestos, reparaciones de electrodomésticos y la gestión de datos de clientes.
+2.2. Prohibiciones: El usuario no tiene derecho a distribuir, modificar, descompilar, realizar ingeniería inversa o crear trabajos derivados del Software, salvo en la medida permitida expresamente por la ley aplicable.
+2.3. Uso Permitido: El Software es provisto para uso personal o comercial limitado. No está permitido el uso del Software para actividades ilegales, inmorales o no contempladas en estos Términos.
+2.4. Rescisión de la Licencia: La licencia se considerará rescindida automáticamente si el usuario incumple alguna de las disposiciones de estos Términos, sin perjuicio de que el desarrollador pueda ejercitar otros derechos legales o remedios.
+3. LIMITACIÓN DE RESPONSABILIDAD
+3.1. Exclusión de Responsabilidad: En la máxima medida permitida por la ley aplicable, el desarrollador no será responsable por ningún daño directo, indirecto, incidental, especial, consecuente o punitivo, incluyendo, sin limitación, pérdida de datos, interrupciones comerciales o pérdidas económicas, que resulten del uso o incapacidad de uso del Software.
+3.2. Asunción de Riesgo por el Usuario: El usuario asume todos los riesgos asociados con la calidad y el rendimiento del Software, así como con la veracidad o integridad de los datos introducidos, gestionados o generados mediante el mismo.
+4. GARANTÍAS
+4.1. Software "Tal Cual" ("As-Is"): El Software se proporciona "tal cual" ("as-is") sin ningún tipo de garantía, ya sea expresa o implícita, incluyendo garantías de comerciabilidad, adecuación para un propósito particular, título o no infracción.
+4.2. Ausencia de Garantía de Funcionamiento: No se garantiza que el Software funcione sin interrupciones, errores, ni que sea compatible con otros sistemas, plataformas o software que el usuario pueda tener.
+5. USO INAPROPIADO Y CUMPLIMIENTO LEGAL
+5.1. Responsabilidad del Usuario: El usuario es el único responsable de asegurarse de que el uso que haga del Software sea legal, adecuado y no cause daños a terceros. El desarrollador no será responsable de cualquier uso inapropiado o no autorizado por estos Términos.
+5.2. Cumplimiento con la Legislación Aplicable: Es responsabilidad del usuario garantizar que el uso del Software cumpla con todas las leyes, normativas y regulaciones aplicables en su jurisdicción.
+6. ACTUALIZACIONES Y SOPORTE TÉCNICO
+6.1. Sin Obligación de Actualizaciones: El desarrollador no está obligado a proporcionar actualizaciones, mejoras, correcciones de errores o soporte técnico para el Software.
+6.2. Remuneración por Servicios Adicionales: En caso de que el usuario desee obtener actualizaciones, soporte o servicios adicionales, estos podrán estar sujetos a cargos adicionales según los términos y condiciones que el desarrollador determine en ese momento.
+7. JURISDICCIÓN Y LEGISLACIÓN APLICABLE
+7.1. Leyes Aplicables: Estos Términos se rigen por las leyes de la República Argentina, sin tener en cuenta sus disposiciones sobre conflicto de leyes.
+7.2. Tribunales Competentes: Cualquier controversia que surja en relación con estos Términos o el uso del Software será resuelta exclusivamente por los tribunales ordinarios de la ciudad de [Nombre de la Ciudad], República Argentina.
+8. RENUNCIA DE DERECHOS
+El hecho de que el desarrollador no exija el cumplimiento de alguna disposición de estos Términos no se considerará una renuncia a su derecho de hacerlo en el futuro. Ninguna renuncia a cualquier término o condición será efectiva a menos que sea por escrito y firmada por el desarrollador.
+9. MODIFICACIÓN DE LOS TÉRMINOS
+El desarrollador se reserva el derecho de modificar estos Términos en cualquier momento. Cualquier cambio será comunicado al usuario, y la continuación en el uso del Software constituirá la aceptación de los Términos modificados.
+

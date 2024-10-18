@@ -15,7 +15,7 @@ public class BackupDataBase {
    private static final String url = "jdbc:h2:~/test";
    private static final String user = "sa";
    private static final String password = "";
-   private static final String BACKUP_DIR = "C:\\Users\\BreakingNS\\Documents\\BASES DE DATOS H2";
+   private static final String BACKUP_DIR = "C:\\BASES DE DATOS H2";
    private static final int MAX_BACKUPS = 50;
 
    public static void showBackupMessage(String message, JPanel jPanel1) {
@@ -81,7 +81,7 @@ public class BackupDataBase {
    }
 
    public static void cleanOldBackups() {
-      File backupDir = new File("C:\\Users\\BreakingNS\\Documents\\BASES DE DATOS H2");
+      File backupDir = new File("C:\\BASES DE DATOS H2");
       File[] backups = backupDir.listFiles((dir, name) -> {
          return name.endsWith(".sql");
       });

@@ -18,6 +18,7 @@ public class ModeloDAOImpl implements ModeloDAO{
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_MODELO = "DELETE FROM TiendaLocal.modelo WHERE id_modelo = ?";
     private final String SENTENCIA_OBTENER_MODELOS = "SELECT * FROM TiendaLocal.modelo";
+    private final String SENTENCIA_OBTENER_MODELOS_ORDENADO_POR_NOMBRE = "SELECT * FROM TiendaLocal.modelo ORDER BY nombre_modelo ASC";
     private final String SENTENCIA_OBTENER_MODELO = "SELECT * FROM TiendaLocal.modelo WHERE id_modelo = ?";
     private final String SENTENCIA_OBTENER_MODELO_POR_NOMBRE = "SELECT * FROM TiendaLocal.modelo WHERE nombre_modelo = UPPER(?)";
     private final String SENTENCIA_CREAR_MODELO = "INSERT INTO TiendaLocal.modelo (nombre_modelo) VALUES ( UPPER(?) )";
@@ -171,8 +172,31 @@ public class ModeloDAOImpl implements ModeloDAO{
                 }
             }
         }
-        System.out.println("EL MODELO ENCONTRADO: " + modelo.getNombre_modelo());
         return modelo;
+    }
+
+    @Override
+    public List<Modelo> listarModelosOrdenadasPorNombre() {
+        List<Modelo> listaModelos = new ArrayList<>();
+        
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_MODELOS_ORDENADO_POR_NOMBRE);
+            ResultSet modelo_Resultado = preparedStatement.executeQuery();
+            
+            while (modelo_Resultado.next()){
+                String nombreModelo = modelo_Resultado.getString("nombre_modelo");
+                int idModelo = modelo_Resultado.getInt("id_modelo");
+                
+                Modelo modelo = new Modelo(idModelo, nombreModelo);
+                
+                listaModelos.add(modelo);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ModeloDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return listaModelos;
     }
     
 }

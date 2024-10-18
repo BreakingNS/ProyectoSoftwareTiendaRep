@@ -46,7 +46,7 @@ public class VistaMarcas extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 48)); // NOI18N
-        jLabel1.setText("MODELO VISTA MARCAS");
+        jLabel1.setText("MARCAS");
 
         tablaMarcas.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tablaMarcas.setModel(new javax.swing.table.DefaultTableModel(
@@ -58,6 +58,7 @@ public class VistaMarcas extends javax.swing.JFrame {
             }
         ));
         tablaMarcas.setRowHeight(24);
+        tablaMarcas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tablaMarcas);
 
         btnEditar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
@@ -105,30 +106,25 @@ public class VistaMarcas extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(51, 51, 51)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(37, 37, 37))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)
-                        .addGap(104, 104, 104)))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addGap(51, 51, 51)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(42, 42, 42)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(28, 28, 28)
                 .addComponent(jLabel1)
-                .addGap(35, 35, 35)
+                .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -184,6 +180,7 @@ public class VistaMarcas extends javax.swing.JFrame {
         this.setEnabled(false);
         AltaMarca alta = new AltaMarca(marcaController);
         //alta.setSize(600, 400);
+        alta.setTitle("Software ElectroClima");
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
@@ -219,6 +216,7 @@ public class VistaMarcas extends javax.swing.JFrame {
                 this.setEnabled(false);
                 EditarMarca alta = new EditarMarca(idMarca, marcaController);
                 //alta.setSize(600, 400);
+                alta.setTitle("Software ElectroClima");
                 alta.setResizable(false);
                 alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 alta.setVisible(true);
@@ -269,11 +267,11 @@ public class VistaMarcas extends javax.swing.JFrame {
         modeloTabla.setColumnIdentifiers(titulos);
         
         //Traer Marcas desde la base de datos
-        List<Marca> listaMarcas = marcaController.listarMarcasOrdenadasPorId();
+        List<Marca> listaMarcas = marcaController.listarMarcasOrdenadasPorNombre();
         
         //Setear los datos en la tabla
         if(listaMarcas != null){
-            System.out.println("tamaño de la lista: " + listaMarcas.size());
+            //System.out.println("tamaño de la lista: " + listaMarcas.size());
             for(Marca marca : listaMarcas){
                 Object[] objeto = {marca.getId_marca(), marca.getNombre_marca()};
                 

@@ -32,13 +32,13 @@ public class ReparacionDAOImpl implements ReparacionDAO{
     private final String SENTENCIA_ELIMINAR_REPARACION =
             "DELETE FROM TiendaLocal.reparacion WHERE id_reparacion = ?";
     private final String SENTENCIA_OBTENER_REPARACIONES =
-            "SELECT * FROM TiendaLocal.reparacion ORDER BY id_reparacion ASC";
+            "SELECT * FROM TiendaLocal.reparacion ORDER BY id_reparacion ASC LIMIT 100";
     private final String SENTENCIA_OBTENER_REPARACIONES_POR_FECHA_ACTUAL =
-            "SELECT * FROM TiendaLocal.reparacion ORDER BY fecha_ingreso DESC";
+            "SELECT * FROM TiendaLocal.reparacion ORDER BY fecha_ingreso DESC LIMIT 100";
     private final String SENTENCIA_OBTENER_REPARACIONES_POR_ID_CLIENTE =
-            "SELECT * FROM TiendaLocal.reparacion WHERE id_cliente = ?";
+            "SELECT * FROM TiendaLocal.reparacion WHERE id_cliente = ? LIMIT 100";
     private final String SENTENCIA_OBTENER_REPARACIONES_POR_ID_CATEGORIA =
-            "SELECT * FROM TiendaLocal.reparacion WHERE id_categoria = ?";
+            "SELECT * FROM TiendaLocal.reparacion WHERE id_categoria = ? LIMIT 100";
     private final String SENTENCIA_OBTENER_REPARACION =
             "SELECT * FROM TiendaLocal.reparacion WHERE id_reparacion = ?";
     private final String SENTENCIA_CREAR_REPARACION =
@@ -66,7 +66,7 @@ public class ReparacionDAOImpl implements ReparacionDAO{
             + "AND (r.id_estado = ? OR ? = 0) "
             + "AND (r.id_tecnico = ? OR ? = 0) "
             + "AND (r.id_cliente = ? OR ? = 0) "
-            + "ORDER BY r.fecha_ingreso ASC";
+            + "ORDER BY r.fecha_ingreso DESC";
 
     public ReparacionDAOImpl(Connection connection) {
         this.connection = connection;
@@ -494,6 +494,9 @@ public class ReparacionDAOImpl implements ReparacionDAO{
 
     @Override
     public void actualizarReparacionSoloTecnico(Reparacion reparacion) {
+        
+        System.out.println("id tecnico: " + reparacion.getTecnico().getId_tecnico());
+        
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_ACTUALIZAR_SOLO_TECNICO);
             if(reparacion.getTecnico().getId_tecnico()==0){

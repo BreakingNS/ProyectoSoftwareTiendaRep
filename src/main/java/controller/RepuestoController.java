@@ -141,6 +141,7 @@ public class RepuestoController {
         Ubicacion ubicacionEdit = ubicacionService.obtenerUbicacionPorNombre(nombreUbicacion);
         
         Repuesto repuesto = new Repuesto(idRepuesto, stock, nombreRepuestoEdit, marcaEdit, categoriaEdit, modeloEdit, new ArrayList<>(), ubicacionEdit, codigo);
+        /*
         System.out.println("id: " + repuesto.getId_repuesto());
         System.out.println("stock: " + repuesto.getStock());
         System.out.println("nombreRepuesto: " + repuesto.getNombreRepuesto());
@@ -149,7 +150,7 @@ public class RepuestoController {
         System.out.println("modelo: " + repuesto.getModelo());
         System.out.println("ubicacion: " + repuesto.getUbicacion());
         System.out.println("codigo: " + repuesto.getCodigo());
-        
+        */
         repuestoService.editarRepuestoPorId(repuesto);
         
         //BigDecimal precioBig = new BigDecimal(precio);
@@ -168,7 +169,7 @@ public class RepuestoController {
     
     
     public List<NombreRepuesto> retornarListaNombreRepuestos(){
-        return nombreRepuestoService.listarNombreRepuestosOrdenadosPorId();
+        return nombreRepuestoService.listarNombreRepuestosOrdenadosPorNombre();
     }
     
     public List<Marca> retornarListaMarcas(){
@@ -176,7 +177,7 @@ public class RepuestoController {
     }
     
     public List<Categoria> retornarCategorias(){
-        return categoriaService.listarCategoriasOrdenadasPorId();
+        return categoriaService.listarCategoriasOrdenadasPorNombre();
     }
     
     public List<Ubicacion> retornarUbicaciones(){
@@ -235,13 +236,13 @@ public class RepuestoController {
         }
         
         Repuesto repuesto = new Repuesto(0, 0, nombreRepuestoNuevo, marcaNuevo, categoriaNuevo, modeloNuevo, new ArrayList<>(), ubicacionNuevo, codigo);
-        
+        /*
         System.out.println("nombrerep : " + repuesto.getNombreRepuesto().getNombre_repuesto());
         System.out.println("marca: " + repuesto.getMarca().getNombre_marca());
         System.out.println("categ: " + repuesto.getCategoria().getNombre_categoria());
         System.out.println("ubi: " + repuesto.getUbicacion().getNombre_ubicacion());
         System.out.println("modelo: " + repuesto.getModelo().getNombre_modelo());
-        System.out.println("codigo: " + repuesto.getCodigo());
+        System.out.println("codigo: " + repuesto.getCodigo());*/
         
         List<Repuesto> listaRepuestos = repuestoService.busquedaDeRepuesto(repuesto);
         

@@ -45,7 +45,7 @@ public class VistaEstados extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 48)); // NOI18N
-        jLabel1.setText("MODELO VISTA ESTADOS");
+        jLabel1.setText("ESTADOS");
 
         tablaEstados.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tablaEstados.setModel(new javax.swing.table.DefaultTableModel(
@@ -57,6 +57,7 @@ public class VistaEstados extends javax.swing.JFrame {
             }
         ));
         tablaEstados.setRowHeight(24);
+        tablaEstados.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tablaEstados);
 
         btnAgregar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
@@ -117,14 +118,14 @@ public class VistaEstados extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(98, 98, 98))
+                .addGap(278, 278, 278))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(24, 24, 24)
                 .addComponent(jLabel1)
-                .addGap(34, 34, 34)
+                .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -158,6 +159,7 @@ public class VistaEstados extends javax.swing.JFrame {
         this.setEnabled(false);
         AltaEstado alta = new AltaEstado(estadoController);
         //alta.setSize(600, 400);
+        alta.setTitle("Software ElectroClima");
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
@@ -185,6 +187,7 @@ public class VistaEstados extends javax.swing.JFrame {
                 this.setEnabled(false);
                 EditarEstado alta = new EditarEstado(idEstado, estadoController);
                 //alta.setSize(600, 400);
+                alta.setTitle("Software ElectroClima");
                 alta.setResizable(false);
                 alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 alta.setVisible(true);
@@ -269,7 +272,7 @@ public class VistaEstados extends javax.swing.JFrame {
         
         //Setear los datos en la tabla
         if(listaEstados != null){
-            System.out.println("tamaño de la lista: " + listaEstados.size());
+            //System.out.println("tamaño de la lista: " + listaEstados.size());
             for(Estado estado : listaEstados){
                 Object[] objeto = {estado.getId_estado(), estado.getNombre_estado()};
                 

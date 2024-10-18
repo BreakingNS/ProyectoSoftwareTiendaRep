@@ -42,4 +42,8 @@ public class ModeloService {
     public Modelo obtenerModeloPorNombre(String modelo) {
         return modeloDAO.obtenerModeloPorNombre(modelo);
     }
+
+    public List<Modelo> listarModelosOrdenadasPorNombre() {
+        return modeloDAO.listarModelosOrdenadasPorNombre();
+    }
 }

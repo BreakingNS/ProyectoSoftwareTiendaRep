@@ -73,6 +73,7 @@ public class SeleccionarCliente extends javax.swing.JFrame {
             }
         ));
         tablaClientes.setRowHeight(24);
+        tablaClientes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tablaClientes);
 
         jLabel3.setText("Nombre");
@@ -118,7 +119,7 @@ public class SeleccionarCliente extends javax.swing.JFrame {
         jLabel4.setText("Apellido");
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 48)); // NOI18N
-        jLabel1.setText("MODELO VISTA CLIENTES");
+        jLabel1.setText("SELECCIONAR CLIENTE");
 
         jLabel5.setText("Telefono");
 
@@ -186,10 +187,9 @@ public class SeleccionarCliente extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
                         .addComponent(jLabel2)
                         .addGap(32, 32, 32)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -212,9 +212,12 @@ public class SeleccionarCliente extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(30, 30, 30)
                                 .addComponent(jLabel1)
                                 .addGap(0, 0, Short.MAX_VALUE))))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txt1)
@@ -400,7 +403,7 @@ public class SeleccionarCliente extends javax.swing.JFrame {
         
         //Setear los datos en la tabla
         if(listaClientes != null){
-            System.out.println("tamaño de la lista: " + listaClientes.size());
+            //System.out.println("tamaño de la lista: " + listaClientes.size());
             for(Cliente cliente : listaClientes){
                 Object[] objeto = {cliente.getId_cliente(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono(), cliente.getDomicilio()};
                 
@@ -432,7 +435,7 @@ public class SeleccionarCliente extends javax.swing.JFrame {
         
         //Setear los datos en la tabla
         if(listaClientes != null){
-            System.out.println("tamaño de la lista: " + listaClientes.size());
+            //System.out.println("tamaño de la lista: " + listaClientes.size());
             for(Cliente cliente : listaClientes){
                 Object[] objeto = {cliente.getId_cliente(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono(), cliente.getDomicilio()};
                 

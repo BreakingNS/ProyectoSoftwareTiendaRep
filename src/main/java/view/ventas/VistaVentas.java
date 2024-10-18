@@ -95,7 +95,7 @@ public class VistaVentas extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 48)); // NOI18N
-        jLabel1.setText("MODELO VISTA VENTAS");
+        jLabel1.setText("VENTAS");
 
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabel2.setText("Buscar:");
@@ -233,6 +233,7 @@ public class VistaVentas extends javax.swing.JFrame {
                 .addGap(39, 39, 39)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -254,10 +255,6 @@ public class VistaVentas extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(403, 403, 403)
-                                .addComponent(jLabel1))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblIdVenta)
                                     .addComponent(lblNroRepuestos)
@@ -272,9 +269,12 @@ public class VistaVentas extends javax.swing.JFrame {
                                             .addComponent(lblApellido)
                                             .addComponent(lblNombre))
                                         .addGap(115, 115, 115)
-                                        .addComponent(lblPrecioFinal)))))
-                        .addGap(0, 237, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING))
+                                        .addComponent(lblPrecioFinal))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(584, 584, 584)
+                                .addComponent(jLabel1)))
+                        .addGap(0, 425, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -292,7 +292,7 @@ public class VistaVentas extends javax.swing.JFrame {
                         .addGap(74, 74, 74)
                         .addComponent(jLabel2))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addGap(19, 19, 19)
                         .addComponent(jLabel1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -366,6 +366,7 @@ public class VistaVentas extends javax.swing.JFrame {
         setVisible(false);
         AltaVenta alta = new AltaVenta(ventaController, repuestoController, clienteController);
         //alta.setSize(600, 400);
+        alta.setTitle("Software ElectroClima");
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
@@ -390,11 +391,13 @@ public class VistaVentas extends javax.swing.JFrame {
             if(tablaVentas.getSelectedRow()!=-1){
                 idVenta = Integer.parseInt(String.valueOf(tablaVentas.getValueAt(tablaVentas.getSelectedRow(), 0)));
                 ventaAux = ventaController.obtenerVentaPorId(idVenta);
+                //System.out.println("1 VENTA AUX ID: " + ventaAux.getId_venta());
                 idCliente = ventaAux.getCliente().getId_cliente();
                 
                 setVisible(false);
                 EditarVenta alta = new EditarVenta(idVenta, idCliente, ventaController, repuestoController, clienteController);
                 //alta.setSize(600, 400);
+                alta.setTitle("Software ElectroClima");
                 alta.setResizable(false);
                 alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 alta.setVisible(true);
@@ -521,7 +524,7 @@ public class VistaVentas extends javax.swing.JFrame {
         //Setear los datos en la tabla
         if(listaVentas != null){
             
-            System.out.println("tamaño de la lista: " + listaVentas.size());
+            //System.out.println("tamaño de la lista: " + listaVentas.size());
             
             for(Venta venta : listaVentas){
                 
@@ -708,7 +711,7 @@ public class VistaVentas extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Dia fuera de rango.", "Error", JOptionPane.ERROR_MESSAGE);
                 }else{
                     List<Venta> listaVentas = ventaController.busquedaDeVentas(dia, mes, anio);
-                    System.out.println("tamaño lista: " + listaVentas.size());
+                    //System.out.println("tamaño lista: " + listaVentas.size());
 
                     if(listaVentas.isEmpty()){
                         JOptionPane.showMessageDialog(null, "No hay coincidencias con la búsqueda.", "Advertencia", JOptionPane.WARNING_MESSAGE);

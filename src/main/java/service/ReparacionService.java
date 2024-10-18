@@ -133,14 +133,42 @@ public class ReparacionService {
         repuestoDAO.actualizarRepuesto(repAux);
     }
     
-    public void descontarStockPorLista(List<Repuesto> listaRepuestos){
-        for(Repuesto rep : listaRepuestos){
-            Repuesto repAux = repuestoDAO.obtenerRepuesto(rep.getId_repuesto());
-            repAux.setStock(repAux.getStock() - 1);
+    public void descontarStockPorLista(List<Repuesto> listaRepuestos) {
+        // Contador para saber cuántas veces se usa cada repuesto
+        Map<Integer, Integer> contador = new HashMap<>();
+        for (Repuesto rep : listaRepuestos) {
+            contador.put(rep.getId_repuesto(), contador.getOrDefault(rep.getId_repuesto(), 0) + 1);
+        }
+
+        // Descontar el stock en base a la cantidad de cada repuesto
+        for (Map.Entry<Integer, Integer> entry : contador.entrySet()) {
+            int idRepuesto = entry.getKey();
+            int cantidad = entry.getValue();
+            Repuesto repAux = repuestoDAO.obtenerRepuesto(idRepuesto);
+            repAux.setStock(repAux.getStock() - cantidad);
             repuestoDAO.actualizarRepuesto(repAux);
         }
     }
 
+    
+    public void aumentarStockPorLista(List<Repuesto> listaRepuestos) {
+        // Contador para saber cuántas veces se usa cada repuesto
+        Map<Integer, Integer> contador = new HashMap<>();
+        for (Repuesto rep : listaRepuestos) {
+            contador.put(rep.getId_repuesto(), contador.getOrDefault(rep.getId_repuesto(), 0) + 1);
+        }
+
+        // Aumentar el stock en base a la cantidad de cada repuesto
+        for (Map.Entry<Integer, Integer> entry : contador.entrySet()) {
+            int idRepuesto = entry.getKey();
+            int cantidad = entry.getValue();
+            Repuesto repAux = repuestoDAO.obtenerRepuesto(idRepuesto);
+            repAux.setStock(repAux.getStock() + cantidad);
+            repuestoDAO.actualizarRepuesto(repAux);
+        }
+    }
+
+    
     public List<Reparacion> listarReparacionesOrdenadasPorFechaActual() {
         return reparacionDAO.obtenerReparacionesOrdenadasPorFechaActual();
     }
@@ -155,35 +183,36 @@ public class ReparacionService {
         reparacionDAO.actualizarReparacionSoloTecnico(reparacion);
     }
     
-    public void editarReparacionCompleta(Reparacion reparacion, List<Repuesto> listaRepuestosSeleccionadosFinal) throws SQLException {
+    public void editarReparacionCompleta(Reparacion reparacion, List<Repuesto> listaRepuestosSeleccionadosVIEJA, List<Repuesto> listaRepuestosSeleccionadosNUEVA) throws SQLException {
 
         boolean autoCommitState = connection.getAutoCommit(); 
         connection.setAutoCommit(false); 
         try {
             // Actualizar la reparación
             reparacionDAO.actualizarReparacionCompleto(reparacion);
-            
-            //Actualizar factura
+
+            // Actualizar factura
             FacturaDAO.actualizarFactura(reparacion.getFactura());
-            
-            // Eliminar los repuestos actuales asociados a la reparación
+
+            // Aumentar el stock del repuesto en base a la cantidad usada anteriormente
+            aumentarStockPorLista(listaRepuestosSeleccionadosVIEJA);
             ReparacionRepuestoDAO.eliminarReparacionRepuestoPorReparacion(reparacion.getId_reparacion());
 
-            // Contador para los repuestos seleccionados
+            // Contador para los repuestos seleccionados de la lista nueva
             Map<Repuesto, Integer> contador = new HashMap<>();
-            for (Repuesto repuesto : listaRepuestosSeleccionadosFinal) {
+            for (Repuesto repuesto : listaRepuestosSeleccionadosNUEVA) {
                 contador.put(repuesto, contador.getOrDefault(repuesto, 0) + 1);
             }
 
-            // Crear nuevamente los repuestos seleccionados
+            // Crear nuevamente los repuestos seleccionados en la lista nueva
             for (Map.Entry<Repuesto, Integer> entry : contador.entrySet()) {
                 Repuesto repuesto = entry.getKey();
                 int cantidad = entry.getValue();
                 ReparacionRepuestoDAO.crearReparacionRepuesto(reparacion.getId_reparacion(), repuesto.getId_repuesto(), cantidad);
             }
 
-            // Descontar stock
-            descontarStockPorLista(listaRepuestosSeleccionadosFinal);
+            // Descontar el stock de la lista nueva
+            descontarStockPorLista(listaRepuestosSeleccionadosNUEVA);
 
             connection.commit(); 
         } catch (SQLException e) {
@@ -193,6 +222,8 @@ public class ReparacionService {
             connection.setAutoCommit(autoCommitState); 
         }
     }
+
+
 
     
     /*
@@ -289,11 +320,5 @@ public class ReparacionService {
         reparacionDAO.eliminarReparacion(idReparacion);
     }
     
-    public void aumentarStockPorLista(List<Repuesto> listaRepuestos){
-        for(Repuesto rep : listaRepuestos){
-            Repuesto repAux = repuestoDAO.obtenerRepuesto(rep.getId_repuesto());
-            repAux.setStock(repAux.getStock() + 1);
-            repuestoDAO.actualizarRepuesto(repAux);
-        }
-    }
+    
 }

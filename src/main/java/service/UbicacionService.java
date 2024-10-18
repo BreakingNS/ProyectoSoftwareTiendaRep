@@ -60,4 +60,8 @@ public class UbicacionService {
     public Ubicacion obtenerUbicacionPorNombre(String nombre){
         return ubicacionDAO.obtenerUbicacionPorNombre(nombre);
     }
+
+    public List<Ubicacion> obtenerUbicacionesPorNombre() {
+        return ubicacionDAO.obtenerUbicacionesPorNombre();
+    }
 }

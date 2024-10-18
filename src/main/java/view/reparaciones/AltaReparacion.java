@@ -202,6 +202,7 @@ public class AltaReparacion extends javax.swing.JFrame {
             }
         ));
         tablaRepuestosSeleccionados.setRowHeight(24);
+        tablaRepuestosSeleccionados.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tablaRepuestosSeleccionados);
 
         tablaRepuestos.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -217,6 +218,7 @@ public class AltaReparacion extends javax.swing.JFrame {
             }
         ));
         tablaRepuestos.setRowHeight(24);
+        tablaRepuestos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(tablaRepuestos);
 
         tablaClientes.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -232,6 +234,7 @@ public class AltaReparacion extends javax.swing.JFrame {
             }
         ));
         tablaClientes.setRowHeight(24);
+        tablaClientes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane3.setViewportView(tablaClientes);
 
         btnEliminar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
@@ -652,7 +655,7 @@ public class AltaReparacion extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblTotal)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(19, Short.MAX_VALUE))

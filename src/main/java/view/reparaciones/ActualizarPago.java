@@ -213,16 +213,16 @@ public class ActualizarPago extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(142, 142, 142))
+                .addGap(165, 165, 165))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addGap(19, 19, 19)
                 .addComponent(jLabel1)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
+                        .addGap(26, 26, 26)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblCosto)
                             .addComponent(txtTotalRepuestos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -241,7 +241,7 @@ public class ActualizarPago extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
                         .addGap(33, 33, 33))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(66, 66, 66)
+                        .addGap(65, 65, 65)
                         .addComponent(txtPagado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(29, 29, 29)
                         .addComponent(lblDetalles)
@@ -290,35 +290,46 @@ public class ActualizarPago extends javax.swing.JFrame {
         
         BigDecimal totalPagos = BigDecimal.ZERO;
         List<Pago> listaPagos = pagoController.obtenerPagosPorIdFactura(idFactura);
-        for(Pago pago : listaPagos){
+        for (Pago pago : listaPagos) {
             totalPagos = totalPagos.add(pago.getMontoAbonado());
         }
-        
+
         Factura factura = facturaController.obtenerFacturaPorId(idFactura);
+        BigDecimal saldoRestante = factura.getMontoTotal().subtract(totalPagos);
         String pagoSeleccionado = group.getSelection().getActionCommand();
         BigDecimal montoAbonado = BigDecimal.ZERO;
         String pagado;
-        
-        if(pagoSeleccionado.equals("PARCIAL")){
+
+        if (pagoSeleccionado.equals("PARCIAL")) {
             montoAbonado = new BigDecimal(txtParcial.getText());
+
+            // Validaciones para el pago parcial
+            if (montoAbonado.compareTo(BigDecimal.ZERO) <= 0 || montoAbonado.compareTo(saldoRestante) > 0) {
+                JOptionPane.showMessageDialog(null, "Ingrese un monto válido para el pago parcial.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (montoAbonado.compareTo(saldoRestante) == 0) {
+                JOptionPane.showMessageDialog(null, "Seleccione 'SI' para realizar el pago total.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             pagado = "PARCIAL";
-        }else{
-            montoAbonado = new BigDecimal(txtTotal.getText());
+        } else {
+            montoAbonado = saldoRestante;  // Pago total del saldo restante
             pagado = "SI";
         }
         
         String detalle = txtDetalle.getText();
-        
+
         pagoController.agregarPago(factura, montoAbonado, LocalDateTime.now(), detalle);
         
+        JOptionPane.showMessageDialog(null, "Pago cargado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         
-        if(!totalPagos.equals(0) || !factura.getEstado().equals(pagado)){
-            facturaController.editarFactura(idFactura, pagado, costoTotal);
+        if (!totalPagos.equals(BigDecimal.ZERO) || !factura.getEstado().equals(pagado)) {
+            facturaController.editarFactura(idFactura, pagado, factura.getMontoTotal());
         }
-        
-        //------
 
         dispose();
+        
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

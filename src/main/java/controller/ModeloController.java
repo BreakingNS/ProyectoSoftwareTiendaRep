@@ -45,4 +45,8 @@ public class ModeloController {
     public boolean existeModelo(String nombre) {   
         return modeloService.existeModelo(nombre);
     }
+
+    public List<Modelo> listarModelosOrdenadasPorNombre() {
+        return modeloService.listarModelosOrdenadasPorNombre();
+    }
 }

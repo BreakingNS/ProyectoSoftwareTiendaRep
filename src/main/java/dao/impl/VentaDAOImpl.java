@@ -17,13 +17,11 @@ import model.Cliente;
 import model.Venta;
 
 public class VentaDAOImpl implements VentaDAO{
-
-    
     
     private Connection connection = null; 
     private final String SENTENCIA_ELIMINAR_VENTA = "DELETE FROM TiendaLocal.venta WHERE id_venta = ?";
-    private final String SENTENCIA_OBTENER_VENTAS = "SELECT * FROM TiendaLocal.venta ORDER BY id_venta ASC";
-    private final String SENTENCIA_OBTENER_VENTAS_POR_FECHA = "SELECT * FROM TiendaLocal.venta WHERE CAST(fecha_venta AS DATE) = ?";
+    private final String SENTENCIA_OBTENER_VENTAS = "SELECT * FROM TiendaLocal.venta ORDER BY id_venta ASC LIMIT 100";
+    private final String SENTENCIA_OBTENER_VENTAS_POR_FECHA_Y_CLIENTE = "SELECT * FROM TiendaLocal.venta WHERE CAST(fecha_venta AS DATE) = ? LIMIT 100";
     private final String SENTENCIA_OBTENER_VENTA = "SELECT * FROM TiendaLocal.venta WHERE id_venta = ?";
     private final String SENTENCIA_OBTENER_VENTA_POR_ID_CLIENTE = "SELECT * FROM TiendaLocal.venta WHERE id_cliente = ?";
     private final String SENTENCIA_CREAR_VENTA = "INSERT INTO TiendaLocal.venta (cantidad, fecha_venta, id_cliente, precioFinal) VALUES ( ? , ? , ? , ? )";
@@ -172,7 +170,7 @@ public class VentaDAOImpl implements VentaDAO{
         List<Venta> listaVentas = new ArrayList<>();
         
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_VENTAS_POR_FECHA);
+            PreparedStatement preparedStatement = connection.prepareStatement(SENTENCIA_OBTENER_VENTAS_POR_FECHA_Y_CLIENTE);
             preparedStatement.setTimestamp(1, Timestamp.valueOf(fechaBuscar));
             ResultSet venta_Resultado = preparedStatement.executeQuery();
             

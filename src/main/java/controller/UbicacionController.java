@@ -46,5 +46,9 @@ public class UbicacionController {
     public boolean existeUbicacion(String nombre) {   
         return ubicacionService.existeUbicacion(nombre);
     }
+
+    public List<Ubicacion> listarUbicacionesPorNombre() {
+        return ubicacionService.obtenerUbicacionesPorNombre();
+    }
     
 }

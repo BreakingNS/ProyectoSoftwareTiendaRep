@@ -569,13 +569,13 @@ public class EditarVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAtrasActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        
         if (tablaRepuestosSeleccionados.getRowCount() == 0) {
             JOptionPane.showMessageDialog(null, "La tabla está vacía.");
         } else {
+            
             List<Repuesto> listaRepuestosNuevos = new ArrayList<>();
             Venta venta = ventaController.obtenerVentaPorId(idVenta);
-
+            
             int idClienteNuevo = 0;
             BigDecimal precioFinal= BigDecimal.ZERO;
 
@@ -583,13 +583,13 @@ public class EditarVenta extends javax.swing.JFrame {
             if (filaClienteSeleccionada != -1) {
                 idClienteNuevo = Integer.parseInt(tablaClientes.getValueAt(filaClienteSeleccionada, 0).toString());
             }
-
+            /*
             if(idClienteNuevo == idClienteObtenido){
                 System.out.println("Mismo cliente");
             }else{
                 System.out.println("Diferentes clientes");
             }
-
+            */
             DefaultTableModel modelo = (DefaultTableModel) tablaRepuestosSeleccionados.getModel();
             int rowCount = modelo.getRowCount();
 
@@ -617,21 +617,19 @@ public class EditarVenta extends javax.swing.JFrame {
 
             // Comparar los dos mapas
             boolean iguales = mapNuevos.equals(mapOriginales);
-
+            /*
             if (iguales) {
                 System.out.println("Misma listaRepuestos");
             } else {
                 System.out.println("Diferentes listaRepuestos");
             }
-
-            LocalDateTime ahora = LocalDateTime.now();
-
+            */
             if(idClienteNuevo != idClienteObtenido){
                 venta.setCliente(clienteController.obtenerClientePorId(idClienteNuevo));
                 ventaController.modificarVenta(venta);
-                venta.setFecha_venta(ahora);
             }
-
+            
+            
             if(iguales == false){
                 BigDecimal total = BigDecimal.ZERO;
 
@@ -641,12 +639,10 @@ public class EditarVenta extends javax.swing.JFrame {
 
                 venta.setCantidad(listaRepuestosNuevos.size());
                 venta.setPrecioFinal(total);
-                venta.setFecha_venta(ahora);
-
+                /*
                 System.out.println("cantidad: " + listaRepuestosNuevos.size());
                 System.out.println("pre fin: " + total);
-                System.out.println("fech: " + ahora);
-
+                */
                 if(listaRepuestos.isEmpty()){
                     try {
                         ventaController.agregarRepuestosAVenta(venta, listaRepuestos);
@@ -669,7 +665,7 @@ public class EditarVenta extends javax.swing.JFrame {
             }
 
             dispose();
-        }
+        } 
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnNuevoCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoCliActionPerformed
@@ -829,7 +825,7 @@ public class EditarVenta extends javax.swing.JFrame {
         modeloTabla.setColumnIdentifiers(titulos);
         
         if(listaRepuestos != null){
-            System.out.println("tamaño de la lista: " + listaRepuestos.size());
+            //System.out.println("tamaño de la lista: " + listaRepuestos.size());
             for(Repuesto repuesto : listaRepuestos){
                 Object[] objeto = {repuesto.getId_repuesto(), 
                     repuesto.getNombreRepuesto().getNombre_repuesto(),
@@ -928,7 +924,7 @@ public class EditarVenta extends javax.swing.JFrame {
             // Agregar los datos a la tabla de repuestos seleccionados
             modeloRepuestosSeleccionados.addRow(new Object[]{idRepuesto, nombreRepuesto, codigo, marca, modelo, categoria, precio});
         }
-        System.out.println("ULTIMO a setear Columnas en modelo: " + modeloRepuestosSeleccionados.getColumnCount());
+        //System.out.println("ULTIMO a setear Columnas en modelo: " + modeloRepuestosSeleccionados.getColumnCount());
         calcularTotalVenta(modeloRepuestosSeleccionados);
         
     }
@@ -947,7 +943,7 @@ public class EditarVenta extends javax.swing.JFrame {
         List<Cliente> listaClientes = clienteController.listarClientes();
         
         if(listaClientes != null){
-            System.out.println("tamaño de la lista: " + listaClientes.size());
+            //System.out.println("tamaño de la lista: " + listaClientes.size());
             for(Cliente cliente : listaClientes){
                 Object[] objeto = {cliente.getId_cliente(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono(), cliente.getDomicilio()};
                 
@@ -1144,7 +1140,7 @@ public class EditarVenta extends javax.swing.JFrame {
         List<Ubicacion> listaUbicaciones = repuestoController.retornarUbicaciones();
         List<Modelo> listaModelos = repuestoController.retornarModelos();
         
-        System.out.println("lista modelo tamaño: " + listaModelos.size());
+        //System.out.println("lista modelo tamaño: " + listaModelos.size());
         
         for(NombreRepuesto nomb : listaNombreRepuestos){
             comboNombreRepuesto.addItem(nomb.getNombre_repuesto());
@@ -1166,7 +1162,7 @@ public class EditarVenta extends javax.swing.JFrame {
             comboModelo.addItem(mod.getNombre_modelo());
         }
         
-        System.out.println("fin carga comboboxes");
+        //System.out.println("fin carga comboboxes");
     }
     
     
@@ -1185,7 +1181,7 @@ public class EditarVenta extends javax.swing.JFrame {
             codigo = txtCodigo.getText();
         }
         
-        System.out.println("comienzo carga de busqueda");
+        //System.out.println("comienzo carga de busqueda");
         
         List<Repuesto> listaRepuestosFiltrados = repuestoController.busquedaDeRepuesto(marcaSeleccionada, 
                 categoriaSeleccionada, 
@@ -1213,7 +1209,7 @@ public class EditarVenta extends javax.swing.JFrame {
         modeloTabla.setColumnIdentifiers(titulos);
 
         if (listaRepuestosFiltrados != null) {
-            System.out.println("Tamaño de la lista: " + listaRepuestosFiltrados.size());
+            //System.out.println("Tamaño de la lista: " + listaRepuestosFiltrados.size());
             for (Repuesto repuesto : listaRepuestosFiltrados) {
                 // Asegurarse de que la lista de precios no esté vacía
                 List<Precio> listaPrecios = repuesto.getListaPrecios();
@@ -1349,7 +1345,7 @@ public class EditarVenta extends javax.swing.JFrame {
         
         //Setear los datos en la tabla
         if(listaClientes != null){
-            System.out.println("tamaño de la lista: " + listaClientes.size());
+            //System.out.println("tamaño de la lista: " + listaClientes.size());
             for(Cliente cliente : listaClientes){
                 Object[] objeto = {cliente.getId_cliente(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono(), cliente.getDomicilio()};
                 

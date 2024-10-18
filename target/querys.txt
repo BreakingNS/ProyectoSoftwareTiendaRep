@@ -1,0 +1,177 @@
+--Crear Base de Datos:
+CREATE SCHEMA IF NOT EXISTS TiendaLocal;
+
+--Crear Tabla Configuracion:
+CREATE TABLE Configuracion (
+    id INT PRIMARY KEY,
+    terminosAceptados BOOLEAN
+);
+
+--Crear Tabla Marca:
+CREATE TABLE TiendaLocal.marca (
+     id_marca INT PRIMARY KEY AUTO_INCREMENT,
+     nombre_marca VARCHAR(255) NOT NULL UNIQUE
+);
+
+--Crear Tabla NombreRepuesto
+CREATE TABLE TiendaLocal.nombrerepuesto(
+     id_nombrerepuesto INT PRIMARY KEY AUTO_INCREMENT,
+     nombre_repuesto VARCHAR(255) NOT NULL UNIQUE
+);
+
+--Crear Tabla Modelo
+CREATE TABLE TiendaLocal.modelo(
+     id_modelo INT PRIMARY KEY AUTO_INCREMENT,
+     nombre_modelo VARCHAR(255) NOT NULL UNIQUE
+);
+
+--Crear Tabla Ubicacion
+CREATE TABLE TiendaLocal.ubicacion(
+     id_ubicacion INT PRIMARY KEY AUTO_INCREMENT,
+     nombre_ubicacion VARCHAR(255) NOT NULL UNIQUE
+);
+
+--Crear Tabla Categoria
+CREATE TABLE TiendaLocal.categoria(
+     id_categoria INT PRIMARY KEY AUTO_INCREMENT,
+     nombre_categoria VARCHAR(255) NOT NULL UNIQUE
+);
+
+--Crear Tabla Estado
+CREATE TABLE TiendaLocal.estado(
+     id_estado INT PRIMARY KEY AUTO_INCREMENT,
+     nombre_estado VARCHAR(255) NOT NULL UNIQUE
+);
+
+--Crear Tabla Cliente
+CREATE TABLE TiendaLocal.cliente (
+    id_cliente INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(255) NOT NULL,
+    apellido VARCHAR(255) NOT NULL,
+    telefono VARCHAR(255) NOT NULL,
+    domicilio VARCHAR(255) NOT NULL,
+    UNIQUE (nombre, apellido, telefono)
+);
+
+--Crear Tabla Tecnico
+CREATE TABLE TiendaLocal.tecnico(
+     id_tecnico INT PRIMARY KEY AUTO_INCREMENT,
+     nombre_tecnico VARCHAR(255) NOT NULL,
+     apellido_tecnico VARCHAR(255) NOT NULL,
+     telefono_tecnico VARCHAR(255) NOT NULL,
+     domicilio_tecnico VARCHAR(255)
+);
+
+--Crear Tabla Factura
+CREATE TABLE TiendaLocal.factura(
+     id_factura INT PRIMARY KEY AUTO_INCREMENT,
+     estado VARCHAR(255) NOT NULL,
+     montoTotal DECIMAL(10, 2) NOT NULL
+);
+
+--Crear Tabla Pago
+CREATE TABLE TiendaLocal.pago(
+     id_pago INT PRIMARY KEY AUTO_INCREMENT,
+     id_factura INT,
+     FOREIGN KEY (id_factura) REFERENCES TiendaLocal.factura(id_factura),
+     montoAbonado DECIMAL(10, 2) NOT NULL,
+     fechaPago TIMESTAMP NOT NULL,
+     detalle VARCHAR(255)
+);
+
+--Crear Tabla Repuesto
+CREATE TABLE TiendaLocal.repuesto(
+     id_repuesto INT PRIMARY KEY AUTO_INCREMENT,
+     stock INT NOT NULL,
+     codigo VARCHAR(255),
+     id_nombrerepuesto INT,
+     FOREIGN KEY (id_nombrerepuesto) REFERENCES TiendaLocal.nombrerepuesto(id_nombrerepuesto),
+     id_marca INT,
+     FOREIGN KEY (id_marca) REFERENCES TiendaLocal.marca(id_marca),
+     id_modelo INT,
+     FOREIGN KEY (id_modelo) REFERENCES TiendaLocal.modelo(id_modelo),
+     id_categoria INT,
+     FOREIGN KEY (id_categoria) REFERENCES TiendaLocal.categoria(id_categoria),
+     id_ubicacion INT,
+     FOREIGN KEY (id_ubicacion) REFERENCES TiendaLocal.ubicacion(id_ubicacion)
+);
+
+--Crear Tabla Precio AGREGAR HORA EN FECHAS
+CREATE TABLE TiendaLocal.precio(
+     id_precio INT PRIMARY KEY AUTO_INCREMENT,
+     fechaPrecio TIMESTAMP NOT NULL,
+     valor DECIMAL(10, 2) NOT NULL,
+     id_repuesto INT,
+     FOREIGN KEY (id_repuesto) REFERENCES TiendaLocal.repuesto(id_repuesto)
+);
+
+--Crear Tabla Reparacion AGREGAR BOOLEAN PAGADO?, HORA EN FECHAS
+CREATE TABLE TiendaLocal.reparacion(
+     id_reparacion INT PRIMARY KEY AUTO_INCREMENT,
+     costo DECIMAL(10, 2) NOT NULL,
+     detalles VARCHAR(255),
+     fecha_ingreso TIMESTAMP NOT NULL,
+     fecha_devolucion TIMESTAMP,
+     id_factura INT,
+     FOREIGN KEY (id_factura) REFERENCES TiendaLocal.factura(id_factura),
+     id_categoria INT,
+     FOREIGN KEY (id_categoria) REFERENCES TiendaLocal.categoria(id_categoria),
+     id_cliente INT,
+     FOREIGN KEY (id_cliente) REFERENCES TiendaLocal.cliente(id_cliente),
+     id_estado INT,
+     FOREIGN KEY (id_estado) REFERENCES TiendaLocal.estado(id_estado),
+     id_tecnico INT,
+     FOREIGN KEY (id_tecnico) REFERENCES TiendaLocal.tecnico(id_tecnico)
+);
+
+--Crear Tabla Venta AGREGAR HORA EN FECHAS
+CREATE TABLE TiendaLocal.venta(
+     id_venta INT PRIMARY KEY AUTO_INCREMENT,
+     cantidad INTEGER NOT NULL,
+     fecha_venta TIMESTAMP NOT NULL,
+     precioFinal DECIMAL(10, 2) NOT NULL,
+     id_cliente INT,
+     FOREIGN KEY (id_cliente) REFERENCES TiendaLocal.cliente(id_cliente)
+);
+
+--Crear Tabla Venta-Repuesto
+CREATE TABLE TiendaLocal.Venta_Repuesto(
+     id_venta INT,
+     id_repuesto INT,
+     cantidad_repuestos INT,
+     PRIMARY KEY (id_venta, id_repuesto),
+     FOREIGN KEY (id_venta) REFERENCES TiendaLocal.venta(id_venta),
+     FOREIGN KEY (id_repuesto) REFERENCES TiendaLocal.repuesto (id_repuesto)
+);
+
+--Crear Tabla Reparacion-Repuesto
+CREATE TABLE TiendaLocal.Reparacion_Repuesto(
+     id_reparacion INT,
+     id_repuesto INT,
+     cantidad_repuestos INT,
+     PRIMARY KEY (id_reparacion , id_repuesto),
+     FOREIGN KEY (id_reparacion) REFERENCES TiendaLocal.reparacion(id_reparacion),
+     FOREIGN KEY (id_repuesto) REFERENCES TiendaLocal.repuesto(id_repuesto)
+);
+
+--DROP tablas
+DROP SCHEMA TiendaLocal CASCADE;
+CREATE SCHEMA TiendaLocal;
+
+DROP TABLE TiendaLocal.Reparacion_Repuesto;
+DROP TABLE TiendaLocal.Venta_Repuesto;
+DROP TABLE TiendaLocal.reparacion; 
+DROP TABLE TiendaLocal.precio; 
+DROP TABLE TiendaLocal.repuesto; 
+DROP TABLE TiendaLocal.venta;
+DROP TABLE TiendaLocal.pago;
+DROP TABLE TiendaLocal.factura;
+DROP TABLE TiendaLocal.tecnico; 
+DROP TABLE TiendaLocal.cliente;
+ 
+DROP TABLE TiendaLocal.estado; 
+DROP TABLE TiendaLocal.categoria; 
+DROP TABLE TiendaLocal.ubicacion;
+DROP TABLE TiendaLocal.modelo;
+DROP TABLE TiendaLocal.nombrerepuesto; 
+DROP TABLE TiendaLocal.marca;

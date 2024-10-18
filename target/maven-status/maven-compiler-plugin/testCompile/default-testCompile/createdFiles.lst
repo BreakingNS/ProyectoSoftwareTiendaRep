@@ -13,6 +13,7 @@ dao\impl\CategoriaDAOImplTest.class
 service\CategoriaServiceTest.class
 service\MarcaServiceTest.class
 service\PrecioServiceTest.class
+app\SoftwareElectroClima.class
 dao\impl\NombreRepuestoDAOImplTest.class
 model\ClienteTest.class
 model\ReparacionTest.class
@@ -27,7 +28,6 @@ service\VentaServiceTest.class
 dao\impl\ModeloDAOImplTest.class
 dao\impl\EstadoDAOImplTest.class
 dao\impl\ClienteDAOImplTest.class
-app\ProyectoSoftwareTiendaRep.class
 model\UbicacionTest.class
 dao\impl\FacturaDAOImplTest.class
 service\RepuestoServiceTest.class

@@ -53,7 +53,7 @@ public class VistaNombreRepuesto extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 48)); // NOI18N
-        jLabel1.setText("MODELO VISTA NOMB-REP");
+        jLabel1.setText("VISTA NOMBRE-REPUESTO");
 
         tablaNombreRepuestos.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tablaNombreRepuestos.setModel(new javax.swing.table.DefaultTableModel(
@@ -65,6 +65,7 @@ public class VistaNombreRepuesto extends javax.swing.JFrame {
             }
         ));
         tablaNombreRepuestos.setRowHeight(24);
+        tablaNombreRepuestos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tablaNombreRepuestos);
 
         btnEditar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
@@ -173,6 +174,7 @@ public class VistaNombreRepuesto extends javax.swing.JFrame {
                 this.setEnabled(false);
                 EditarNombreRepuesto alta = new EditarNombreRepuesto(idNombreRepuesto, nombreRepuestoController);
                 //alta.setSize(600, 400);
+                alta.setTitle("Software ElectroClima");
                 alta.setResizable(false);
                 alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 alta.setVisible(true);
@@ -205,6 +207,7 @@ public class VistaNombreRepuesto extends javax.swing.JFrame {
         this.setEnabled(false);
         AltaNombreRepuesto alta = new AltaNombreRepuesto(nombreRepuestoController);
         //alta.setSize(600, 400);
+        alta.setTitle("Software ElectroClima");
         alta.setResizable(false);
         alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         alta.setVisible(true);
@@ -278,11 +281,11 @@ public class VistaNombreRepuesto extends javax.swing.JFrame {
         modeloTabla.setColumnIdentifiers(titulos);
         
         //Traer NombreRepuestos desde la base de datos
-        List<NombreRepuesto> listaNombreRepuestos = nombreRepuestoController.listarNombreRepuestosOrdenadoPorId();
+        List<NombreRepuesto> listaNombreRepuestos = nombreRepuestoController.listarNombreRepuestosOrdenadoPorNombre();
         
         //Setear los datos en la tabla
         if(listaNombreRepuestos != null){
-            System.out.println("tamaño de la lista: " + listaNombreRepuestos.size());
+            //System.out.println("tamaño de la lista: " + listaNombreRepuestos.size());
             for(NombreRepuesto nombreRepuesto : listaNombreRepuestos){
                 Object[] objeto = {nombreRepuesto.getId_nombrerepuesto(), nombreRepuesto.getNombre_repuesto()};
                 
