@@ -12,6 +12,7 @@ import model.Marca;
 import model.Modelo;
 import model.NombreRepuesto;
 import model.Pago;
+import model.Precio;
 import model.Repuesto;
 import model.Reparacion;
 import model.Tecnico;
@@ -277,6 +278,10 @@ public class ReparacionController {
 
     public void eliminarReparacion(int idReparacion) throws SQLException {
         reparacionService.eliminarReparacion(idReparacion);
+    }
+
+    public Precio obtenerPrecioRepuestoPorFechaReparacion(int idReparacion, Repuesto repuesto) {
+        return reparacionService.obtenerPrecioRepuestoPorFechaReparacion(idReparacion, repuesto);
     }
 
 }

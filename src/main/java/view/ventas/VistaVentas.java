@@ -61,7 +61,6 @@ public class VistaVentas extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         btnAgregar = new javax.swing.JButton();
-        btnEditar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
@@ -111,14 +110,6 @@ public class VistaVentas extends javax.swing.JFrame {
             }
         });
 
-        btnEditar.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        btnEditar.setText("EDITAR VENTA");
-        btnEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarActionPerformed(evt);
-            }
-        });
-
         btnActualizar.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         btnActualizar.setText("ACTUALIZAR TABLA");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -153,6 +144,7 @@ public class VistaVentas extends javax.swing.JFrame {
             }
         ));
         tablaVentas.setRowHeight(24);
+        tablaVentas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tablaVentas);
 
         tablaDetalleVenta.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -165,6 +157,7 @@ public class VistaVentas extends javax.swing.JFrame {
             }
         ));
         tablaDetalleVenta.setRowHeight(24);
+        tablaDetalleVenta.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(tablaDetalleVenta);
 
         jLabel8.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -277,7 +270,6 @@ public class VistaVentas extends javax.swing.JFrame {
                         .addGap(0, 425, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -309,11 +301,11 @@ public class VistaVentas extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -342,8 +334,7 @@ public class VistaVentas extends javax.swing.JFrame {
                                 .addGap(57, 57, 57)))
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(127, 127, 127)
+                        .addGap(214, 214, 214)
                         .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(51, Short.MAX_VALUE))
         );
@@ -380,39 +371,6 @@ public class VistaVentas extends javax.swing.JFrame {
             }
         });
     }//GEN-LAST:event_btnAgregarActionPerformed
-
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        
-        int idVenta = 0;
-        Venta ventaAux = null;
-        int idCliente = 0;
-        
-        if(tablaVentas.getRowCount() > 0){
-            if(tablaVentas.getSelectedRow()!=-1){
-                idVenta = Integer.parseInt(String.valueOf(tablaVentas.getValueAt(tablaVentas.getSelectedRow(), 0)));
-                ventaAux = ventaController.obtenerVentaPorId(idVenta);
-                //System.out.println("1 VENTA AUX ID: " + ventaAux.getId_venta());
-                idCliente = ventaAux.getCliente().getId_cliente();
-                
-                setVisible(false);
-                EditarVenta alta = new EditarVenta(idVenta, idCliente, ventaController, repuestoController, clienteController);
-                //alta.setSize(600, 400);
-                alta.setTitle("Software ElectroClima");
-                alta.setResizable(false);
-                alta.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-                alta.setVisible(true);
-                alta.setLocationRelativeTo(null);
-
-                alta.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosed(java.awt.event.WindowEvent e) {
-                        setVisible(true);
-                        cargarTablasPrincipales(); // Actualiza la tabla después de cerrar AltaVenta.                        
-                    }
-                });
-            }
-        }
-    }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         cargarTablasPrincipales();
@@ -470,7 +428,6 @@ public class VistaVentas extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -586,13 +543,13 @@ public class VistaVentas extends javax.swing.JFrame {
         tablaVentas.getSelectionModel().addListSelectionListener(e -> {
             btnEliminar.setEnabled(tablaVentas.getSelectedRow() != -1); // Habilita si hay una fila seleccionada.
         });
-        
+        /*
         btnEditar.setEnabled(false); // Deshabilita el botón inicialmente.
 
         tablaVentas.getSelectionModel().addListSelectionListener(e -> {
             btnEditar.setEnabled(tablaVentas.getSelectedRow() != -1); // Habilita si hay una fila seleccionada.
         });
-
+        */
         // Configura el mapeo de la tecla Esc para activar btnAtras
         String escKey = "ESCAPE";
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), escKey);

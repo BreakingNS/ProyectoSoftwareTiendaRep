@@ -6,9 +6,11 @@ import dao.impl.ReparacionDAOImpl;
 import dao.impl.ReparacionRepuestoDAOImpl;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import model.Precio;
 import model.Repuesto;
 import model.Reparacion;
 
@@ -318,6 +320,18 @@ public class ReparacionService {
         }
         
         reparacionDAO.eliminarReparacion(idReparacion);
+    }
+
+    public Precio obtenerPrecioRepuestoPorFechaReparacion(int idReparacion, Repuesto repuesto) {
+        
+        Reparacion reparacion = reparacionDAO.obtenerReparacion(idReparacion);
+        List<Precio> listaPrecios = repuesto.getListaPrecios();
+        Precio precioActualizado = listaPrecios.stream()
+        .filter(precio -> !precio.getFechaPrecio().isAfter(reparacion.getFecha_ingreso())) // Filtra precios anteriores o iguales a la fecha de venta
+        .max(Comparator.comparing(Precio::getFechaPrecio))              // Encuentra el precio con la fecha más reciente
+        .orElse(null); // Maneja el caso si no hay precio válido
+ 
+        return precioActualizado;
     }
     
     

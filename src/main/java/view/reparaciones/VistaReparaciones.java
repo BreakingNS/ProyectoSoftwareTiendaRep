@@ -1121,7 +1121,9 @@ public class VistaReparaciones extends javax.swing.JFrame {
             String nombreRepuesto = repuesto.getNombreRepuesto().getNombre_repuesto();
             String marca = repuesto.getMarca().getNombre_marca();
             String categoria = repuesto.getCategoria().getNombre_categoria();
-            String precio = repuesto.getListaPrecios().get(repuesto.getListaPrecios().size()-1).getValor().toString();
+            Precio precioEnFechaReparacion = reparacionController.obtenerPrecioRepuestoPorFechaReparacion(idReparacion, repuesto);
+            
+            String precio = precioEnFechaReparacion.getValor().toString();
             
             // Agregar cada repuesto como una fila en la tabla
             modeloDetalleReparacion.addRow(new Object[]{idRepuesto, nombreRepuesto, marca, categoria, precio});
